@@ -7,9 +7,15 @@ import org.junit.Test;
 public class HelloResourceTest extends JerseyResourceTest<HelloResource> {
 
 	@Test
-	public void helloResourceMustSayHello() {
-		String hello = target("/").request().get(String.class);
+	public void testGetHello() {
+		String hello = target("/greeting").request().get(String.class);
 		assertEquals("Hello!", hello);
+	}
+	
+	@Test
+	public void testGetHelloSomebody() {
+		String hello = target("/greeting/Cisco").request().get(String.class);
+		assertEquals("Hello, Cisco!", hello);
 	}
 
 }
