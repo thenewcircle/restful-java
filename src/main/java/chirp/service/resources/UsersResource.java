@@ -1,5 +1,7 @@
 package chirp.service.resources;
 
+import java.net.URI;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -23,7 +25,8 @@ public class UsersResource {
 		logger.info("Creating a user with realname={} and username={}",
 				realname, username);
 		userRepository.createUser(username, realname);
-		return Response.created(UriBuilder.fromPath("").path("username").build()).build();
+		URI location = UriBuilder.fromResource(this.getClass()).path(username).build();
+		return Response.created(location).build();
 	}
 
 }
