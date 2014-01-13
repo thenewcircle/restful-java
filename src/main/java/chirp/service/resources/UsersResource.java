@@ -22,11 +22,11 @@ public class UsersResource {
 	@POST
 	public Response createUser(@FormParam("username") String username,
 			@FormParam("realname") String realname) {
-		logger.info("Creating a user with realname={} and username={}",
-				realname, username);
-		userRepository.createUser(username, realname);
-		URI location = UriBuilder.fromResource(this.getClass()).path(username).build();
-		return Response.created(location).build();
+			logger.info("Creating a user with realname={} and username={}",
+					realname, username);
+			userRepository.createUser(username, realname);
+			URI location = UriBuilder.fromResource(this.getClass()).path(username).build();
+			return Response.created(location).build();
 	}
 
 }

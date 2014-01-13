@@ -15,6 +15,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Data access object for users. Note that the user repository also manages bulk
  * deletion of users, which will be covered when modeling RESTful transactions.
@@ -25,21 +28,39 @@ public class UserRepository implements Serializable {
 
 	private static UserRepository instance;
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	private static final File file = new File("state.bin");
-	private final Map<String, User> users;
+	private Map<String, User> users;
 
 	private final List<Set<User>> bulkDeletions = new ArrayList<Set<User>>();
 
-	private UserRepository() {
-		users = thaw();
+	private UserRepository(boolean favorPersistence) {
+		if (favorPersistence == false || file.exists() == false) {
+			users = new ConcurrentHashMap<String, User>();
+			logger.info("Created new UserRepositry with new Users Map");
+		} else {
+			users = thaw();
+			logger.info("Created new UserRepositry from persisted Users Map");
+		}
 	}
 
-	public static synchronized UserRepository getInstance() {
-		if (instance == null) {
-			instance = new UserRepository();
-		}
+	public static UserRepository getInstance() {
+		return getInstance(false);
+	}
+
+	public static synchronized UserRepository getInstance(
+			boolean favorPersistence) {
+		if (instance == null)
+			instance = new UserRepository(favorPersistence);
 
 		return instance;
+	}
+
+	public synchronized void clear() {
+		users = new ConcurrentHashMap<String, User>();
+		logger.info("Cleared / recreated Users Map");
+
 	}
 
 	@SuppressWarnings("unchecked")
