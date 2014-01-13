@@ -7,6 +7,7 @@ import javax.ws.rs.core.Application;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
  * Common base class for jerseytest classes that assumes a single servce to test
@@ -37,6 +38,10 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 
 		// enable logging of dumped HTTP traffic entities
 		enable(TestProperties.DUMP_ENTITY);
+		
+		// Jersey uses java.util.logging - bridge to slf4
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
 
 		// create an instance of the parameterized declared class
 		@SuppressWarnings("unchecked")
@@ -46,6 +51,8 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 		// ResourceConfig is a Jersey specific avax.ws.rs.core.Application subclass
 		return new ResourceConfig(resourceClass)
 				.packages("chirp.service.providers");
+		
+		
 
 	}
 

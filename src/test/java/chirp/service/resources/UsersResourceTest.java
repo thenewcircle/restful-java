@@ -44,5 +44,12 @@ public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 		assertEquals(Response.Status.FORBIDDEN.getStatusCode(), createUser()
 				.getStatus());
 	}
+	
+	@Test
+	public void getUserSuccess() {
+		verifyCreatedUser();
+		Response response = target("/users/gordonff").request().get();
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+	}
 
 }
