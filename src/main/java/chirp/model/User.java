@@ -19,8 +19,11 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlElement
 	private final String username;
+	@XmlElement
 	private final String realname;
+	@XmlElement
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 	
 	public User() {
@@ -33,12 +36,10 @@ public class User implements Serializable {
 		this.realname = realname;
 	}
 
-	@XmlElement
 	public String getUsername() {
 		return username;
 	}
 
-	@XmlElement
 	public String getRealname() {
 		return realname;
 	}
