@@ -11,8 +11,8 @@ import org.glassfish.jersey.test.TestProperties;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
- * Common base class for jerseytest classes that assumes a single servce to test
- * and logging of http traffic and dumping of entities should be enabled.
+ * Common base class for <code>JerseyTest</code> classes that assumes a single service to test
+ * and logging of HTTP traffic and dumping of entities should be enabled.
  * 
  * @author Gordon Force
  * 
