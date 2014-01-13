@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Before;
@@ -45,11 +46,22 @@ public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 				.getStatus());
 	}
 	
-	@Test
-	public void getUserSuccess() {
+	private void getUserSuccessWithMediaType(MediaType mediaType) {
 		verifyCreatedUser();
-		Response response = target("/users/gordonff").request().get();
+		Response response = target("/users/gordonff").request().accept(mediaType).get();
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		assertEquals(mediaType.toString(), response.getHeaderString("Content-Type"));
 	}
+	
+	@Test
+	public void getUserSuccessAsXML() {
+		getUserSuccessWithMediaType(MediaType.APPLICATION_XML_TYPE);
+	}
+	
+	@Test
+	public void getUserSuccessAsJSON() {
+		getUserSuccessWithMediaType(MediaType.APPLICATION_JSON_TYPE);
+	}
+
 
 }
