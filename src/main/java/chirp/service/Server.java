@@ -7,6 +7,7 @@ import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import chirp.model.UserRepository;
 
@@ -37,6 +38,10 @@ public class Server {
 	public static void main(String[] args) throws IOException {
 
 		final UserRepository users = UserRepository.getInstance(true);
+		
+		// Jersey uses java.util.logging - bridge to slf4
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
 
 		// wait for shutdown ...
 		HttpServer httpServer = createServer();
