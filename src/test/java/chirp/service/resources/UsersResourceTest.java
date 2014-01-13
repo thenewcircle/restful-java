@@ -46,22 +46,12 @@ public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 				.getStatus());
 	}
 	
-	private void getUserSuccessWithMediaType(MediaType mediaType) {
+	@Test
+	public void getUserSuccess() {
 		verifyCreatedUser();
-		Response response = target("/users/gordonff").request().accept(mediaType).get();
+		Response response = target("/users/gordonff").request().accept(MediaType.APPLICATION_XML).get();
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		assertEquals(mediaType.toString(), response.getHeaderString("Content-Type"));
+		assertEquals(MediaType.APPLICATION_XML, response.getHeaderString("Content-Type"));
 	}
-	
-	@Test
-	public void getUserSuccessAsXML() {
-		getUserSuccessWithMediaType(MediaType.APPLICATION_XML_TYPE);
-	}
-	
-	@Test
-	public void getUserSuccessAsJSON() {
-		getUserSuccessWithMediaType(MediaType.APPLICATION_JSON_TYPE);
-	}
-
 
 }

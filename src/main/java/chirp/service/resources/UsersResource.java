@@ -34,17 +34,11 @@ public class UsersResource {
 			return Response.created(location).build();
 	}
 	
-	@GET
-	@Path("{username}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public User getUserAsJSON(@PathParam("username") String username) {
-		return userRepository.getUser(username);
-	}
-	
+
 	@GET
 	@Path("{username}")
 	@Produces(MediaType.APPLICATION_XML)
-	public User getUserAsXML(@PathParam("username") String username) {
+	public User getUser(@PathParam("username") String username) {
 		return userRepository.getUser(username);
 	}
 
