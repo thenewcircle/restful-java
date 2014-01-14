@@ -7,4 +7,5 @@ Homework Day 1 -- Enhance the user create and get methods.
 2. Create a GET method to return a user by user name. Return OK (200) if the user exists and a NOT_FOUND (404) 
 	if the user does not exist.
 
-3. Create test case methods steps 1 and 2.  Checking for status code is enough at this point.  
+3. Create test case methods steps 1 and 2.  Checking for status code is enough at this point as we have not
+	covered working with user representations yet.  
