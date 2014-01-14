@@ -5,6 +5,7 @@ import java.net.URI;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -19,13 +20,13 @@ public class Server {
 	public static final String BASE_URI = "http://localhost:8080/";
 
 	private static HttpServer createServer() {
-		
+
 		// Jersey uses java.util.logging - bridge to slf4
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		final ResourceConfig rc = new ResourceConfig()
-				.packages("chirp.service.resources;chirp.service.providers");
+		final ResourceConfig rc = new ResourceConfig().packages(
+				"chirp.service.resources;chirp.service.providers").register(JacksonFeature.class);
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI
@@ -34,9 +35,9 @@ public class Server {
 	}
 
 	public static void main(String[] args) throws IOException {
-	
+
 		final UserRepository users = UserRepository.getInstance(true);
-		
+
 		// wait for shutdown ...
 		HttpServer httpServer = createServer();
 		System.out.println(String.format(
@@ -52,5 +53,4 @@ public class Server {
 		users.freeze();
 	}
 
-	
 }

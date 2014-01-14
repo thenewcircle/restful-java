@@ -24,17 +24,19 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 public abstract class JerseyResourceTest<R> extends JerseyTest {
 
 	/**
-	 * Use this method to assert if an expected Status object is equivalent to the
-	 * actual (observer) status code integer value in a response object.
+	 * Use this method to assert if an expected Status object is equivalent to
+	 * the actual (observer) status code integer value in a response object.
 	 * 
 	 * @param expectedStatus
 	 *            the expect HTTP Response status as an object
 	 * @param actualResposne
-	 *            the reponse object holding the observed (actual) integer status code 
+	 *            the reponse object holding the observed (actual) integer
+	 *            status code
 	 */
 	protected static void assertStatusEquals(final Status expectedStatus,
 			final Response actualResponse) {
-		Assert.assertEquals(expectedStatus.getStatusCode(), actualResponse.getStatus());
+		Assert.assertEquals(expectedStatus.getStatusCode(),
+				actualResponse.getStatus());
 	}
 
 	/**
@@ -68,8 +70,8 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig().packages("chirp.service.providers").register(resourceClass);
-
+		return new ResourceConfig().packages("chirp.service.providers")
+				.register(resourceClass);
 	}
 
 }

@@ -1,9 +1,12 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.assertEquals;
+
 import java.net.URI;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -11,6 +14,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
+import chirp.model.User;
 import chirp.model.UserRepository;
 
 public class UserResourceTest extends JerseyResourceTest<UserResource> {
@@ -84,6 +88,7 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		createUserWithStatus(Status.FORBIDDEN);
 	}
 
+	
 	/**
 	 * Use this method to verify that request a user that does not exist results
 	 * in an HTTP response with a FORBIDDEN (404) status code.
@@ -92,6 +97,19 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 	public void getUserNotFound() {
 		getUserWithStatus(UriBuilder.fromPath("/users/gordonff").build(),
 				Status.NOT_FOUND);
+	}
+
+	
+	@Test
+	public void getNewlyCreatedUser() {
+		
+		// create the user
+		Response response = createUserWithStatus(Status.CREATED);
+		
+		// get the user with the following client statement
+		User user = target().path(response.getLocation().getPath()).request().accept(MediaType.APPLICATION_XML).get(User.class);
+		assertEquals("gordonff",user.getUsername());
+		
 	}
 
 }

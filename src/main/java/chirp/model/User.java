@@ -6,17 +6,29 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of posts, indexed by timestamp.
  */
+@XmlRootElement
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlAttribute
 	private final String username;
+	@XmlElement
 	private final String realname;
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
+	
+	public User() {
+		this.username = null;
+		this.realname = null;
+	}
 
 	public User(String username, String realname) {
 		this.username = username;
