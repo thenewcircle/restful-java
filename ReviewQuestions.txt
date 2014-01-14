@@ -1,0 +1,74 @@
+HTTP Review Questions
+=======================================
+
+1) Name four HTTP methods.
+   A: GET, POST, PUT, DELETE
+
+2) Which HTTP method is the most similar to GET.
+   A: HEAD -- the same headers as GET but no response body.
+   
+3) Which status code should be return when creating a new entity on a server?
+   A: 201, a.k.a, CREATED
+   
+4) Which status code should be return if an operation is valid but not complete?
+   A: 202, a.k.a, ACCEPTED
+
+5) What is status code 204?
+   A: NO_CONTENT -- operation success and no data return in response body
+   
+5.5) Does a status code 200 imply data returned in the response body?
+   A: Yes.
+ 
+6) What is the significance of the Request Accept Header?
+   A: MIME / Media types accepted by the clients. 
+   
+7) What is the difference between an Accept Header and an Accept-Encoding header fields?
+   A: The Accept Header describes the format of the content where as the Accept-Enconding describes how the content is represented in the response body, e.g., compressed with gzip of DEFLATE
+   
+8) Which HTTP methods are consider safe?
+   A: GET and HEAD
+   
+9) What does safe imply?
+   A: Does not modify the server's state. Log files do not count. 
+   
+10) Which methods are idempotent?
+   A: GET, HEAD, PUT, DELETE
+   
+11) What does idempotent imply?
+   A: Repeated invocations have not affect on server state assuming nothing else changes on the server. 
+   
+JAX-RS Review Questions
+========================================
+
+1) Which version of JAX-RS are we using in class?
+   A: 2.0
+   
+2) Which version of Jersey are we using in class?
+   A: 2.5.1
+   
+3) What is the difference between JAX-RS and Jersey?
+   A: Jersey is an implementation of the JAX-RS API.
+   
+4) Name two other RESTful Java implementations generally available. 
+   A: RESTeasy sponsored by JBoss / RedHat and it's JAX-RS compliant.
+      Spring including Spring HATEOAS which is still in beta. 
+
+5) Name two server runtime environments that Jersey supports.
+   A: Servlet 2.x and 3.x containers
+      Grizzly2 which is a light weight HTTP server within glassfish  (used in class)
+      Java SE HTTP Server (Java 1.6 and later)
+      Jetty
+   
+6) Name two jersey test framework server runtime integrations
+	A: InMemory (used in class)
+	   Grizzly2 
+	   Jetty   
+	   
+7) What is annotation is required to mark a class as a RESTFul resource
+    A: @Path
+    
+8) What is the name of Jersey's XML configuration file?
+    A: There is none as Jersey is only configured using Java classes.
+    
+9) In which types of classes does one see jersey specific classes
+    A: Server or test framework configuration   

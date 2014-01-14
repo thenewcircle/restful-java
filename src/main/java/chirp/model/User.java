@@ -34,7 +34,7 @@ public class User implements Serializable {
 	public Post createPost(String content) {
 		Timestamp timestamp = new Timestamp();
 		if (posts.containsKey(timestamp))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("The post with timestamp " + timestamp + " already exists");
 
 		Post post = new Post(timestamp, content, this);
 		posts.put(timestamp, post);

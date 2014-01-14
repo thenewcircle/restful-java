@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import chirp.model.DuplicateEntityException;
 import chirp.model.NoSuchEntityException;
 import chirp.model.UserRepository;
 
@@ -24,21 +23,17 @@ public class UserResource {
 	public Response createUser(final @FormParam("username") String username,
 			final @FormParam("realname") String realname) {
 
-		try {
-			userRepository.createUser(username, realname);
+		userRepository.createUser(username, realname);
 
-			// http://localhost:8080/users</username>
-			final URI location = UriBuilder.fromResource(this.getClass())
-					.path(username).build();
+		// http://localhost:8080/users</username>
+		final URI location = UriBuilder.fromResource(this.getClass())
+				.path(username).build();
 
-			// should return a 201 status code with the URL to the user created
-			// in the location header.
-			return Response.created(location).build();
-		} catch (DuplicateEntityException dee) {
-			return Response.status(Status.FORBIDDEN).build();
-		}
+		// should return a 201 status code with the URL to the user created
+		// in the location header.
+		return Response.created(location).build();
 	}
-	
+
 	@GET
 	@Path("/{username}")
 	public Response getUser(final @PathParam("username") String username) {
@@ -48,12 +43,11 @@ public class UserResource {
 		try {
 			userRepository.getUser(username);
 			status = Status.OK;
-		}
-		catch (NoSuchEntityException nsee) {
+		} catch (NoSuchEntityException nsee) {
 			status = Status.NOT_FOUND;
 		}
-		
-		return  Response.status(status).build(); 
+
+		return Response.status(status).build();
 	}
 
 }
