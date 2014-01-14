@@ -9,6 +9,8 @@ import java.util.TreeMap;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
@@ -26,6 +28,7 @@ public class User implements Serializable {
 	@XmlElement
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 	
+	@JsonCreator
 	public User() {
 		username = null;
 		realname = null;

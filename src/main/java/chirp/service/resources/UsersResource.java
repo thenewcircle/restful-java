@@ -36,17 +36,11 @@ public class UsersResource {
 	
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public User getUserAsJSON(@PathParam("username") String username) {
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public User getUser(@PathParam("username") String username) {
+		logger.trace("Getting a user with username={}", username);
 		return userRepository.getUser(username);
 	}
 	
-	@GET
-	@Path("{username}")
-	@Produces(MediaType.APPLICATION_XML)
-	public User getUserAsXML(@PathParam("username") String username) {
-		return userRepository.getUser(username);
-	}
-
 
 }
