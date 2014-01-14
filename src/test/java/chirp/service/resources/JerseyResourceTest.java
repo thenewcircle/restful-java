@@ -3,10 +3,13 @@ package chirp.service.resources;
 import java.lang.reflect.ParameterizedType;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.junit.Assert;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
@@ -19,6 +22,20 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest<R> extends JerseyTest {
+
+	/**
+	 * Use this method to assert if an expected Status object is equivalent to the
+	 * actual (observer) status code integer value in a response object.
+	 * 
+	 * @param expectedStatus
+	 *            the expect HTTP Response status as an object
+	 * @param actualResposne
+	 *            the reponse object holding the observed (actual) integer status code 
+	 */
+	protected static void assertStatusEquals(final Status expectedStatus,
+			final Response actualResponse) {
+		Assert.assertEquals(expectedStatus.getStatusCode(), actualResponse.getStatus());
+	}
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
