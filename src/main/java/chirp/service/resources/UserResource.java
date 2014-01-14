@@ -7,11 +7,12 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
-import chirp.model.NoSuchEntityException;
+import chirp.model.User;
 import chirp.model.UserRepository;
 
 @Path("/users")
@@ -36,14 +37,9 @@ public class UserResource {
 
 	@GET
 	@Path("/{username}")
-	public Response getUser(final @PathParam("username") String username) {
-
-		Status status = null;
-
-			userRepository.getUser(username);
-			status = Status.OK;
-
-		return Response.status(status).build();
+	@Produces(MediaType.APPLICATION_XML)
+	public User getUser(final @PathParam("username") String username) {
+		return userRepository.getUser(username);
 	}
 
 }
