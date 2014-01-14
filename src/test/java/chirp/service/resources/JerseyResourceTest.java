@@ -6,6 +6,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -71,7 +72,7 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
 		return new ResourceConfig().packages("chirp.service.providers")
-				.register(resourceClass);
+				.register(resourceClass).register(JacksonFeature.class);
 	}
 
 }

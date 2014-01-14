@@ -68,8 +68,8 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 	}
 
 	/**
-	 * Use this method to verify one can create a user in an empty repository and 
-	 * that the user exists after a subsequent get request. 
+	 * Use this method to verify one can create a user in an empty repository
+	 * and that the user exists after a subsequent get request.
 	 */
 	@Test
 	public void createUserSuccess() {
@@ -88,7 +88,6 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		createUserWithStatus(Status.FORBIDDEN);
 	}
 
-	
 	/**
 	 * Use this method to verify that request a user that does not exist results
 	 * in an HTTP response with a FORBIDDEN (404) status code.
@@ -99,17 +98,26 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 				Status.NOT_FOUND);
 	}
 
-	
-	@Test
-	public void getNewlyCreatedUser() {
-		
+	private void getNewlyCreatedUser(MediaType mediaType) {
+
 		// create the user
 		Response response = createUserWithStatus(Status.CREATED);
-		
+
 		// get the user with the following client statement
-		User user = target().path(response.getLocation().getPath()).request().accept(MediaType.APPLICATION_XML).get(User.class);
-		assertEquals("gordonff",user.getUsername());
-		
+		User user = target().path(response.getLocation().getPath()).request()
+				.accept(mediaType).get(User.class);
+		assertEquals("gordonff", user.getUsername());
 	}
+
+	@Test
+	public void getNewlyCreatedUserMarshalledAsXML() {
+		getNewlyCreatedUser(MediaType.APPLICATION_XML_TYPE);
+	}
+	
+	@Test
+	public void getNewlyCreatedUserMarshalledAsJSON() {
+		getNewlyCreatedUser(MediaType.APPLICATION_JSON_TYPE);
+	}
+
 
 }

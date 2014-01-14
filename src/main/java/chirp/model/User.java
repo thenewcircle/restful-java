@@ -6,9 +6,11 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
@@ -19,12 +21,15 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlAttribute
+	@XmlElement
 	private final String username;
 	@XmlElement
 	private final String realname;
+	
+	@JsonIgnore
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 	
+	@JsonCreator
 	public User() {
 		this.username = null;
 		this.realname = null;

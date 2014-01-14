@@ -35,14 +35,16 @@ public class UserResource {
 		return Response.created(location).build();
 	}
 
-	// Assignment: How to return both JSON and XML represetnations of a user object?
+	// Assignment: How to return both JSON and XML representations of a user object
+	//    from the server?  Save the unit test case for later. 
 	
 	
 	@GET
 	@Path("/{username}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public User getUser(final @PathParam("username") String username) {
 		return userRepository.getUser(username);
 	}
+
 
 }
