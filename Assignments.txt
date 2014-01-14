@@ -8,4 +8,16 @@ Homework Day 1 -- Enhance the user create and get methods.
 	if the user does not exist.
 
 3. Create test case methods steps 1 and 2.  Checking for status code is enough at this point as we have not
-	covered working with user representations yet.  
+	covered working with user representations yet.
+	
+	
+In class Day 2, Assignment 2
+=============================
+
+Using the chirp.resources.PostResource class
+
+1. Create a @POST createPost method that also creates the timestamp for the post
+	
+2. Create a @GET getPosts method for a username -- returns a collection of posts.
+	
+3. Create a test case for both.   

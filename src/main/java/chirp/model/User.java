@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
@@ -25,17 +26,18 @@ public class User implements Serializable {
 	private final String username;
 	@XmlElement
 	private final String realname;
-	
+
 	@JsonIgnore
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
-	
+
 	@JsonCreator
 	public User() {
 		this.username = null;
 		this.realname = null;
 	}
 
-	public User(String username, String realname) {
+	public User(@JsonProperty("username") String username,
+			@JsonProperty("realname") String realname) {
 		this.username = username;
 		this.realname = realname;
 	}
@@ -51,7 +53,8 @@ public class User implements Serializable {
 	public Post createPost(String content) {
 		Timestamp timestamp = new Timestamp();
 		if (posts.containsKey(timestamp))
-			throw new DuplicateEntityException("The post with timestamp " + timestamp + " already exists");
+			throw new DuplicateEntityException("The post with timestamp "
+					+ timestamp + " already exists");
 
 		Post post = new Post(timestamp, content, this);
 		posts.put(timestamp, post);
@@ -65,14 +68,16 @@ public class User implements Serializable {
 	public Post getPost(Timestamp timestamp) {
 		Post post = posts.get(timestamp);
 		if (post == null)
-			throw new NoSuchEntityException("No timestamp equal to " + timestamp + " exists for user " + username);
+			throw new NoSuchEntityException("No timestamp equal to "
+					+ timestamp + " exists for user " + username);
 
 		return post;
 	}
 
 	public void deletePost(String timestamp) {
 		if (posts.remove(timestamp) == null)
-			throw new NoSuchEntityException("No timestamp equal to " + timestamp + " exists for user " + username);
+			throw new NoSuchEntityException("No timestamp equal to "
+					+ timestamp + " exists for user " + username);
 	}
 
 	@Override

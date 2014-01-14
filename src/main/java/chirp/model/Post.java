@@ -32,6 +32,8 @@ public class Post implements Serializable {
 		return user;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

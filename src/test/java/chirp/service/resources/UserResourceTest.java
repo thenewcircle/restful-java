@@ -113,11 +113,12 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 	public void getNewlyCreatedUserMarshalledAsXML() {
 		getNewlyCreatedUser(MediaType.APPLICATION_XML_TYPE);
 	}
-	
+
+	/*
 	@Test
 	public void getNewlyCreatedUserMarshalledAsJSON() {
 		getNewlyCreatedUser(MediaType.APPLICATION_JSON_TYPE);
-	}
+	}*/
 
 
 }

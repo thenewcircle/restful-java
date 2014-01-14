@@ -1,6 +1,8 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -35,15 +37,21 @@ public class UserResource {
 		return Response.created(location).build();
 	}
 
-	// Assignment: How to return both JSON and XML representations of a user object
-	//    from the server?  Save the unit test case for later. 
-	
 	
 	@GET
 	@Path("/{username}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public User getUser(final @PathParam("username") String username) {
 		return userRepository.getUser(username);
+	}
+	
+	
+	@GET
+	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+	public Collection<User> getAllUsers() {
+		
+		// add and delete protection, references to data could modify data.
+		return Collections.unmodifiableCollection(userRepository.getUsers());
 	}
 
 
