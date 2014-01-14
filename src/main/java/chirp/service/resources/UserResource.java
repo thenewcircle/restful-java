@@ -40,12 +40,8 @@ public class UserResource {
 
 		Status status = null;
 
-		try {
 			userRepository.getUser(username);
 			status = Status.OK;
-		} catch (NoSuchEntityException nsee) {
-			status = Status.NOT_FOUND;
-		}
 
 		return Response.status(status).build();
 	}

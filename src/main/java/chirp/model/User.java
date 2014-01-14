@@ -48,14 +48,14 @@ public class User implements Serializable {
 	public Post getPost(Timestamp timestamp) {
 		Post post = posts.get(timestamp);
 		if (post == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("No timestamp equal to " + timestamp + " exists for user " + username);
 
 		return post;
 	}
 
 	public void deletePost(String timestamp) {
 		if (posts.remove(timestamp) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("No timestamp equal to " + timestamp + " exists for user " + username);
 	}
 
 	@Override
