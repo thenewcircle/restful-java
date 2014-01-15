@@ -1,20 +1,20 @@
 package chirp.service.resources;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Form;
+import java.util.Collection;
+
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-import chirp.model.User;
+import chirp.model.Post;
 import chirp.model.UserRepository;
 
-public class PostResourceTest extends JerseyResourceTest<PostResource> {
+public class PostResourceTest extends JerseyResourceTest{
 
 	final private UserRepository userRepository = UserRepository.getInstance();
+	final private EntityClient<Post> pc = new PostResourceClient(this);
 
 	/**
 	 * Execute this method before every <em>@Test</em> method to insure the user
@@ -26,39 +26,34 @@ public class PostResourceTest extends JerseyResourceTest<PostResource> {
 	}
 
 	/**
-	 * Use this method to test if the create user request returns the status
-	 * expected.
+	 * Use this method to verify one can create a post in an empty repository.
 	 * 
-	 * @param expectedStatus
-	 *            -- what the server should return in response to this request.
-	 * @return the response object from the POST request used to create the
-	 *         user.
-	 */
-	private Response createPost(final Status expectedStatus, final String content) {
-
-		UserResourceTest urt = new UserResourceTest();
-		User user = urt.getNewlyCreatedUser(MediaType.APPLICATION_XML_TYPE);
-
-		final Form form = new Form()
-				.param("content", content);
-		final Response response = target("/posts").path(user.getUsername())
-				.request().post(Entity.form(form));
-		assertStatusEquals(expectedStatus, response);
-		return response;
-	}
-	
-
-
-	/**
-	 * Use this method to verify one can create a user in an empty repository
-	 * and that the user exists after a subsequent get request.
 	 */
 	@Test
-	public void createUserSuccess() {
-		createPost(Status.CREATED, "this is the first post");
-		createPost(Status.CREATED, "this is the second post");
-		// System.out.println("All created posts " + getAllPosts());
+	public void createAPost() {
+		pc.createWithHeadLocationVerify(MediaType.APPLICATION_XML_TYPE);
+		Collection<Post> posts = pc.getAll(MediaType.APPLICATION_XML_TYPE);
+		assertEquals(1,posts.size());
+	}		
+	
+	/**
+	 * Use this method to verify one can create a post in an empty repository
+	 * and read it back using an XML representation.
+	 */
+	@Test
+	public void getAsXML() {
+		pc.createWithGetLocationVerify(MediaType.APPLICATION_XML_TYPE);
 	}
-
+	
+	/*
+	 * Use this method to verify one can create a post in an empty repository
+	 * and read it back using an JSON representation.
+	 * 
+	 * Currently a no-op as executing causes a circular dependency.
+	@Test
+	public void getAsJSON() {
+		pc.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
+	}
+	 */
 
 }
