@@ -1,7 +1,5 @@
 package chirp.service.resources;
 
-import java.util.Collection;
-
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
@@ -11,7 +9,6 @@ import javax.ws.rs.core.Response.Status;
 import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.Post;
 import chirp.model.User;
 import chirp.model.UserRepository;
 
@@ -50,14 +47,6 @@ public class PostResourceTest extends JerseyResourceTest<PostResource> {
 		return response;
 	}
 	
-	private Collection<Post> getAllPosts() {
-
-		Collection<Post> posts = target().path("/post/gordonff").request().accept(MediaType.APPLICATION_XML_TYPE).get(Post.class);
-
-		return posts;
-	}
-
-
 
 
 	/**
@@ -68,7 +57,7 @@ public class PostResourceTest extends JerseyResourceTest<PostResource> {
 	public void createUserSuccess() {
 		createPost(Status.CREATED, "this is the first post");
 		createPost(Status.CREATED, "this is the second post");
-		System.out.println("All created posts " + getAllPosts());
+		// System.out.println("All created posts " + getAllPosts());
 	}
 
 

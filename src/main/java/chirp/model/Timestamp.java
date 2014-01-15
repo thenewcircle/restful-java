@@ -2,6 +2,9 @@ package chirp.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -9,10 +12,12 @@ import org.joda.time.format.DateTimeFormat;
  * Entity representing a chirp timestamp. This isn't much more than a wrapper
  * class for a String.
  */
+@XmlRootElement
 public class Timestamp implements Comparable<Timestamp>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlAttribute
 	private final String timestamp;
 
 	public Timestamp(String timestamp) {

@@ -28,6 +28,7 @@ public class User implements Serializable {
 	private final String realname;
 
 	@JsonIgnore
+	@XmlElement
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 
 	public User() {

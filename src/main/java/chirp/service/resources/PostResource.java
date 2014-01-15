@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import chirp.model.Post;
+import chirp.model.Timestamp;
 import chirp.model.User;
 import chirp.model.UserRepository;
 
@@ -29,9 +30,9 @@ public class PostResource {
 	public Response createPost(@PathParam("username") String username, @FormParam("content") String content) {
 		
 		final User user = userRepository.getUser(username);
-		user.createPost(content);
+		final Post post = user.createPost(content);
 		
-		final URI location = UriBuilder.fromResource(this.getClass()).build();
+		final URI location = UriBuilder.fromPath("/posts/"+username+"/"+post.getTimestamp()).build();
 		return Response.created(location).build();
 	}
 	
@@ -41,5 +42,15 @@ public class PostResource {
 	public Collection<Post> getPostsForUser(@PathParam("username") String username) {
 		return Collections.unmodifiableCollection(userRepository.getUser(username).getPosts());
 	}
+	
+	
+	// Create a @GET getPosts method for a username -- returns a collection of posts.
+	@GET
+	@Path("/{timestamp}")
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Post getPost(@PathParam("username") String username, @PathParam("timestamp") String timestamp ) {
+		return userRepository.getUser(username).getPost(new Timestamp(timestamp));
+	}
+
 	
 }

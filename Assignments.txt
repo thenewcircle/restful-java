@@ -11,13 +11,17 @@ Homework Day 1 -- Enhance the user create and get methods.
 	covered working with user representations yet.
 	
 	
-In class Day 2, Assignment 2
+End of class and Homework Day 2 Assignment
 =============================
 
 Using the chirp.resources.PostResource class
 
-1. Create a @POST createPost method that also creates the timestamp for the post
+1. Create an @POST createPost method that also creates the timestamp for the post
+
+2. Create an @GET getPost method based on the path /posts/{username}/{timestamp}
 	
-2. Create a @GET getPosts method for a username -- returns a collection of posts.
+3. Create an @GET getPosts method for a username -- returns a collection of posts.
+
+4. If you encounter a circular reference, ignore a field to avoid --  this will be address on Day 3
 	
-3. Create a test case for both.   
+5. Create test cases for 1 and 2. 3 is a bonus. Test using the interactive Server and POSTMan first.  

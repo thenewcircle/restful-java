@@ -2,17 +2,31 @@ package chirp.model;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Post,
  * call User.createPost().
  */
+@XmlRootElement
 public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@XmlElement
 	private final Timestamp timestamp;
+	@XmlElement
 	private final String content;
+
 	private final User user;
+	
+	public Post() {
+		this.timestamp = null;
+		this.content = null;
+		this.user = null;
+		
+	}
 
 	public Post(Timestamp timestamp, String content, User user) {
 		this.timestamp = timestamp;
