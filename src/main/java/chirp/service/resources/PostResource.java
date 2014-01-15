@@ -1,8 +1,6 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -18,6 +16,7 @@ import chirp.model.Post;
 import chirp.model.Timestamp;
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.PostCollectionRepresentation;
 import chirp.service.representations.PostRepresentation;
 
 
@@ -40,13 +39,9 @@ public class PostResource {
 	// Create a @GET getPosts method for a username -- returns a collection of posts.
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Collection<PostRepresentation> getPostsForUser(@PathParam("username") String username) {
+	public PostCollectionRepresentation getPostsForUser(@PathParam("username") String username) {
 		
-		Collection<PostRepresentation> postReps = new ArrayList<>();
-		for (Post p : userRepository.getUser(username).getPosts())
-			postReps.add(new PostRepresentation(p,true));
-		
-		return postReps;
+		return new PostCollectionRepresentation(userRepository.getUser(username).getPosts());
 	}
 	
 	

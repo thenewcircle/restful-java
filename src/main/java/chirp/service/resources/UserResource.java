@@ -1,8 +1,6 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -14,8 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
@@ -49,12 +47,8 @@ public class UserResource {
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public Collection<UserRepresentation> getAllUsers() {
-		Collection<UserRepresentation> userReps = new ArrayList<UserRepresentation>();
-		for (User u : userRepository.getUsers())
-			userReps.add(new UserRepresentation(u,true));
-		
-		return userReps;
+	public UserCollectionRepresentation getAllUsers() {
+		return new UserCollectionRepresentation(userRepository.getUsers());
 	}
 
 
