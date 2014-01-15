@@ -1,15 +1,16 @@
-Homework Day 1 -- Enhance the user create and get methods.
-===============
+Day 3 Morning Assignment
+===========================
 
-1. Update the UserResource.createUser method to return a FORBIDDEN status code if a duplicate user exists. 
-	Continue to return 201 (CREATED) if the user does not exist already.
+1. Create a PostRepresentation class contain a timestamp and content fields as it's two members.
 
-2. Create a GET method to return a user by user name. Return OK (200) if the user exists and a NOT_FOUND (404) 
-	if the user does not exist.
+2. Move XmlRootElement and Json* annotations from the Post to the PostRepresentation class.
 
-3. Create test case methods steps 1 and 2.  Checking for status code is enough at this point as we have not
-	covered working with user representations yet.
-	
+3. Update the PostResource class to return PostRepresentation objects instead of Post.
+
+4. Update PostResourceClient and PostResourceTest to use PostRepresentation instead of Post. 
+
+5. Test. 
+
 	
 End of class and Homework Day 2 Assignment
 =============================
@@ -25,3 +26,16 @@ Using the chirp.resources.PostResource class
 4. If you encounter a circular reference, ignore a field to avoid --  this will be address on Day 3
 	
 5. Create test cases for 1 and 2. 3 is a bonus. Test using the interactive Server and POSTMan first.  
+
+Homework Day 1 -- Enhance the user create and get methods.
+===============
+
+1. Update the UserResource.createUser method to return a FORBIDDEN status code if a duplicate user exists. 
+	Continue to return 201 (CREATED) if the user does not exist already.
+
+2. Create a GET method to return a user by user name. Return OK (200) if the user exists and a NOT_FOUND (404) 
+	if the user does not exist.
+
+3. Create test case methods steps 1 and 2.  Checking for status code is enough at this point as we have not
+	covered working with user representations yet.
+	
