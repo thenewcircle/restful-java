@@ -1,5 +1,7 @@
 package chirp.service.representations;
 
+import java.net.URI;
+
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,7 +17,7 @@ import chirp.service.resources.UserResource;
 public class UserRepresentation {
 	
 	@XmlElement
-	private Link self;
+	private URI self;
 	@XmlElement
 	private String username;
 	@XmlElement
@@ -24,7 +26,7 @@ public class UserRepresentation {
 	public UserRepresentation(User user) {
 		this.username = user.getUsername();
 		this.realname = user.getRealname();
-		 self = Link.fromUriBuilder(UriBuilder.fromResource(UserResource.class).path(username)).build();
+		 self = UriBuilder.fromResource(UserResource.class).path(username).build();
 	}
 	
 	public UserRepresentation() {
@@ -33,7 +35,7 @@ public class UserRepresentation {
 	}
 
 	@JsonCreator()
-	public UserRepresentation(@JsonProperty("self") Link self, @JsonProperty("username") String username,
+	public UserRepresentation(@JsonProperty("self") URI self, @JsonProperty("username") String username,
 			@JsonProperty("realname") String realname) {
 		this.username = username;
 		this.realname = realname;
@@ -49,7 +51,7 @@ public class UserRepresentation {
 		return realname;
 	}
 
-	public Link getSelf() {
+	public URI getSelf() {
 		return self;
 	}
 
