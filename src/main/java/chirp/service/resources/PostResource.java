@@ -1,8 +1,8 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -18,6 +18,7 @@ import chirp.model.Post;
 import chirp.model.Timestamp;
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.PostRepresentation;
 
 
 @Path("/posts/{username}")  // chose this over /user/{usernamae}/post to decouple users and posts
@@ -39,8 +40,13 @@ public class PostResource {
 	// Create a @GET getPosts method for a username -- returns a collection of posts.
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Collection<Post> getPostsForUser(@PathParam("username") String username) {
-		return Collections.unmodifiableCollection(userRepository.getUser(username).getPosts());
+	public Collection<PostRepresentation> getPostsForUser(@PathParam("username") String username) {
+		
+		Collection<PostRepresentation> postReps = new ArrayList<>();
+		for (Post p : userRepository.getUser(username).getPosts())
+			postReps.add(new PostRepresentation(p));
+		
+		return postReps;
 	}
 	
 	
@@ -48,8 +54,8 @@ public class PostResource {
 	@GET
 	@Path("/{timestamp}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-	public Post getPost(@PathParam("username") String username, @PathParam("timestamp") String timestamp ) {
-		return userRepository.getUser(username).getPost(new Timestamp(timestamp));
+	public PostRepresentation getPost(@PathParam("username") String username, @PathParam("timestamp") String timestamp ) {
+		return new PostRepresentation (userRepository.getUser(username).getPost(new Timestamp(timestamp)));
 	}
 
 	

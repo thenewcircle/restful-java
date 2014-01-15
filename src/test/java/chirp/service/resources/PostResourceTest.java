@@ -1,20 +1,21 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import chirp.model.Post;
 import chirp.model.UserRepository;
+import chirp.service.representations.PostRepresentation;
 
 public class PostResourceTest extends JerseyResourceTest{
 
 	final private UserRepository userRepository = UserRepository.getInstance();
-	final private EntityClient<Post> pc = new PostResourceClient(this);
+	final private EntityClient<PostRepresentation> pc = new PostResourceClient(this);
 
 	/**
 	 * Execute this method before every <em>@Test</em> method to insure the user
@@ -32,7 +33,7 @@ public class PostResourceTest extends JerseyResourceTest{
 	@Test
 	public void createAPost() {
 		pc.createWithHeadLocationVerify(MediaType.APPLICATION_XML_TYPE);
-		Collection<Post> posts = pc.getAll(MediaType.APPLICATION_XML_TYPE);
+		Collection<PostRepresentation> posts = pc.getAll(MediaType.APPLICATION_XML_TYPE);
 		assertEquals(1,posts.size());
 	}		
 	
@@ -50,9 +51,10 @@ public class PostResourceTest extends JerseyResourceTest{
 	 * and read it back using an JSON representation.
 	 * 
 	 * Currently a no-op as executing causes a circular dependency.
+	 */
+	@Test
 	public void getAsJSON() {
 		pc.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
 	}
-	 */
 
 }

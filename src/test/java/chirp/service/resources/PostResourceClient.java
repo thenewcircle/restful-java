@@ -12,20 +12,20 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.test.JerseyTest;
 
-import chirp.model.Post;
-import chirp.model.User;
+import chirp.service.representations.PostRepresentation;
+import chirp.service.representations.UserRepresentation;
 
 public class PostResourceClient extends
-		AbstractEntityClientImpl<PostResource, Post> {
+		AbstractEntityClientImpl<PostResource, PostRepresentation> {
 
 	private int count = 1;
-	private User user;
+	private UserRepresentation user;
 
 	public PostResourceClient(JerseyTest jt) {
 		super(jt);
 	}
 
-	private User getUser() {
+	private UserRepresentation getUser() {
 		if (this.user == null)
 			this.user = new UserResourceClient(this.getJerseyTest())
 					.createWithGetLocationVerify(MediaType.APPLICATION_XML_TYPE);
@@ -50,9 +50,9 @@ public class PostResourceClient extends
 	}
 
 	@Override
-	public Collection<Post> getAll(MediaType mediaType) {
+	public Collection<PostRepresentation> getAll(MediaType mediaType) {
 		return getJerseyTest().target(postBase().getPath()).request(mediaType)
-				.get(new GenericType<Collection<Post>>() {});
+				.get(new GenericType<Collection<PostRepresentation>>() {});
 	}
 
 }
