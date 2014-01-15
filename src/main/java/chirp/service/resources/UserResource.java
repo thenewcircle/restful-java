@@ -43,7 +43,7 @@ public class UserResource {
 	@Path("/{username}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 	public UserRepresentation getUser(final @PathParam("username") String username) {
-		return new UserRepresentation(userRepository.getUser(username));
+		return new UserRepresentation(userRepository.getUser(username),false);
 	}
 	
 	
@@ -52,7 +52,7 @@ public class UserResource {
 	public Collection<UserRepresentation> getAllUsers() {
 		Collection<UserRepresentation> userReps = new ArrayList<UserRepresentation>();
 		for (User u : userRepository.getUsers())
-			userReps.add(new UserRepresentation(u));
+			userReps.add(new UserRepresentation(u,true));
 		
 		return userReps;
 	}

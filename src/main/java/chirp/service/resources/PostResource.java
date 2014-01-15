@@ -44,7 +44,7 @@ public class PostResource {
 		
 		Collection<PostRepresentation> postReps = new ArrayList<>();
 		for (Post p : userRepository.getUser(username).getPosts())
-			postReps.add(new PostRepresentation(p));
+			postReps.add(new PostRepresentation(p,true));
 		
 		return postReps;
 	}
@@ -55,8 +55,7 @@ public class PostResource {
 	@Path("/{timestamp}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public PostRepresentation getPost(@PathParam("username") String username, @PathParam("timestamp") String timestamp ) {
-		return new PostRepresentation (userRepository.getUser(username).getPost(new Timestamp(timestamp)));
+		return new PostRepresentation (userRepository.getUser(username).getPost(new Timestamp(timestamp)), false);
 	}
-
 	
 }

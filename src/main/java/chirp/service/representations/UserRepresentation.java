@@ -27,15 +27,16 @@ public class UserRepresentation {
 	@XmlElement
 	private URI posts;
 
-	public UserRepresentation(User user) {
-		this.username = user.getUsername();
-		this.realname = user.getRealname();
+	public UserRepresentation(User user, boolean summary) {
+		this.username = summary ? null : user.getUsername();
+		this.realname = summary ? null : user.getRealname();
 		
 		// http://localhost:8080/users/<username>
-		this.self = UriBuilder.fromResource(UserResource.class).path(username).build();
+		this.self = UriBuilder.fromResource(UserResource.class).path(user.getUsername()).build();
 		
 		// http://localhost:8080/posts/<username>
-		this.posts = UriBuilder.fromPath("/posts").path(username).build();
+		this.posts = UriBuilder.fromPath("/posts").path(user.getUsername()).build();
+		
 	}
 
 	public UserRepresentation() {
