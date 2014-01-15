@@ -98,15 +98,17 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 				Status.NOT_FOUND);
 	}
 
-	private void getNewlyCreatedUser(MediaType mediaType) {
+	User getNewlyCreatedUser(MediaType mediaType) {
 
 		// create the user
-		Response response = createUserWithStatus(Status.CREATED);
+		final Response response = createUserWithStatus(Status.CREATED);
 
 		// get the user with the following client statement
-		User user = target().path(response.getLocation().getPath()).request()
+		final User user = target().path(response.getLocation().getPath()).request()
 				.accept(mediaType).get(User.class);
 		assertEquals("gordonff", user.getUsername());
+		
+		return user;
 	}
 
 	@Test
@@ -114,11 +116,10 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		getNewlyCreatedUser(MediaType.APPLICATION_XML_TYPE);
 	}
 
-	/*
 	@Test
 	public void getNewlyCreatedUserMarshalledAsJSON() {
 		getNewlyCreatedUser(MediaType.APPLICATION_JSON_TYPE);
-	}*/
+	}
 
 
 }

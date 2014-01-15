@@ -30,12 +30,12 @@ public class User implements Serializable {
 	@JsonIgnore
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 
-	@JsonCreator
 	public User() {
 		this.username = null;
 		this.realname = null;
 	}
 
+	@JsonCreator
 	public User(@JsonProperty("username") String username,
 			@JsonProperty("realname") String realname) {
 		this.username = username;
