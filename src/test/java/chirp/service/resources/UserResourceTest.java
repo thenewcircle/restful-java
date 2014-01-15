@@ -1,5 +1,7 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Collection;
 
 import javax.ws.rs.core.MediaType;
@@ -8,15 +10,14 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
 	final private UserRepository userRepository = UserRepository.getInstance();
-	final private EntityClient<User> uc = new UserResourceClient(this);
+	final private EntityClient<UserRepresentation> uc = new UserResourceClient(this);
 
 	/**
 	 * Execute this method before every <em>@Test</em> method to insure the user
@@ -45,7 +46,7 @@ public class UserResourceTest extends JerseyResourceTest {
 	public void createTwoUsersFail() {
 		createUserSuccess();
 		uc.createWithStatus(Status.FORBIDDEN);
-		Collection<User> users = uc.getAll(MediaType.APPLICATION_XML_TYPE);
+		Collection<UserRepresentation> users = uc.getAll(MediaType.APPLICATION_XML_TYPE);
 		assertEquals(1,users.size());
 
 	}

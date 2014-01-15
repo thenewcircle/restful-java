@@ -6,29 +6,17 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of posts, indexed by timestamp.
  */
-@XmlRootElement
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@XmlElement
 	private final String username;
-	@XmlElement
 	private final String realname;
 
-	@JsonIgnore
-	@XmlElement
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 
 	public User() {
@@ -36,9 +24,7 @@ public class User implements Serializable {
 		this.realname = null;
 	}
 
-	@JsonCreator
-	public User(@JsonProperty("username") String username,
-			@JsonProperty("realname") String realname) {
+	public User(String username, String realname) {
 		this.username = username;
 		this.realname = realname;
 	}

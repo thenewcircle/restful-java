@@ -1,8 +1,8 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,6 +16,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
 public class UserResource {
@@ -41,17 +42,19 @@ public class UserResource {
 	@GET
 	@Path("/{username}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public User getUser(final @PathParam("username") String username) {
-		return userRepository.getUser(username);
+	public UserRepresentation getUser(final @PathParam("username") String username) {
+		return new UserRepresentation(userRepository.getUser(username));
 	}
 	
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public Collection<User> getAllUsers() {
+	public Collection<UserRepresentation> getAllUsers() {
+		Collection<UserRepresentation> userReps = new ArrayList<UserRepresentation>();
+		for (User u : userRepository.getUsers())
+			userReps.add(new UserRepresentation(u));
 		
-		// add and delete protection, references to data could modify data.
-		return Collections.unmodifiableCollection(userRepository.getUsers());
+		return userReps;
 	}
 
 

@@ -50,7 +50,6 @@ public class PostResourceTest extends JerseyResourceTest{
 	 * and read it back using an JSON representation.
 	 * 
 	 * Currently a no-op as executing causes a circular dependency.
-	@Test
 	public void getAsJSON() {
 		pc.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
 	}

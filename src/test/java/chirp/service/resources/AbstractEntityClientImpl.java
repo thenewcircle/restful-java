@@ -54,9 +54,12 @@ public abstract class AbstractEntityClientImpl<R, E> implements EntityClient<E> 
 
 	protected Response createWithStatusInternal(final Form postForm,
 			URI location, final Status expectedStatus) {
+		
+		// http://localhost:8080/users,  
+		// grizzly and jersey imemory servers only deal with paths, or what is to the right of the hostname.
 
-		final Response response = jt.target(location.getPath()).request()
-				.post(Entity.form(postForm));
+		final Response response = jt.target(location.getPath())   // note: target method only accepts paths that are strings.
+				.request().post(Entity.form(postForm));
 		assertStatusEquals(expectedStatus, response);
 		return response;
 	}

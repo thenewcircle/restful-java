@@ -11,10 +11,10 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.test.JerseyTest;
 
-import chirp.model.User;
+import chirp.service.representations.UserRepresentation;
 
 public class UserResourceClient extends
-		AbstractEntityClientImpl<UserResource, User> {
+		AbstractEntityClientImpl<UserResource, UserRepresentation> {
 
 	public UserResourceClient(JerseyTest jt) {
 		super(jt);
@@ -28,11 +28,11 @@ public class UserResourceClient extends
 	}
 
 	@Override
-	public Collection<User> getAll(MediaType mediaType) {
+	public Collection<UserRepresentation> getAll(MediaType mediaType) {
 		return getJerseyTest()
 				.target(UriBuilder.fromResource(UserResource.class).build()
 						.getPath()).request(mediaType)
-				.get(new GenericType<Collection<User>>() {
+				.get(new GenericType<Collection<UserRepresentation>>() {
 				});
 	}
 

@@ -15,15 +15,13 @@ import chirp.service.CommonJerseyConfigurationDefault;
  * 
  * @author Gordon Force
  * 
- * @param <R>
- *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest extends JerseyTest {
 	
 
 
 	/**
-	 * Call this method to recreate a jersey test runtime with the following
+	 * Call this method to recreate a jersey test server's runtime with the following
 	 * configuration changes to the default.
 	 * <ul>
 	 * <li>Enabled logging of HTTP traffic to the STDERR device.</li>
@@ -45,10 +43,13 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		return new CommonJerseyConfigurationDefault().configure();
 	}
 	
-	
+
+	/** Override this method to configure the JerseyTest client as opposed to the test server above
+	 * 
+	 */
 	@Override
 	protected void configureClient(ClientConfig config) {
-		config.register(JacksonFeature.class);
+		config.register(JacksonFeature.class); // required to deserialize JSON responses into Java objects in the test client.
 	}
 
 }
