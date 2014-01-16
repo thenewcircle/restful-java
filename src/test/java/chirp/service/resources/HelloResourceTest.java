@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class HelloResourceTest extends JerseyResourceTest {
+	
 
 	@Test
 	public void helloResourceMustSayHello() {

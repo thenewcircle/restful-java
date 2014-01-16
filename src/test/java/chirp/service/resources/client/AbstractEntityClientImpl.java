@@ -1,4 +1,4 @@
-package chirp.service.resources;
+package chirp.service.resources.client;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +16,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Assert;
 
-import chirp.service.representations.EntityRepresentation;
+import chirp.service.representations.Representation;
+import chirp.service.resources.ResourceTestClient;
 
 /**
  * Use this class to provide common implementations of entity client operations assuming
@@ -28,7 +29,7 @@ import chirp.service.representations.EntityRepresentation;
  * @param <E> the entity class under test
  * @param <C> the collections entity resource under test
  */
-public abstract class AbstractEntityClientImpl<R, E extends EntityRepresentation, C extends EntityRepresentation> implements EntityClient<E,C> {
+public abstract class AbstractEntityClientImpl<R, E extends Representation, C extends Representation> implements ResourceTestClient<E,C> {
 	
 	private Type getTypeClass(final int index) {
 		return ((ParameterizedType) getClass()

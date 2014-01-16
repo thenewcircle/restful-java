@@ -6,7 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import chirp.service.representations.EntityRepresentation;
+import chirp.service.representations.Representation;
 
 /** Implement this interface to separate interactions with a resource from the 
  * sequencing of iteractinos that make up test case.
@@ -16,8 +16,9 @@ import chirp.service.representations.EntityRepresentation;
  *
  * @param <E> The type of entity the resource uses.
  */
-public interface EntityClient<E extends EntityRepresentation,C extends EntityRepresentation> {
+public interface ResourceTestClient<E extends Representation,C extends Representation> {
 	
+
 	/**
 	 * Use this method to test if the create entity request returns the status
 	 * expected.

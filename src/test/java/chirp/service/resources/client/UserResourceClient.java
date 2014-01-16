@@ -1,4 +1,4 @@
-package chirp.service.resources;
+package chirp.service.resources.client;
 
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -9,12 +9,13 @@ import org.glassfish.jersey.test.JerseyTest;
 
 import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
+import chirp.service.resources.UserResource;
 
 public class UserResourceClient extends
 		AbstractEntityClientImpl<UserResource, UserRepresentation, UserCollectionRepresentation> {
 
-	public UserResourceClient(JerseyTest jt) {
-		super(jt);
+	public UserResourceClient(JerseyTest jerseyTest) {
+		super(jerseyTest);
 	}
 
 	@Override

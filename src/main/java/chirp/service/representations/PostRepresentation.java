@@ -13,7 +13,7 @@ import chirp.model.Post;
 import chirp.model.Timestamp;
 
 @XmlRootElement
-public class PostRepresentation extends AbstractEntityRepresentationImpl {
+public class PostRepresentation extends AbstractRepresentationImpl {
 
 	private Timestamp timestamp;
 	private String content;

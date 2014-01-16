@@ -13,7 +13,7 @@ import chirp.model.User;
 import chirp.service.resources.UserResource;
 
 @XmlRootElement
-public class UserRepresentation extends AbstractEntityRepresentationImpl {
+public class UserRepresentation extends AbstractRepresentationImpl {
 
 	private String username;
 	private String realname;

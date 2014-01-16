@@ -1,20 +1,19 @@
 package chirp.service.resources;
 
-import static org.junit.Assert.assertEquals;
-
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import chirp.model.UserRepository;
-import chirp.service.representations.PostCollectionRepresentation;
-import chirp.service.representations.PostRepresentation;
 
 public class PostResourceTest extends JerseyResourceTest{
 
 	final private UserRepository userRepository = UserRepository.getInstance();
-	final private EntityClient<PostRepresentation,PostCollectionRepresentation> pc = new PostResourceClient(this);
+	
+	public PostResourceTest() {
+		super(PostResource.class);
+	}
 
 	/**
 	 * Execute this method before every <em>@Test</em> method to insure the user
@@ -31,9 +30,7 @@ public class PostResourceTest extends JerseyResourceTest{
 	 */
 	@Test
 	public void createAPost() {
-		pc.createWithHeadLocationVerify(getDefaultMediaType());
-		PostCollectionRepresentation posts = pc.getAll(getDefaultMediaType());
-		assertEquals(1,posts.getPosts().size());
+		testResourceClient.createWithHeadLocationVerify(getDefaultMediaType());
 	}		
 	
 	/**
@@ -42,7 +39,7 @@ public class PostResourceTest extends JerseyResourceTest{
 	 */
 	@Test
 	public void getAsXML() {
-		pc.createWithGetLocationVerify(MediaType.APPLICATION_XML_TYPE);
+		testResourceClient.createWithGetLocationVerify(MediaType.APPLICATION_XML_TYPE);
 	}
 	
 	/*
@@ -53,7 +50,7 @@ public class PostResourceTest extends JerseyResourceTest{
 	 */
 	@Test
 	public void getAsJSON() {
-		pc.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
+		testResourceClient.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
 	}
 
 }

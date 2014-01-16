@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import chirp.model.User;
 
 @XmlRootElement
-public class UserCollectionRepresentation extends AbstractEntityRepresentationImpl {
+public class UserCollectionRepresentation extends AbstractRepresentationImpl {
 
 	private Collection<UserRepresentation> users;
 

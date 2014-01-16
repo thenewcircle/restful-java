@@ -15,7 +15,7 @@ import chirp.model.Post;
 
 @XmlRootElement
 public class PostCollectionRepresentation extends
-		AbstractEntityRepresentationImpl {
+		AbstractRepresentationImpl {
 
 	private Collection<PostRepresentation> posts;
 

@@ -1,12 +1,6 @@
 package chirp.service.resources;
 
-import static org.junit.Assert.*;
-
-import java.util.Set;
-
-import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
@@ -14,13 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chirp.model.UserRepository;
-import chirp.service.representations.UserCollectionRepresentation;
-import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
 	final private UserRepository userRepository = UserRepository.getInstance();
-	final private EntityClient<UserRepresentation,UserCollectionRepresentation> uc = new UserResourceClient(this);
+
+	public UserResourceTest() {
+		super(UserResource.class);
+	}
 
 	/**
 	 * Execute this method before every <em>@Test</em> method to insure the user
@@ -37,7 +32,7 @@ public class UserResourceTest extends JerseyResourceTest {
 	 */
 	@Test
 	public void createUserSuccess() {
-		uc.createWithHeadLocationVerify(getDefaultMediaType());
+		testResourceClient.createWithHeadLocationVerify(getDefaultMediaType());
 	}
 
 	/**
@@ -48,36 +43,28 @@ public class UserResourceTest extends JerseyResourceTest {
 	@Test
 	public void createTwoUsersFail() {
 		createUserSuccess();
-		uc.createWithStatus(Status.FORBIDDEN);
-		UserCollectionRepresentation users = uc.getAll(getDefaultMediaType());
-		assertNotNull(users);
-		assertNotNull(users.getUsers());
-		assertEquals(1,users.getUsers().size());
-
+		testResourceClient.createWithStatus(Status.FORBIDDEN);
 	}
 
 	/**
 	 * Use this method to verify that request a user that does not exist results
-	 * in an HTTP response with a FORBIDDEN (404) status code.
+	 * in an HTTP response with a NOT_FOUND (404) status code.
 	 */
 	@Test
 	public void getUserNotFound() {
-		uc.getWithStatus(UriBuilder.fromPath("/users/gordonff").build(),
+		testResourceClient.getWithStatus(UriBuilder.fromPath("/users/gordonff").build(),
 				getDefaultMediaType(), Status.NOT_FOUND);
 	}
 
 	@Test
 	public void getNewlyCreatedUserMarshalledAsXML() {
-		Response getResponse = uc.createWithHeadLocationVerify(MediaType.APPLICATION_XML_TYPE);
-		Set<Link> links = getResponse.getLinks();
-		for (Link link : links) 
-			System.err.println(link);
-
+		testResourceClient
+				.createWithHeadLocationVerify(MediaType.APPLICATION_XML_TYPE);
 	}
 
 	@Test
 	public void getNewlyCreatedUserMarshalledAsJSON() {
-		uc.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
+		testResourceClient.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
 	}
 
 }
