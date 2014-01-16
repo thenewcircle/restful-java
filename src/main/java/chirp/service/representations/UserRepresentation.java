@@ -24,9 +24,6 @@ public class UserRepresentation {
 	@XmlElement
 	private URI self;
 	
-	@XmlElement
-	private URI posts;
-
 	public UserRepresentation(User user, boolean summary) {
 		this.username = summary ? null : user.getUsername();
 		this.realname = summary ? null : user.getRealname();
@@ -34,27 +31,21 @@ public class UserRepresentation {
 		// http://localhost:8080/users/<username>
 		this.self = UriBuilder.fromResource(UserResource.class).path(user.getUsername()).build();
 		
-		// http://localhost:8080/posts/<username>
-		this.posts = UriBuilder.fromPath("/posts").path(user.getUsername()).build();
-		
 	}
 
 	public UserRepresentation() {
 		this.username = null;
 		this.realname = null;
-		this.posts = null;
 		this.self = null;
 	}
 
 	@JsonCreator()
 	public UserRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("posts") URI posts,
 			@JsonProperty("username") String username,
 			@JsonProperty("realname") String realname) {
 		this.username = username;
 		this.realname = realname;
 		this.self = self;
-		this.posts = posts;
 	}
 
 	public String getUsername() {
@@ -67,10 +58,6 @@ public class UserRepresentation {
 
 	public URI getSelf() {
 		return self;
-	}
-
-	public URI getPosts() {
-		return posts;
 	}
 
 }

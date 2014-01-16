@@ -23,9 +23,6 @@ public class PostRepresentation {
 	@XmlElement
 	private URI self;
 
-	@XmlElement
-	private URI user;
-
 	public PostRepresentation() {
 		timestamp = null;
 		content = null;
@@ -40,21 +37,16 @@ public class PostRepresentation {
 				.path(post.getUser().getUsername())
 				.path(post.getTimestamp().toString()).build();
 
-		// http://localhost:8080/users/<username>
-		this.user = UriBuilder.fromResource(UserResource.class)
-				.path(post.getUser().getUsername()).build();
 	}
 
 	@JsonCreator
 	public PostRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("user") URI user,
 			@JsonProperty("timestamp") Timestamp timestamp,
 			@JsonProperty("content") String content) {
 		super();
 		this.timestamp = timestamp;
 		this.content = content;
 		this.self = self;
-		this.user = user;
 	}
 
 	public Timestamp getTimestamp() {
@@ -67,10 +59,6 @@ public class PostRepresentation {
 
 	public URI getSelf() {
 		return self;
-	}
-
-	public URI getUser() {
-		return user;
 	}
 
 }

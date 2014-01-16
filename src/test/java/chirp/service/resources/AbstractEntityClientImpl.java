@@ -4,9 +4,11 @@ import static org.junit.Assert.assertNotNull;
 
 import java.lang.reflect.ParameterizedType;
 import java.net.URI;
+import java.util.Set;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -73,7 +75,8 @@ public abstract class AbstractEntityClientImpl<R, E> implements EntityClient<E> 
 	@Override
 	public Response createWithHeadLocationVerify(MediaType mediaType) {
 		Response response = createWithStatus(Status.CREATED);
-		return getWithStatus(response.getLocation(), mediaType, Status.OK);
+		Response getResponse = getWithStatus(response.getLocation(), mediaType, Status.OK);
+		return getResponse;
 	}
 
 	@Override

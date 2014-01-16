@@ -3,8 +3,11 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
+import java.util.Set;
 
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
@@ -63,7 +66,11 @@ public class UserResourceTest extends JerseyResourceTest {
 
 	@Test
 	public void getNewlyCreatedUserMarshalledAsXML() {
-		uc.createWithGetLocationVerify(MediaType.APPLICATION_XML_TYPE);
+		Response getResponse = uc.createWithHeadLocationVerify(MediaType.APPLICATION_XML_TYPE);
+		Set<Link> links = getResponse.getLinks();
+		for (Link link : links) 
+			System.err.println(link);
+
 	}
 
 	@Test
