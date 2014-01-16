@@ -13,51 +13,42 @@ import chirp.model.User;
 import chirp.service.resources.UserResource;
 
 @XmlRootElement
-public class UserRepresentation {
+public class UserRepresentation extends AbstractEntityRepresentationImpl {
 
-	@XmlElement
 	private String username;
-
-	@XmlElement
 	private String realname;
-
-	@XmlElement
-	private URI self;
 	
 	public UserRepresentation(User user, boolean summary) {
+		super(UriBuilder.fromResource(UserResource.class).path(user.getUsername()).build());
 		this.username = summary ? null : user.getUsername();
 		this.realname = summary ? null : user.getRealname();
-		
-		// http://localhost:8080/users/<username>
-		this.self = UriBuilder.fromResource(UserResource.class).path(user.getUsername()).build();
-		
 	}
 
 	public UserRepresentation() {
+		super(null);
 		this.username = null;
 		this.realname = null;
-		this.self = null;
 	}
 
 	@JsonCreator()
 	public UserRepresentation(@JsonProperty("self") URI self,
 			@JsonProperty("username") String username,
 			@JsonProperty("realname") String realname) {
+		super(self);
 		this.username = username;
 		this.realname = realname;
-		this.self = self;
 	}
 
+	@XmlElement
 	public String getUsername() {
 		return username;
 	}
 
+	@XmlElement
 	public String getRealname() {
 		return realname;
 	}
 
-	public URI getSelf() {
-		return self;
-	}
+
 
 }

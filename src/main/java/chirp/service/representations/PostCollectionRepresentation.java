@@ -12,50 +12,37 @@ import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import chirp.model.Post;
-import chirp.model.User;
 
 @XmlRootElement
-public class PostCollectionRepresentation {
-	
-	@XmlElement
-	private URI self;
-	
-	@XmlElement
+public class PostCollectionRepresentation extends
+		AbstractEntityRepresentationImpl {
+
 	private Collection<PostRepresentation> posts;
 
-	
 	public PostCollectionRepresentation() {
-		self = null;
-		posts= null;
+		super(null);
+		posts = null;
 	}
-	
+
 	public PostCollectionRepresentation(Collection<Post> postCollection) {
-		
+		super(UriBuilder.fromPath("/posts")
+				.path(postCollection.iterator().next().getUser().getUsername())
+				.build());
 		this.posts = new ArrayList<>();
 		for (Post p : postCollection)
-			this.posts.add(new PostRepresentation(p,true));
-
-		User user = postCollection.iterator().next().getUser();
-		
-		self = UriBuilder.fromPath("/posts").path(user.getUsername()).build();
+			this.posts.add(new PostRepresentation(p, true));
 	}
-	
-	
+
 	@JsonCreator
 	public PostCollectionRepresentation(@JsonProperty("self") URI self,
 			@JsonProperty("posts") Collection<PostRepresentation> posts) {
-		super();
-		this.self = self;
+		super(self);
 		this.posts = posts;
 	}
 
-	public URI getSelf() {
-		return self;
-	}
-
+	@XmlElement
 	public Collection<PostRepresentation> getPosts() {
 		return posts;
 	}
-
 
 }

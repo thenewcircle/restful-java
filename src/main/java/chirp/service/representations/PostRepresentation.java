@@ -11,31 +11,26 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import chirp.model.Post;
 import chirp.model.Timestamp;
-import chirp.service.resources.UserResource;
 
 @XmlRootElement
-public class PostRepresentation {
+public class PostRepresentation extends AbstractEntityRepresentationImpl {
 
-	@XmlElement
 	private Timestamp timestamp;
-	@XmlElement
 	private String content;
-	@XmlElement
-	private URI self;
 
 	public PostRepresentation() {
+		super(null);
 		timestamp = null;
 		content = null;
 	}
 
 	public PostRepresentation(Post post, boolean summary) {
+		// http://localhost:8080/posts/<username>/<timestamp>
+		super( UriBuilder.fromPath("/posts")
+				.path(post.getUser().getUsername())
+				.path(post.getTimestamp().toString()).build());
 		timestamp = summary ? null : post.getTimestamp();
 		content = summary ? null : post.getContent();
-
-		// http://localhost:8080/posts/<username>/<timestamp>
-		this.self = UriBuilder.fromPath("/posts")
-				.path(post.getUser().getUsername())
-				.path(post.getTimestamp().toString()).build();
 
 	}
 
@@ -43,22 +38,19 @@ public class PostRepresentation {
 	public PostRepresentation(@JsonProperty("self") URI self,
 			@JsonProperty("timestamp") Timestamp timestamp,
 			@JsonProperty("content") String content) {
-		super();
+		super(self);
 		this.timestamp = timestamp;
 		this.content = content;
-		this.self = self;
 	}
 
+	@XmlElement
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}
 
+	@XmlElement
 	public String getContent() {
 		return content;
-	}
-
-	public URI getSelf() {
-		return self;
 	}
 
 }

@@ -14,37 +14,29 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import chirp.model.User;
 
 @XmlRootElement
-public class UserCollectionRepresentation {
+public class UserCollectionRepresentation extends AbstractEntityRepresentationImpl {
 
-	@XmlElement
-	private URI self;
-	@XmlElement
 	private Collection<UserRepresentation> users;
 
 	public UserCollectionRepresentation() {
-		self = null;
-		users = null;
+		super(null);
 	}
 
 	public UserCollectionRepresentation(Collection<User> userCollection) {
+		super(UriBuilder.fromPath("/users").build());
 		this.users = new ArrayList<UserRepresentation>();
 		for (User u : userCollection)
 			this.users.add(new UserRepresentation(u, true));
-		// this.self = UriBuilder.fromResource(UserResource.class).build();
-		this.self = UriBuilder.fromPath("/users").build();
 	}
 
 	@JsonCreator
 	public UserCollectionRepresentation(@JsonProperty("self") URI self,
 			@JsonProperty("users") Collection<UserRepresentation> users) {
-		this.self = self;
+		super(self);
 		this.users = users;
 	}
 
-	public URI getSelf() {
-		return self;
-	}
-
+	@XmlElement
 	public Collection<UserRepresentation> getUsers() {
 		return users;
 	}

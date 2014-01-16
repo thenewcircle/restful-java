@@ -1,8 +1,7 @@
 package chirp.service.resources;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-import java.util.Collection;
 import java.util.Set;
 
 import javax.ws.rs.core.Link;
@@ -15,12 +14,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
 	final private UserRepository userRepository = UserRepository.getInstance();
-	final private EntityClient<UserRepresentation> uc = new UserResourceClient(this);
+	final private EntityClient<UserRepresentation,UserCollectionRepresentation> uc = new UserResourceClient(this);
 
 	/**
 	 * Execute this method before every <em>@Test</em> method to insure the user
@@ -37,7 +37,7 @@ public class UserResourceTest extends JerseyResourceTest {
 	 */
 	@Test
 	public void createUserSuccess() {
-		uc.createWithHeadLocationVerify(MediaType.APPLICATION_XML_TYPE);
+		uc.createWithHeadLocationVerify(getDefaultMediaType());
 	}
 
 	/**
@@ -49,8 +49,10 @@ public class UserResourceTest extends JerseyResourceTest {
 	public void createTwoUsersFail() {
 		createUserSuccess();
 		uc.createWithStatus(Status.FORBIDDEN);
-		Collection<UserRepresentation> users = uc.getAll(MediaType.APPLICATION_XML_TYPE);
-		assertEquals(1,users.size());
+		UserCollectionRepresentation users = uc.getAll(getDefaultMediaType());
+		assertNotNull(users);
+		assertNotNull(users.getUsers());
+		assertEquals(1,users.getUsers().size());
 
 	}
 
@@ -61,7 +63,7 @@ public class UserResourceTest extends JerseyResourceTest {
 	@Test
 	public void getUserNotFound() {
 		uc.getWithStatus(UriBuilder.fromPath("/users/gordonff").build(),
-				MediaType.APPLICATION_XML_TYPE, Status.NOT_FOUND);
+				getDefaultMediaType(), Status.NOT_FOUND);
 	}
 
 	@Test

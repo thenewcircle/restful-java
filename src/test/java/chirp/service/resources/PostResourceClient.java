@@ -1,10 +1,8 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.Collection;
 
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -12,11 +10,12 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.test.JerseyTest;
 
+import chirp.service.representations.PostCollectionRepresentation;
 import chirp.service.representations.PostRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 public class PostResourceClient extends
-		AbstractEntityClientImpl<PostResource, PostRepresentation> {
+		AbstractEntityClientImpl<PostResource, PostRepresentation, PostCollectionRepresentation> {
 
 	private int count = 1;
 	private UserRepresentation user;
@@ -28,7 +27,7 @@ public class PostResourceClient extends
 	private UserRepresentation getUser() {
 		if (this.user == null)
 			this.user = new UserResourceClient(this.getJerseyTest())
-					.createWithGetLocationVerify(MediaType.APPLICATION_XML_TYPE);
+					.createWithGetLocationVerify(MediaType.APPLICATION_JSON_TYPE);
 
 		return this.user;
 	}
@@ -50,9 +49,8 @@ public class PostResourceClient extends
 	}
 
 	@Override
-	public Collection<PostRepresentation> getAll(MediaType mediaType) {
-		return getJerseyTest().target(postBase().getPath()).request(mediaType)
-				.get(new GenericType<Collection<PostRepresentation>>() {});
+	protected String createEntityCollectionURIPath() {
+		return postBase().getPath();
 	}
 
 }

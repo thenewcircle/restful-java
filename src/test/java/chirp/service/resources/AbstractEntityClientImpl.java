@@ -1,14 +1,13 @@
 package chirp.service.resources;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.Set;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -16,6 +15,8 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Assert;
+
+import chirp.service.representations.EntityRepresentation;
 
 /**
  * Use this class to provide common implementations of entity client operations assuming
@@ -25,16 +26,23 @@ import org.junit.Assert;
  *
  * @param <R> the resource class under test
  * @param <E> the entity class under test
+ * @param <C> the collections entity resource under test
  */
-public abstract class AbstractEntityClientImpl<R, E> implements EntityClient<E> {
+public abstract class AbstractEntityClientImpl<R, E extends EntityRepresentation, C extends EntityRepresentation> implements EntityClient<E,C> {
+	
+	private Type getTypeClass(final int index) {
+		return ((ParameterizedType) getClass()
+			.getGenericSuperclass()).getActualTypeArguments()[index];
+	}
 
 	@SuppressWarnings("unchecked")
-	private final Class<R> resourceClass = (Class<R>) ((ParameterizedType) getClass()
-			.getGenericSuperclass()).getActualTypeArguments()[0];
+	private final Class<R> resourceClass = (Class<R>) getTypeClass(0);
 
 	@SuppressWarnings("unchecked")
-	private final Class<E> entityClass = (Class<E>) ((ParameterizedType) getClass()
-			.getGenericSuperclass()).getActualTypeArguments()[1];
+	private final Class<E> entityClass = (Class<E>) getTypeClass(1);
+
+	@SuppressWarnings("unchecked")
+	private final Class<C> entityCollectionClass = (Class<C>) getTypeClass(2);
 
 	private final JerseyTest jt;
 
@@ -95,7 +103,40 @@ public abstract class AbstractEntityClientImpl<R, E> implements EntityClient<E> 
 		assertNotNull(entity);
 		return entity;
 	}
+	
+	
+	protected abstract String createEntityCollectionURIPath();
+	
+	@Override
+	public C getAll(final MediaType mediaType) {
+		final String uriPath = createEntityCollectionURIPath();
+		final Response response = getJerseyTest()
+				.target(uriPath).request(mediaType).get();
+		
+		assertStatusEquals(Status.OK,response);
+		assertTrue(response.hasEntity());
+		
+		// @SuppressWarnings("unchecked")
+		final C collection = (C)response.readEntity(entityCollectionClass);
+		assertNotNull(collection);
+		assertNotNull(collection.getSelf());
+		assertEquals(uriPath,collection.getSelf().toString());
+		
+		return collection; 
+	}
 
+
+	public Class<R> getResourceClass() {
+		return resourceClass;
+	}
+
+	public Class<E> getEntityClass() {
+		return entityClass;
+	}
+
+	public Class<C> getEntityCollectionClass() {
+		return entityCollectionClass;
+	}
 
 	/**
 	 * Use this method to assert if an expected Status object is equivalent to
@@ -104,7 +145,7 @@ public abstract class AbstractEntityClientImpl<R, E> implements EntityClient<E> 
 	 * @param expectedStatus
 	 *            the expect HTTP Response status as an object
 	 * @param actualResposne
-	 *            the reponse object holding the observed (actual) integer
+	 *            the response object holding the observed (actual) integer
 	 *            status code
 	 */
 	public static void assertStatusEquals(final Status expectedStatus,

@@ -1,20 +1,22 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.Collection;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-/** Implement this interface to separate prefdefined interactions with a resource and 
- *  a test case.
+import chirp.service.representations.EntityRepresentation;
+
+/** Implement this interface to separate interactions with a resource from the 
+ * sequencing of iteractinos that make up test case.
+
  *  
  * @author Gordon Force
  *
  * @param <E> The type of entity the resource uses.
  */
-public interface EntityClient<E> {
+public interface EntityClient<E extends EntityRepresentation,C extends EntityRepresentation> {
 	
 	/**
 	 * Use this method to test if the create entity request returns the status
@@ -47,6 +49,6 @@ public interface EntityClient<E> {
 	
 	E get(URI location, MediaType mediaType);
 	
-	Collection<E> getAll(MediaType mediaType);
+	C getAll(MediaType mediaType);
 	
 }

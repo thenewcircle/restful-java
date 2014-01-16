@@ -1,6 +1,7 @@
 package chirp.service.resources;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -50,6 +51,10 @@ public abstract class JerseyResourceTest extends JerseyTest {
 	@Override
 	protected void configureClient(ClientConfig config) {
 		config.register(JacksonFeature.class); // required to deserialize JSON responses into Java objects in the test client.
+	}
+	
+	protected MediaType getDefaultMediaType() {
+		return MediaType.APPLICATION_JSON_TYPE;
 	}
 
 }
