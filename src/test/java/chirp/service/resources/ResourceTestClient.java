@@ -6,6 +6,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import chirp.service.representations.CollectionRepresentation;
 import chirp.service.representations.Representation;
 
 /** Implement this interface to separate interactions with a resource from the 
@@ -16,7 +17,7 @@ import chirp.service.representations.Representation;
  *
  * @param <E> The type of entity the resource uses.
  */
-public interface ResourceTestClient<E extends Representation,C extends Representation> {
+public interface ResourceTestClient<P extends Representation,CP extends CollectionRepresentation<P>> {
 	
 
 	/**
@@ -30,7 +31,7 @@ public interface ResourceTestClient<E extends Representation,C extends Represent
 	 */
 	Response createWithStatus(Status expectedStatus);
 	
-	E createWithGetLocationVerify(MediaType mediaType);
+	P createWithGetLocationVerify(MediaType mediaType);
 
 	Response createWithHeadLocationVerify(MediaType mediaType);
 	
@@ -48,8 +49,8 @@ public interface ResourceTestClient<E extends Representation,C extends Represent
 	 */
 	Response getWithStatus(URI location, MediaType mediaType, Status status);
 	
-	E get(URI location, MediaType mediaType);
+	P get(URI location, MediaType mediaType);
 	
-	C getAll(MediaType mediaType);
+	CP getAll(MediaType mediaType);
 	
 }

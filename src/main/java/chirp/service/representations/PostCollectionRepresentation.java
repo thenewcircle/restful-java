@@ -1,11 +1,9 @@
 package chirp.service.representations;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.ws.rs.core.UriBuilder;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.annotate.JsonCreator;
@@ -15,34 +13,27 @@ import chirp.model.Post;
 
 @XmlRootElement
 public class PostCollectionRepresentation extends
-		AbstractRepresentationImpl {
-
-	private Collection<PostRepresentation> posts;
+AbstractCollectionRepresentationImpl<Post,PostRepresentation> {
 
 	public PostCollectionRepresentation() {
-		super(null);
-		posts = null;
+		super(null,null);
 	}
 
 	public PostCollectionRepresentation(Collection<Post> postCollection) {
 		super(UriBuilder.fromPath("/posts")
 				.path(postCollection.iterator().next().getUser().getUsername())
 				.build());
-		this.posts = new ArrayList<>();
-		for (Post p : postCollection)
-			this.posts.add(new PostRepresentation(p, true));
+		addEntities(postCollection);
+	}
+	
+	protected PostRepresentation create(Post post) {
+		return new PostRepresentation(post, true);
 	}
 
 	@JsonCreator
 	public PostCollectionRepresentation(@JsonProperty("self") URI self,
 			@JsonProperty("posts") Collection<PostRepresentation> posts) {
-		super(self);
-		this.posts = posts;
-	}
-
-	@XmlElement
-	public Collection<PostRepresentation> getPosts() {
-		return posts;
+		super(self,posts);
 	}
 
 }

@@ -5,9 +5,8 @@ import java.util.Map;
 
 import org.glassfish.jersey.test.JerseyTest;
 
+import chirp.service.representations.CollectionRepresentation;
 import chirp.service.representations.Representation;
-import chirp.service.resources.PostResource;
-import chirp.service.resources.UserResource;
 import chirp.service.resources.client.PostResourceClient;
 import chirp.service.resources.client.UserResourceClient;
 
@@ -20,14 +19,14 @@ public interface ResourceTestClientFactory {
 			return instance;
 		}
 
-		private Map<Class<?>, Class<? extends ResourceTestClient<? extends Representation, ? extends Representation>>> clients = new HashMap<>();
+		private Map<Class<?>, Class<? extends ResourceTestClient<? extends Representation, ? extends CollectionRepresentation<? extends Representation>>>> clients = new HashMap<>();
 
 		private Default() {
 			clients.put(UserResource.class, UserResourceClient.class);
 			clients.put(PostResource.class, PostResourceClient.class);
 		}
 
-		public ResourceTestClient<? extends Representation, ? extends Representation> create(
+		public ResourceTestClient<? extends Representation, ? extends CollectionRepresentation<? extends Representation>> create(
 				Class<?> resourceClass, JerseyTest jerseyTest) {
 
 			if (resourceClass == null)
@@ -42,8 +41,7 @@ public interface ResourceTestClientFactory {
 				throw new IllegalArgumentException(
 						"An entity client does not exist for the resource class "
 								+ resourceClass);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				throw new RuntimeException(
 						"Could not create entity client for " + resourceClass,
 						e);
@@ -51,6 +49,13 @@ public interface ResourceTestClientFactory {
 		}
 	};
 
-	ResourceTestClient<? extends Representation, ? extends Representation> create(
+	/**
+	 * Use this method to return a test client for the desired resource class.
+	 * 
+	 * @param resourceClass
+	 * @param jerseyTest
+	 * @return
+	 */
+	ResourceTestClient<? extends Representation, ? extends CollectionRepresentation<? extends Representation>> create(
 			Class<?> resourceClass, JerseyTest jerseyTest);
 }
