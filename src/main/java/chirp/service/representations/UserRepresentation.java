@@ -2,7 +2,6 @@ package chirp.service.representations;
 
 import java.net.URI;
 
-import javax.ws.rs.core.Link;
 import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
