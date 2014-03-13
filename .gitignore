@@ -1,6 +1,5 @@
 target/
 user_repository.bin
-.classpath
-.project
-.settings
+state.bin
+.*~
 /bin
