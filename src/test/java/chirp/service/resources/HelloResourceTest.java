@@ -26,4 +26,12 @@ public class HelloResourceTest extends JerseyResourceTest {
 		assertEquals("Hello Doug!", hello);
 	}
 
+	/** Test /greeting/Doug */
+	@Test
+	public void helloResourceWithPathParamMustSayHelloName() {
+		WebTarget root = super.target("/greeting").path("/Doug");
+		String hello = root.request().get(String.class);
+		assertEquals("Hello Doug!", hello);
+	}
+
 }
