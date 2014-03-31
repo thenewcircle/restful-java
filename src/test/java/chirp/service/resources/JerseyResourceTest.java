@@ -1,7 +1,10 @@
 package chirp.service.resources;
 
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
 
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -37,6 +40,23 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		/* ResourceConfig is a Jersey specific javax.ws.rs.core.Application class. */
 		ResourceConfig rc = Server.createConfig();
 		return rc;
+	}
+
+	/**
+	 * This method to configures the JerseyTest client as opposed to the test
+	 * server done in configure().
+	 */
+	@Override
+	protected void configureClient(ClientConfig config) {
+		/*
+		 * Required to unmarshal JSON responses into Java objects in the test
+		 * client.
+		 */
+		config.register(JacksonFeature.class);
+	}
+
+	protected MediaType getDefaultMediaType() {
+		return MediaType.APPLICATION_XML_TYPE;
 	}
 
 }
