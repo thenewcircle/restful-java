@@ -20,15 +20,17 @@ public class Server {
 
 	private static HttpServer createServer() {
 		
-		// Jersey uses java.util.logging - bridge to slf4
+		/*Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
 		final ResourceConfig rc = new ResourceConfig()
 				.packages("chirp.service.resources");
 
-		// create and start a new instance of grizzly http server
-		// exposing the Jersey application at BASE_URI
+		/*
+		 * create and start a new instance of grizzly http server exposing the
+		 * Jersey application at BASE_URI
+		 */
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI),
 				rc);
 	}
@@ -39,18 +41,18 @@ public class Server {
 		// users.thaw();
 		users.prepopulate();
 		
-		// wait for shutdown ...
+		/* wait for shutdown ... */
 		HttpServer httpServer = createServer();
 		System.out.println(String.format(
 				"Jersey app started with WADL available at "
 						+ "%sapplication.wadl\nHit enter to stop it...",
 				BASE_URI));
 
-		// System.out.println("Hit <return> to stop server...");
+		/* System.out.println("Hit <return> to stop server..."); */
 		System.in.read();
 		httpServer.shutdownNow();
 
-		// save state
+		/* save state */
 		// users.freeze();
 	}
 

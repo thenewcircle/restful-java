@@ -34,23 +34,22 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 	 */
 	@Override
 	protected Application configure() {
-		// enable logging of HTTP traffic
+		/* enable logging of HTTP traffic */
 		enable(TestProperties.LOG_TRAFFIC);
 
-		// enable logging of dumped HTTP traffic entities
+		/* enable logging of dumped HTTP traffic entities */
 		enable(TestProperties.DUMP_ENTITY);
 
-		// Jersey uses java.util.logging - bridge to slf4
+		/* Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		// create an instance of the parameterized declared class
+		/* create an instance of the parameterized declared class */
 		@SuppressWarnings("unchecked")
 		final Class<R> resourceClass = (Class<R>) ((ParameterizedType) getClass()
 				.getGenericSuperclass()).getActualTypeArguments()[0];
 
-		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
-		// subclass
+		/* ResourceConfig is a Jersey specific javax.ws.rs.core.Application class. */
 		return new ResourceConfig().register(resourceClass);
 
 	}
