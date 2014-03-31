@@ -1,24 +1,18 @@
 package chirp.service.resources;
 
-import java.lang.reflect.ParameterizedType;
-
 import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
-import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import chirp.service.Server;
 
 /**
- * Common base class for jerseytest classes that assumes a single servce to test
- * and logging of http traffic and dumping of entities should be enabled.
- * 
- * @author Gordon Force
- * 
- * @param <R>
- *            the jax-rs resource under test.
+ * Common base class for Jersey test classes that assumes a single service to test
+ * and logging of HTTP traffic and dumping of entities should be enabled.
  */
-public abstract class JerseyResourceTest<R> extends JerseyTest {
+public abstract class JerseyResourceTest extends JerseyTest {
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
@@ -40,18 +34,9 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 		/* enable logging of dumped HTTP traffic entities */
 		enable(TestProperties.DUMP_ENTITY);
 
-		/* Jersey uses java.util.logging - bridge to slf4 */
-		SLF4JBridgeHandler.removeHandlersForRootLogger();
-		SLF4JBridgeHandler.install();
-
-		/* create an instance of the parameterized declared class */
-		@SuppressWarnings("unchecked")
-		final Class<R> resourceClass = (Class<R>) ((ParameterizedType) getClass()
-				.getGenericSuperclass()).getActualTypeArguments()[0];
-
 		/* ResourceConfig is a Jersey specific javax.ws.rs.core.Application class. */
-		return new ResourceConfig().register(resourceClass);
-
+		ResourceConfig rc = Server.createConfig();
+		return rc;
 	}
 
 }

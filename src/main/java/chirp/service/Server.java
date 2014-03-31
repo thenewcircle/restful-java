@@ -18,37 +18,34 @@ public class Server {
 
 	public static final String BASE_URI = "http://localhost:8080/";
 
-	private static HttpServer createServer() {
-		
-		/*Jersey uses java.util.logging - bridge to slf4 */
+	public static ResourceConfig createConfig() {
+		/* Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		final ResourceConfig rc = new ResourceConfig()
-				.packages("chirp.service.resources");
+		final ResourceConfig rc = new ResourceConfig();
+		rc.packages("chirp.service.resources");
+		return rc;
+	}
+
+	public static void main(String[] args) throws IOException {
+
+		/* preload data into the database. */
+		final UserRepository users = UserRepository.getInstance();
+		// users.thaw();
+		users.prepopulate();
 
 		/*
 		 * create and start a new instance of grizzly http server exposing the
 		 * Jersey application at BASE_URI
 		 */
-		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI),
-				rc);
-	}
+		ResourceConfig rc = createConfig();
+		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(
+				URI.create(BASE_URI), rc);
 
-	public static void main(String[] args) throws IOException {
-	
-		final UserRepository users = UserRepository.getInstance();
-		// users.thaw();
-		users.prepopulate();
-		
 		/* wait for shutdown ... */
-		HttpServer httpServer = createServer();
-		System.out.println(String.format(
-				"Jersey app started with WADL available at "
-						+ "%sapplication.wadl\nHit enter to stop it...",
-				BASE_URI));
-
-		/* System.out.println("Hit <return> to stop server..."); */
+		System.out.format("Jersey app started with WADL available at "
+				+ "%sapplication.wadl\nHit enter to stop it...\n\n", BASE_URI);
 		System.in.read();
 		httpServer.shutdownNow();
 
@@ -56,5 +53,4 @@ public class Server {
 		// users.freeze();
 	}
 
-	
 }
