@@ -83,35 +83,6 @@ public class UserRepository implements Serializable {
 		users = new ConcurrentHashMap<String, User>();
 	}
 
-	/**
-	 * Call this method to create user repository from the file
-	 * <code>state.bin</code> if it exists.
-	 * 
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private static Map<String, User> thaw() {
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-				file))) {
-			return (Map<String, User>) in.readObject();
-		} catch (Exception e) {
-			return new ConcurrentHashMap<String, User>();
-		}
-	}
-
-	/**
-	 * Call this method to persist the state of the user repository to the file
-	 * <code>state.bin</code>.
-	 */
-	public void freeze() {
-		try (ObjectOutputStream out = new ObjectOutputStream(
-				new FileOutputStream(file))) {
-			out.writeObject(users);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
 			throw new DuplicateEntityException();
@@ -174,6 +145,35 @@ public class UserRepository implements Serializable {
 			return true;
 		} catch (Exception e) {
 			throw new NoSuchEntityException();
+		}
+	}
+
+	/**
+	 * Call this method to create user repository from the file
+	 * <code>state.bin</code> if it exists.
+	 * 
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private static Map<String, User> thaw() {
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(
+				file))) {
+			return (Map<String, User>) in.readObject();
+		} catch (Exception e) {
+			return new ConcurrentHashMap<String, User>();
+		}
+	}
+
+	/**
+	 * Call this method to persist the state of the user repository to the file
+	 * <code>state.bin</code>.
+	 */
+	public void freeze() {
+		try (ObjectOutputStream out = new ObjectOutputStream(
+				new FileOutputStream(file))) {
+			out.writeObject(users);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
