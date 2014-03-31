@@ -59,7 +59,7 @@ public class User implements Serializable {
 
 	public Post createPost(String content, Timestamp timestamp) {
 		if (posts.containsKey(timestamp))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException(Post.class, timestamp);
 
 		Post post = new Post(timestamp, content, this);
 		posts.put(timestamp, post);
@@ -69,14 +69,14 @@ public class User implements Serializable {
 	public Post getPost(Timestamp timestamp) {
 		Post post = posts.get(timestamp);
 		if (post == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(Post.class, timestamp);
 
 		return post;
 	}
 
 	public void deletePost(String timestamp) {
 		if (posts.remove(timestamp) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(Post.class, timestamp);
 	}
 
 	@Override

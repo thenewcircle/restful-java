@@ -28,8 +28,9 @@ public class UserRepository implements Serializable {
 	private static final long serialVersionUID = 2526248585736292013L;
 
 	private static final File file = new File("state.bin");
-	
-	private static Logger logger = LoggerFactory.getLogger(UserRepository.class);
+
+	private static Logger logger = LoggerFactory
+			.getLogger(UserRepository.class);
 
 	private static final UserRepository instance = new UserRepository();
 
@@ -60,7 +61,7 @@ public class UserRepository implements Serializable {
 
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException(User.class, username);
 
 		User user = new User(username, realname);
 		users.put(username, user);
@@ -74,14 +75,14 @@ public class UserRepository implements Serializable {
 	public User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(User.class, username);
 
 		return user;
 	}
 
 	public void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(User.class, username);
 	}
 
 	public int createBulkDeletion() {
@@ -90,37 +91,36 @@ public class UserRepository implements Serializable {
 	}
 
 	public void addToBulkDeletion(int id, String username) {
-		try {
-			bulkDeletions.get(id).add(getUser(username));
-		} catch (Exception e) {
-			throw new NoSuchEntityException();
+		Set<User> bulkDeletion = bulkDeletions.get(id);
+		if (bulkDeletion == null) {
+			throw new NoSuchEntityException("BulkDeletion", id);
 		}
+		bulkDeletion.add(getUser(username));
 	}
 
 	public void cancelBulkDeletion(int id) {
-		try {
-			bulkDeletions.set(id, null);
-		} catch (Exception e) {
-			throw new NoSuchEntityException();
+		Set<User> bulkDeletion = bulkDeletions.get(id);
+		if (bulkDeletion == null) {
+			throw new NoSuchEntityException("BulkDeletion", id);
 		}
+		bulkDeletions.set(id, null);
 	}
 
 	public boolean commitBulkDeletion(int id) {
-		try {
-			Set<User> bulkDeletion = bulkDeletions.get(id);
-			for (User user : bulkDeletion) {
-				if (!users.containsValue(user)) {
-					return false;
-				}
-			}
-			for (User user : bulkDeletion) {
-				users.remove(user.getUsername());
-			}
-			bulkDeletions.set(id, null);
-			return true;
-		} catch (Exception e) {
-			throw new NoSuchEntityException();
+		Set<User> bulkDeletion = bulkDeletions.get(id);
+		if (bulkDeletion == null) {
+			throw new NoSuchEntityException("BulkDeletion", id);
 		}
+		for (User user : bulkDeletion) {
+			if (!users.containsValue(user)) {
+				return false;
+			}
+		}
+		for (User user : bulkDeletion) {
+			users.remove(user.getUsername());
+		}
+		bulkDeletions.set(id, null);
+		return true;
 	}
 
 	/**
@@ -170,5 +170,5 @@ public class UserRepository implements Serializable {
 				"Fear leads to anger, anger leads to hate, and hate leads to suffering.",
 				new Timestamp("10001111000001"));
 	}
-	
+
 }
