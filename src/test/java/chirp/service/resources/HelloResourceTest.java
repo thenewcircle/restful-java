@@ -8,13 +8,22 @@ import org.junit.Test;
 
 public class HelloResourceTest extends JerseyResourceTest {
 
+	/** Test /greeting */
 	@Test
-	public void helloResourceMustSayHello() {
+	public void helloResourceMustSayHelloWorld() {
 //		Client client = ClientBuilder.newClient();
 //		WebTarget root = client.target("http://localhost:8080/");
-		WebTarget root = super.target("/hello");
+		WebTarget root = super.target();
+		String hello = root.path("/greeting").request().get(String.class);
+		assertEquals("Hello World!", hello);
+	}
+
+	/** Test /greeting?name=Doug */
+	@Test
+	public void helloResourceWithQueryMustSayHelloName() {
+		WebTarget root = super.target("/greeting").queryParam("name", "Doug");
 		String hello = root.request().get(String.class);
-		assertEquals("Hello!", hello);
+		assertEquals("Hello Doug!", hello);
 	}
 
 }
