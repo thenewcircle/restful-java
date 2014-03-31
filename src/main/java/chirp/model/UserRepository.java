@@ -27,23 +27,18 @@ public class UserRepository implements Serializable {
 
 	private static final long serialVersionUID = 2526248585736292013L;
 
-	private static UserRepository instance;
-
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-
 	private static final File file = new File("state.bin");
-	private Map<String, User> users;
+	
+	private static Logger logger = LoggerFactory.getLogger(UserRepository.class);
+
+	private static final UserRepository instance = new UserRepository();
+
+	private Map<String, User> users = new ConcurrentHashMap<String, User>();
 
 	private final List<Set<User>> bulkDeletions = new ArrayList<Set<User>>();
 
-	private UserRepository(boolean favorPersistence) {
-		if (favorPersistence == false || file.exists() == false) {
-			users = new ConcurrentHashMap<String, User>();
-			logger.trace("Created new UserRepositry with new Users Map");
-		} else {
-			users = thaw();
-			logger.trace("Created new UserRepositry from persisted Users Map");
-		}
+	private UserRepository() {
+		logger.trace("Created new UserRepositry.");
 	}
 
 	/**
@@ -53,26 +48,6 @@ public class UserRepository implements Serializable {
 	 * @return a new empty UserRepository
 	 */
 	public static UserRepository getInstance() {
-		return getInstance(false);
-	}
-
-	/**
-	 * Use this method to create a UserRespository
-	 * 
-	 * @param favorPersistence
-	 *            Create a repository if one has not been create already
-	 *            according the value of the parameter. If a repository has not
-	 *            been created and favorPersistence equals false, create an
-	 *            empty repository, otherwise, if true, create a repository from
-	 *            the state.bin file if it exists. If the file does not exist,
-	 *            create an empty new repository.
-	 * @return a UserRepistory.
-	 */
-	public static synchronized UserRepository getInstance(
-			boolean favorPersistence) {
-		if (instance == null)
-			instance = new UserRepository(favorPersistence);
-
 		return instance;
 	}
 
@@ -151,16 +126,18 @@ public class UserRepository implements Serializable {
 	/**
 	 * Call this method to create user repository from the file
 	 * <code>state.bin</code> if it exists.
-	 * 
-	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	private static Map<String, User> thaw() {
+	public void thaw() {
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(
 				file))) {
-			return (Map<String, User>) in.readObject();
+			@SuppressWarnings("unchecked")
+			Map<String, User> newUsers = (Map<String, User>) in.readObject();
+			users.clear();
+			users.putAll(newUsers);
+			logger.trace("User repository state loaded from file.");
 		} catch (Exception e) {
-			return new ConcurrentHashMap<String, User>();
+			logger.error("User repository state loaded failed to load from file.");
+			users = new ConcurrentHashMap<String, User>();
 		}
 	}
 
@@ -177,4 +154,21 @@ public class UserRepository implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unused")
+	public void prepopulate() {
+		User maul = this.createUser("maul", "Darth Maul");
+		User luke = this.createUser("luke", "Luke Skywaler");
+		luke.createPost("I am a Jedi, like my father before me.",
+				new Timestamp("10001111000000"));
+		User vader = this.createUser("vader", "Darth Vader");
+		vader.createPost("You have failed me for the last time.",
+				new Timestamp("10001111000000"));
+		User yoda = this.createUser("yoda", "Master Yoda");
+		yoda.createPost("Do or do not.  There is no try.", new Timestamp(
+				"10001111000000"));
+		yoda.createPost(
+				"Fear leads to anger, anger leads to hate, and hate leads to suffering.",
+				new Timestamp("10001111000001"));
+	}
+	
 }

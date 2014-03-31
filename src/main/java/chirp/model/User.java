@@ -54,6 +54,10 @@ public class User implements Serializable {
 
 	public Post createPost(String content) {
 		Timestamp timestamp = new Timestamp();
+		return createPost(content, timestamp);
+	}
+
+	public Post createPost(String content, Timestamp timestamp) {
 		if (posts.containsKey(timestamp))
 			throw new DuplicateEntityException();
 
