@@ -10,10 +10,13 @@ public class Post implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Timestamp timestamp;
-	private final String content;
-	private final User user;
+	private Timestamp timestamp;
+	private String content;
+	private User user;
 
+	public Post() {
+	}
+	
 	public Post(Timestamp timestamp, String content, User user) {
 		this.timestamp = timestamp;
 		this.content = content;
@@ -24,12 +27,24 @@ public class Post implements Serializable {
 		return timestamp;
 	}
 
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
+	}
+
 	public String getContent() {
 		return content;
 	}
 
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public User getUser() {
 		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
@@ -66,7 +81,9 @@ public class Post implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Post [timestamp=" + timestamp + ", content=" + content + "]";
+		String username = (user != null) ? user.getUsername() : null;
+		String result = String.format("Post[user=\"%s\", content=\"%s\", timestamp=\"%s\"]", username, content, timestamp);
+		return result;
 	}
 
 }

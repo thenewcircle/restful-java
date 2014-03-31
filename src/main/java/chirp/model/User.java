@@ -14,21 +14,42 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String username;
-	private final String realname;
+	private String username;
+	private String realname;
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 
+	public User() {
+	}
+	
 	public User(String username, String realname) {
 		this.username = username;
 		this.realname = realname;
 	}
 
+	
 	public String getUsername() {
 		return username;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public String getRealname() {
 		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+
+	public Collection<Post> getPosts() {
+		return new ArrayList<Post>(posts.values());
+	}
+
+	public void setPosts(Map<Timestamp, Post> posts) {
+		this.posts.clear();
+		this.posts.putAll(posts);
 	}
 
 	public Post createPost(String content) {
@@ -39,10 +60,6 @@ public class User implements Serializable {
 		Post post = new Post(timestamp, content, this);
 		posts.put(timestamp, post);
 		return post;
-	}
-
-	public Collection<Post> getPosts() {
-		return new ArrayList<Post>(posts.values());
 	}
 
 	public Post getPost(Timestamp timestamp) {
