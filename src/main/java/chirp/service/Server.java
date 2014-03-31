@@ -17,7 +17,8 @@ import chirp.model.UserRepository;
  */
 public class Server {
 
-	public static final String BASE_URI = "http://localhost:8080/";
+	/** 0.0.0.0 binds to both localhost and your public IP address. */
+	public static final String BASE_URI = "http://0.0.0.0:8080/";
 
 	public static ResourceConfig createConfig() {
 		/* Jersey uses java.util.logging - bridge to slf4 */
