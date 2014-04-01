@@ -6,10 +6,19 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of posts, indexed by timestamp.
  */
+@XmlRootElement(name="user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -26,7 +35,7 @@ public class User implements Serializable {
 		this.realname = realname;
 	}
 
-	
+	@XmlAttribute
 	public String getUsername() {
 		return username;
 	}
@@ -35,6 +44,8 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
+	@XmlElement(name="real-name")
+	@JsonProperty("real_name")
 	public String getRealname() {
 		return realname;
 	}
@@ -43,6 +54,8 @@ public class User implements Serializable {
 		this.realname = realname;
 	}
 
+	@XmlTransient
+	@JsonIgnore
 	public Collection<Post> getPosts() {
 		return new ArrayList<Post>(posts.values());
 	}
