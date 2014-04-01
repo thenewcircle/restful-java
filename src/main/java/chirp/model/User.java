@@ -107,7 +107,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + "]";
+		return String.format("User [username=%s, realname=%s]", username,
+				realname);
 	}
 
 }
