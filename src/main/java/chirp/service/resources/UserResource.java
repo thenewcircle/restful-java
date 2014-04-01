@@ -45,7 +45,7 @@ public class UserResource {
 	/** POST /users, with form encoded data */
 	@POST
 	public Response createUser(@FormParam("username") String username,
-			@FormParam("realname") String realname) {
+		@FormParam("realname") String realname) {
 		UserRepository repo = UserRepository.getInstance();
 		User user = repo.createUser(username, realname);
 		URI location = UriBuilder.fromPath("/users/{username}").build(user.getUsername());
