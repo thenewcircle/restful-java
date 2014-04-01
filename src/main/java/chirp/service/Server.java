@@ -17,7 +17,11 @@ import chirp.model.UserRepository;
  */
 public class Server {
 
-	public static final String BASE_URI = "http://localhost:8080/";
+	public static final int SERVER_PORT = 8080;
+	public static final String SERVER_INTERFACE="0.0.0.0";
+	public static final String SERVER_BIND_ADDRESS=String.format("http://%s:%d/", SERVER_INTERFACE, SERVER_PORT);
+	public static final String ROOT_RESOURCE = String.format("http://localhost:%d/", SERVER_PORT);
+	public static final String WADL_RESOURCE = ROOT_RESOURCE + "application.wadl";
 
 	public static ResourceConfig createConfig() {
 		/* Jersey uses java.util.logging - bridge to slf4 */
@@ -43,11 +47,11 @@ public class Server {
 		 */
 		ResourceConfig rc = createConfig();
 		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(
-				URI.create(BASE_URI), rc);
+				URI.create(SERVER_BIND_ADDRESS), rc);
 
 		/* wait for shutdown ... */
 		System.out.format("Jersey app started with WADL available at "
-				+ "%sapplication.wadl\nHit enter to stop it...\n\n", BASE_URI);
+				+ "%s\nHit enter to stop it...\n\n", WADL_RESOURCE);
 		System.in.read();
 		httpServer.shutdownNow();
 
