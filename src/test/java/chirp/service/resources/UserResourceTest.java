@@ -1,22 +1,33 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
+import chirp.model.User;
+import chirp.model.UserRepository;
+
 public class UserResourceTest extends JerseyResourceTest<UserResource> {
+	
+	private UserRepository userRepository = UserRepository.getInstance();
 
 	@Test
 	public void createUserSuccess() {
 		Form userForm = new Form().param("realname","Gordon Force").param("username", "gordonff");
 		Response response = target("/user").request().post(Entity.form(userForm));
 		assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+		User actual = userRepository.getUser("gordonff");
+		assertEquals("gordonff",actual.getUsername());
 		
-		// validate user was created by a head or get against the location uri
+		// You wan't to an object from the server -- User
+		//    the entity to read is in the previous response's location header
+		// User userRead = target(response.getLocation().getPath()).request().get(User.class);
+	
 	}
 	
 

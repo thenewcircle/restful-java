@@ -1,4 +1,4 @@
 Homework Day 1
 --------------
 
-1) Extend UserResourceTest class to verify the location and data of the newly created resource.
+1) Extend UserResourceTest class to verify the location and data of a newly created resource.
