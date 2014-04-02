@@ -80,6 +80,10 @@ public class UserRepository implements Serializable {
 
 		return user;
 	}
+	
+	public boolean isExistingUser(String username) {
+		return users.containsKey(username);
+	}
 
 	public void deleteUser(String username) {
 		if (users.remove(username) == null)

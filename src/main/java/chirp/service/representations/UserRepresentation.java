@@ -61,4 +61,16 @@ public class UserRepresentation {
 		this.posts = posts;
 	}
 
+	public void applyChanges(User dbUser) {
+		if (realname == null) {
+			//Don't change existing value.
+		} else {
+			if (realname.isEmpty()) {
+				dbUser.setRealname(null);
+			} else {
+				dbUser.setRealname(realname);
+			}
+		}
+	}
+
 }
