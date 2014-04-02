@@ -1,5 +1,7 @@
 package chirp.service.resources;
 
+import java.util.Collection;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -7,6 +9,7 @@ import javax.ws.rs.PathParam;
 import chirp.model.Post;
 import chirp.model.Timestamp;
 import chirp.model.UserRepository;
+import chirp.service.representations.PostListRepresentation;
 import chirp.service.representations.PostRepresentation;
 
 @Path("posts")
@@ -23,4 +26,13 @@ public class PostResource {
 		return body;
 	}
 
+	/** GET /posts/yoda */
+	@GET
+	@Path("{username}")
+	public PostListRepresentation getPost(@PathParam("username") String username) {
+		UserRepository repo = UserRepository.getInstance();
+		Collection<Post> posts = repo.getUser(username).getPosts();
+		PostListRepresentation body = new PostListRepresentation(posts);
+		return body;
+	}
 }
