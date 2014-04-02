@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
+
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of posts, indexed by timestamp.
@@ -14,10 +15,10 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String username;
-	private final String realname;
+	private String username;
+	private String realname;
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
-
+	
 	public User(String username, String realname) {
 		this.username = username;
 		this.realname = realname;

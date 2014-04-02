@@ -31,7 +31,8 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		
 		// You wan't to an object from the server -- User
 		//    the entity to read is in the previous response's location header
-		// User userRead = target(response.getLocation().getPath()).request().get(User.class);
+		User userRead = target(response.getLocation().getPath()).request().get(User.class);
+		assertEquals("gordonff",userRead.getUsername());
 	
 	}
 	
