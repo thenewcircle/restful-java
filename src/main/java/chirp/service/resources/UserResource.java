@@ -41,7 +41,7 @@ public class UserResource {
 	public UserRepresentation getUser(@PathParam("username") String username) {
 		UserRepository repo = UserRepository.getInstance();
 		User user = repo.getUser(username);
-		UserRepresentation body = new UserRepresentation(user);
+		UserRepresentation body = new UserRepresentation(user, false);
 		return body;
 	}
 

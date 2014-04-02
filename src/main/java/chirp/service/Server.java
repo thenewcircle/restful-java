@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -28,6 +29,7 @@ public class Server {
 		final ResourceConfig rc = new ResourceConfig();
 		rc.packages("chirp.service.resources");
 		rc.register(JacksonFeature.class);
+		rc.register(DeclarativeLinkingFeature.class);
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put("jersey.config.server.tracing", "ALL");
 		props.put("jersey.config.server.tracing.threshold", "VERBOSE");
@@ -39,7 +41,6 @@ public class Server {
 
 		/* preload data into the database. */
 		final UserRepository users = UserRepository.getInstance();
-		users.prepopulate(); 
 		// users.thaw();
 
 		/*

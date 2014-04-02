@@ -8,10 +8,10 @@ import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 
-import chirp.model.UserRepository;
 import chirp.service.resources.DuplicateEntityExceptionMapper;
 import chirp.service.resources.HelloResource;
 import chirp.service.resources.NoSuchEntityExceptionMapper;
+import chirp.service.resources.PostResource;
 import chirp.service.resources.UserResource;
 
 @ApplicationPath("/rest")
@@ -23,6 +23,7 @@ public class ChirpApplication extends Application {
 		result.add(JacksonFeature.class);
 		result.add(HelloResource.class);
 		result.add(UserResource.class);
+		result.add(PostResource.class);
 		result.add(NoSuchEntityExceptionMapper.class);
 		result.add(DuplicateEntityExceptionMapper.class);
 		return result;

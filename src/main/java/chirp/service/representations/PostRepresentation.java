@@ -18,7 +18,8 @@ public class PostRepresentation {
 	
 	public PostRepresentation(Post post) {
 		timestamp = post.getTimestamp().toString();
-		user = new UserRepresentation(post.getUser());
+		user = new UserRepresentation(post.getUser(), true);
+		self = String.format("http://localhost:8080/posts/%s/%s", user.getUsername(), timestamp);
 		message = post.getContent();
 	}
 	
