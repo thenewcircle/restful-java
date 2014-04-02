@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 
 import javax.ws.rs.core.Application;
 
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
@@ -55,6 +56,14 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 		return new ResourceConfig().register(resourceClass).packages(
 				"chirp.service.providers").register(JacksonFeature.class);
 
+	}
+	
+	/** Override this method to configure the JerseyTest client as opposed to the test server above
+	 * 
+	 */
+	@Override
+	protected void configureClient(ClientConfig config) {
+		config.register(JacksonFeature.class); // required to deserialize JSON responses into Java objects in the test client.
 	}
 
 }
