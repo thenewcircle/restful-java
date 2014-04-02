@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Before;
@@ -35,8 +36,7 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 
 		// You wan't to an object from the server -- User
 		// the entity to read is in the previous response's location header
-		UserRepresentation userRead = target(response.getLocation().getPath())
-				.request().get(UserRepresentation.class);
+		UserRepresentation userRead = target(response.getLocation().getPath()).request().accept(MediaType.APPLICATION_JSON).get(UserRepresentation.class);
 		assertEquals("gordonff", userRead.getUsername());
 
 	}
@@ -54,11 +54,6 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		response = target("/user").request().post(Entity.form(userForm));
 		assertEquals(Response.Status.FORBIDDEN.getStatusCode(),
 				response.getStatus());
-
-		// You wan't to an object from the server -- User
-		// the entity to read is in the previous response's location header
-		// User userRead =
-		// target(response.getLocation().getPath()).request().get(User.class);
 
 	}
 

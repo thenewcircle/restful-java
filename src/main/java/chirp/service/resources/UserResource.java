@@ -39,5 +39,5 @@ public class UserResource {
 	public UserRepresentation getUser(@PathParam("username") String username) {
 		return new UserRepresentation(userRepository.getUser(username));
 	}
-
+	
 }
