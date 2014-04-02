@@ -39,6 +39,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 
 		/* ResourceConfig is a Jersey specific javax.ws.rs.core.Application class. */
 		ResourceConfig rc = Server.createConfig();
+		Server.configureLogging();
 		return rc;
 	}
 

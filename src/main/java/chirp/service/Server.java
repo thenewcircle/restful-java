@@ -25,19 +25,13 @@ public class Server {
 	public static final String BASE_URI = "http://0.0.0.0:8080/";
 
 	public static ResourceConfig createConfig() {
-		/* Jersey uses java.util.logging - bridge to slf4 */
-		SLF4JBridgeHandler.removeHandlersForRootLogger();
-		SLF4JBridgeHandler.install();
-		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder")
-				.setLevel(Level.FINER);
-
 		final ResourceConfig rc = new ResourceConfig();
 		rc.packages("chirp.service.resources");
 		rc.register(JacksonFeature.class);
-		// Map<String,Object> props = new HashMap<String,Object>();
-		// props.put("jersey.config.server.tracing", "ALL");
-		// props.put("jersey.config.server.tracing.threshold", "VERBOSE");
-		// rc.addProperties(props);
+		Map<String, Object> props = new HashMap<String, Object>();
+		props.put("jersey.config.server.tracing", "ALL");
+		props.put("jersey.config.server.tracing.threshold", "VERBOSE");
+		rc.addProperties(props);
 		return rc;
 	}
 
@@ -45,8 +39,8 @@ public class Server {
 
 		/* preload data into the database. */
 		final UserRepository users = UserRepository.getInstance();
+		users.prepopulate(); 
 		// users.thaw();
-		users.prepopulate();
 
 		/*
 		 * create and start a new instance of grizzly http server exposing the
@@ -55,17 +49,9 @@ public class Server {
 		ResourceConfig rc = createConfig();
 		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(
 				URI.create(BASE_URI), rc, false);
-		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler")
-				.setLevel(Level.FINE);
-		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
-		SLF4JBridgeHandler.removeHandlersForRootLogger();
-		SLF4JBridgeHandler.install();
-		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder")
-				.setLevel(Level.FINER);
 		httpServer.getServerConfiguration().setTraceEnabled(true);
-		System.err.println(httpServer.getServerConfiguration()
-				.getDefaultErrorPageGenerator().getClass().getName());
 		httpServer.start();
+		configureLogging();
 
 		/* wait for shutdown ... */
 		System.out.format("Jersey app started with WADL available at "
@@ -75,6 +61,15 @@ public class Server {
 
 		/* save state */
 		// users.freeze();
+	}
+
+	public static void configureLogging() {
+		/* Jersey uses java.util.logging - bridge to slf4 */
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
+		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.FINER);
+		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler").setLevel(Level.FINE);
+		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
 	}
 
 }
