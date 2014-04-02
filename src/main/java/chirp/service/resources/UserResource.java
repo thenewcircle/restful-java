@@ -10,8 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 @Path("/user")
 public class UserResource {
@@ -36,8 +36,8 @@ public class UserResource {
 	@GET
 	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@PathParam("username") String username) {
-		return userRepository.getUser(username);
+	public UserRepresentation getUser(@PathParam("username") String username) {
+		return new UserRepresentation(userRepository.getUser(username));
 	}
 
 }
