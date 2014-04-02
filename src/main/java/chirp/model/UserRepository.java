@@ -40,6 +40,7 @@ public class UserRepository implements Serializable {
 
 	private UserRepository() {
 		logger.trace("Created new UserRepositry.");
+		prepopulate();
 	}
 
 	/**
@@ -155,7 +156,7 @@ public class UserRepository implements Serializable {
 	}
 
 	@SuppressWarnings("unused")
-	public void prepopulate() {
+	public final void prepopulate() {
 		User maul = this.createUser("maul", "Darth Maul");
 		User luke = this.createUser("luke", "Luke Skywaler");
 		luke.createPost("I am a Jedi, like my father before me.",
