@@ -2,6 +2,10 @@ package chirp.service;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -24,10 +28,16 @@ public class Server {
 		/* Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
+		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder")
+				.setLevel(Level.FINER);
 
 		final ResourceConfig rc = new ResourceConfig();
 		rc.packages("chirp.service.resources");
 		rc.register(JacksonFeature.class);
+		// Map<String,Object> props = new HashMap<String,Object>();
+		// props.put("jersey.config.server.tracing", "ALL");
+		// props.put("jersey.config.server.tracing.threshold", "VERBOSE");
+		// rc.addProperties(props);
 		return rc;
 	}
 
@@ -44,7 +54,18 @@ public class Server {
 		 */
 		ResourceConfig rc = createConfig();
 		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(
-				URI.create(BASE_URI), rc);
+				URI.create(BASE_URI), rc, false);
+		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler")
+				.setLevel(Level.FINE);
+		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
+		SLF4JBridgeHandler.removeHandlersForRootLogger();
+		SLF4JBridgeHandler.install();
+		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder")
+				.setLevel(Level.FINER);
+		httpServer.getServerConfiguration().setTraceEnabled(true);
+		System.err.println(httpServer.getServerConfiguration()
+				.getDefaultErrorPageGenerator().getClass().getName());
+		httpServer.start();
 
 		/* wait for shutdown ... */
 		System.out.format("Jersey app started with WADL available at "

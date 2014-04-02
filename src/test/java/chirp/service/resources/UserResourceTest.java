@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
@@ -32,7 +33,14 @@ public class UserResourceTest extends JerseyResourceTest {
 	@Test
 	public void testGetUserAsJSon() {
 		WebTarget root = super.target();
-		User user = root.path("users").path("yoda").request().accept(MediaType.APPLICATION_JSON).get(User.class);
+		UserRepresentation user = root.path("users").path("yoda").request().accept(MediaType.APPLICATION_JSON).get(UserRepresentation.class);
+		Assert.assertEquals("Master Yoda", user.getRealname());
+	}
+
+	@Test
+	public void testGetUserAsXML() {
+		WebTarget root = super.target();
+		UserRepresentation user = root.path("users").path("yoda").request().accept(MediaType.APPLICATION_XML).get(UserRepresentation.class);
 		Assert.assertEquals("Master Yoda", user.getRealname());
 	}
 

@@ -2,6 +2,7 @@ package chirp.service.resources;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.net.URI;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
 public class UserResource {
@@ -25,7 +27,7 @@ public class UserResource {
 	/** GET /users/yoda, requesting plain text */
 	@GET
 	@Path("{username}")
-	@Produces("text/plain")
+	@Produces(TEXT_PLAIN)
 	public String getUserAsText(@PathParam("username") String username) {
 		UserRepository repo = UserRepository.getInstance();
 		User user = repo.getUser(username);
@@ -36,10 +38,11 @@ public class UserResource {
 	@GET
 	@Path("{username}")
 	@Produces({APPLICATION_XML, TEXT_XML, APPLICATION_JSON})
-	public User getUser(@PathParam("username") String username) {
+	public UserRepresentation getUser(@PathParam("username") String username) {
 		UserRepository repo = UserRepository.getInstance();
 		User user = repo.getUser(username);
-		return user;
+		UserRepresentation body = new UserRepresentation(user);
+		return body;
 	}
 
 	/** POST /users, with form encoded data */
@@ -62,6 +65,5 @@ public class UserResource {
 		URI location = UriBuilder.fromPath("/users/{username}").build(user.getUsername());
 		return Response.created(location).build();
 	}
-	
 	
 }
