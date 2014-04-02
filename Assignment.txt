@@ -19,5 +19,5 @@ Day 2 Homework
 2) Bonus: Implement testing of collections returns in User and Post test classes.
 3) Determine how to return user representations as XML or JSON using the request accept header field. 
 4) Provide the same solution for Post objects.   
-5) What type of collection should be returned from getUsers and getChirp. Look at the 
+5) What type of collection should be returned from getUsers and getChirps? Look at the 
    java.util.Collections class. 
