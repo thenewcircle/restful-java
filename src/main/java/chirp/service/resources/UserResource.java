@@ -3,6 +3,7 @@ package chirp.service.resources;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -22,6 +23,21 @@ public class UserResource {
 
 	private UserRepository userRepository = UserRepository.getInstance();
 
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createUserUsingJSON(UserRepresentation user) {
+
+		userRepository.createUser(user.getUsername(), user.getRealname());
+
+		// using a java.net.URI for creating a location
+		// URI location = URI.create("/user/" + username);
+		// return Response.created(location).build();
+
+		return Response.created(
+				UriBuilder.fromPath("user").path(user.getUsername()).build()).build();
+
+	}
+	
 	@POST
 	public Response createUser(@FormParam("username") String username,
 			@FormParam("realname") String realname) {
