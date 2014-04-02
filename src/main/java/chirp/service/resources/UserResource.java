@@ -74,22 +74,37 @@ public class UserResource {
 		}
 	}
 	
-	/** PUT /users/dbateman, with real name body.
-	 * This will only create users... we aren't adding the feature for updating users.  Not today anyway. */
+	/** PUT /users/yoda, with real name body. Works for create or update. */
 	@Path("{username}")
-	@PUT //@PATCH
+	@PUT
 	@Consumes({"text/xml", "application/xml", "appication/json"})
+	@Produces({"text/xml", "application/xml", "appication/json"})
 	public Response saveUser(@PathParam("username") String username, UserRepresentation user) {
 		UserRepository repo = UserRepository.getInstance();
 		if (!repo.isExistingUser(username)) {
-			repo.createUser(username, user.getRealname());
+			User dbUser = repo.createUser(username, user.getRealname());
 			URI location = UriBuilder.fromPath("/users/{username}").build(username);
-			return Response.created(location).build();
+			user = new UserRepresentation(dbUser, false);
+			return Response.created(location).entity(user).build();
 		} else {
 			User dbUser = repo.getUser(username);
 			user.applyChanges(dbUser);
-			return Response.noContent().build();
+			user = new UserRepresentation(dbUser, false);
+			return Response.ok(user).build();
 		}
+	}
+
+	/** PATCH /users/yoda, with real name body. */
+	@Path("{username}")
+	@PATCH
+	@Consumes({"text/xml", "application/xml", "appication/json"})
+	@Produces({"text/xml", "application/xml", "appication/json"})
+	public Response saveUserPatch(@PathParam("username") String username, UserRepresentation body) {
+		UserRepository repo = UserRepository.getInstance();
+		User user = repo.getUser(username);
+		body.applyChanges(user);
+		body = new UserRepresentation(user, false);
+		return Response.ok(body).build();
 	}
 
 }
