@@ -17,6 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 @Path("/user")
@@ -58,21 +59,14 @@ public class UserResource {
 	@Path("{username}")
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public UserRepresentation getUser(@PathParam("username") String username) {
-		return new UserRepresentation(userRepository.getUser(username));
+		return new UserRepresentation(userRepository.getUser(username),false);
 	}
 	
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Collection<UserRepresentation> getAllUsers() {
-		
-		ArrayList<UserRepresentation> users = new ArrayList<>();
-		
-		for (User user : userRepository.getUsers()) {
-			users.add(new UserRepresentation(user));
-		}
-		
-		return Collections.unmodifiableCollection(users);
+		return new UserCollectionRepresentation(userRepository.getUsers()).getAll();
 	}
 
 	

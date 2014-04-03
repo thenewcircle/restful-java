@@ -42,7 +42,7 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		assertNotNull(userRead);
 		
 		// Temporary
-		// assertEquals("gordonff", userRead.getUsername());
+		assertEquals("gordonff", userRead.getUsername());
 
 	}
 	

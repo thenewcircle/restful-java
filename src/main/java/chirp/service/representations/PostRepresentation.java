@@ -21,10 +21,12 @@ public class PostRepresentation {
 	public PostRepresentation() {
 	}
 
-	public PostRepresentation(Post post) {
+	public PostRepresentation(Post post, boolean summary) {
 		self = UriBuilder.fromPath("/post").path(post.getUser().getUsername()).path(post.getTimestamp().toString()).build();
-		timestamp = post.getTimestamp().toString();
-		content = post.getContent();
+		if (summary == false) {
+			timestamp = post.getTimestamp().toString();
+			content = post.getContent();
+		}
 	}
 
 	@JsonCreator

@@ -43,7 +43,7 @@ public class PostResource {
 			@PathParam("timestamp") String timestamp) {
 
 		return new PostRepresentation(userRepository.getUser(username).getPost(
-				new Timestamp(timestamp)));
+				new Timestamp(timestamp)),false);
 
 	}
 	
@@ -52,13 +52,10 @@ public class PostResource {
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Collection<PostRepresentation> getAllChirps(@PathParam("username") String username) {
 		
-		ArrayList<PostRepresentation> chirps = new ArrayList<>();
+		return null;
+		// return new PostCollectionRepresentation(userRepoistory.getUser(username).getPosts());
 		
-		for (Post post : userRepository.getUser(username).getPosts()) {
-			chirps.add(new PostRepresentation(post));
-		}
 		
-		return Collections.unmodifiableCollection(chirps);
 	}
 
 }
