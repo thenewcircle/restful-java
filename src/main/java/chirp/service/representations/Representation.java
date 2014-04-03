@@ -2,6 +2,7 @@ package chirp.service.representations;
 
 import static chirp.service.representations.LinkRel.ALTERNATE;
 import static chirp.service.representations.LinkRel.EDIT;
+import static chirp.service.representations.LinkRel.RELATED;
 import static chirp.service.representations.LinkRel.SELF;
 import static chirp.service.representations.LinkRel.UP;
 import static org.codehaus.jackson.annotate.JsonAutoDetect.Visibility.PUBLIC_ONLY;
@@ -102,46 +103,56 @@ public class Representation {
 		link(link);
 	}
 
-	public final void self(String path, Object... args) {
+	public final void linkSelf(String path, Object... args) {
 		link(SELF, path, args);
 	}
 
-	public final void self(URI uri) {
+	public final void linkSelf(URI uri) {
 		link(SELF, uri);
 	}
 
-	public final void canonical(String path, Object... args) {
+	public final void linkCanonical(String path, Object... args) {
 		link(SELF, path, args);
 	}
 
-	public final void canonical(URI uri) {
+	public final void linkCanonical(URI uri) {
 		link(SELF, uri);
 	}
 
-	public final void alternate(MediaType type, String path, Object... args) {
+	public final void linkAlternate(MediaType type, String path, Object... args) {
 		Link link = Link.fromPath(path).rel(ALTERNATE).build(args);
 		link(link);
 	}
 
-	public final void alternate(MediaType type, URI uri) {
+	public final void linkAlternate(MediaType type, URI uri) {
 		Link link = Link.fromUri(uri).rel(ALTERNATE).build();
 		link(link);
 	}
 
-	public final void edit(String path, Object... args) {
+	public final void linkEdit(String path, Object... args) {
 		link(EDIT, path, args);
 	}
 
-	public final void edit(URI uri) {
+	public final void linkEdit(URI uri) {
 		link(EDIT, uri);
 	}
 
-	public final void up(String path, Object... args) {
+	public final void linkUp(String path, Object... args) {
 		link(UP, path, args);
 	}
 
-	public final void up(URI uri) {
+	public final void linkUp(URI uri) {
 		link(UP, uri);
 	}
 
+	public final void linkRelated(String title, String path, Object... args) {
+		Link link = Link.fromUri(path).rel(RELATED).build(args);
+		link(link);
+	}
+
+	public final void linkRelated(String title, URI uri) {
+		Link link = Link.fromUri(uri).rel(RELATED).build();
+		link(link);
+	}
+	
 }

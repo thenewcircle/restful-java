@@ -1,5 +1,6 @@
 package chirp.service.representations;
 
+import static chirp.service.representations.LinkRel.CANONICAL;
 import static chirp.service.representations.LinkRel.CURRENT;
 import static chirp.service.representations.LinkRel.NEXT;
 import static chirp.service.representations.LinkRel.PREVIOUS;
@@ -14,6 +15,7 @@ public class CollectionRepresentation extends Representation {
 	 * Adds hyperlinks for current, next, and previous.
 	 */
 	public final void linkPagination(URI self, long position, long pageSize) {
+		super.link(CANONICAL, self);
 		super.link(CURRENT, paginateUri(self, position, pageSize));
 		long nextPosition = position + pageSize;
 		link(NEXT, paginateUri(self, nextPosition, pageSize));
