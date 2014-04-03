@@ -19,7 +19,7 @@ import org.codehaus.jackson.map.SerializerProvider;
 /**
  * JSON support for {@link javax.ws.rs.core.Link}, using <a href="http://stateless.co/hal_specification.html">"application/hal+json"</a> style encoding.
  */
-public class JsonHalLinkSerializer extends JsonSerializer<Collection<Link>> {
+public class JsonLinksSerializer extends JsonSerializer<Collection<Link>> {
 
 	@Override
 	public void serialize(Collection<Link> links, JsonGenerator jgen,

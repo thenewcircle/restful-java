@@ -39,8 +39,8 @@ public class Representation {
 	@XmlJavaTypeAdapter(JaxbAdapter.class)
 	@XmlElement(name = "link")
 	@JsonProperty("_links")
-	@JsonSerialize(using = JsonHalLinkSerializer.class)
-	@JsonDeserialize(using = JsonHalLinkDeserializer.class)
+	@JsonSerialize(using = JsonLinksSerializer.class)
+	@JsonDeserialize(using = JsonLinksDeserializer.class)
 	public Collection<Link> getLinks() {
 		Collection<Link> extraLinks = this.includeLinks();
 		int size = links.size() + extraLinks.size();

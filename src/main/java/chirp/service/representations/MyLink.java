@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
  * way to do that by with a custom JSON serializer that converts
  * javax.ws.rs.Link into JSON.  That replaces any need I have for MyLink
  * 
- * @see JsonHalLinkSerializer
+ * @see JsonLinksSerializer
  */
 @XmlRootElement(name = "link")
 @XmlType(propOrder = { "rel", "ref" })

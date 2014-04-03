@@ -29,7 +29,7 @@ import org.codehaus.jackson.map.JsonDeserializer;
  * href="http://stateless.co/hal_specification.html">"application/hal+json"</a>
  * style encoding.
  */
-public class JsonHalLinkDeserializer extends JsonDeserializer<Collection<Link>> {
+public class JsonLinksDeserializer extends JsonDeserializer<Collection<Link>> {
 
 	@Override
 	public Collection<Link> deserialize(JsonParser jp,
