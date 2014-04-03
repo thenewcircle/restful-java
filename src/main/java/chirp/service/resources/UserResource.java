@@ -1,5 +1,8 @@
 package chirp.service.resources;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -55,20 +58,56 @@ public class UserResource {
 
 	}
 
-	@GET
-	@Path("{username}")
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getUser(@PathParam("username") String username) {
-		return createHeadResponse(true, username);
+	private User getFirstUser(Collection<User> users) {
+
+		return (users.size() == 0) ? null : users.iterator().next();
+
 	}
+
+	private User getLastUser(Collection<User> users) {
+
+		Iterator<User> iter = users.iterator();
+		User user = null;
+		while (iter.hasNext())
+			user = iter.next();
+
+		return user;
+
+	}
+
+	private Response createUserCollectionResponse(boolean isGet) {
+
+		ResponseBuilder rb = (isGet) ? Response
+				.ok(new UserCollectionRepresentation(userRepository.getUsers()))
+				: Response.ok();
+		rb.links(Link.fromUri("/user").rel("self").build());
+
+		Collection<User> users = userRepository.getUsers();
+		if (users.size() > 0) {
+			rb.links(Link.fromUri("/user/" + getFirstUser(users).getUsername())
+					.rel("first").build(),
+					Link.fromUri("/user/" + getLastUser(users).getUsername())
+							.rel("last").build());
+		}
+
+		return rb.build();
+	}
+	
+	@HEAD
+	public Response headAllUsers() {
+		return createUserCollectionResponse(false);
+	}
+
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public UserCollectionRepresentation getAllUsers() {
-		return new UserCollectionRepresentation(userRepository.getUsers());
+	public Response getAllUsers() {
+		return createUserCollectionResponse(true);
 	}
+	
+	
 
-	private Response createHeadResponse(boolean isGet, String username) {
+	private Response createSingleUserResponse(boolean isGet, String username) {
 		User user = userRepository.getUser(username);
 
 		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
@@ -86,7 +125,14 @@ public class UserResource {
 	@HEAD
 	@Path("{username}")
 	public Response headResponse(@PathParam("username") String username) {
-		return createHeadResponse(false, username);
+		return createSingleUserResponse(false, username);
+	}
+
+	@GET
+	@Path("{username}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getUser(@PathParam("username") String username) {
+		return createSingleUserResponse(true, username);
 	}
 
 }
