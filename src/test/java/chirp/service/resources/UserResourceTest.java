@@ -72,5 +72,10 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 				response.getStatus());
 
 	}
+	
+	
+	@Test
+	public void readUserCollectionSuccess() {
+	}
 
 }

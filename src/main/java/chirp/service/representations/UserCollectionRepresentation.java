@@ -6,27 +6,45 @@ import java.util.Collection;
 import java.util.Collections;
 
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import chirp.model.User;
 
+@XmlRootElement
 public class UserCollectionRepresentation {
-	
-	private Collection<UserRepresentation> userReps = new ArrayList<>();
+
+	private Collection<UserRepresentation> users = new ArrayList<>();
 	private URI self;
-	
+
+	public UserCollectionRepresentation() {
+	}
+
 	public UserCollectionRepresentation(Collection<User> users) {
-		
+
 		for (User user : users) {
-			userReps.add(new UserRepresentation(user, true));
+			this.users.add(new UserRepresentation(user, true));
 		}
-		
+
 		self = UriBuilder.fromPath("/user").build();
 	}
-	
-	public Collection<UserRepresentation> getAll() {
-		return Collections.unmodifiableCollection(userReps);
+
+	public UserCollectionRepresentation(@JsonProperty("self") URI self,
+			@JsonProperty("users") Collection<UserRepresentation> users) {
+		this.self = self;
+		this.users = users;
 	}
-	
-	public URI getSelf() { return self; }
+
+	@XmlElement
+	public Collection<UserRepresentation> getUsers() {
+		return Collections.unmodifiableCollection(users);
+	}
+
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
 
 }

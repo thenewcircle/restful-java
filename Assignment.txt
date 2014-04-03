@@ -3,10 +3,8 @@ Day 3 Midday Lab
 1) Create a PostCollectionRepresentation class using UserCollectionRepresentatin as an example.
 2) Test using Postman.
 3) Create a test case method using JSON accept headers. Update 
-   PostCollectionRepresenation and UserCollectionRepresentation classes if necessary. 
+   PostCollectionRepresentation and UserCollectionRepresentation classes if necessary. 
    Use other non-Collection Representation classes as an example.
-
-
 
 Day 3 Morning Lab
 ------------------
