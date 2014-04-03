@@ -1,5 +1,9 @@
 package chirp.service.resources;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -34,13 +38,27 @@ public class PostResource {
 
 	@GET
 	@Path("{timestamp}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public PostRepresentation getChirp(@PathParam("username") String username,
 			@PathParam("timestamp") String timestamp) {
 
 		return new PostRepresentation(userRepository.getUser(username).getPost(
 				new Timestamp(timestamp)));
 
+	}
+	
+	
+	@GET
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public Collection<PostRepresentation> getAllChirps(@PathParam("username") String username) {
+		
+		ArrayList<PostRepresentation> chirps = new ArrayList<>();
+		
+		for (Post post : userRepository.getUser(username).getPosts()) {
+			chirps.add(new PostRepresentation(post));
+		}
+		
+		return Collections.unmodifiableCollection(chirps);
 	}
 
 }

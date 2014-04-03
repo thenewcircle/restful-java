@@ -2,6 +2,7 @@ package chirp.service.resources;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -55,14 +56,14 @@ public class UserResource {
 	
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public UserRepresentation getUser(@PathParam("username") String username) {
 		return new UserRepresentation(userRepository.getUser(username));
 	}
 	
 	
 	@GET
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public Collection<UserRepresentation> getAllUsers() {
 		
 		ArrayList<UserRepresentation> users = new ArrayList<>();
@@ -71,7 +72,7 @@ public class UserResource {
 			users.add(new UserRepresentation(user));
 		}
 		
-		return users;
+		return Collections.unmodifiableCollection(users);
 	}
 
 	
