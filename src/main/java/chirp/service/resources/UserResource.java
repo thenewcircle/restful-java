@@ -1,21 +1,18 @@
 package chirp.service.resources;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
@@ -67,6 +64,13 @@ public class UserResource {
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public UserCollectionRepresentation getAllUsers() {
 		return new UserCollectionRepresentation(userRepository.getUsers());
+	}
+	
+	@HEAD 
+	@Path("{username}")
+	public Response headResponse(@PathParam("username") String username) {
+		userRepository.getUser(username);
+		return Response.ok().build();
 	}
 
 	
