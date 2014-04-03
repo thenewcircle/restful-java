@@ -1,14 +1,28 @@
 package chirp.service.representations;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import static org.glassfish.jersey.linking.InjectLink.Style.ABSOLUTE;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import static chirp.service.representations.LinkRel.*;
+
+import org.glassfish.jersey.linking.InjectLink;
 
 import chirp.model.Post;
 
 @XmlRootElement(name="post")
-public class PostRepresentation {
+public class PostRepresentation extends Representation {
 
-	private String self = "none";
+	@InjectLink(rel=SELF, value="/posts/{user.username}/{timestamp}", style=ABSOLUTE)
+	private Link selfLink;
+
+	@InjectLink(rel=COLLECTION, value="/posts/{user.username}", style=ABSOLUTE)
+	private Link upLink;
+	
 	private String timestamp;
 	private UserRepresentation user;
 	private String message;
@@ -19,17 +33,12 @@ public class PostRepresentation {
 	public PostRepresentation(Post post) {
 		timestamp = post.getTimestamp().toString();
 		user = new UserRepresentation(post.getUser(), true);
-		self = String.format("http://localhost:8080/posts/%s/%s", user.getUsername(), timestamp);
 		message = post.getContent();
 	}
 	
-	@XmlAttribute
-	public String getSelf() {
-		return self;
-	}
-
-	public void setSelf(String self) {
-		this.self = self;
+	@Override
+	protected Collection<Link> includeLinks() {
+		return Arrays.asList(selfLink, upLink);
 	}
 
 	public String getTimestamp() {

@@ -1,14 +1,28 @@
 package chirp.service.representations;
 
+import static chirp.service.representations.LinkRel.RELATED;
+import static chirp.service.representations.LinkRel.SELF;
+import static org.glassfish.jersey.linking.InjectLink.Style.ABSOLUTE;
+
+import java.util.Arrays;
+import java.util.Collection;
+
+import javax.ws.rs.core.Link;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.glassfish.jersey.linking.InjectLink;
 
 import chirp.model.User;
 
 @XmlRootElement(name="user")
-public class UserRepresentation {
+public class UserRepresentation extends Representation {
 
-	private String self;
+	@InjectLink(rel=SELF, value="/users/{username}", style=ABSOLUTE)
+	private Link selfLink;
+	
+	@InjectLink(rel=RELATED, value="/posts/{username}", title="posts", style=ABSOLUTE)
+	private Link relatedLink;
 	
 	private String username;
 
@@ -20,7 +34,6 @@ public class UserRepresentation {
 	}
 	
 	public UserRepresentation(User user, boolean summary) {
-		self=String.format("http://localhost:8080/users/%s", user.getUsername());
 		username = user.getUsername();
 		if (!summary) {
 			realname = user.getRealname();
@@ -28,12 +41,9 @@ public class UserRepresentation {
 		}
 	}
 	
-	public String getSelf() {
-		return self;
-	}
-
-	public void setSelf(String self) {
-		this.self = self;
+	@Override
+	protected Collection<Link> includeLinks() {
+		return Arrays.asList(selfLink, relatedLink);
 	}
 
 	@XmlAttribute

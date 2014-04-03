@@ -1,23 +1,16 @@
 package chirp.service.representations;
 
+import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.ws.rs.core.Link;
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.glassfish.jersey.linking.InjectLink;
-import org.glassfish.jersey.linking.InjectLink.Style;
 
 import chirp.model.Post;
 
@@ -29,14 +22,7 @@ import chirp.model.Post;
  *
  */
 @XmlRootElement(name="posts")
-@XmlType(propOrder={"links", "posts"})
-public class PostListRepresentation {
-
-	@InjectLink(rel = "self", style = Style.ABSOLUTE, value="/posts/{username}")
-	private Link self;
-	
-	@InjectLink(rel = "next", style = Style.ABSOLUTE, value="/posts/{username}?offset=10&limit=10")
-	private Link next;
+public class PostListRepresentation extends CollectionRepresentation {
 
 	private String username;
 	
@@ -49,19 +35,14 @@ public class PostListRepresentation {
 		for (Post p : postList) {
 			posts.add(new PostRepresentation(p));
 		}
+		URI self = UriBuilder.fromPath("/posts/{username}").build(username);
+		super.linkPagination(self, 0, 100);
 	}
 	
-	@XmlElement(name="link")
-	@JsonProperty("_links")
-	@JsonSerialize(using=JsonHalLinkSerializer.class)
-	@JsonDeserialize(using=JsonHalLinkDeserializer.class)
-	@XmlJavaTypeAdapter(Link.JaxbAdapter.class)
-	public List<Link> getLinks() {
-		return new ArrayList<Link>(Arrays.asList(self, next));
-	}
-
-	public void setLinks(List<Link> links) {
-	}
+//	@Override
+//	protected Collection<Link> includeLinks() {
+//		return new ArrayList<Link>(Arrays.asList(self, next));
+//	}
 
 	@XmlElement(name="post")
 	public List<PostRepresentation> getPosts() {

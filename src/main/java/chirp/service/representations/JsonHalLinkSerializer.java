@@ -3,6 +3,7 @@ package chirp.service.representations;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,10 +19,10 @@ import org.codehaus.jackson.map.SerializerProvider;
 /**
  * JSON support for {@link javax.ws.rs.core.Link}, using <a href="http://stateless.co/hal_specification.html">"application/hal+json"</a> style encoding.
  */
-public class JsonHalLinkSerializer extends JsonSerializer<List<Link>> {
+public class JsonHalLinkSerializer extends JsonSerializer<Collection<Link>> {
 
 	@Override
-	public void serialize(List<Link> links, JsonGenerator jgen,
+	public void serialize(Collection<Link> links, JsonGenerator jgen,
 			SerializerProvider provider) throws IOException,
 			JsonProcessingException {
 		Map<String, Object> jsonData = new LinkedHashMap<String, Object>();
