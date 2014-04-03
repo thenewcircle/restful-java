@@ -1,6 +1,7 @@
 package chirp.service.representations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -9,15 +10,15 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.glassfish.jersey.linking.Binding;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.glassfish.jersey.linking.InjectLink;
 import org.glassfish.jersey.linking.InjectLink.Style;
 
 import chirp.model.Post;
-import chirp.service.resources.PostResource;
 
 /*
  * <posts>
@@ -30,13 +31,11 @@ import chirp.service.resources.PostResource;
 @XmlType(propOrder={"links", "posts"})
 public class PostListRepresentation {
 
-//	@InjectLink(rel = "self", style = Style.ABSOLUTE,
-//			resource = PostResource.class, method = "getPosts",
-//			bindings = { @Binding(name = "username", value = "{username}") })
 	@InjectLink(rel = "self", style = Style.ABSOLUTE, value="/posts/{username}")
 	private Link self;
 	
-	private MyLink next;
+	@InjectLink(rel = "next", style = Style.ABSOLUTE, value="/posts/{username}?offset=10&limit=10")
+	private Link next;
 
 	private String username;
 	
@@ -46,8 +45,6 @@ public class PostListRepresentation {
 	
 	public PostListRepresentation(Collection<Post> postList) {
 		username = postList.iterator().next().getUser().getUsername();
-//		self = makeLink("self", "http://localhost:8080/posts/%s", username);
-		next = MyLink.link("next", "http://localhost:8080/posts/%s?offset=%d&count=%d", username, 10, 10);
 		for (Post p : postList) {
 			posts.add(new PostRepresentation(p));
 		}
@@ -55,11 +52,13 @@ public class PostListRepresentation {
 	
 	@XmlElement(name="link")
 	@JsonProperty("_links")
-	public List<MyLink> getLinks() {
-		return MyLink.list(MyLink.link(self), next);
+	@JsonSerialize(using=JsonHalLinkSerializer.class)
+	@XmlJavaTypeAdapter(Link.JaxbAdapter.class)
+	public List<Link> getLinks() {
+		return Arrays.asList(self, next);
 	}
 
-	public void setLinks(List<MyLink> links) {
+	public void setLinks(List<Link> links) {
 	}
 
 	@XmlElement(name="post")
@@ -77,8 +76,6 @@ public class PostListRepresentation {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 	
 }
