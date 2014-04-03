@@ -9,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 
-import chirp.service.Server;
+import com.example.chirp.server.Server;
 
 /**
  * Common base class for Jersey test classes that assumes a single service to test

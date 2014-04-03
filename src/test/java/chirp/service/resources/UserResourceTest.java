@@ -11,8 +11,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.UserRepository;
-import chirp.service.representations.UserRepresentation;
+import com.example.chirp.representations.UserRepresentation;
+import com.example.chirp.services.UserRepository;
 
 public class UserResourceTest extends JerseyResourceTest {
 
