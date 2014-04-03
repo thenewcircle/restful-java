@@ -1,9 +1,11 @@
 package com.example.chirp.model;
 
+import com.example.util.BaseRuntimeException;
+
 /**
  * Exception thrown when the requested entity does not exist.
  */
-public class NoSuchEntityException extends RuntimeException {
+public class NoSuchEntityException extends BaseRuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	private final Class<?> entityType;
@@ -11,8 +13,7 @@ public class NoSuchEntityException extends RuntimeException {
 	private final Object entityId;
 
 	public NoSuchEntityException(String entityType, Object entityId) {
-		super(String.format("%s[id=\"%s\"] not found.",
-				entityType, entityId));
+		super("%s[id=\"%s\"] not found.", entityType, entityId);
 		this.entityType = null;
 		this.entityTypeName = entityType;
 		this.entityId = entityId;
@@ -33,9 +34,9 @@ public class NoSuchEntityException extends RuntimeException {
 	public String getEntityTypeName() {
 		return entityTypeName;
 	}
-	
+
 	public Object getEntityId() {
 		return entityId;
 	}
-	
+
 }
