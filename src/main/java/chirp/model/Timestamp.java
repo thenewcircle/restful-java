@@ -20,7 +20,7 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
 	}
 
 	public Timestamp() {
-		this(DateTimeFormat.forPattern("yyyyMMddHHmmss").print(new DateTime()));
+		this(DateTimeFormat.forPattern("yyyyMMddHHmmssSSS").print(new DateTime()));
 	}
 
 	@Override

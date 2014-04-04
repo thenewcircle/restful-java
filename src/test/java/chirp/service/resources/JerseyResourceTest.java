@@ -1,8 +1,14 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.*;
+
 import java.lang.reflect.ParameterizedType;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -21,7 +27,7 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest<R> extends JerseyTest {
-
+	
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
 	 * configuration changes to the default.
@@ -65,5 +71,42 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 	protected void configureClient(ClientConfig config) {
 		config.register(JacksonFeature.class); // required to deserialize JSON responses into Java objects in the test client.
 	}
+
+	
+	
+	protected Response postFormData(String uri, Form formData,Response.Status expectedResponse) {
+		Response response = target(uri).request().post(
+			Entity.form(formData));
+		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
+		return response;
+	}
+
+
+	protected Response getEntity(String uri, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		Response response = target(uri).request().accept(acceptHeaderValue)
+				.get();
+		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
+		return response;
+	}
+	
+	protected <T> T readEntity(String uri, MediaType acceptHeaderValue, Class<T> entityClass) {
+		
+		Response response = target(uri).request().accept(acceptHeaderValue)
+				.get();
+		assertEquals(200, response.getStatus());
+		T entity = response.readEntity(entityClass);
+		assertNotNull(entity);
+		return entity;
+	}
+
+	protected Response getHead(String uri, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		Response response = target(uri).request().accept(acceptHeaderValue)
+				.head();
+		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
+		return response;
+	}
+
 
 }

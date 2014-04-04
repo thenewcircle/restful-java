@@ -1,10 +1,19 @@
+
+Day 3 Afternoon Lab
+--------------------
+1) Implement a HEAD method for all users  HEAD /user
+2) Add the link headers for the self, first and last rels
+3) Make sure that the GET method returns the headers as well.
+4) Testing in Postman alone is fine.
+
+
+
 Day 3 Midday Lab
 ------------------
 1) Create a PostCollectionRepresentation class using UserCollectionRepresentatin as an example.
 2) Test using Postman.
-3) Create a test case method using JSON accept headers. Update 
-   PostCollectionRepresentation and UserCollectionRepresentation classes if necessary. 
-   Use other non-Collection Representation classes as an example.
+3) Write a testcase reading back a collection of users assuming the UserCollectionRepresentation
+   class.  Use JSON as they media type for the accept header. 
 
 Day 3 Morning Lab
 ------------------
