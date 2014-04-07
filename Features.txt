@@ -1,0 +1,28 @@
++ New API
+  + /chirps/<guid>
+  + /chirps?username=yoda
+  + hyperlinks in XML
+  
++ HATEAOS and Links
+  - InjectLink
+  - AbstractRepresentation
+
++ JSon+HAL
+  + hyperlinks in JSON
+  + JSon Serializer/Deserializer
+  
++ JPA and InMemory DAOs.
+
++ Seed Data and Configuration Service
+
++ WebApplication/Tomcat
+  + pom.xml as WAR
+  + web.xml
+  + ChirpApplication.java
+
++ Exceptions
+  + Base Exception
+  + Using WebAppException
+  
++ Packages
+  + Tour of packages
