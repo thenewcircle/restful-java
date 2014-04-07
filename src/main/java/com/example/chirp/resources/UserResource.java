@@ -21,7 +21,8 @@ import javax.ws.rs.core.UriBuilder;
 import com.example.chirp.model.User;
 import com.example.chirp.providers.PATCH;
 import com.example.chirp.representations.UserRepresentation;
-import com.example.chirp.services.UserRepository;
+import com.example.chirp.services.ChirpRepository;
+import com.example.chirp.services.ConfigurationService;
 
 @Path("/users")
 public class UserResource {
@@ -31,7 +32,7 @@ public class UserResource {
 	@Path("{username}")
 	@Produces(TEXT_PLAIN)
 	public String getUserAsText(@PathParam("username") String username) {
-		UserRepository repo = UserRepository.getInstance();
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		User user = repo.getUser(username);
 		return user.getRealname();
 	}
@@ -41,7 +42,7 @@ public class UserResource {
 	@Path("{username}")
 	@Produces({APPLICATION_XML, TEXT_XML, APPLICATION_JSON})
 	public UserRepresentation getUser(@PathParam("username") String username) {
-		UserRepository repo = UserRepository.getInstance();
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		User user = repo.getUser(username);
 		UserRepresentation body = new UserRepresentation(user, false);
 		return body;
@@ -51,7 +52,7 @@ public class UserResource {
 	@POST
 	public Response createUser(@FormParam("username") String username,
 		@FormParam("realname") String realname) {
-		UserRepository repo = UserRepository.getInstance();
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		User user = repo.createUser(username, realname);
 		URI location = UriBuilder.fromPath("/users/{username}").build(user.getUsername());
 		return Response.created(location).build();
@@ -63,7 +64,7 @@ public class UserResource {
 	@PUT
 	@Consumes("text/plain")
 	public Response saveUser(@PathParam("username") String username, String realname) {
-		UserRepository repo = UserRepository.getInstance();
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		if (!repo.isExistingUser(username)) {
 			User user = repo.createUser(username, realname);
 			URI location = UriBuilder.fromPath("/users/{username}").build(user.getUsername());
@@ -81,7 +82,7 @@ public class UserResource {
 	@Consumes({"text/xml", "application/xml", "appication/json"})
 	@Produces({"text/xml", "application/xml", "appication/json"})
 	public Response saveUser(@PathParam("username") String username, UserRepresentation user) {
-		UserRepository repo = UserRepository.getInstance();
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		if (!repo.isExistingUser(username)) {
 			User dbUser = repo.createUser(username, user.getRealname());
 			URI location = UriBuilder.fromPath("/users/{username}").build(username);
@@ -101,7 +102,7 @@ public class UserResource {
 	@Consumes({"text/xml", "application/xml", "appication/json"})
 	@Produces({"text/xml", "application/xml", "appication/json"})
 	public Response saveUserPatch(@PathParam("username") String username, UserRepresentation body) {
-		UserRepository repo = UserRepository.getInstance();
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		User user = repo.getUser(username);
 		body.applyChanges(user);
 		body = new UserRepresentation(user, false);

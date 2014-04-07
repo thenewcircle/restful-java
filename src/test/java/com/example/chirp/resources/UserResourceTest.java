@@ -1,4 +1,4 @@
-package chirp.service.resources;
+package com.example.chirp.resources;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -12,14 +12,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.example.chirp.representations.UserRepresentation;
-import com.example.chirp.services.UserRepository;
+import com.example.chirp.services.ConfigurationService;
 
 public class UserResourceTest extends JerseyResourceTest {
 
 	@Before
 	public void clearDatabase() {
-		UserRepository.getInstance().clear();
-		UserRepository.getInstance().prepopulate();
+		ConfigurationService.resetAndSeedRepository();
 	}
 	
 	@Test

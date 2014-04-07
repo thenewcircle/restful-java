@@ -24,6 +24,7 @@ public class PostRepresentation extends Representation {
 	@InjectLink(rel=COLLECTION, value="/posts/{user.username}", style=ABSOLUTE)
 	private Link upLink;
 	
+	private String guid;
 	private String timestamp;
 	private UserRepresentation user;
 	private String message;
@@ -40,6 +41,14 @@ public class PostRepresentation extends Representation {
 	@Override
 	protected Collection<Link> includeLinks() {
 		return Arrays.asList(selfLink, upLink);
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
 	}
 
 	public String getTimestamp() {

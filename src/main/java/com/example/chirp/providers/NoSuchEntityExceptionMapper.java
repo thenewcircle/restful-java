@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.example.chirp.model.NoSuchEntityException;
+import com.example.chirp.services.NoSuchEntityException;
 
 @Provider
 public class NoSuchEntityExceptionMapper implements ExceptionMapper<NoSuchEntityException> {

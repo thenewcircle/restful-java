@@ -5,32 +5,31 @@ import java.util.Collection;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 
 import com.example.chirp.model.Post;
-import com.example.chirp.model.Timestamp;
 import com.example.chirp.representations.PostListRepresentation;
 import com.example.chirp.representations.PostRepresentation;
-import com.example.chirp.services.UserRepository;
+import com.example.chirp.services.ChirpRepository;
+import com.example.chirp.services.ConfigurationService;
 
 @Path("posts")
 public class PostResource {
 
-	/** GET /posts/yoda/10001111000001 */
+	/** GET /posts/wars01 */
 	@GET
-	@Path("{username}/{timestamp}")
-	public PostRepresentation getPost(@PathParam("username") String username, @PathParam("timestamp") String timestamp) {
-		UserRepository repo = UserRepository.getInstance();
-		Timestamp ts = new Timestamp(timestamp);
-		Post post = repo.getUser(username).getPost(ts);
+	@Path("{guid}")
+	public PostRepresentation getPost(@PathParam("username") String username, @PathParam("guid") String guid) {
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
+		Post post = repo.getPost(guid);
 		PostRepresentation body = new PostRepresentation(post);
 		return body;
 	}
 
-	/** GET /posts/yoda */
+	/** GET /posts?user=yoda */
 	@GET
-	@Path("{username}")
-	public PostListRepresentation getPost(@PathParam("username") String username) {
-		UserRepository repo = UserRepository.getInstance();
+	public PostListRepresentation getPost(@QueryParam("username") String username) {
+		ChirpRepository repo = ConfigurationService.getChirpRepository();
 		Collection<Post> posts = repo.getUser(username).getPosts();
 		PostListRepresentation body = new PostListRepresentation(posts);
 		return body;

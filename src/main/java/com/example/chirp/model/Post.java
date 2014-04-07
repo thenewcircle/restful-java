@@ -1,26 +1,42 @@
 package com.example.chirp.model;
 
-import java.io.Serializable;
+import com.example.util.dao.BaseEntity;
+import com.example.util.dao.GuidRepository;
 
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Post,
  * call User.createPost().
  */
-public class Post implements Serializable {
+public class Post extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private Timestamp timestamp;
+	private String guid;
+	private Timestamp timestamp = new Timestamp();
 	private String content;
 	private User user;
 
 	public Post() {
 	}
 	
-	public Post(Timestamp timestamp, String content, User user) {
-		this.timestamp = timestamp;
+	public Post(String guid, String content, User user) {
+		this.guid = guid;
 		this.content = content;
 		this.user = user;
+	}
+
+	public Post(GuidRepository generator, String content, User user) {
+		this.guid=generator.createGuid(this);
+		this.content = content;
+		this.user = user;
+	}
+
+	public String getGuid() {
+		return guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
 	}
 
 	public Timestamp getTimestamp() {

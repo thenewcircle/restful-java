@@ -25,18 +25,15 @@ import com.example.util.rest.CollectionRepresentation;
 @XmlRootElement(name="posts")
 public class PostListRepresentation extends CollectionRepresentation {
 
-	private String username;
-	
 	private List<PostRepresentation> posts = new ArrayList<PostRepresentation>();
 
 	public PostListRepresentation() {}
 	
 	public PostListRepresentation(Collection<Post> postList) {
-		username = postList.iterator().next().getUser().getUsername();
 		for (Post p : postList) {
 			posts.add(new PostRepresentation(p));
 		}
-		URI self = UriBuilder.fromPath("/posts/{username}").build(username);
+		URI self = UriBuilder.fromPath("/posts").build();
 		super.linkPagination(self, 0, 100);
 	}
 	
@@ -53,13 +50,5 @@ public class PostListRepresentation extends CollectionRepresentation {
 	public void setPosts(List<PostRepresentation> posts) {
 		this.posts = posts;
 	}
-	
-	@XmlTransient
-	@JsonIgnore
-	public String getUsername() {
-		return username;
-	}
-
-	
 	
 }

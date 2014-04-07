@@ -1,4 +1,4 @@
-package chirp.service.resources;
+package com.example.chirp.resources;
 
 import static org.junit.Assert.assertEquals;
 

@@ -1,4 +1,4 @@
-package chirp.service.resources;
+package com.example.chirp.resources;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
@@ -9,7 +9,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 
-import com.example.chirp.server.Server;
+import com.example.chirp.Server;
 
 /**
  * Common base class for Jersey test classes that assumes a single service to test

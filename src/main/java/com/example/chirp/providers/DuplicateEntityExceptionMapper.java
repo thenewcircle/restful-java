@@ -7,7 +7,7 @@ import javax.ws.rs.ext.Provider;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.example.chirp.model.DuplicateEntityException;
+import com.example.chirp.services.DuplicateEntityException;
 
 @XmlRootElement(name="ServerError")
 class ErrorData {

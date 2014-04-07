@@ -1,4 +1,4 @@
-package com.example.chirp.model;
+package com.example.chirp.services;
 
 import com.example.util.BaseRuntimeException;
 

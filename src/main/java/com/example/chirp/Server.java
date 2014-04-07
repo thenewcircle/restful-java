@@ -1,4 +1,4 @@
-package com.example.chirp.server;
+package com.example.chirp;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,7 +14,7 @@ import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import com.example.chirp.services.UserRepository;
+import com.example.chirp.services.ConfigurationService;
 
 /**
  * Lightweight, embedded HTTP server. Knows how to load and save the user
@@ -27,7 +27,7 @@ public class Server {
 
 	public static ResourceConfig createConfig() {
 		final ResourceConfig rc = new ResourceConfig();
-		rc.packages("chirp.service.resources");
+		rc.packages("com.example.chirp");
 		rc.register(JacksonFeature.class);
 		rc.register(DeclarativeLinkingFeature.class);
 		Map<String, Object> props = new HashMap<String, Object>();
@@ -39,9 +39,7 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 
-		/* preload data into the database. */
-		final UserRepository users = UserRepository.getInstance();
-		// users.thaw();
+		ConfigurationService.resetAndSeedRepository();
 
 		/*
 		 * create and start a new instance of grizzly http server exposing the
