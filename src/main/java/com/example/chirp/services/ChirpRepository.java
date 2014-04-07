@@ -24,11 +24,13 @@ public interface ChirpRepository {
 
 	public Post createPost(String username, String content);
 
-	public Post createPost(String username, String content, String id);
+	public Post createPost(String username, String content, String guid);
 
 	public boolean isExistingPost(String key);
 
-	public Collection<Post> getPosts();
+	public Collection<Post> getAllPosts();
+
+	public Collection<Post> getPostsForUser(String username);
 
 	public Post getPost(String id);
 

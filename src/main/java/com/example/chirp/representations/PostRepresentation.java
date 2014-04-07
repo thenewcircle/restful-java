@@ -18,10 +18,10 @@ import com.example.util.rest.Representation;
 @XmlRootElement(name="post")
 public class PostRepresentation extends Representation {
 
-	@InjectLink(rel=SELF, value="/posts/{user.username}/{timestamp}", style=ABSOLUTE)
+	@InjectLink(rel=SELF, value="/posts/{guid}", style=ABSOLUTE)
 	private Link selfLink;
 
-	@InjectLink(rel=COLLECTION, value="/posts/{user.username}", style=ABSOLUTE)
+	@InjectLink(rel=COLLECTION, value="/posts?username={user.username}", style=ABSOLUTE)
 	private Link upLink;
 	
 	private String guid;

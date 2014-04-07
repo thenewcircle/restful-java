@@ -129,7 +129,7 @@ public class JpaChirpRepository implements ChirpRepository {
 	}
 
 	@Override
-	public Collection<Post> getPosts() {
+	public Collection<Post> getAllPosts() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -148,6 +148,12 @@ public class JpaChirpRepository implements ChirpRepository {
 
 	@Override
 	public Post createPost(String username, String content, String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Collection<Post> getPostsForUser(String username) {
 		// TODO Auto-generated method stub
 		return null;
 	}

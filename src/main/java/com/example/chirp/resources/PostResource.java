@@ -29,9 +29,16 @@ public class PostResource {
 	/** GET /posts?user=yoda */
 	@GET
 	public PostListRepresentation getPost(@QueryParam("username") String username) {
-		ChirpRepository repo = ConfigurationService.getChirpRepository();
-		Collection<Post> posts = repo.getUser(username).getPosts();
-		PostListRepresentation body = new PostListRepresentation(posts);
-		return body;
+		if (username == null) {
+			ChirpRepository repo = ConfigurationService.getChirpRepository();
+			Collection<Post> posts = repo.getAllPosts();
+			PostListRepresentation body = new PostListRepresentation(posts);
+			return body;
+		} else {
+			ChirpRepository repo = ConfigurationService.getChirpRepository();
+			Collection<Post> posts = repo.getPostsForUser(username);
+			PostListRepresentation body = new PostListRepresentation(posts);
+			return body;
+		}
 	}
 }

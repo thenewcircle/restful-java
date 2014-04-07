@@ -106,8 +106,8 @@ public class SimpleChirpRepository implements Serializable, ChirpRepository {
 		if (user == null)
 			throw new NoSuchEntityException(User.class, username);
 		for (Post post : user.getPosts()) {
-			String id = post.getTimestamp().toString();
-			deletePost(id);
+			String guid = post.getGuid();
+			deletePost(guid);
 		}
 	}
 
@@ -164,11 +164,23 @@ public class SimpleChirpRepository implements Serializable, ChirpRepository {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @see com.example.chirp.services.ChirpRepository#getPosts()
+	 * @see com.example.chirp.services.ChirpRepository#getAllPosts()
 	 */
 	@Override
-	public Collection<Post> getPosts() {
+	public Collection<Post> getAllPosts() {
 		return new ArrayList<Post>(posts.values());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see com.example.chirp.services.ChirpRepository#getPostsForUser(String)
+	 */
+	@Override
+	public Collection<Post> getPostsForUser(String username) {
+		User user = getUser(username);
+		Collection<Post> posts = user.getPosts();
+		return new ArrayList<Post>(posts);
 	}
 
 	/**
