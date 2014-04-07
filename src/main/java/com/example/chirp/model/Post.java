@@ -1,7 +1,6 @@
 package com.example.chirp.model;
 
 import com.example.util.dao.BaseEntity;
-import com.example.util.dao.GuidRepository;
 
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Post,
@@ -11,7 +10,7 @@ public class Post extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private String guid;
+	private String guid = "noGuid";
 	private Timestamp timestamp = new Timestamp();
 	private String content;
 	private User user;
@@ -19,14 +18,7 @@ public class Post extends BaseEntity {
 	public Post() {
 	}
 	
-	public Post(String guid, String content, User user) {
-		this.guid = guid;
-		this.content = content;
-		this.user = user;
-	}
-
-	public Post(GuidRepository generator, String content, User user) {
-		this.guid=generator.createGuid(this);
+	public Post(String content, User user) {
 		this.content = content;
 		this.user = user;
 	}

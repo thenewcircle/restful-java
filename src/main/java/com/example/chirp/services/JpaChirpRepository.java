@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.example.chirp.model.Post;
 import com.example.chirp.model.User;
 import com.example.util.dao.EntityDao;
+import com.example.util.dao.GuidRepository;
 import com.example.util.dao.HibernateJpaEntityDao;
 
 /**
@@ -26,26 +27,16 @@ public class JpaChirpRepository implements ChirpRepository {
 
 	private static Logger logger = LoggerFactory.getLogger(JpaChirpRepository.class);
 
-	private static final JpaChirpRepository instance = new JpaChirpRepository();
-	
 	private EntityManager persistence;
 	private EntityDao<User> userDao = new HibernateJpaEntityDao<User>(User.class, persistence);
 	private EntityDao<Post> postDao = new HibernateJpaEntityDao<Post>(Post.class, persistence);
+	private GuidRepository guidGenerator;
 
 	private final List<Set<User>> bulkDeletions = new ArrayList<Set<User>>();
 
-	private JpaChirpRepository() {
+	private JpaChirpRepository(GuidRepository guidGenerator) {
 		logger.trace("Created new JpaChirpRepository.");
-	}
-
-	/**
-	 * Use this method to create a new UserRespository suitable for unit testing
-	 * if a repository does not exist. Always return an existing repository.
-	 * 
-	 * @return a new empty UserRepository
-	 */
-	public static JpaChirpRepository getInstance() {
-		return instance;
+		this.guidGenerator = guidGenerator;
 	}
 
 	/**
@@ -122,8 +113,13 @@ public class JpaChirpRepository implements ChirpRepository {
 
 	@Override
 	public Post createPost(String username, String content) {
-		// TODO Auto-generated method stub
-		return null;
+		User user = getUser(username);
+		Post post = new Post(content, user);
+		postDao.save(post);
+		String guid = guidGenerator.createGuid(post);
+		post.setGuid(guid);
+		postDao.update(post);
+		return post;
 	}
 
 	@Override

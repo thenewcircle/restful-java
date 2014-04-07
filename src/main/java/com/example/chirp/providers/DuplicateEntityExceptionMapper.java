@@ -26,7 +26,6 @@ public class DuplicateEntityExceptionMapper implements ExceptionMapper<Duplicate
 
 	@Override
 	public Response toResponse(DuplicateEntityException exception) {
-		String body = exception.getMessage();
 		ErrorData data = new ErrorData();
 		data.msg = exception.getMessage();
 		data.code = 5;
