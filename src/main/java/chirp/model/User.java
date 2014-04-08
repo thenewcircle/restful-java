@@ -1,8 +1,8 @@
 package chirp.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -42,8 +42,8 @@ public class User implements Serializable {
 		return post;
 	}
 
-	public Collection<Post> getPosts() {
-		return new ArrayList<Post>(posts.values());
+	public Deque<Post> getPosts() {
+		return new LinkedList<Post>(posts.values());
 	}
 
 	public Post getPost(Timestamp timestamp) {

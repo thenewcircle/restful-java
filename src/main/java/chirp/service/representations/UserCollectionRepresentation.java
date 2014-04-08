@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,13 +22,13 @@ public class UserCollectionRepresentation {
 	public UserCollectionRepresentation() {
 	}
 
-	public UserCollectionRepresentation(Collection<User> users) {
+	public UserCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
 
 		for (User user : users) {
-			this.users.add(new UserRepresentation(user, true));
+			this.users.add(new UserRepresentation(user, true, uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build()));
 		}
 
-		self = UriBuilder.fromPath("/user").build();
+		self = uriInfo.getAbsolutePathBuilder().build();
 	}
 
 	public UserCollectionRepresentation(@JsonProperty("self") URI self,

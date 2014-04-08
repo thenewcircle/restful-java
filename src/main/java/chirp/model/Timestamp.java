@@ -1,9 +1,7 @@
 package chirp.model;
 
 import java.io.Serializable;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Entity representing a chirp timestamp. This isn't much more than a wrapper
@@ -12,6 +10,9 @@ import org.joda.time.format.DateTimeFormat;
 public class Timestamp implements Comparable<Timestamp>, Serializable {
 
 	private static final long serialVersionUID = 1L;
+	// hack fix for timestamp resolution not accommodating fast computers.
+	private static final AtomicLong baseTimestamp = new AtomicLong(
+			System.currentTimeMillis());
 
 	private final String timestamp;
 
@@ -20,7 +21,7 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
 	}
 
 	public Timestamp() {
-		this(DateTimeFormat.forPattern("yyyyMMddHHmmssSSS").print(new DateTime()));
+		this.timestamp = Long.toString(baseTimestamp.getAndIncrement());
 	}
 
 	@Override

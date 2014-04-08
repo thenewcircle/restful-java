@@ -8,8 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Deque;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -121,8 +122,8 @@ public class UserRepository implements Serializable {
 		return user;
 	}
 
-	public Collection<User> getUsers() {
-		return new ArrayList<User>(users.values());
+	public Deque<User> getUsers() {
+		return new LinkedList<User>(users.values());
 	}
 
 	public User getUser(String username) {
