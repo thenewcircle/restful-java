@@ -1,6 +1,6 @@
 + master_proposed
 
-+ New API
++ Restful API
   + /chirps/<guid>
   + /chirps?username=yoda
   + hyperlinks in XML
@@ -19,6 +19,9 @@
 
 + Seed Data and Configuration Service
 
++ Server
+  - Logging
+
 + WebApplication/Tomcat
   + pom.xml as WAR
   + web.xml
@@ -32,9 +35,6 @@
   + Tour of packages
 
 + Patch
-
-+ Server
-  - Logging
 
 + Extensions
   - FileExtensionRequestFilter
