@@ -29,4 +29,14 @@
 
 + Patch
 
++ Server
+  - Logging
+
++ Extensions
+  - FileExtensionRequestFilter
+  - CsrfPreventionRequestFilter
+  - JavaToTExtMessageBodyWriter
+  
+ + Eclipse Run Profiles
+
 + Validation?
