@@ -8,7 +8,9 @@ import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.jackson.JacksonFeature;
 
+import com.example.chirp.providers.CsrfPreventionRequestFilter;
 import com.example.chirp.providers.DuplicateEntityExceptionMapper;
+import com.example.chirp.providers.FileExtensionRequestFilter;
 import com.example.chirp.providers.NoSuchEntityExceptionMapper;
 import com.example.chirp.resources.HelloResource;
 import com.example.chirp.resources.PostResource;
@@ -26,6 +28,8 @@ public class ChirpApplication extends Application {
 		result.add(JacksonFeature.class);
 		result.add(NoSuchEntityExceptionMapper.class);
 		result.add(DuplicateEntityExceptionMapper.class);
+		result.add(FileExtensionRequestFilter.class);
+		result.add(CsrfPreventionRequestFilter.class);
 		return result;
 	}
 
