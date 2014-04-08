@@ -1,4 +1,4 @@
-+ proposed_master
++ master_proposed
 
 + New API
   + /chirps/<guid>
@@ -13,7 +13,9 @@
   + hyperlinks in JSON
   + JSon Serializer/Deserializer
   
-+ JPA and InMemory DAOs.
++ EntityDAO
+  
++ JPA vs InMemory DAOs.
 
 + Seed Data and Configuration Service
 
@@ -39,6 +41,6 @@
   - CsrfPreventionRequestFilter
   - JavaToTExtMessageBodyWriter
   
- + Eclipse Run Profiles
++ Eclipse Run Profiles
 
 + Validation?
