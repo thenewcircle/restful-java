@@ -59,17 +59,19 @@ public class UserResource {
 
 	private Response createUserCollectionResponse(boolean isGet, UriInfo uriInfo) {
 
+		Deque<User> users = userRepository.getUsers();
+
 		ResponseBuilder rb = (isGet) ? Response
-				.ok(new UserCollectionRepresentation(userRepository.getUsers(),uriInfo))
+				.ok(new UserCollectionRepresentation(users, uriInfo))
 				: Response.ok();
 
-		rb.links(Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
-				.rel("self").build());
 
-		Deque<User> users = userRepository.getUsers();
+		// return no links for if there are no users on the server
 		if (users.size() > 0) {
-
 			rb.links(
+					Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+							.rel("self").build(),
+							
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
 									users.getFirst().getUsername()))
@@ -100,7 +102,8 @@ public class UserResource {
 		User user = userRepository.getUser(username);
 
 		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
-				false, uriInfo.getAbsolutePathBuilder().build())) : Response.ok();
+				false, uriInfo.getAbsolutePathBuilder().build())) : Response
+				.ok();
 		rb.links(
 				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
 						.rel("self").title(user.getRealname()).build(),

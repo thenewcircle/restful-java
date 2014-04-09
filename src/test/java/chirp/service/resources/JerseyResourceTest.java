@@ -3,7 +3,10 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.net.URI;
+
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Link;
@@ -19,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import java.net.URI;
 /**
  * Common base class for jerseytest classes that assumes a single servce to test
  * and logging of http traffic and dumping of entities should be enabled.
@@ -28,9 +30,8 @@ import java.net.URI;
  * 
  */
 public abstract class JerseyResourceTest extends JerseyTest {
-	
-	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
+	protected Logger log = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
@@ -83,12 +84,23 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		return response;
 	}
 
-	protected Response getEntity(String uri, MediaType acceptHeaderValue,
+	private Response getEntity(WebTarget target, MediaType acceptHeaderValue,
 			Response.Status expectedResponse) {
-		Response response = target(uri).request().accept(acceptHeaderValue)
-				.get();
+		Response response = target.request(acceptHeaderValue).get();
 		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
 		return response;
+	}
+
+	protected Response getEntity(String uri, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		return getEntity(target(uri), acceptHeaderValue,
+				expectedResponse);
+	}
+
+	protected Response getEntity(URI uri, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		return getEntity(client().target(uri), acceptHeaderValue,
+				expectedResponse);
 	}
 
 	protected <T> T readEntity(String uri, MediaType acceptHeaderValue,
@@ -96,13 +108,12 @@ public abstract class JerseyResourceTest extends JerseyTest {
 
 		Response response = target(uri).request().accept(acceptHeaderValue)
 				.get();
-		assertEquals(200, response.getStatus());
+		assertEquals(Response.Status.OK, response.getStatus());
 		T entity = response.readEntity(entityClass);
 		assertNotNull(entity);
 		return entity;
 	}
-	
-	
+
 	protected <T> T readEntity(Response response, Class<T> entityClass) {
 
 		T entity = response.readEntity(entityClass);
@@ -110,26 +121,33 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		return entity;
 	}
 
-	
-	protected Response getHead(URI uri, MediaType mediaType, Response.Status expectedResponse) {
-		return getHead(uri.getPath(), mediaType, expectedResponse);
-	}
-	
-	protected Response getHead(String uriPath, MediaType mediaType, Response.Status expectedResponse) {
-		Response response = target(uriPath).request().accept(mediaType).head();
+	private Response getHead(WebTarget target, MediaType mediaType,
+			Response.Status expectedResponse) {
+		Response response = target.request(mediaType).head();
 		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
 		return response;
 	}
-	
-	protected void verifyLinkHeaderExists(String relation, MediaType mediaType, Response response) {
+
+	protected Response getHead(URI uri, MediaType mediaType,
+			Response.Status expectedResponse) {
+		return getHead(client().target(uri), mediaType, expectedResponse);
+	}
+
+	protected Response getHead(String uriPath, MediaType mediaType,
+			Response.Status expectedResponse) {
+		return getHead(target(uriPath), mediaType, expectedResponse);
+	}
+
+	protected void verifyLinkHeaderExists(String relation, MediaType mediaType,
+			Response response) {
 		log.info("Verify {} link is valid", relation);
 		Link link = response.getLink(relation);
 		assertNotNull(link);
-		
-		// link headers should be fully formed; hence, the scheme and hostname 
+
+		// link headers should be fully formed; hence, the scheme and hostname
 		// must be stripped from the link header uri when using the jerseytest
 		// framework.
-		getHead(link.getUri().getPath(), mediaType, Response.Status.OK);
+		getHead(link.getUri(), mediaType, Response.Status.OK);
 	}
 
 }

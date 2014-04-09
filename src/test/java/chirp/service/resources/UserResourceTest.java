@@ -43,7 +43,7 @@ public class UserResourceTest extends JerseyResourceTest {
 		// You wan't to an object from the server -- User
 		// the entity to read is in the previous response's location header
 		
-		response = getEntity(response.getLocation().getPath(),
+		response = getEntity(response.getLocation(),
 				readAcceptHeader, Response.Status.OK);
 		
 		verifyLinkHeaderExists("up", readAcceptHeader, response);
