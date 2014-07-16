@@ -44,7 +44,7 @@ public class Server {
 						+ "%sapplication.wadl\nHit enter to stop it...",
 				BASE_URI));
 
-		// System.out.println("Hit <return> to stop server...");
+		System.out.println("Hit <return> to stop server...");
 		System.in.read();
 		httpServer.shutdownNow();
 
