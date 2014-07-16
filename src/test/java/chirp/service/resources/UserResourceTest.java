@@ -3,6 +3,8 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Collection;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
@@ -53,9 +55,26 @@ public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 
 		User user = target("/users/gordonff").request(
 				MediaType.APPLICATION_JSON).get(User.class);
-		
+
 		assertNotNull(user);
-		assertEquals("gordonff",user.getUsername());
+		assertEquals("gordonff", user.getUsername());
+	}
+
+	@Test
+	public void getAllExistingUsers() {
+		createUser();
+
+		Form form = new Form().param("username", "test").param("realname",
+				"Test User");
+		Response response = target("users").request().post(Entity.form(form));
+		assertNotNull(response);
+		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+
+		Collection<User> users = (Collection<User>) target("/users").request(MediaType.APPLICATION_JSON).get(
+				Collection.class);
+
+		assertNotNull(users);
+		assertEquals(2, users.size());
 	}
 
 }
