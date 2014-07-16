@@ -2,7 +2,6 @@ package chirp.service.resources;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import org.junit.Test;
@@ -28,11 +27,13 @@ public class HelloResourceTest extends JerseyResourceTest<HelloResource> {
 		assertEquals("Hello!", hello);
 	}
 
+	/*
 	@Test
 	public void helloResourceWithPathParameterMustSayHello() {
 		String hello = target("/greeting/NewCircle").request(MediaType.TEXT_PLAIN_TYPE).get(String.class);
 		assertEquals("Hello NewCircle!", hello);
 	}
+	*/
 
 
 }

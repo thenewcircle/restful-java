@@ -51,7 +51,8 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig().register(resourceClass);
+		return new ResourceConfig().register(resourceClass).packages(
+				"chirp.service.providers");
 
 	}
 
