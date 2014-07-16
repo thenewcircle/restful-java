@@ -38,7 +38,7 @@ public class UsersResource {
 	
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public User getUser(@PathParam("username") String username) {
 		return repo.getUser(username);
 	}
