@@ -2,6 +2,10 @@ package chirp.model;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Post,
  * call User.createPost().
@@ -14,12 +18,14 @@ public class Post implements Serializable {
 	private final String content;
 	private final User user;
 
-	public Post(Timestamp timestamp, String content, User user) {
+	@JsonCreator
+	public Post(@JsonProperty("timestamp") Timestamp timestamp, @JsonProperty("content") String content, @JsonProperty("user") User user) {
 		this.timestamp = timestamp;
 		this.content = content;
 		this.user = user;
 	}
 
+	@JsonIgnore
 	public Timestamp getTimestamp() {
 		return timestamp;
 	}

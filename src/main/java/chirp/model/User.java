@@ -47,7 +47,6 @@ public class User implements Serializable {
 		return post;
 	}
 
-	@JsonIgnore
 	public Collection<Post> getPosts() {
 		return new ArrayList<Post>(posts.values());
 	}
