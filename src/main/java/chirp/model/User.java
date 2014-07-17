@@ -47,10 +47,12 @@ public class User implements Serializable {
 		return post;
 	}
 
+	@JsonIgnore
 	public Collection<Post> getPosts() {
 		return new ArrayList<Post>(posts.values());
 	}
 
+	@JsonIgnore
 	public Post getPost(Timestamp timestamp) {
 		Post post = posts.get(timestamp);
 		if (post == null)

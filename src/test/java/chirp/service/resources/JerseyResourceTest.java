@@ -1,14 +1,25 @@
 package chirp.service.resources;
 
-import java.lang.reflect.ParameterizedType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.ParameterizedType;
+import java.net.URI;
+
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
@@ -21,6 +32,9 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest<R> extends JerseyTest {
+	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
@@ -58,7 +72,7 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 				.register(JacksonFeature.class);
 
 	}
-	
+
 	/**
 	 * Override this method to configure the JerseyTest client as opposed to the
 	 * test server above
@@ -69,6 +83,49 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 		config.register(JacksonFeature.class); // required to deserialize JSON
 												// responses into Java objects
 												// in the test client.
+	}
+
+	protected Response postFormData(String uri, Form formData,
+			Response.Status expectedResponse) {
+		Response response = target(uri).request().post(Entity.form(formData));
+		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
+		return response;
+	}
+
+	private Response getEntity(WebTarget target, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		Response response = target.request(acceptHeaderValue).get();
+		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
+		return response;
+	}
+
+	protected Response getEntity(String uri, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		return getEntity(target(uri), acceptHeaderValue, expectedResponse);
+	}
+
+	protected Response getEntity(URI uri, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		return getEntity(client().target(uri), acceptHeaderValue,
+				expectedResponse);
+	}
+
+	protected <T> T readEntity(String uri, MediaType acceptHeaderValue,
+			Class<T> entityClass) {
+
+		Response response = target(uri).request().accept(acceptHeaderValue)
+				.get();
+		assertEquals(Response.Status.OK, response.getStatus());
+		T entity = response.readEntity(entityClass);
+		assertNotNull(entity);
+		return entity;
+	}
+
+	protected <T> T readEntity(Response response, Class<T> entityClass) {
+
+		T entity = response.readEntity(entityClass);
+		assertNotNull(entity);
+		return entity;
 	}
 
 }

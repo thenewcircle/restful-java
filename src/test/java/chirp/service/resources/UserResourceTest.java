@@ -23,53 +23,58 @@ public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 	public void setup() {
 		UserRepository.getInstance().clear();
 	}
+	
+	private Response createUser(String username, String realname,
+			Response.Status expectedResponse) {
 
-	@Test
-	public void createUser() {
+		Form userForm = new Form().param("realname", realname).param(
+				"username", username);
+		
+		logger.info("Created user {} with realname {} via POST", username, realname);
 
-		Form form = new Form().param("username", "gordonff").param("realname",
-				"Gordon Force");
-		Response response = target("users").request().post(Entity.form(form));
-		assertNotNull(response);
-		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
-		assertEquals("http://localhost:9998/users/gordonff",
-				response.getHeaderString("Location"));
-		assertNotNull(UserRepository.getInstance().getUser("gordonff"));
-	}
-
-	@Test
-	public void createSameUserTwiceFails() {
-		createUser();
-
-		Form form = new Form().param("username", "gordonff").param("realname",
-				"Gordon Force");
-		Response response = target("users").request().post(Entity.form(form));
-		assertNotNull(response);
-		assertEquals(Status.FORBIDDEN.getStatusCode(), response.getStatus());
+		return postFormData("users", userForm, expectedResponse);
 
 	}
 
-	@Test
-	public void getExistingUser() {
-		createUser();
+	private void createUserSuccess(MediaType readAcceptHeader) {
 
-		User user = target("/users/gordonff").request(
-				MediaType.APPLICATION_JSON).get(User.class);
+		Response response = createUser("gordonff", "Gordon Force",
+				Response.Status.CREATED);
+
+		// You wan't to an object from the server -- User
+		// the entity to read is in the previous response's location header
+		
+		response = getEntity(response.getLocation(),
+				readAcceptHeader, Response.Status.OK);
+
+		logger.info("Read user entity from the resposne");
+		User user = readEntity(response, User.class);
 
 		assertNotNull(user);
 		assertEquals("gordonff", user.getUsername());
+		assertEquals("Gordon Force", user.getRealname());
+
+	}
+
+	@Test
+	public void createUserSuccessWithVerify() {
+		logger.info("Test: create user success with JSON Verify");
+		createUserSuccess(MediaType.APPLICATION_JSON_TYPE);
+	}
+
+	@Test
+	public void createDuplicateUserFail() {
+		logger.info("Test: Adding the same user twice should fail with a FORBIDDEN (403) on the second add request.");
+		createUser("gordonff", "Gordon Force", Response.Status.CREATED);
+		createUser("gordonff", "Gordon Force", Response.Status.FORBIDDEN);
 	}
 
 	@Test
 	public void getAllExistingUsers() {
-		createUser();
+		createUserSuccess(MediaType.APPLICATION_JSON_TYPE);
+		createUser("test", "Test User", Response.Status.CREATED);
 
-		Form form = new Form().param("username", "test").param("realname",
-				"Test User");
-		Response response = target("users").request().post(Entity.form(form));
-		assertNotNull(response);
-		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
-
+		@SuppressWarnings("unchecked")
 		Collection<User> users = (Collection<User>) target("/users").request(MediaType.APPLICATION_JSON).get(
 				Collection.class);
 
