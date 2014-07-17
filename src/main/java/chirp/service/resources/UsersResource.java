@@ -56,13 +56,11 @@ public class UsersResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<UserRepresentation> getAllUsers() {
+	public Collection<UserRepresentation> getAllUsers(@Context UriInfo uriInfo) {
 		Collection<User> users = repo.getUsers();
 		List<UserRepresentation> userReps = new ArrayList<>(users.size());
 		for (User user : users) {
-			userReps.add(new UserRepresentation(user, UriBuilder
-					.fromResource(this.getClass()).path(user.getUsername())
-					.build()));
+			userReps.add(new UserRepresentation(user, uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build()));
 		}
 		return Collections.unmodifiableCollection(userReps);
 	}

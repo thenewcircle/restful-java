@@ -1,5 +1,7 @@
 package chirp.service.representations;
 
+import java.net.URI;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -9,17 +11,20 @@ public class PostRepresentation {
 
 	private final String content;
 	private final String timestamp;
+	private final URI self;
 
-	public PostRepresentation(Post post) {
-		content = post.getContent();
-		timestamp = post.getTimestamp().toString();
+	public PostRepresentation(Post post, URI self) {
+		this.content = post.getContent();
+		this.timestamp = post.getTimestamp().toString();
+		this.self = self;
 	}
 
 	@JsonCreator
 	public PostRepresentation(@JsonProperty("content") String content,
-			@JsonProperty("timestamp") String timestamp) {
+			@JsonProperty("timestamp") String timestamp, @JsonProperty("self") URI self) {
 		this.content = content;
 		this.timestamp = timestamp;
+		this.self = self;
 	}
 
 	public String getContent() {
@@ -28,6 +33,10 @@ public class PostRepresentation {
 
 	public String getTimestamp() {
 		return timestamp;
+	}
+
+	public URI getSelf() {
+		return self;
 	}
 
 	@Override
