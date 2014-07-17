@@ -1,10 +1,5 @@
 package chirp.service.resources;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,6 +19,7 @@ import chirp.model.Post;
 import chirp.model.Timestamp;
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.PostCollectionRepresentation;
 import chirp.service.representations.PostRepresentation;
 
 @Path("/posts/{username}")
@@ -49,7 +45,7 @@ public class PostsResource {
 
 	@GET
 	@Path("{timestamp}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public PostRepresentation getPost(@PathParam("username") String username,
 			@PathParam("timestamp") String timestamp, @Context UriInfo uriInfo) {
 		logger.info("Retrieving post for username={} and timestamp={}",
@@ -57,20 +53,13 @@ public class PostsResource {
 		User user = repo.getUser(username);
 		Post post = user.getPost(new Timestamp(timestamp));
 		return new PostRepresentation(post, uriInfo.getAbsolutePathBuilder()
-				.build());
+				.build(),false);
 	}
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<PostRepresentation> getAllPostsForUser(
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public PostCollectionRepresentation getAllPostsForUser(
 			@PathParam("username") String username, @Context UriInfo uriInfo) {
-		Collection<Post> posts = repo.getUser(username).getPosts();
-		List<PostRepresentation> postReps = new ArrayList<>(posts.size());
-		for (Post post : posts) {
-			postReps.add(new PostRepresentation(post, uriInfo
-					.getAbsolutePathBuilder()
-					.path(post.getTimestamp().toString()).build()));
-		}
-		return Collections.unmodifiableCollection(postReps);
+		return new PostCollectionRepresentation(repo.getUser(username).getPosts(),uriInfo);
 	}
 }

@@ -42,7 +42,7 @@ public class UsersResource {
 
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public UserRepresentation getUser(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
 		return new UserRepresentation(repo.getUser(username), uriInfo
@@ -50,7 +50,7 @@ public class UsersResource {
 	}
 
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public UsersCollectionRepresentation getAllUsers(@Context UriInfo uriInfo) {
 		return new UsersCollectionRepresentation(repo.getUsers(),uriInfo);
 		

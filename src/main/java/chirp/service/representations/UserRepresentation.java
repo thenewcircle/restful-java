@@ -2,22 +2,29 @@ package chirp.service.representations;
 
 import java.net.URI;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import chirp.model.User;
 
+@XmlRootElement
 public class UserRepresentation {
 
-	private final String username;
-	private final String realname;
-	private final URI self;
+	private URI self;
+	private String username;
+	private String realname;
+	
+	public UserRepresentation() {}
 
 	public UserRepresentation(User user, URI self, boolean summary) {
 		if (summary) {
 			this.username = null;
 			this.realname = null;
-		} else {
+		}
+		else {
 			this.username = user.getUsername();
 			this.realname = user.getRealname();
 		}
@@ -34,18 +41,21 @@ public class UserRepresentation {
 		this.self = self;
 	}
 
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+	
+	@XmlElement
 	public String getUsername() {
 		return username;
 	}
 
+	@XmlElement
 	public String getRealname() {
 		return realname;
 	}
-
-	public URI getSelf() {
-		return self;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -70,6 +80,18 @@ public class UserRepresentation {
 		} else if (!username.equals(other.username))
 			return false;
 		return true;
+	}
+
+	public void setSelf(URI self) {
+		this.self = self;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 
 }
