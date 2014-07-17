@@ -5,17 +5,16 @@ import static org.junit.Assert.assertNotNull;
 
 import java.util.Collection;
 
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 
@@ -48,7 +47,7 @@ public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 				readAcceptHeader, Response.Status.OK);
 
 		logger.info("Read user entity from the resposne");
-		User user = readEntity(response, User.class);
+		UserRepresentation user = readEntity(response, UserRepresentation.class);
 
 		assertNotNull(user);
 		assertEquals("gordonff", user.getUsername());
@@ -75,7 +74,7 @@ public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 		createUser("test", "Test User", Response.Status.CREATED);
 
 		@SuppressWarnings("unchecked")
-		Collection<User> users = (Collection<User>) target("/users").request(MediaType.APPLICATION_JSON).get(
+		Collection<UserRepresentation> users = (Collection<UserRepresentation>) target("/users").request(MediaType.APPLICATION_JSON).get(
 				Collection.class);
 
 		assertNotNull(users);

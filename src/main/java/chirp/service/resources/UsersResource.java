@@ -1,6 +1,9 @@
 package chirp.service.resources;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -17,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
 public class UsersResource {
@@ -41,14 +45,19 @@ public class UsersResource {
 	@GET
 	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public User getUser(@PathParam("username") String username) {
-		return repo.getUser(username);
+	public UserRepresentation getUser(@PathParam("username") String username) {
+		return new UserRepresentation(repo.getUser(username));
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<User> getAllUsers() {
-		return repo.getUsers();
+	public Collection<UserRepresentation> getAllUsers() {
+		Collection<User> users = repo.getUsers();
+		List<UserRepresentation> userReps = new ArrayList<>(users.size());
+		for (User user : users) {
+			userReps.add(new UserRepresentation(user));
+		}
+		return Collections.unmodifiableCollection(userReps);
 	}
 
 }

@@ -22,9 +22,9 @@ public class User implements Serializable {
 	private final String realname;
 	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
 
-	@JsonCreator
-	public User(@JsonProperty("username") String username,
-			@JsonProperty("realname") String realname) {
+	
+	public User(String username,
+			String realname) {
 		this.username = username;
 		this.realname = realname;
 	}
@@ -47,12 +47,10 @@ public class User implements Serializable {
 		return post;
 	}
 
-	@JsonIgnore
 	public Collection<Post> getPosts() {
 		return new ArrayList<Post>(posts.values());
 	}
 
-	@JsonIgnore
 	public Post getPost(Timestamp timestamp) {
 		Post post = posts.get(timestamp);
 		if (post == null)
