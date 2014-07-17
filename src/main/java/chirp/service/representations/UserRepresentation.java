@@ -13,15 +13,21 @@ public class UserRepresentation {
 	private final String realname;
 	private final URI self;
 
-	public UserRepresentation(User user, URI self) {
-		this.username = user.getUsername();
-		this.realname = user.getRealname();
+	public UserRepresentation(User user, URI self, boolean summary) {
+		if (summary) {
+			this.username = null;
+			this.realname = null;
+		} else {
+			this.username = user.getUsername();
+			this.realname = user.getRealname();
+		}
 		this.self = self;
 	}
 
 	@JsonCreator
 	public UserRepresentation(@JsonProperty("username") String username,
-			@JsonProperty("realname") String realname, @JsonProperty("self") URI self) {
+			@JsonProperty("realname") String realname,
+			@JsonProperty("self") URI self) {
 		super();
 		this.username = username;
 		this.realname = realname;
@@ -35,8 +41,7 @@ public class UserRepresentation {
 	public String getRealname() {
 		return realname;
 	}
-	
-	
+
 	public URI getSelf() {
 		return self;
 	}

@@ -1,10 +1,5 @@
 package chirp.service.resources;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,9 +15,9 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
+import chirp.service.representations.UsersCollectionRepresentation;
 
 @Path("/users")
 public class UsersResource {
@@ -51,18 +46,14 @@ public class UsersResource {
 	public UserRepresentation getUser(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
 		return new UserRepresentation(repo.getUser(username), uriInfo
-				.getAbsolutePathBuilder().build());
+				.getAbsolutePathBuilder().build(),false);
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<UserRepresentation> getAllUsers(@Context UriInfo uriInfo) {
-		Collection<User> users = repo.getUsers();
-		List<UserRepresentation> userReps = new ArrayList<>(users.size());
-		for (User user : users) {
-			userReps.add(new UserRepresentation(user, uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build()));
-		}
-		return Collections.unmodifiableCollection(userReps);
+	public UsersCollectionRepresentation getAllUsers(@Context UriInfo uriInfo) {
+		return new UsersCollectionRepresentation(repo.getUsers(),uriInfo);
+		
 	}
 
 }
