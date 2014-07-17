@@ -45,7 +45,7 @@ public class PostsResource {
 
 	@GET
 	@Path("{timestamp}")
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public PostRepresentation getPost(@PathParam("username") String username,
 			@PathParam("timestamp") String timestamp, @Context UriInfo uriInfo) {
 		logger.info("Retrieving post for username={} and timestamp={}",
