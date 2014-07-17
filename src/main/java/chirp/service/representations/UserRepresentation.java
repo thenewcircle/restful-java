@@ -1,5 +1,7 @@
 package chirp.service.representations;
 
+import java.net.URI;
+
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -9,18 +11,21 @@ public class UserRepresentation {
 
 	private final String username;
 	private final String realname;
+	private final URI self;
 
-	public UserRepresentation(User user) {
-		username = user.getUsername();
-		realname = user.getRealname();
+	public UserRepresentation(User user, URI self) {
+		this.username = user.getUsername();
+		this.realname = user.getRealname();
+		this.self = self;
 	}
 
 	@JsonCreator
 	public UserRepresentation(@JsonProperty("username") String username,
-			@JsonProperty("realname") String realname) {
+			@JsonProperty("realname") String realname, @JsonProperty("self") URI self) {
 		super();
 		this.username = username;
 		this.realname = realname;
+		this.self = self;
 	}
 
 	public String getUsername() {
@@ -29,6 +34,11 @@ public class UserRepresentation {
 
 	public String getRealname() {
 		return realname;
+	}
+	
+	
+	public URI getSelf() {
+		return self;
 	}
 
 	@Override

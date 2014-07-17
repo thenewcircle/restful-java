@@ -11,9 +11,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,30 +34,35 @@ public class UsersResource {
 	public Response createUser(@FormParam("username") String username,
 			@FormParam("realname") String realname) {
 
-			logger.info("Creating a user with realname={} and username={}",
-					realname, username);
+		logger.info("Creating a user with realname={} and username={}",
+				realname, username);
 
-			repo.createUser(username, realname);
+		repo.createUser(username, realname);
 
-			return Response.created(
-					UriBuilder.fromPath("/users").path(username).build())
-					.build();
+		return Response
+				.created(
+						UriBuilder.fromResource(this.getClass()).path(username)
+								.build()).build();
 	}
-	
+
 	@GET
 	@Path("{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public UserRepresentation getUser(@PathParam("username") String username) {
-		return new UserRepresentation(repo.getUser(username));
+	public UserRepresentation getUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return new UserRepresentation(repo.getUser(username), uriInfo
+				.getAbsolutePathBuilder().build());
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<UserRepresentation> getAllUsers() {
 		Collection<User> users = repo.getUsers();
 		List<UserRepresentation> userReps = new ArrayList<>(users.size());
 		for (User user : users) {
-			userReps.add(new UserRepresentation(user));
+			userReps.add(new UserRepresentation(user, UriBuilder
+					.fromResource(this.getClass()).path(user.getUsername())
+					.build()));
 		}
 		return Collections.unmodifiableCollection(userReps);
 	}
