@@ -46,13 +46,41 @@ public class UsersResource {
 								.build()).build();
 	}
 
+	public Response createSingleResponse(boolean isGet, String username,
+			@Context UriInfo uriInfo) {
+		User user = repo.getUser(username);
+		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(repo
+				.getUser(username), uriInfo.getAbsolutePathBuilder().build(),
+				false)) : Response.ok();
+		rb.links(
+				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+						.rel("self").title(user.getRealname()).build(),
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path(
+								uriInfo.getPathSegments().get(0).getPath()))
+						.rel("up").title("all users").build(),
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path("/posts/"+user.getUsername()))
+						.rel("related").title(user.getRealname() + "'s chirps")
+						.build());
+
+		return rb.build();
+	}
+
+	@HEAD
+	@Path("{username}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response headUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return createSingleResponse(false, username, uriInfo);
+	}
+
 	@GET
 	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserRepresentation getUser(@PathParam("username") String username,
+	public Response getUser(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
-		return new UserRepresentation(repo.getUser(username), uriInfo
-				.getAbsolutePathBuilder().build(), false);
+		return createSingleResponse(true, username, uriInfo);
 	}
 
 	public Response createHeadorGetResponse(boolean isGet,
@@ -69,8 +97,9 @@ public class UsersResource {
 							.rel("self").build(),
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
-									users.getFirst().getUsername())).rel("first")
-							.title(users.getFirst().getRealname()).build(),
+									users.getFirst().getUsername()))
+							.rel("first").title(users.getFirst().getRealname())
+							.build(),
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
 									users.getLast().getUsername())).rel("last")
