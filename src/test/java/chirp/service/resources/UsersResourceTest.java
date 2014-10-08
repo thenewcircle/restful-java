@@ -1,6 +1,7 @@
 package chirp.service.resources;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
@@ -9,6 +10,7 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 
+import chirp.model.User;
 import chirp.model.UserRepository;
 
 public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
@@ -50,7 +52,23 @@ public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 
 		assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
 
+	}
+	
+	@Test
+	public void getUserAsJSON() {
+		
+		Form userAsForm = new Form().param("realname", "Gordon Force").param(
+				"username", "gordonff");
+		Response response = target("/users").request().post(Entity.form(userAsForm));
 
+		assertEquals(Response.Status.CREATED.getStatusCode(),
+				response.getStatus());
+
+		User user = target(response.getLocation().getPath()).request().get(User.class);
+		
+		assertNotNull(user);
+		
+	
 	}
 
 

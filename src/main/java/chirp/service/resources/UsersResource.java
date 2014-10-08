@@ -1,14 +1,17 @@
 package chirp.service.resources;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import chirp.model.User;
 import chirp.model.UserRepository;
 
 @Path("/users")
@@ -27,6 +30,14 @@ public class UsersResource {
 				.created(
 						UriBuilder.fromResource(this.getClass()).path(username)
 								.build()).build();
+	}
+	
+	@GET
+	@Path("{username}")
+	public User getUser(@PathParam("username") String username) {
+		
+		return userRepository.getUser(username);
+		
 	}
 
 }
