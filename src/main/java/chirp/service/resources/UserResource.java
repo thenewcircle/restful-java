@@ -35,7 +35,7 @@ public class UserResource {
 		// return Response.created(location).build();
 
 		return Response.created(
-				UriBuilder.fromPath("user").path(user.getUsername()).build())
+				UriBuilder.fromResource(this.getClass()).path(user.getUsername()).build())
 				.build();
 
 	}
@@ -51,7 +51,7 @@ public class UserResource {
 		// return Response.created(location).build();
 
 		return Response.created(
-				UriBuilder.fromPath("user").path(username).build()).build();
+				UriBuilder.fromResource(this.getClass()).path(username).build()).build();
 
 	}
 

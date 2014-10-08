@@ -30,7 +30,7 @@ public class PostResourceTest extends JerseyResourceTest<PostResource> {
 		userRepository.createUser("gordonff", "Gordon Force");
 
 		Form chirpForm = new Form().param("content", "hi unit test");
-		Response response = target("/post/gordonff").request().post(
+		Response response = target("/posts/gordonff").request().post(
 				Entity.form(chirpForm));
 		assertEquals(Response.Status.CREATED.getStatusCode(),
 				response.getStatus());

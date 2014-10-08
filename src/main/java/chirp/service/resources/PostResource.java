@@ -30,8 +30,9 @@ public class PostResource {
 		Post post = userRepository.getUser(username).createPost(content);
 
 		return Response.created(
-				UriBuilder.fromPath("post").path(username)
-						.path(post.getTimestamp().toString()).build()).build();
+				UriBuilder.fromResource(this.getClass())
+						.path(post.getTimestamp().toString()).build(username))
+				.build();
 
 	}
 
