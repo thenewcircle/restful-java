@@ -25,7 +25,7 @@ public class PostCollectionRepresentation {
 			this.posts.add(new PostRepresentation(post, true));
 		}
 
-		self = UriBuilder.fromPath("/post").path(username).build();
+		self = UriBuilder.fromPath("/posts").path(username).build();
 	}
 	
 	public PostCollectionRepresentation(@JsonProperty("self") URI self,

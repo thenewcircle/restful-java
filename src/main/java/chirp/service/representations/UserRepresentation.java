@@ -23,7 +23,7 @@ public class UserRepresentation {
 	}
 
 	public UserRepresentation(User user, boolean summary) {
-		self = UriBuilder.fromPath("/user").path(user.getUsername()).build();
+		self = UriBuilder.fromPath("/users").path(user.getUsername()).build();
 		if (summary == false) {
 			username = user.getUsername();
 			realname = user.getRealname();

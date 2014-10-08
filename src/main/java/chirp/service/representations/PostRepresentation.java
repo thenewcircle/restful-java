@@ -22,7 +22,7 @@ public class PostRepresentation {
 	}
 
 	public PostRepresentation(Post post, boolean summary) {
-		self = UriBuilder.fromPath("/post").path(post.getUser().getUsername()).path(post.getTimestamp().toString()).build();
+		self = UriBuilder.fromPath("/posts").path(post.getUser().getUsername()).path(post.getTimestamp().toString()).build();
 		if (summary == false) {
 			timestamp = post.getTimestamp().toString();
 			content = post.getContent();

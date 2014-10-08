@@ -108,14 +108,12 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 			 * + userRead.getUsername() + "not expected"); }
 			 */
 
-			/*
 			Response headResponse = target(
 					UriBuilder.fromUri(user.getSelf()).build().toString())
 					.request().head();
 			
 			assertEquals(200,headResponse.getStatus());
-			*/
-
+			
 		}
 	}
 

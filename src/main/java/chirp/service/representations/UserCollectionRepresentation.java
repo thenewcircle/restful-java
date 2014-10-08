@@ -28,7 +28,7 @@ public class UserCollectionRepresentation {
 			this.users.add(new UserRepresentation(user, true));
 		}
 
-		self = UriBuilder.fromPath("/user").build();
+		self = UriBuilder.fromPath("/users").build();
 	}
 
 	public UserCollectionRepresentation(@JsonProperty("self") URI self,

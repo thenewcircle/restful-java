@@ -74,10 +74,10 @@ public class UserResource {
 		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
 				false)) : Response.ok();
 		rb.links(
-				Link.fromUri("/user/" + username).rel("self")
+				Link.fromUri("/users/" + username).rel("self")
 						.title(user.getRealname()).build(),
-				Link.fromUri("/user/").rel("up").build(),
-				Link.fromUri("/post/" + username).rel("related")
+				Link.fromUri("/users/").rel("up").build(),
+				Link.fromUri("/posts/" + username).rel("related")
 						.title(user.getRealname() + "chirps").build());
 
 		return rb.build();
