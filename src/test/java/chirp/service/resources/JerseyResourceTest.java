@@ -108,7 +108,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 
 		Response response = target(uri).request().accept(acceptHeaderValue)
 				.get();
-		assertEquals(Response.Status.OK, response.getStatus());
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		T entity = response.readEntity(entityClass);
 		assertNotNull(entity);
 		return entity;
