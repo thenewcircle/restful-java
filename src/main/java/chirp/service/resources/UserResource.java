@@ -19,7 +19,7 @@ import chirp.model.UserRepository;
 import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
-@Path("/user")
+@Path("/users")
 public class UserResource {
 
 	private UserRepository userRepository = UserRepository.getInstance();

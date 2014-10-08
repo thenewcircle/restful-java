@@ -18,7 +18,7 @@ import chirp.model.UserRepository;
 import chirp.service.representations.PostCollectionRepresentation;
 import chirp.service.representations.PostRepresentation;
 
-@Path("/post/{username}")
+@Path("/posts/{username}")
 public class PostResource {
 
 	private UserRepository userRepository = UserRepository.getInstance();
