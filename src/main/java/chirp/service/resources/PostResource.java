@@ -19,7 +19,7 @@ import chirp.model.Timestamp;
 import chirp.model.UserRepository;
 import chirp.service.representations.PostRepresentation;
 
-@Path("/post/{username}")
+@Path("/posts/{username}")
 public class PostResource {
 
 	private UserRepository userRepository = UserRepository.getInstance();
@@ -31,7 +31,7 @@ public class PostResource {
 		Post post = userRepository.getUser(username).createPost(content);
 
 		return Response.created(
-				UriBuilder.fromPath("post").path(username)
+				UriBuilder.fromPath("posts").path(username)
 						.path(post.getTimestamp().toString()).build()).build();
 
 	}

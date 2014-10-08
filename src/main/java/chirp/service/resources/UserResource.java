@@ -19,7 +19,7 @@ import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
 
-@Path("/user")
+@Path("/users")
 public class UserResource {
 
 	private UserRepository userRepository = UserRepository.getInstance();
@@ -35,7 +35,7 @@ public class UserResource {
 		// return Response.created(location).build();
 
 		return Response.created(
-				UriBuilder.fromPath("user").path(user.getUsername()).build()).build();
+				UriBuilder.fromPath("users").path(user.getUsername()).build()).build();
 
 	}
 	
@@ -50,7 +50,7 @@ public class UserResource {
 		// return Response.created(location).build();
 
 		return Response.created(
-				UriBuilder.fromPath("user").path(username).build()).build();
+				UriBuilder.fromPath("users").path(username).build()).build();
 
 	}
 	

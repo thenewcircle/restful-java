@@ -27,7 +27,7 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		
 		Form userForm = new Form().param("realname", "Gordon Force").param(
 				"username", "gordonff");
-		Response response = target("/user").request().post(
+		Response response = target("/users").request().post(
 				Entity.form(userForm));
 		assertEquals(Response.Status.CREATED.getStatusCode(),
 				response.getStatus());
@@ -62,12 +62,12 @@ public class UserResourceTest extends JerseyResourceTest<UserResource> {
 		Form userForm = new Form().param("realname", "Gordon Force").param(
 				"username", "gordonff");
 
-		Response response = target("/user").request().post(
+		Response response = target("/users").request().post(
 				Entity.form(userForm));
 		assertEquals(Response.Status.CREATED.getStatusCode(),
 				response.getStatus());
 
-		response = target("/user").request().post(Entity.form(userForm));
+		response = target("/users").request().post(Entity.form(userForm));
 		assertEquals(Response.Status.FORBIDDEN.getStatusCode(),
 				response.getStatus());
 
