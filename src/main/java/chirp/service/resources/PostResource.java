@@ -29,10 +29,11 @@ public class PostResource {
 			@FormParam("content") String content) {
 
 		Post post = userRepository.getUser(username).createPost(content);
-
+		
 		return Response.created(
-				UriBuilder.fromResource(this.getClass()).
-						path(post.getTimestamp().toString()).build()).build();
+				UriBuilder.fromResource(this.getClass())
+						.path(post.getTimestamp().toString()).build(username))
+				.build();
 
 	}
 
