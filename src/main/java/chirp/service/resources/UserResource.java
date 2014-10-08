@@ -69,14 +69,21 @@ public class UserResource {
 		// return no links for if there are no users on the server
 		if (users.size() > 0) {
 			rb.links(
+					
+					// http://localhost:9998/users
+					// title:self
 					Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
 							.rel("self").build(),
 							
+					// http://localhost:9998/users/<first user name>
+					// rel: first
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
 									users.getFirst().getUsername()))
 							.rel("first").build(),
 
+					// http://localhost:9998/users/<last user name>
+					// rel: last
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
 									users.getLast().getUsername())).rel("last")
@@ -105,14 +112,24 @@ public class UserResource {
 				false, uriInfo.getAbsolutePathBuilder().build())) : Response
 				.ok();
 		rb.links(
+				
+				// http://localhost:9998/users/gordonff
+				// rel:self
+				// title: Gordon Force (realname field)
 				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
 						.rel("self").title(user.getRealname()).build(),
 
+				// http://localhost:9998/users
+				// rel: up
+				// title: all users
 				Link.fromUriBuilder(
 						uriInfo.getBaseUriBuilder().path(
 								uriInfo.getPathSegments().get(0).getPath()))
 						.rel("up").title("all users").build("users"),
 
+				// http://localhost:9998/posts/gordonff
+				// rel: related
+				// title: Gordon Force chirps
 				Link.fromUriBuilder(
 						uriInfo.getBaseUriBuilder().path(PostResource.class))
 						.rel("related").title(user.getRealname() + " chirps")
