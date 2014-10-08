@@ -2,6 +2,9 @@ package chirp.model;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Post,
  * call User.createPost().

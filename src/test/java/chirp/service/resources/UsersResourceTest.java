@@ -3,6 +3,8 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.Collection;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -10,8 +12,8 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 	
@@ -64,9 +66,12 @@ public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 		assertEquals(Response.Status.CREATED.getStatusCode(),
 				response.getStatus());
 
-		User user = target(response.getLocation().getPath()).request().get(User.class);
+		UserRepresentation user = target(response.getLocation().getPath()).request().get(UserRepresentation.class);
 		
 		assertNotNull(user);
+		
+		Collection<UserRepresentation> users = target(response.getLocation().getPath()).request().get(Collection.class);
+
 		
 	
 	}
