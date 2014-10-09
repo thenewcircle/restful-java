@@ -25,9 +25,8 @@ public class Server {
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		final ResourceConfig rc = new ResourceConfig().packages(
-				"chirp.service.resources", "chirp.service.providers").register(
-				JacksonFeature.class);
+		final ResourceConfig rc = new ResourceConfig().register(JacksonFeature.class)
+				.packages("chirp.service.resources","chirp.service.providers");
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI

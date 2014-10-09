@@ -53,22 +53,17 @@ public abstract class JerseyResourceTest<R> extends JerseyTest {
 
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig(resourceClass).packages(
+		return new ResourceConfig().register(resourceClass).packages(
 				"chirp.service.providers").register(JacksonFeature.class);
 
 	}
 	
-
-	/**
-	 * Override this method to configure the JerseyTest client as opposed to the
-	 * test server above
+	/** Override this method to configure the JerseyTest client as opposed to the test server above
 	 * 
 	 */
 	@Override
 	protected void configureClient(ClientConfig config) {
-		config.register(JacksonFeature.class); // required to deserialize JSON
-												// responses into Java objects
-												// in the test client.
+		config.register(JacksonFeature.class); // required to deserialize JSON responses into Java objects in the test client.
 	}
 
 }

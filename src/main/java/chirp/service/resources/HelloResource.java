@@ -31,7 +31,4 @@ public class HelloResource {
 		return "Hello " + helloName + "!";
 	}
 
-
-
-
 }

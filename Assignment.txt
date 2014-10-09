@@ -1,0 +1,23 @@
+Homework Day 1
+--------------
+
+1) Extend UserResourceTest class to verify the location and data of a newly created resource.
+
+Day 2 Afternoon Lab
+--------------------
+
+1) Create a PostResource class
+2) @POST createPost method to support creating a post with form data Content and username
+3) Inside the createPost method use the userRepository.getUser(username).createPost(content) and return the correct response codes.
+4) Create a PostRepresntation class containing only a timestamp and content
+5) Return a Post based on username and timestamp
+
+
+Day 2 Homework 
+---------------
+1) Return collections of Posts from the PostResource Class.
+2) Bonus: Implement testing of collections returns in User and Post test classes.
+3) Determine how to return user representations as XML or JSON using the request accept header field. 
+4) Provide the same solution for Post objects.   
+5) What type of collection should be returned from getUsers and getChirps? Look at the 
+   java.util.Collections class. 

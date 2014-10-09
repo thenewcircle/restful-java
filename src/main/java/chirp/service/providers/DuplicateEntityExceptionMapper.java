@@ -9,9 +9,8 @@ import chirp.model.DuplicateEntityException;
 @Provider
 public class DuplicateEntityExceptionMapper implements
 		ExceptionMapper<DuplicateEntityException> {
-
-	@Override
-	public Response toResponse(DuplicateEntityException arg0) {
+	
+	public Response toResponse(DuplicateEntityException exception) {
 		return Response.status(Response.Status.FORBIDDEN).build();
 	}
 
