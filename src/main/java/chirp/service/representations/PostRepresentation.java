@@ -2,7 +2,6 @@ package chirp.service.representations;
 
 import java.net.URI;
 
-import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,8 +20,8 @@ public class PostRepresentation {
 	public PostRepresentation() {
 	}
 
-	public PostRepresentation(Post post, boolean summary) {
-		self = UriBuilder.fromPath("/posts").path(post.getUser().getUsername()).path(post.getTimestamp().toString()).build();
+	public PostRepresentation(Post post, boolean summary, URI self) {
+		this.self = self;
 		if (summary == false) {
 			timestamp = post.getTimestamp().toString();
 			content = post.getContent();

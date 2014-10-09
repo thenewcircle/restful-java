@@ -1,5 +1,7 @@
 package chirp.service.resources;
 
+import java.util.Deque;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -8,11 +10,13 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
@@ -30,13 +34,9 @@ public class UserResource {
 
 		userRepository.createUser(user.getUsername(), user.getRealname());
 
-		// using a java.net.URI for creating a location
-		// URI location = URI.create("/user/" + username);
-		// return Response.created(location).build();
-
 		return Response.created(
-				UriBuilder.fromResource(this.getClass()).path(user.getUsername()).build())
-				.build();
+				UriBuilder.fromResource(this.getClass())
+						.path(user.getUsername()).build()).build();
 
 	}
 
@@ -50,43 +50,109 @@ public class UserResource {
 		// URI location = URI.create("/user/" + username);
 		// return Response.created(location).build();
 
-		return Response.created(
-				UriBuilder.fromResource(this.getClass()).path(username).build()).build();
+		return Response
+				.created(
+						UriBuilder.fromResource(this.getClass()).path(username)
+								.build()).build();
 
+	}
+
+	private Response createUserCollectionResponse(boolean isGet, UriInfo uriInfo) {
+
+		Deque<User> users = userRepository.getUsers();
+
+		ResponseBuilder rb = (isGet) ? Response
+				.ok(new UserCollectionRepresentation(users, uriInfo))
+				: Response.ok();
+
+
+		// return no links for if there are no users on the server
+		if (users.size() > 0) {
+			rb.links(
+					
+					// http://localhost:9998/users
+					// title:self
+					Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+							.rel("self").build(),
+							
+					// http://localhost:9998/users/<first user name>
+					// rel: first
+					Link.fromUriBuilder(
+							uriInfo.getAbsolutePathBuilder().path(
+									users.getFirst().getUsername()))
+							.rel("first").build(),
+
+					// http://localhost:9998/users/<last user name>
+					// rel: last
+					Link.fromUriBuilder(
+							uriInfo.getAbsolutePathBuilder().path(
+									users.getLast().getUsername())).rel("last")
+							.build());
+		}
+
+		return rb.build();
+	}
+
+	@HEAD
+	public Response headAllUsers(@Context UriInfo uriInfo) {
+		return createUserCollectionResponse(false, uriInfo);
 	}
 
 	@GET
-	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getUser(@PathParam("username") String username) {
-		return createHeadResponse(true, username);
+	public Response getAllUsers(@Context UriInfo uriInfo) {
+		return createUserCollectionResponse(true, uriInfo);
 	}
 
-	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public UserCollectionRepresentation getAllUsers() {
-		return new UserCollectionRepresentation(userRepository.getUsers());
-	}
-
-	private Response createHeadResponse(boolean isGet, String username) {
+	private Response createSingleUserResponse(boolean isGet, String username,
+			UriInfo uriInfo) {
 		User user = userRepository.getUser(username);
 
 		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
-				false)) : Response.ok();
+				false, uriInfo.getAbsolutePathBuilder().build())) : Response
+				.ok();
 		rb.links(
-				Link.fromUri("/users/" + username).rel("self")
-						.title(user.getRealname()).build(),
-				Link.fromUri("/users/").rel("up").build(),
-				Link.fromUri("/posts/" + username).rel("related")
-						.title(user.getRealname() + "chirps").build());
+				
+				// http://localhost:9998/users/gordonff
+				// rel:self
+				// title: Gordon Force (realname field)
+				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+						.rel("self").title(user.getRealname()).build(),
+
+				// http://localhost:9998/users
+				// rel: up
+				// title: all users
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path(
+								uriInfo.getPathSegments().get(0).getPath()))
+						.rel("up").title("all users").build("users"),
+
+				// http://localhost:9998/posts/gordonff
+				// rel: related
+				// title: Gordon Force chirps
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path(PostResource.class))
+						.rel("related").title(user.getRealname() + " chirps")
+						.build(username)
+
+		);
 
 		return rb.build();
 	}
 
 	@HEAD
 	@Path("{username}")
-	public Response headResponse(@PathParam("username") String username) {
-		return createHeadResponse(false, username);
+	public Response headResponse(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return createSingleUserResponse(false, username, uriInfo);
+	}
+
+	@GET
+	@Path("{username}")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return createSingleUserResponse(true, username, uriInfo);
 	}
 
 }

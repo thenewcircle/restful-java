@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,13 +19,13 @@ public class PostCollectionRepresentation {
 	private Collection<PostRepresentation> posts = new ArrayList<>();
 	private URI self;
 
-	public PostCollectionRepresentation(Collection<Post> posts, String username) {
+	public PostCollectionRepresentation(Collection<Post> posts, String username, UriInfo uriInfo) {
 
 		for (Post post : posts) {
-			this.posts.add(new PostRepresentation(post, true));
+			this.posts.add(new PostRepresentation(post, true, uriInfo.getAbsolutePathBuilder().path(post.getTimestamp().toString()).build()));
 		}
 
-		self = UriBuilder.fromPath("/posts").path(username).build();
+		self = uriInfo.getAbsolutePathBuilder().build();
 	}
 	
 	public PostCollectionRepresentation(@JsonProperty("self") URI self,
