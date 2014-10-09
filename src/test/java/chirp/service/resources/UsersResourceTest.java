@@ -69,11 +69,7 @@ public class UsersResourceTest extends JerseyResourceTest<UsersResource> {
 		UserRepresentation user = target(response.getLocation().getPath()).request().get(UserRepresentation.class);
 		
 		assertNotNull(user);
-		
-		Collection<UserRepresentation> users = target(response.getLocation().getPath()).request().get(Collection.class);
 
-		
-	
 	}
 
 
