@@ -10,6 +10,7 @@ import chirp.model.NoSuchEntityException;
 public class NoSuchEntityExceptionMapper implements
 		ExceptionMapper<NoSuchEntityException> {
 	
+	@Override
 	public Response toResponse(NoSuchEntityException exception) {
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}

@@ -41,7 +41,7 @@ public class UsersResource {
 	@Path("{username}")
 	public UserRepresentation getUser(@PathParam("username") String username) {
 		
-		return new UserRepresentation(userRepository.getUser(username));
+		return new UserRepresentation(userRepository.getUser(username),false);
 		
 	}
 	
@@ -50,7 +50,7 @@ public class UsersResource {
 		
 		Collection<UserRepresentation> users = new ArrayList<>();
 		for (User u: userRepository.getUsers()) {
-			users.add(new UserRepresentation(u));
+			users.add(new UserRepresentation(u,true));
 		}
 		
 		return Collections.unmodifiableCollection(users);

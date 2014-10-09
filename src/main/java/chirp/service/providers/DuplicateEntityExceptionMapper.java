@@ -10,6 +10,7 @@ import chirp.model.DuplicateEntityException;
 public class DuplicateEntityExceptionMapper implements
 		ExceptionMapper<DuplicateEntityException> {
 	
+	@Override
 	public Response toResponse(DuplicateEntityException exception) {
 		return Response.status(Response.Status.FORBIDDEN).build();
 	}

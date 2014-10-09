@@ -43,5 +43,11 @@ public class PostResourceTest extends JerseyResourceTest<PostResource> {
 		assertEquals("hi unit test", postRead.getContent());
 
 	}
+	
+	@Test
+	public void readPostCollectionSuccess() {
+	}
+
+
 
 }

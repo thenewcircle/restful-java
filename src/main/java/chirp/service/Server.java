@@ -20,7 +20,10 @@ public class Server {
 	public static final String BASE_URI = "http://localhost:8080/";
 
 	private static HttpServer createServer() {
-
+		
+		// Modify jersey log levels here using code
+		
+		
 		// Jersey uses java.util.logging - bridge to slf4
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
