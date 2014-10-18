@@ -5,35 +5,35 @@ import java.net.URI;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import chirp.model.Post;
+import chirp.model.Chirp;
 
 @XmlRootElement
-public class PostRepresentation {
+public class ChirpRepresentation {
 
-	private String timestamp;
+	private String id;
 	private String content;
 	private URI self;
 
-	public PostRepresentation() {
+	public ChirpRepresentation() {
 	}
 
-	public PostRepresentation(Post post, boolean summary, URI self) {
+	public ChirpRepresentation(Chirp chirp, boolean summary, URI self) {
 		this.self = self;
 		if (summary == false) {
-			timestamp = post.getTimestamp().toString();
-			content = post.getContent();
+			id = chirp.getId().toString();
+			content = chirp.getContent();
 		}
 	}
 
-	public PostRepresentation(URI self, String timestamp, String content) {
+	public ChirpRepresentation(URI self, String id, String content) {
 		this.self = self;
-		this.timestamp = timestamp;
+		this.id = id;
 		this.content = content;
 	}
 
 	@XmlElement
-	public String getTimestamp() {
-		return timestamp;
+	public String getId() {
+		return id;
 	}
 
 	@XmlElement
@@ -46,8 +46,8 @@ public class PostRepresentation {
 		return self;
 	}
 
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+	public void setId(String timestamp) {
+		this.id = timestamp;
 	}
 
 	public void setContent(String content) {

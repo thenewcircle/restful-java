@@ -127,11 +127,11 @@ public class UserResource {
 								uriInfo.getPathSegments().get(0).getPath()))
 						.rel("up").title("all users").build("users"),
 
-				// http://localhost:9998/posts/gordonff
+				// http://localhost:9998/chirps/gordonff
 				// rel: related
 				// title: Gordon Force chirps
 				Link.fromUriBuilder(
-						uriInfo.getBaseUriBuilder().path(PostResource.class))
+						uriInfo.getBaseUriBuilder().path(ChirpResource.class))
 						.rel("related").title(user.getRealname() + " chirps")
 						.build(username)
 

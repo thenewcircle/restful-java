@@ -9,7 +9,7 @@ import java.util.TreeMap;
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
- * collection of posts, indexed by timestamp.
+ * collection of chirps, indexed by id.
  */
 public class User implements Serializable {
 
@@ -17,7 +17,7 @@ public class User implements Serializable {
 
 	private final String username;
 	private final String realname;
-	private final Map<Timestamp, Post> posts = new TreeMap<Timestamp, Post>();
+	private final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
 	
 	public User(String username, String realname) {
 		this.username = username;
@@ -32,30 +32,30 @@ public class User implements Serializable {
 		return realname;
 	}
 
-	public Post createPost(String content) {
-		Timestamp timestamp = new Timestamp();
-		if (posts.containsKey(timestamp))
+	public Chirp createChirp(String content) {
+		ChirpId id = new ChirpId();
+		if (chirps.containsKey(id))
 			throw new DuplicateEntityException();
 
-		Post post = new Post(timestamp, content, this);
-		posts.put(timestamp, post);
-		return post;
+		Chirp chirp = new Chirp(id, content, this);
+		chirps.put(id, chirp);
+		return chirp;
 	}
 
-	public Deque<Post> getPosts() {
-		return new LinkedList<Post>(posts.values());
+	public Deque<Chirp> getChirps() {
+		return new LinkedList<Chirp>(chirps.values());
 	}
 
-	public Post getPost(Timestamp timestamp) {
-		Post post = posts.get(timestamp);
-		if (post == null)
+	public Chirp getChirp(ChirpId id) {
+		Chirp chirp = chirps.get(id);
+		if (chirp == null)
 			throw new NoSuchEntityException();
 
-		return post;
+		return chirp;
 	}
 
-	public void deletePost(String timestamp) {
-		if (posts.remove(timestamp) == null)
+	public void deleteChirp(String id) {
+		if (chirps.remove(id) == null)
 			throw new NoSuchEntityException();
 	}
 

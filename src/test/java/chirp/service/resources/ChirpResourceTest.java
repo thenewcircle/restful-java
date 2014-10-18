@@ -11,10 +11,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chirp.model.UserRepository;
-import chirp.service.representations.PostCollectionRepresentation;
-import chirp.service.representations.PostRepresentation;
+import chirp.service.representations.ChirpCollectionRepresentation;
+import chirp.service.representations.ChirpRepresentation;
 
-public class PostResourceTest extends JerseyResourceTest {
+public class ChirpResourceTest extends JerseyResourceTest {
 
 	private UserRepository userRepository = UserRepository.getInstance();
 
@@ -25,14 +25,14 @@ public class PostResourceTest extends JerseyResourceTest {
 
 	private Response createChirp(String username, String messageContent) {
 		Form chirpForm = new Form().param("content", messageContent);
-		return postFormData("/posts/" + username, chirpForm,
+		return postFormData("/chirps/" + username, chirpForm,
 				Response.Status.CREATED);
 	}
 
 	@Test
 	public void createChirpSuccess() {
 
-		log.info("Test: Create a post for the gordonff user and verify its content");
+		log.info("Test: Create a chirp for the gordonff user and verify its content");
 
 		// need to create without server to honor resource isolation in
 		// test framework.
@@ -43,16 +43,16 @@ public class PostResourceTest extends JerseyResourceTest {
 		response = getEntity(response.getLocation(),
 				MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
 
-		PostRepresentation postRead = readEntity(response,
-				PostRepresentation.class);
+		ChirpRepresentation chirpRead = readEntity(response,
+				ChirpRepresentation.class);
 
-		assertNotNull(postRead); // make sure the GET response contains an
+		assertNotNull(chirpRead); // make sure the GET response contains an
 									// entity.
-		
-		String content = postRead.getContent();
+
+		String content = chirpRead.getContent();
 
 		assertEquals("unit test success?", content); // validate
-																	// the
+														// the
 
 		verifyLinkHeaderExists("up", MediaType.APPLICATION_JSON_TYPE, response);
 		verifyLinkHeaderExists("self", MediaType.APPLICATION_JSON_TYPE,
@@ -63,9 +63,9 @@ public class PostResourceTest extends JerseyResourceTest {
 	}
 
 	@Test
-	public void readPostCollectionSuccess() {
+	public void readChirpCollectionSuccess() {
 
-		log.info("Test: Creating a collection of three posts for one user should succeed with verification of structural self link location.");
+		log.info("Test: Creating a collection of three chirps for one user should succeed with verification of structural self link location.");
 
 		userRepository.createUser("gordonff", "Gordon Force");
 		userRepository.createUser("colef", "Cole Force");
@@ -80,20 +80,20 @@ public class PostResourceTest extends JerseyResourceTest {
 
 		createChirp("gordonff", "eatting a fish dinner with cole");
 
-		for (PostRepresentation post : readEntity("/posts/gordonff",
+		for (ChirpRepresentation chirp : readEntity("/chirps/gordonff",
 				MediaType.APPLICATION_JSON_TYPE,
-				PostCollectionRepresentation.class).getPosts()) {
+				ChirpCollectionRepresentation.class).getChirps()) {
 
-			getHead(post.getSelf(), MediaType.APPLICATION_JSON_TYPE,
+			getHead(chirp.getSelf(), MediaType.APPLICATION_JSON_TYPE,
 					Response.Status.OK);
 		}
 
 	}
 
 	@Test
-	public void verifyPostCollectionLinkHeaders() {
+	public void verifyChirpCollectionLinkHeaders() {
 
-		log.info("Test: Creating a collection of three posts for one user should succeed with link header verification on location only.");
+		log.info("Test: Creating a collection of three chirps for one user should succeed with link header verification on location only.");
 
 		userRepository.createUser("gordonff", "Gordon Force");
 
@@ -103,7 +103,7 @@ public class PostResourceTest extends JerseyResourceTest {
 
 		createChirp("gordonff", "eatting a fish dinner with cole");
 
-		Response response = getHead("/posts/gordonff",
+		Response response = getHead("/chirps/gordonff",
 				MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
 		verifyLinkHeaderExists("self", MediaType.APPLICATION_JSON_TYPE,
 				response);

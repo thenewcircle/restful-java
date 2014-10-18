@@ -48,7 +48,7 @@ public class UserResourceTest extends JerseyResourceTest {
 		
 		verifyLinkHeaderExists("up", readAcceptHeader, response);
 		verifyLinkHeaderExists("self", readAcceptHeader, response);
-		verifyLinkHeaderExists("related", readAcceptHeader, response); // no posts created yet
+		verifyLinkHeaderExists("related", readAcceptHeader, response); // no chirps created yet
 
 		log.info("Read user entity from the resposne");
 		UserRepresentation user = readEntity(response, UserRepresentation.class);

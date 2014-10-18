@@ -17,15 +17,15 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import chirp.model.Post;
-import chirp.model.Timestamp;
+import chirp.model.Chirp;
+import chirp.model.ChirpId;
 import chirp.model.User;
 import chirp.model.UserRepository;
-import chirp.service.representations.PostCollectionRepresentation;
-import chirp.service.representations.PostRepresentation;
+import chirp.service.representations.ChirpCollectionRepresentation;
+import chirp.service.representations.ChirpRepresentation;
 
-@Path("/posts/{username}")
-public class PostResource {
+@Path("/chirps/{username}")
+public class ChirpResource {
 
 	private UserRepository userRepository = UserRepository.getInstance();
 
@@ -33,20 +33,20 @@ public class PostResource {
 	public Response createChirp(@PathParam("username") String username,
 			@FormParam("content") String content) {
 
-		Post post = userRepository.getUser(username).createPost(content);
+		Chirp chirp = userRepository.getUser(username).createChirp(content);
 		
 		return Response.created(
 				UriBuilder.fromResource(this.getClass())
-						.path(post.getTimestamp().toString()).build(username))
+						.path(chirp.getId().toString()).build(username))
 				.build();
 	}
 
-	private Response createSinglePostResponse(boolean isGet, String username,
-			String timestamp, UriInfo uriInfo) {
+	private Response createSingleChirpResponse(boolean isGet, String username,
+			String id, UriInfo uriInfo) {
 		User user = userRepository.getUser(username);
 
-		ResponseBuilder rb = (isGet) ? Response.ok(new PostRepresentation(user
-				.getPost(new Timestamp(timestamp)), false, uriInfo.getAbsolutePathBuilder().build())) : Response.ok();
+		ResponseBuilder rb = (isGet) ? Response.ok(new ChirpRepresentation(user
+				.getChirp(new ChirpId(id)), false, uriInfo.getAbsolutePathBuilder().build())) : Response.ok();
 
 		rb.links(
 
@@ -70,44 +70,44 @@ public class PostResource {
 	}
 
 	@HEAD
-	@Path("{timestamp}")
+	@Path("{id}")
 	public Response headResponse(@PathParam("username") String username,
-			@PathParam("timestamp") String timestamp, @Context UriInfo uriInfo) {
-		return createSinglePostResponse(false, username, timestamp, uriInfo);
+			@PathParam("id") String id, @Context UriInfo uriInfo) {
+		return createSingleChirpResponse(false, username, id, uriInfo);
 	}
 
 	@GET
-	@Path("{timestamp}")
+	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getPost(@PathParam("username") String username,
-			@PathParam("timestamp") String timestamp, @Context UriInfo uriInfo) {
-		return createSinglePostResponse(true, username, timestamp, uriInfo);
+	public Response getChirp(@PathParam("username") String username,
+			@PathParam("id") String id, @Context UriInfo uriInfo) {
+		return createSingleChirpResponse(true, username, id, uriInfo);
 
 	}
 
-	private Response createCollectionPostResponse(boolean isGet,
+	private Response createCollectionChirpResponse(boolean isGet,
 			String username, UriInfo uriInfo) {
 		User user = userRepository.getUser(username);
-		Deque<Post> posts = user.getPosts();
+		Deque<Chirp> chirps = user.getChirps();
 
 		ResponseBuilder rb = (isGet) ? Response
-				.ok(new PostCollectionRepresentation(user.getPosts(), username, uriInfo))
+				.ok(new ChirpCollectionRepresentation(user.getChirps(), username, uriInfo))
 				: Response.ok();
 
 		rb.links(Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
 				.rel("self").title(user.getRealname() + "'s chirps").build());
 
-		if (posts.size() > 0) {
+		if (chirps.size() > 0) {
 			rb.links(
 
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
-									posts.getFirst().getTimestamp().toString()))
+									chirps.getFirst().getId().toString()))
 							.rel("first").build(),
 
 					Link.fromUriBuilder(
 							uriInfo.getAbsolutePathBuilder().path(
-									posts.getLast().getTimestamp().toString()))
+									chirps.getLast().getId().toString()))
 							.rel("last").build());
 		}
 
@@ -118,7 +118,7 @@ public class PostResource {
 	public Response headChirps(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
 
-		return createCollectionPostResponse(false, username, uriInfo);
+		return createCollectionChirpResponse(false, username, uriInfo);
 	}
 
 	@GET
@@ -126,7 +126,7 @@ public class PostResource {
 	public Response getAllChirps(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
 
-		return createCollectionPostResponse(true, username, uriInfo);
+		return createCollectionChirpResponse(true, username, uriInfo);
 
 	}
 

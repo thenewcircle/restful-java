@@ -3,25 +3,25 @@ package chirp.model;
 import java.io.Serializable;
 
 /**
- * Entity representing a "chirp" posted by a user. To properly create a Post,
- * call User.createPost().
+ * Entity representing a "chirp" posted by a user. To properly create a Chirp,
+ * call User.createChirp().
  */
-public class Post implements Serializable {
+public class Chirp implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Timestamp timestamp;
+	private final ChirpId id;
 	private final String content;
 	private final User user;
 
-	public Post(Timestamp timestamp, String content, User user) {
-		this.timestamp = timestamp;
+	public Chirp(ChirpId id, String content, User user) {
+		this.id = id;
 		this.content = content;
 		this.user = user;
 	}
 
-	public Timestamp getTimestamp() {
-		return timestamp;
+	public ChirpId getId() {
+		return id;
 	}
 
 	public String getContent() {
@@ -37,7 +37,7 @@ public class Post implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((timestamp == null) ? 0 : timestamp.hashCode());
+				+ ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -50,11 +50,11 @@ public class Post implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Post other = (Post) obj;
-		if (timestamp == null) {
-			if (other.timestamp != null)
+		Chirp other = (Chirp) obj;
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!timestamp.equals(other.timestamp))
+		} else if (!id.equals(other.id))
 			return false;
 		if (user == null) {
 			if (other.user != null)
@@ -66,7 +66,7 @@ public class Post implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Post [timestamp=" + timestamp + ", content=" + content + "]";
+		return "Chirp [id=" + id + ", content=" + content + "]";
 	}
 
 }
