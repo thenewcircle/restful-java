@@ -5,9 +5,6 @@ import java.net.URI;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import chirp.model.Post;
 
 @XmlRootElement
@@ -15,8 +12,8 @@ public class PostRepresentation {
 
 	private String timestamp;
 	private String content;
-	private URI self; 
-	
+	private URI self;
+
 	public PostRepresentation() {
 	}
 
@@ -28,10 +25,7 @@ public class PostRepresentation {
 		}
 	}
 
-	@JsonCreator
-	public PostRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("timestamp") String timestamp,
-			@JsonProperty("content") String content) {
+	public PostRepresentation(URI self, String timestamp, String content) {
 		this.self = self;
 		this.timestamp = timestamp;
 		this.content = content;
@@ -46,8 +40,22 @@ public class PostRepresentation {
 	public String getContent() {
 		return content;
 	}
-	
-	@XmlElement
-	public URI getSelf() { return self; }
 
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setSelf(URI self) {
+		this.self = self;
+	}
+	
 }

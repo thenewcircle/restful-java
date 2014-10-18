@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -59,9 +59,13 @@ public abstract class JerseyResourceTest extends JerseyTest {
 
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig().packages(
-				"chirp.service.providers;chirp.service.resources").register(
-				JacksonFeature.class);
+		
+		final Application application = new ResourceConfig()
+        .packages("chirp.service.providers","chirp.service.resources")
+        .register(MoxyJsonFeature.class);
+        // .register(jsonConfigResolver);
+		
+		return application;
 
 	}
 
@@ -72,7 +76,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 	 */
 	@Override
 	protected void configureClient(ClientConfig config) {
-		config.register(JacksonFeature.class); // required to deserialize JSON
+		config.register(MoxyJsonFeature.class); // required to deserialize JSON
 												// responses into Java objects
 												// in the test client.
 	}

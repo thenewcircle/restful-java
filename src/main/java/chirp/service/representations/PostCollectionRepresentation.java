@@ -9,8 +9,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import chirp.model.Post;
 
 @XmlRootElement
@@ -19,22 +17,26 @@ public class PostCollectionRepresentation {
 	private Collection<PostRepresentation> posts = new ArrayList<>();
 	private URI self;
 
-	public PostCollectionRepresentation(Collection<Post> posts, String username, UriInfo uriInfo) {
+	public PostCollectionRepresentation(Collection<Post> posts,
+			String username, UriInfo uriInfo) {
 
 		for (Post post : posts) {
-			this.posts.add(new PostRepresentation(post, true, uriInfo.getAbsolutePathBuilder().path(post.getTimestamp().toString()).build()));
+			this.posts.add(new PostRepresentation(post, true, uriInfo
+					.getAbsolutePathBuilder()
+					.path(post.getTimestamp().toString()).build()));
 		}
 
 		self = uriInfo.getAbsolutePathBuilder().build();
 	}
-	
-	public PostCollectionRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("posts") Collection<PostRepresentation> posts) {
+
+	public PostCollectionRepresentation(URI self,
+			Collection<PostRepresentation> posts) {
 		this.self = self;
 		this.posts = posts;
 	}
-	
-	public PostCollectionRepresentation() {}
+
+	public PostCollectionRepresentation() {
+	}
 
 	@XmlElement
 	public Collection<PostRepresentation> getPosts() {

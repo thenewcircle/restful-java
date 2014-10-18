@@ -9,8 +9,6 @@ import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import chirp.model.User;
 
 @XmlRootElement
@@ -25,14 +23,17 @@ public class UserCollectionRepresentation {
 	public UserCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
 
 		for (User user : users) {
-			this.users.add(new UserRepresentation(user, true, uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build()));
+			this.users
+					.add(new UserRepresentation(user, true, uriInfo
+							.getAbsolutePathBuilder().path(user.getUsername())
+							.build()));
 		}
 
 		self = uriInfo.getAbsolutePathBuilder().build();
 	}
 
-	public UserCollectionRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("users") Collection<UserRepresentation> users) {
+	public UserCollectionRepresentation(URI self,
+			Collection<UserRepresentation> users) {
 		this.self = self;
 		this.users = users;
 	}

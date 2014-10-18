@@ -5,9 +5,6 @@ import java.net.URI;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import chirp.model.User;
 
 @XmlRootElement
@@ -29,10 +26,7 @@ public class UserRepresentation {
 		}
 	}
 
-	@JsonCreator
-	public UserRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("username") String username,
-			@JsonProperty("realname") String realname) {
+	public UserRepresentation(URI self, String username, String realname) {
 		this.self = self;
 		this.username = username;
 		this.realname = realname;

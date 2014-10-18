@@ -48,8 +48,10 @@ public class PostResourceTest extends JerseyResourceTest {
 
 		assertNotNull(postRead); // make sure the GET response contains an
 									// entity.
+		
+		String content = postRead.getContent();
 
-		assertEquals("unit test success?", postRead.getContent()); // validate
+		assertEquals("unit test success?", content); // validate
 																	// the
 
 		verifyLinkHeaderExists("up", MediaType.APPLICATION_JSON_TYPE, response);
