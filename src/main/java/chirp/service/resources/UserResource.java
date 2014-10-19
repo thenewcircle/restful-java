@@ -20,13 +20,14 @@ public class UserResource {
 	@POST
 	public Response createUser(@FormParam("username") String username,
 			@FormParam("realname") String realname) {
+
 		logger.info("Creating a user with realname={} and username={}",
 				realname, username);
+
 		userRepository.createUser(username, realname);
-		return Response
-				.created(
-						UriBuilder.fromResource(this.getClass()).path(username)
-								.build()).build();
+		return Response.created(
+				UriBuilder.fromResource(this.getClass()).path(username)
+						.build()).build();
 	}
 
 }
