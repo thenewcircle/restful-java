@@ -1,0 +1,10 @@
+
+End of Day One Assignment
+=========================
+1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
+2) Switch to the class_3808 branch  
+3) Create a new working branch: Team -> SwitchTo -> NewBranch and name it user_create_testcase
+4) Create a UserResourceTest class.
+5) Create a test case to create a user.
+6) Verify status code 201 is returned. 
+7) Commit locally.
