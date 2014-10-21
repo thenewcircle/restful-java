@@ -1,0 +1,47 @@
+Nouns
+* Complexity should be in query params
+
+Users
+====
+/users -> add additional terms using query params not paths
+/users/{id}  -> add additional terms using query params not paths
+
+Create a user
+POST /users -> additional info as form params
+
+GET  /users -> list all of the users
+  Accept: text/html, application/xml, application/json
+  Accept-Encoding: deflate, gzip
+  
+  RESPONSE: 
+  Status: 200 or 304
+  
+
+GET  /users?department={id or name}
+DELETE /users -> delete all users
+
+PUT /users/{username} -> a complete update the user
+
+GET /users/{username} -> a full user object
+
+RESPONSE: 
+Status: 200 -- user found and return
+        304 -- found and not modified
+        404 -- user not found / does not exist
+        410 -- used to be on the system. 
+
+
+DELETE /users/{id} -> delete a user
+
+
+
+Chirps
+======
+
+Restrictions -> a chirp must be associated with a user and a user's chirp has a unique id. 
+
+/chirps/{username}
+/chirps/{username}/{chirp id}
+
+/users/{username}/chrips/{chrip id}
+/users/{username}/chrips    
