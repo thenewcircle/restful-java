@@ -9,6 +9,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import chirp.model.DuplicateEntityException;
 import chirp.model.UserRepository;
 
 @Path("/users")
@@ -20,15 +21,21 @@ public class UserResource {
 	@POST
 	public Response createUser(@FormParam("username") String username,
 			@FormParam("realname") String realname) {
-		
-		logger.info("Creating a user with username={} and realname={}", username, realname);
 
-		userRepository.createUser(username, realname);
+		logger.info("Creating a user with username={} and realname={}",
+				username, realname);
 
-		return Response
-				.created(
-						UriBuilder.fromResource(this.getClass()).path(username)
-								.build()).build();
+		try {
+
+			userRepository.createUser(username, realname);
+			return Response.created(
+					UriBuilder.fromResource(this.getClass()).path(username)
+							.build()).build();
+
+		} catch (DuplicateEntityException dee) {
+			return Response.status(Response.Status.FORBIDDEN)
+					.entity("User already exists").build();
+		}
 
 	}
 
