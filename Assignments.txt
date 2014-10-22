@@ -1,3 +1,16 @@
+Homework Assignment Day Two
+===============================
+1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
+2) Switch to the class_3808 branch  
+3) Create a new working branch: Team -> SwitchTo -> NewBranch and name it head_lab
+4) Implement @HEAD support for //chirps/{username}/{id} and //users/{username}.
+   a) think about reuse between the @GET and @HEAD code within the resource
+   b) do not implement @HEAD responses for collections of chirps and users
+   c) test cases for head are optional
+5) Implement @GET for //users and test through POSTMAN. 
+   a) do not implement a test case yet.
+6) Commit locally 
+
 
 Afternoon Day Two Assignment
 =========================

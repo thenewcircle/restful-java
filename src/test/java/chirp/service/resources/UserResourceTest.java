@@ -58,5 +58,13 @@ public class UserResourceTest extends JerseyResourceTest {
 				.get(UserRepresentation.class);
 		assertEquals("student", ur.getUsername());
 	}
+	
+	@Test
+	public void userNotFound() {
+	
+		Response response = target("/users/blah").request(MediaType.APPLICATION_XML_TYPE).get();
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
+		
+	}
 
 }

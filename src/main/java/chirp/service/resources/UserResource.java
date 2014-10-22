@@ -39,18 +39,10 @@ public class UserResource {
 	
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_XML)
-	public UserRepresentation getUserAsXML(@PathParam("username") String username) {
+	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+	public UserRepresentation getUser(@PathParam("username") String username) {
 		return new UserRepresentation(userRepository.getUser(username));
 	}
 	
-	@GET
-	@Path("{username}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public UserRepresentation getUserAsJSON(@PathParam("username") String username) {
-		return new UserRepresentation(userRepository.getUser(username));
-	}
-
-
 
 }
