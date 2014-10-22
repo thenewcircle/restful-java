@@ -115,7 +115,7 @@ public class UserRepository implements Serializable {
 
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("User already exists");
 
 		User user = new User(username, realname);
 		users.put(username, user);
