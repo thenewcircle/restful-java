@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
+	<classpathentry kind="var" path="M2_REPO/javax/inject/javax.inject/1/javax.inject-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/xml/bind/jaxb-api/2.2.2/jaxb-api-2.2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/el/el-api/2.2/el-api-2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/javax/servlet/javax.servlet-api/3.0.1/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-grizzly2/1.17/jersey-grizzly2-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-http/2.2.16/grizzly-http-2.2.16.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-framework/2.2.16/grizzly-framework-2.2.16.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-http-server/2.2.16/grizzly-http-server-2.2.16.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-rcm/2.2.16/grizzly-rcm-2.2.16.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-server/1.17/jersey-server-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/asm/asm/3.1/asm-3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-core/1.17/jersey-core-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/contribs/jersey-guice/1.17/jersey-guice-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/inject/guice/3.0/guice-3.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/inject/extensions/guice-servlet/3.0/guice-servlet-3.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-servlet/1.17/jersey-servlet-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-json/1.17/jersey-json-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jettison/jettison/1.1/jettison-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/xml/bind/jaxb-impl/2.2.3-1/jaxb-impl-2.2.3-1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-asl/1.9.2/jackson-core-asl-1.9.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-asl/1.9.2/jackson-mapper-asl-1.9.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-jaxrs/1.9.2/jackson-jaxrs-1.9.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-xc/1.9.2/jackson-xc-1.9.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-server-linking/1.17/jersey-server-linking-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/web/el-impl/2.2/el-impl-2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/joda-time/joda-time/2.2/joda-time-2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-test-framework/jersey-test-framework-grizzly2/1.17/jersey-test-framework-grizzly2-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-test-framework/jersey-test-framework-core/1.17/jersey-test-framework-core-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.8.2/junit-4.8.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-client/1.17/jersey-client-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-grizzly2-servlet/1.17/jersey-grizzly2-servlet-1.17.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/grizzly/grizzly-http-servlet/2.2.16/grizzly-http-servlet-2.2.16.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/glassfish/javax.servlet/3.1/javax.servlet-3.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_20">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
