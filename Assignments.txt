@@ -1,4 +1,21 @@
 
+Afternoon Day Two Assignment
+=========================
+1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
+2) Switch to the class_3808 branch  
+3) Create a new working branch: Team -> SwitchTo -> NewBranch and name it chirp_reps_lab
+4) Create a representation class for chirps and annotate for XML and JSON conversion.
+   a) do not include the user
+   b) represent the id a string and do not use the nested ChirpId class or representation for it. 
+5) Create a ChipResource class that creates and returns a chirps for a user. 
+   create URI =>  chirps/{username}
+   getall URI =>  chirps/{username}
+   get URI => chrips/{username}/{id}
+6) Test using POSTMAN
+7) Add a negative case for user not found.  
+7) Commit locally.
+
+
 Lunch Day Two Assignment
 =========================
 1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
