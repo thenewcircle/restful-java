@@ -13,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
@@ -43,24 +44,30 @@ public class ChirpResource {
 
 		return Response.created(location).build();
 	}
-
+	
+	private Response createSingleChirpResponse(boolean isGet, String username, String id) {
+		Chirp chirp = userRepository.getUser(username).getChirp(new ChirpId(id)); // will validate if the users exists
+		URI self = UriBuilder.fromResource(this.getClass()).path(id).build(username);
+		ResponseBuilder rb = (isGet) ? Response.ok(new ChirpRepresentation(self, chirp)) : Response.ok();
+		return rb.build();
+	}
+	
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public ChirpRepresentation getChirp(@PathParam("username") String username,
+	public Response getChirp(@PathParam("username") String username,
 			@PathParam("id") String id) {
-		return new ChirpRepresentation(userRepository.getUser(username)
-				.getChirp(new ChirpId(id)));
+		return createSingleChirpResponse(true, username, id);
 	}
-	
-	
+		
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Collection<ChirpRepresentation> getChirp(@PathParam("username") String username) {
 		Collection<ChirpRepresentation> chirps = new ArrayList<>();
 		
 		for (Chirp chirp : userRepository.getUser(username).getChirps()) {
-			chirps.add(new ChirpRepresentation(chirp));
+			URI self = UriBuilder.fromResource(this.getClass()).path(chirp.getId().toString()).build(username); 
+			chirps.add(new ChirpRepresentation(self, chirp));
 		}
 		
 		return Collections.unmodifiableCollection(chirps);
