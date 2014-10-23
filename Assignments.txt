@@ -1,3 +1,12 @@
+Morning Assignment Day Three
+============================
+1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
+2) Switch to the class_3808 branch  
+3) Create a new working branch: Team -> SwitchTo -> NewBranch and name it self_lab
+4) Create @HEAD method support for /chirps/{username}/{id} that shares code with @GET similar to user
+5) Implement self link element in a ChirpRepresentation
+6) Commit locally. 
+
 Homework Assignment Day Two
 ===============================
 1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream

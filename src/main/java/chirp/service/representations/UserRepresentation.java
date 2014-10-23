@@ -1,5 +1,7 @@
 package chirp.service.representations;
 
+import java.net.URI;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -10,14 +12,16 @@ public class UserRepresentation {
 	
 	private String username;
 	private String realname;
+	private URI self;
 
 	// required by jaxb marshalling 
 	public UserRepresentation() {}
 	
 	// use from our UserResource
-	public UserRepresentation(User user) {
+	public UserRepresentation(URI self, User user) {
 		this.username = user.getUsername();
 		this.realname = user.getRealname();
+		this.self = self;
 	}
 
 	@XmlElement
@@ -32,6 +36,15 @@ public class UserRepresentation {
 	@XmlElement
 	public String getRealname() {
 		return realname;
+	}
+	
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+	
+	public void setSelf(URI self) {
+		this.self = self;
 	}
 	
 	public void setRealname(String realname) {

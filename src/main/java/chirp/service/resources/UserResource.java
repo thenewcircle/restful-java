@@ -1,18 +1,23 @@
 package chirp.service.resources;
 
+import java.net.URI;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
 
@@ -37,11 +42,25 @@ public class UserResource {
 
 	}
 	
+	private Response createSingleUserResponse(boolean isGet, String username) {
+		User user = userRepository.getUser(username); // will validate if the users exists
+		URI self = UriBuilder.fromResource(this.getClass()).path(username).build();
+		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(self, user)) : Response.ok();
+		return rb.build();
+	}
+	
+	
 	@GET
 	@Path("{username}")
 	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-	public UserRepresentation getUser(@PathParam("username") String username) {
-		return new UserRepresentation(userRepository.getUser(username));
+	public Response getUser(@PathParam("username") String username) {
+		return createSingleUserResponse(true, username);
+	}
+	
+	@HEAD
+	@Path("{username}")
+	public Response getUserHeaders(@PathParam("username") String username) {
+		return createSingleUserResponse(false, username);
 	}
 	
 
