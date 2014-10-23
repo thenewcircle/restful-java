@@ -1,3 +1,13 @@
+Lunch Assignment Day Three
+===========================
+1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
+2) Switch to the class_3808 branch  
+3) Create a new working branch: Team -> SwitchTo -> NewBranch and name it chirp_col
+4) Create ChirpCollectionRepresentation class and code it use the AbsoluteURIBuilder from uriInfo similar to UserCollectionRepresentation.
+5) Remember to add the @Context UriInfo class to the signatures of the GET and HEAD methods in the ChirpResource class.
+6) Test with Postman.
+7) Commit locally.
+
 Morning Assignment Day Three
 ============================
 1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
@@ -21,8 +31,8 @@ Homework Assignment Day Two
 6) Commit locally 
 
 
-Afternoon Day Two Assignment
-=========================
+Afternoon Assignment Day Two
+============================
 1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
 2) Switch to the class_3808 branch  
 3) Create a new working branch: Team -> SwitchTo -> NewBranch and name it chirp_reps_lab
@@ -38,7 +48,7 @@ Afternoon Day Two Assignment
 7) Commit locally.
 
 
-Lunch Day Two Assignment
+Lunch Assignment Day Two
 =========================
 1) Assumes you have the latest class_3808.  Team -> pull or Team -> Fetch Upstream
 2) Switch to the class_3808 branch  
