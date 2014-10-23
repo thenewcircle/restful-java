@@ -9,18 +9,21 @@ import chirp.model.User;
 
 @XmlRootElement
 public class UserRepresentation {
-	
+
 	private String username;
 	private String realname;
 	private URI self;
 
-	// required by jaxb marshalling 
-	public UserRepresentation() {}
-	
+	// required by jaxb marshalling
+	public UserRepresentation() {
+	}
+
 	// use from our UserResource
-	public UserRepresentation(URI self, User user) {
-		this.username = user.getUsername();
-		this.realname = user.getRealname();
+	public UserRepresentation(boolean summary, URI self, User user) {
+		if (summary == false) {
+			this.username = user.getUsername();
+			this.realname = user.getRealname();
+		}
 		this.self = self;
 	}
 
@@ -28,25 +31,25 @@ public class UserRepresentation {
 	public String getUsername() {
 		return username;
 	}
-	
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	@XmlElement
 	public String getRealname() {
 		return realname;
 	}
-	
+
 	@XmlElement
 	public URI getSelf() {
 		return self;
 	}
-	
+
 	public void setSelf(URI self) {
 		this.self = self;
 	}
-	
+
 	public void setRealname(String realname) {
 		this.realname = realname;
 	}
@@ -77,4 +80,4 @@ public class UserRepresentation {
 		return true;
 	}
 
-	}
+}

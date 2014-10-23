@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
@@ -21,16 +22,34 @@ public class UserResourceTest extends JerseyResourceTest {
 		UserRepository.getInstance().clear();
 	}
 
+	private Response createAnyUser(String realname, String username) {
+		Form user = new Form().param("realname", realname).param("username",
+				username);
+
+		return target("/users").request().post(Entity.form(user));
+
+	}
+
 	private Response createUserWithExpectedStatusCode(
 			Response.Status expectedStatusCode) {
-		// create a form
-		Form user = new Form().param("realname", "Bob Student").param(
-				"username", "student");
-
-		// send the form as post
-		Response response = target("/users").request().post(Entity.form(user));
+		Response response = createAnyUser("Bob Student", "student");
 		assertEquals(expectedStatusCode.getStatusCode(), response.getStatus());
 		return response;
+
+	}
+
+	@Test
+	public void getUsers() {
+
+		createAnyUser("Bob Student", "student");
+		createAnyUser("Cole Student", "cole");
+		createAnyUser("Jeff Student", "jeff");
+
+		UserCollectionRepresentation ucr = target("/users").request()
+				.accept(MediaType.APPLICATION_XML)
+				.get(UserCollectionRepresentation.class);
+		
+		assertEquals(3, ucr.getUsers().size());
 
 	}
 
@@ -58,13 +77,15 @@ public class UserResourceTest extends JerseyResourceTest {
 				.get(UserRepresentation.class);
 		assertEquals("student", ur.getUsername());
 	}
-	
+
 	@Test
 	public void userNotFound() {
-	
-		Response response = target("/users/blah").request(MediaType.APPLICATION_XML_TYPE).get();
-		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
-		
+
+		Response response = target("/users/blah").request(
+				MediaType.APPLICATION_XML_TYPE).get();
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(),
+				response.getStatus());
+
 	}
 
 }

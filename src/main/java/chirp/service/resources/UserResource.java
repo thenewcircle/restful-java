@@ -1,9 +1,6 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -12,17 +9,19 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
-import chirp.service.representations.ChirpRepresentation;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
@@ -45,39 +44,36 @@ public class UserResource {
 								.build()).build();
 
 	}
-	
+
 	private Response createSingleUserResponse(boolean isGet, String username) {
-		User user = userRepository.getUser(username); // will validate if the users exists
-		URI self = UriBuilder.fromResource(this.getClass()).path(username).build();
-		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(self, user)) : Response.ok();
+		User user = userRepository.getUser(username); // will validate if the
+														// users exists
+		URI self = UriBuilder.fromResource(this.getClass()).path(username)
+				.build();
+		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(
+				false, self, user)) : Response.ok();
 		return rb.build();
 	}
-	
-	
+
 	@GET
 	@Path("{username}")
-	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getUser(@PathParam("username") String username) {
 		return createSingleUserResponse(true, username);
 	}
-	
+
 	@HEAD
 	@Path("{username}")
 	public Response getUserHeaders(@PathParam("username") String username) {
 		return createSingleUserResponse(false, username);
 	}
-	
+
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Collection<UserRepresentation> getUsers() {
-		Collection<UserRepresentation> users = new ArrayList<>();
-		
-		for (User user : userRepository.getUsers()) {
-			URI self = UriBuilder.fromResource(this.getClass()).path(user.getUsername()).build(); 
-			users.add(new UserRepresentation(self, user));
-		}
-		
-		return Collections.unmodifiableCollection(users);
+	public UserCollectionRepresentation getUsers(@Context UriInfo uriInfo) {
+
+		return new UserCollectionRepresentation(userRepository.getUsers(), uriInfo);
+
 	}
 
 }

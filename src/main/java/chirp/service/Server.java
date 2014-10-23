@@ -8,8 +8,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import chirp.model.UserRepository;
-
 /**
  * Lightweight, embedded HTTP server. Knows how to load and save the user
  * repository, and provide it for injection into resource classes.
