@@ -1,5 +1,6 @@
 package chirp.service.resources;
 
+import java.util.Date;
 import java.util.Deque;
 
 import javax.ws.rs.FormParam;
@@ -9,9 +10,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
@@ -42,30 +46,49 @@ public class ChirpResource {
 	}
 
 	private Response createSingleChirpResponse(boolean isGet, String username,
-			String id, UriInfo uriInfo) {
+			String id, UriInfo uriInfo, Request request) {
 		User user = userRepository.getUser(username);
+		Chirp chirp = user.getChirp(new ChirpId(id));
 
-		ResponseBuilder rb = (isGet) ? Response.ok(new ChirpRepresentation(user
-				.getChirp(new ChirpId(id)), false, uriInfo
-				.getAbsolutePathBuilder().build())) : Response.ok();
+		Date lastModified = chirp.getLastModified();
 
-		rb.links(
+		EntityTag eTag = new EntityTag(Integer.toHexString(chirp
+				.strongHashCode()));
 
-				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
-						.rel("self").title("chirp").build(),
+		ResponseBuilder rb = request.evaluatePreconditions(lastModified, eTag);
+		if (rb == null) {
+			rb = (isGet) ? Response.ok(new ChirpRepresentation(chirp, false,
+					uriInfo.getAbsolutePathBuilder().build())) : Response.ok();
 
-				Link.fromUriBuilder(
-						uriInfo.getBaseUriBuilder().path(
-								uriInfo.getPathSegments().get(0).getPath()
-										+ "/"
-										+ uriInfo.getPathSegments().get(1)
-												.getPath())).rel("up")
-						.title(user.getRealname() + " chrips").build(),
+			rb.tag(eTag);
+			rb.lastModified(chirp.getLastModified());
 
-				Link.fromUriBuilder(
-						uriInfo.getBaseUriBuilder().path("/users")
-								.path(user.getUsername())).rel("related")
-						.title(user.getRealname()).build());
+			rb.links(
+
+					Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+							.rel("self").title("chirp").build(),
+
+					Link.fromUriBuilder(
+							uriInfo.getBaseUriBuilder()
+									.path(uriInfo.getPathSegments().get(0)
+											.getPath())
+									.path(uriInfo.getPathSegments().get(1)
+											.getPath())).rel("up")
+							.title(user.getRealname() + " chrips").build(),
+
+					Link.fromUriBuilder(
+							uriInfo.getBaseUriBuilder().path("/users")
+									.path(user.getUsername())).rel("related")
+							.title(user.getRealname()).build());
+
+		}
+
+		CacheControl cc = new CacheControl();
+		cc.setMaxAge(300); // how long the client should wait before asking for
+							// the chirp again
+		cc.setNoStore(true); // don't store on disk
+		cc.setPrivate(true); // make it public or is this a good idea?
+		rb.cacheControl(cc); // set it in the header
 
 		return rb.build();
 	}
@@ -73,16 +96,18 @@ public class ChirpResource {
 	@HEAD
 	@Path("{id}")
 	public Response headResponse(@PathParam("username") String username,
-			@PathParam("id") String id, @Context UriInfo uriInfo) {
-		return createSingleChirpResponse(false, username, id, uriInfo);
+			@PathParam("id") String id, @Context UriInfo uriInfo,
+			@Context Request request) {
+		return createSingleChirpResponse(false, username, id, uriInfo, request);
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getChirp(@PathParam("username") String username,
-			@PathParam("id") String id, @Context UriInfo uriInfo) {
-		return createSingleChirpResponse(true, username, id, uriInfo);
+			@PathParam("id") String id, @Context UriInfo uriInfo,
+			@Context Request request) {
+		return createSingleChirpResponse(true, username, id, uriInfo, request);
 
 	}
 

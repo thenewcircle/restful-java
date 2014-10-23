@@ -1,6 +1,7 @@
 package chirp.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Chirp,
@@ -13,11 +14,13 @@ public class Chirp implements Serializable {
 	private final ChirpId id;
 	private final String content;
 	private final User user;
+	private final Date lastModified;
 
 	public Chirp(ChirpId id, String content, User user) {
 		this.id = id;
 		this.content = content;
 		this.user = user;
+		lastModified = new Date();
 	}
 
 	public ChirpId getId() {
@@ -30,6 +33,22 @@ public class Chirp implements Serializable {
 
 	public User getUser() {
 		return user;
+	}
+			
+	public Date getLastModified() {
+		return lastModified;
+	}
+
+	public int strongHashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		result = prime * result
+				+ ((content == null) ? 0 : content.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
 	}
 
 	@Override
