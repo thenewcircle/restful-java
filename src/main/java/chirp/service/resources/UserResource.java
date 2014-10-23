@@ -45,11 +45,11 @@ public class UserResource {
 
 	}
 
-	private Response createSingleUserResponse(boolean isGet, String username) {
+	private Response createSingleUserResponse(boolean isGet, String username,
+			UriInfo uriInfo) {
 		User user = userRepository.getUser(username); // will validate if the
 														// users exists
-		URI self = UriBuilder.fromResource(this.getClass()).path(username)
-				.build();
+		URI self = uriInfo.getAbsolutePathBuilder().build();
 		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(
 				false, self, user)) : Response.ok();
 		return rb.build();
@@ -58,21 +58,24 @@ public class UserResource {
 	@GET
 	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getUser(@PathParam("username") String username) {
-		return createSingleUserResponse(true, username);
+	public Response getUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return createSingleUserResponse(true, username, uriInfo);
 	}
 
 	@HEAD
 	@Path("{username}")
-	public Response getUserHeaders(@PathParam("username") String username) {
-		return createSingleUserResponse(false, username);
+	public Response getUserHeaders(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return createSingleUserResponse(false, username, uriInfo);
 	}
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public UserCollectionRepresentation getUsers(@Context UriInfo uriInfo) {
 
-		return new UserCollectionRepresentation(userRepository.getUsers(), uriInfo);
+		return new UserCollectionRepresentation(userRepository.getUsers(),
+				uriInfo);
 
 	}
 

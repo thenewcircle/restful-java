@@ -12,12 +12,15 @@ public class ChirpRepresentation {
 	private String id;
 	private String content;
 	private URI self;
-	
-	public ChirpRepresentation() {} 
-	
-	public ChirpRepresentation(URI self, Chirp chirp) { 
-		id = chirp.getId().toString();
-		content = chirp.getContent();
+
+	public ChirpRepresentation() {
+	}
+
+	public ChirpRepresentation(boolean summary, URI self, Chirp chirp) {
+		if (summary == false) {
+			id = chirp.getId().toString();
+			content = chirp.getContent();
+		}
 		this.self = self;
 	}
 
@@ -38,7 +41,7 @@ public class ChirpRepresentation {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	@XmlElement
 	public URI getSelf() {
 		return self;
@@ -83,5 +86,5 @@ public class ChirpRepresentation {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }
