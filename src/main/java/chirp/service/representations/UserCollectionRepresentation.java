@@ -14,38 +14,35 @@ import chirp.model.User;
 @XmlRootElement
 public class UserCollectionRepresentation {
 
-	private Collection<UserRepresentation> users = new ArrayList<>();
-	private URI self;
+    private Collection<UserRepresentation> users = new ArrayList<>();
+    private URI self;
 
-	public UserCollectionRepresentation() {
-	}
+    public UserCollectionRepresentation() {
+    }
 
-	public UserCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
+    public UserCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
 
-		for (User user : users) {
-			this.users
-					.add(new UserRepresentation(user, true, uriInfo
-							.getAbsolutePathBuilder().path(user.getUsername())
-							.build()));
-		}
+        for (final User user : users) {
+            this.users.add(new UserRepresentation(user, true, uriInfo.getAbsolutePathBuilder()
+                    .path(user.getUsername()).build()));
+        }
 
-		self = uriInfo.getAbsolutePathBuilder().build();
-	}
+        self = uriInfo.getAbsolutePathBuilder().build();
+    }
 
-	public UserCollectionRepresentation(URI self,
-			Collection<UserRepresentation> users) {
-		this.self = self;
-		this.users = users;
-	}
+    public UserCollectionRepresentation(URI self, Collection<UserRepresentation> users) {
+        this.self = self;
+        this.users = users;
+    }
 
-	@XmlElement
-	public Collection<UserRepresentation> getUsers() {
-		return Collections.unmodifiableCollection(users);
-	}
+    @XmlElement
+    public Collection<UserRepresentation> getUsers() {
+        return Collections.unmodifiableCollection(users);
+    }
 
-	@XmlElement
-	public URI getSelf() {
-		return self;
-	}
+    @XmlElement
+    public URI getSelf() {
+        return self;
+    }
 
 }

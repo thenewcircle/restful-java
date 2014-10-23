@@ -14,38 +14,36 @@ import chirp.model.Chirp;
 @XmlRootElement
 public class ChirpCollectionRepresentation {
 
-	private Collection<ChirpRepresentation> chirps = new ArrayList<>();
-	private URI self;
+    private Collection<ChirpRepresentation> chirps = new ArrayList<>();
+    private URI self;
 
-	public ChirpCollectionRepresentation(Collection<Chirp> chirps,
-			String username, UriInfo uriInfo) {
+    public ChirpCollectionRepresentation(Collection<Chirp> chirps, String username,
+            UriInfo uriInfo) {
 
-		for (Chirp chirp : chirps) {
-			this.chirps.add(new ChirpRepresentation(chirp, true, uriInfo
-					.getAbsolutePathBuilder()
-					.path(chirp.getId().toString()).build()));
-		}
+        for (final Chirp chirp : chirps) {
+            this.chirps.add(new ChirpRepresentation(chirp, true, uriInfo.getAbsolutePathBuilder()
+                    .path(chirp.getId().toString()).build()));
+        }
 
-		self = uriInfo.getAbsolutePathBuilder().build();
-	}
+        self = uriInfo.getAbsolutePathBuilder().build();
+    }
 
-	public ChirpCollectionRepresentation(URI self,
-			Collection<ChirpRepresentation> chirps) {
-		this.self = self;
-		this.chirps = chirps;
-	}
+    public ChirpCollectionRepresentation(URI self, Collection<ChirpRepresentation> chirps) {
+        this.self = self;
+        this.chirps = chirps;
+    }
 
-	public ChirpCollectionRepresentation() {
-	}
+    public ChirpCollectionRepresentation() {
+    }
 
-	@XmlElement
-	public Collection<ChirpRepresentation> getChirps() {
-		return Collections.unmodifiableCollection(chirps);
-	}
+    @XmlElement
+    public Collection<ChirpRepresentation> getChirps() {
+        return Collections.unmodifiableCollection(chirps);
+    }
 
-	@XmlElement
-	public URI getSelf() {
-		return self;
-	}
+    @XmlElement
+    public URI getSelf() {
+        return self;
+    }
 
 }

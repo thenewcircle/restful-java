@@ -6,88 +6,94 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 /**
- * Entity representing a user of the "chirp" service. A user logically owns a
- * collection of chirps, indexed by id.
+ * Entity representing a user of the "chirp" service. A user logically owns a collection of chirps,
+ * indexed by id.
  */
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final String username;
-	private final String realname;
-	private final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
-	
-	public User(String username, String realname) {
-		this.username = username;
-		this.realname = realname;
-	}
+    private final String username;
+    private final String realname;
+    private final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
 
-	public String getUsername() {
-		return username;
-	}
+    public User(String username, String realname) {
+        this.username = username;
+        this.realname = realname;
+    }
 
-	public String getRealname() {
-		return realname;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public Chirp createChirp(String content) {
-		ChirpId id = new ChirpId();
-		if (chirps.containsKey(id))
-			throw new DuplicateEntityException("Chirp already exists");
+    public String getRealname() {
+        return realname;
+    }
 
-		Chirp chirp = new Chirp(id, content, this);
-		chirps.put(id, chirp);
-		return chirp;
-	}
+    public Chirp createChirp(String content) {
+        final ChirpId id = new ChirpId();
+        if (chirps.containsKey(id)) {
+            throw new DuplicateEntityException("Chirp already exists");
+        }
 
-	public Deque<Chirp> getChirps() {
-		return new LinkedList<Chirp>(chirps.values());
-	}
+        final Chirp chirp = new Chirp(id, content, this);
+        chirps.put(id, chirp);
+        return chirp;
+    }
 
-	public Chirp getChirp(ChirpId id) {
-		Chirp chirp = chirps.get(id);
-		if (chirp == null)
-			throw new NoSuchEntityException();
+    public Deque<Chirp> getChirps() {
+        return new LinkedList<Chirp>(chirps.values());
+    }
 
-		return chirp;
-	}
+    public Chirp getChirp(ChirpId id) {
+        final Chirp chirp = chirps.get(id);
+        if (chirp == null) {
+            throw new NoSuchEntityException();
+        }
 
-	public void deleteChirp(String id) {
-		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException();
-	}
+        return chirp;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((username == null) ? 0 : username.hashCode());
-		return result;
-	}
+    public void deleteChirp(String id) {
+        if (chirps.remove(id) == null) {
+            throw new NoSuchEntityException();
+        }
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((username == null) ? 0 : username.hashCode());
+        return result;
+    }
 
-	@Override
-	public String toString() {
-		return "User [username=" + username + "]";
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (username == null) {
+            if (other.username != null) {
+                return false;
+            }
+        } else if (!username.equals(other.username)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User [username=" + username + "]";
+    }
 
 }
