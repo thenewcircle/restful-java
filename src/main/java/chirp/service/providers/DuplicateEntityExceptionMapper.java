@@ -12,7 +12,7 @@ public class DuplicateEntityExceptionMapper implements
 	
 	@Override
 	public Response toResponse(DuplicateEntityException exception) {
-		return Response.status(Response.Status.FORBIDDEN).build();
+		return Response.status(Response.Status.FORBIDDEN).entity(exception.getMessage()).build();
 	}
 
 }
