@@ -1,6 +1,7 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.Deque;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -10,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
@@ -52,6 +54,22 @@ public class UserResource {
 		URI self = uriInfo.getAbsolutePathBuilder().build();
 		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(
 				false, self, user)) : Response.ok();
+
+		rb.links(
+
+				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+						.rel("self").title(user.getRealname()).build(),
+
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path(
+								uriInfo.getPathSegments().get(0).getPath()))
+						.rel("up").title("users").build(),
+
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path(ChirpResource.class))
+						.rel("related").title(user.getRealname() + " chirps")
+						.build(username));
+
 		return rb.build();
 	}
 
@@ -72,10 +90,28 @@ public class UserResource {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public UserCollectionRepresentation getUsers(@Context UriInfo uriInfo) {
+	public Response getUsers(@Context UriInfo uriInfo) {
 
-		return new UserCollectionRepresentation(userRepository.getUsers(),
-				uriInfo);
+		ResponseBuilder rb = Response.ok(new UserCollectionRepresentation(
+				userRepository.getUsers(), uriInfo));
+
+		Deque<User> users = userRepository.getUsers();
+
+		rb.links(
+				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+						.rel("self").title("users").build(),
+
+				Link.fromUriBuilder(
+						uriInfo.getAbsolutePathBuilder().path(
+								users.getFirst().getUsername())).rel("first")
+						.title(users.getFirst().getRealname()).build(),
+
+				Link.fromUriBuilder(
+						uriInfo.getAbsolutePathBuilder().path(
+								users.getLast().getUsername())).rel("last")
+						.title(users.getLast().getRealname()).build());
+
+		return rb.build();
 
 	}
 
