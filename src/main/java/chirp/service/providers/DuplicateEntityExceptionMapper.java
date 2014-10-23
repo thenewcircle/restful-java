@@ -7,12 +7,14 @@ import javax.ws.rs.ext.Provider;
 import chirp.model.DuplicateEntityException;
 
 @Provider
-public class DuplicateEntityExceptionMapper implements ExceptionMapper<DuplicateEntityException> {
+public class DuplicateEntityExceptionMapper implements
+		ExceptionMapper<DuplicateEntityException> {
 
 	@Override
 	public Response toResponse(DuplicateEntityException dee) {
 		return Response.status(Response.Status.FORBIDDEN)
 				.entity(dee.getMessage()).build();
+
 	}
 
 }

@@ -14,4 +14,5 @@ public class NoSuchEntityExceptionMapper implements
 	public Response toResponse(NoSuchEntityException nse) {
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}
+
 }

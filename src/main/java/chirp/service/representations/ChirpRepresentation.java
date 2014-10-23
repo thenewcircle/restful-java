@@ -9,6 +9,7 @@ import chirp.model.Chirp;
 
 @XmlRootElement
 public class ChirpRepresentation {
+
 	private String id;
 	private String content;
 	private URI self;
@@ -16,12 +17,18 @@ public class ChirpRepresentation {
 	public ChirpRepresentation() {
 	}
 
-	public ChirpRepresentation(boolean summary, URI self, Chirp chirp) {
+	public ChirpRepresentation(Chirp chirp, boolean summary, URI self) {
+		this.self = self;
 		if (summary == false) {
 			id = chirp.getId().toString();
 			content = chirp.getContent();
 		}
+	}
+
+	public ChirpRepresentation(URI self, String id, String content) {
 		this.self = self;
+		this.id = id;
+		this.content = content;
 	}
 
 	@XmlElement
@@ -29,17 +36,9 @@ public class ChirpRepresentation {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	@XmlElement
 	public String getContent() {
 		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	@XmlElement
@@ -47,44 +46,16 @@ public class ChirpRepresentation {
 		return self;
 	}
 
+	public void setId(String timestamp) {
+		this.id = timestamp;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public void setSelf(URI self) {
 		this.self = self;
 	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ChirpRepresentation other = (ChirpRepresentation) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ChirpRepresentation [id=");
-		builder.append(id);
-		builder.append(", content=");
-		builder.append(content);
-		builder.append("]");
-		return builder.toString();
-	}
-
+	
 }

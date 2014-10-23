@@ -3,7 +3,7 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import javax.ws.rs.client.Entity;
+
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,74 +17,96 @@ import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
+	private UserRepository userRepository = UserRepository.getInstance();
+	
 	@Before
-	public void clearUserRepository() {
-		UserRepository.getInstance().clear();
+	public void testInit() {
+		userRepository.clear();
 	}
 
-	private Response createAnyUser(String realname, String username) {
-		Form user = new Form().param("realname", realname).param("username",
-				username);
+	private Response createUser(String username, String realname,
+			Response.Status expectedResponse) {
 
-		return target("/users").request().post(Entity.form(user));
-
-	}
-
-	private Response createUserWithExpectedStatusCode(
-			Response.Status expectedStatusCode) {
-		Response response = createAnyUser("Bob Student", "student");
-		assertEquals(expectedStatusCode.getStatusCode(), response.getStatus());
-		return response;
-
-	}
-
-	@Test
-	public void getUsers() {
-
-		createAnyUser("Bob Student", "student");
-		createAnyUser("Cole Student", "cole");
-		createAnyUser("Jeff Student", "jeff");
-
-		UserCollectionRepresentation ucr = target("/users").request()
-				.accept(MediaType.APPLICATION_XML)
-				.get(UserCollectionRepresentation.class);
+		Form userForm = new Form().param("realname", realname).param(
+				"username", username);
 		
-		assertEquals(3, ucr.getUsers().size());
+		log.info("Created user {} with realname {} via POST", username, realname);
+
+		return postFormData("users", userForm, expectedResponse);
+
+	}
+
+	private void createUserSuccess(MediaType readAcceptHeader) {
+
+		Response response = createUser("bob", "Bob Student",
+				Response.Status.CREATED);
+
+		// You wan't to an object from the server -- User
+		// the entity to read is in the previous response's location header
+		
+		response = getEntity(response.getLocation(),
+				readAcceptHeader, Response.Status.OK);
+		
+		verifyLinkHeaderExists("up", readAcceptHeader, response);
+		verifyLinkHeaderExists("self", readAcceptHeader, response);
+		verifyLinkHeaderExists("related", readAcceptHeader, response); // no chirps created yet
+
+		log.info("Read user entity from the resposne");
+		UserRepresentation user = readEntity(response, UserRepresentation.class);
+
+		assertNotNull(user);
+		assertEquals("bob", user.getUsername());
+		assertEquals("Bob Student", user.getRealname());
 
 	}
 
 	@Test
-	public void createUser() {
-
-		Response response = createUserWithExpectedStatusCode(Response.Status.CREATED);
-		assertNotNull(response.getLocation());
-
+	public void createUserSuccessWithJSONVerify() {
+		log.info("Test: create user success with JSON Verify");
+		createUserSuccess(MediaType.APPLICATION_JSON_TYPE);
 	}
 
 	@Test
-	public void createDuplicateUserFailsWithForbidden() {
-
-		createUserWithExpectedStatusCode(Response.Status.CREATED);
-		createUserWithExpectedStatusCode(Response.Status.FORBIDDEN);
-
+	public void createUserSuccessWithXMLVerify() {
+		log.info("Test: create user success with XML Verify");
+		createUserSuccess(MediaType.APPLICATION_XML_TYPE);
 	}
 
 	@Test
-	public void getUserSuccess() {
-		Response response = createUserWithExpectedStatusCode(Response.Status.CREATED);
-		UserRepresentation ur = target(response.getLocation().getPath())
-				.request().accept(MediaType.APPLICATION_XML_TYPE)
-				.get(UserRepresentation.class);
-		assertEquals("student", ur.getUsername());
+	public void createDuplicateUserFail() {
+		log.info("Test: Adding the same user twice should fail with a FORBIDDEN (403) on the second add request.");
+		createUser("bob", "Bob Student", Response.Status.CREATED);
+		createUser("bob", "Bob Student", Response.Status.FORBIDDEN);
 	}
 
 	@Test
-	public void userNotFound() {
+	public void createUserCollectionSuccess() {
 
-		Response response = target("/users/blah").request(
-				MediaType.APPLICATION_XML_TYPE).get();
-		assertEquals(Response.Status.NOT_FOUND.getStatusCode(),
-				response.getStatus());
+		log.info("Test: Creating a collection of two unique users should succeed.");
+		createUser("bob", "Bob Student", Response.Status.CREATED);
+		createUser("cole", "Cole Student", Response.Status.CREATED);
+
+		for (UserRepresentation user : readEntity("/users",
+				MediaType.APPLICATION_JSON_TYPE,
+				UserCollectionRepresentation.class).getUsers()) {
+
+			getHead(user.getSelf(), MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
+		}
+	}
+
+	@Test
+	public void verifyUserCollectionLinkHeaders() {
+
+		log.info("Test: Creating a collection of three users should succeed with link header verification on location only.");
+		
+		createUser("bob", "Bob Student", Response.Status.CREATED);
+		createUser("cole", "Cole Student", Response.Status.CREATED);
+		createUser("maddie", "Maddie Student", Response.Status.CREATED);
+
+		Response response = getHead("/users", MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
+		verifyLinkHeaderExists("self", MediaType.APPLICATION_JSON_TYPE, response);
+		verifyLinkHeaderExists("first", MediaType.APPLICATION_JSON_TYPE, response);
+		verifyLinkHeaderExists("last", MediaType.APPLICATION_JSON_TYPE, response);
 
 	}
 

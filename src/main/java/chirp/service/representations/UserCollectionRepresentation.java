@@ -3,6 +3,7 @@ package chirp.service.representations;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
@@ -12,40 +13,39 @@ import chirp.model.User;
 
 @XmlRootElement
 public class UserCollectionRepresentation {
-	private Collection<UserRepresentation> userReps = new ArrayList<>();
+
+	private Collection<UserRepresentation> users = new ArrayList<>();
 	private URI self;
-	
+
 	public UserCollectionRepresentation() {
-		
 	}
-	
-	public UserCollectionRepresentation(Collection<User> users,
-			UriInfo uriInfo) {
-		super();
-		this.self = uriInfo.getAbsolutePathBuilder().build();
-		
+
+	public UserCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
+
 		for (User user : users) {
-			URI userURI = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build(); 
-			userReps.add(new UserRepresentation(true, userURI, user));
+			this.users
+					.add(new UserRepresentation(user, true, uriInfo
+							.getAbsolutePathBuilder().path(user.getUsername())
+							.build()));
 		}
-		
+
+		self = uriInfo.getAbsolutePathBuilder().build();
 	}
+
+	public UserCollectionRepresentation(URI self,
+			Collection<UserRepresentation> users) {
+		this.self = self;
+		this.users = users;
+	}
+
 	@XmlElement
 	public Collection<UserRepresentation> getUsers() {
-		return userReps;
+		return Collections.unmodifiableCollection(users);
 	}
-	public void setUsers(Collection<UserRepresentation> users) {
-		this.userReps = users;
-	}
-	
+
 	@XmlElement
 	public URI getSelf() {
 		return self;
 	}
-	public void setSelf(URI self) {
-		this.self = self;
-	}
-	
-	
 
 }

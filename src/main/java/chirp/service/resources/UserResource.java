@@ -1,8 +1,8 @@
 package chirp.service.resources;
 
-import java.net.URI;
 import java.util.Deque;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
@@ -18,9 +18,6 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserCollectionRepresentation;
@@ -29,17 +26,30 @@ import chirp.service.representations.UserRepresentation;
 @Path("/users")
 public class UserResource {
 
-	private final UserRepository userRepository = UserRepository.getInstance();
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private UserRepository userRepository = UserRepository.getInstance();
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response createUserUsingJSON(UserRepresentation user) {
+
+		userRepository.createUser(user.getUsername(), user.getRealname());
+
+		return Response.created(
+				UriBuilder.fromResource(this.getClass())
+						.path(user.getUsername()).build()).build();
+
+	}
 
 	@POST
 	public Response createUser(@FormParam("username") String username,
 			@FormParam("realname") String realname) {
 
-		logger.info("Creating a user with username={} and realname={}",
-				username, realname);
-
 		userRepository.createUser(username, realname);
+
+		// using a java.net.URI for creating a location
+		// URI location = URI.create("/user/" + username);
+		// return Response.created(location).build();
+
 		return Response
 				.created(
 						UriBuilder.fromResource(this.getClass()).path(username)
@@ -47,30 +57,93 @@ public class UserResource {
 
 	}
 
+	private Response createUserCollectionResponse(boolean isGet, UriInfo uriInfo) {
+
+		Deque<User> users = userRepository.getUsers();
+
+		ResponseBuilder rb = (isGet) ? Response
+				.ok(new UserCollectionRepresentation(users, uriInfo))
+				: Response.ok();
+
+		// return no links for if there are no users on the server
+		if (users.size() > 0) {
+			rb.links(
+
+			// http://localhost:9998/users
+			// title:self
+					Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+							.rel("self").build(),
+
+					// http://localhost:9998/users/<first user name>
+					// rel: first
+					Link.fromUriBuilder(
+							uriInfo.getAbsolutePathBuilder().path(
+									users.getFirst().getUsername()))
+							.rel("first").build(),
+
+					// http://localhost:9998/users/<last user name>
+					// rel: last
+					Link.fromUriBuilder(
+							uriInfo.getAbsolutePathBuilder().path(
+									users.getLast().getUsername())).rel("last")
+							.build());
+		}
+
+		return rb.build();
+	}
+
+	@HEAD
+	public Response headAllUsers(@Context UriInfo uriInfo) {
+		return createUserCollectionResponse(false, uriInfo);
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getAllUsers(@Context UriInfo uriInfo) {
+		return createUserCollectionResponse(true, uriInfo);
+	}
+
 	private Response createSingleUserResponse(boolean isGet, String username,
 			UriInfo uriInfo) {
-		User user = userRepository.getUser(username); // will validate if the
-														// users exists
-		URI self = uriInfo.getAbsolutePathBuilder().build();
-		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(
-				false, self, user)) : Response.ok();
+		User user = userRepository.getUser(username);
 
+		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
+				false, uriInfo.getAbsolutePathBuilder().build())) : Response
+				.ok();
 		rb.links(
 
+		// http://localhost:9998/users/gordonff
+		// rel:self
+		// title: Gordon Force (realname field)
 				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
 						.rel("self").title(user.getRealname()).build(),
 
+				// http://localhost:9998/users
+				// rel: up
+				// title: all users
 				Link.fromUriBuilder(
 						uriInfo.getBaseUriBuilder().path(
 								uriInfo.getPathSegments().get(0).getPath()))
-						.rel("up").title("users").build(),
+						.rel("up").title("all users").build("users"),
 
+				// http://localhost:9998/chirps/gordonff
+				// rel: related
+				// title: Gordon Force chirps
 				Link.fromUriBuilder(
 						uriInfo.getBaseUriBuilder().path(ChirpResource.class))
 						.rel("related").title(user.getRealname() + " chirps")
-						.build(username));
+						.build(username)
+
+		);
 
 		return rb.build();
+	}
+
+	@HEAD
+	@Path("{username}")
+	public Response headResponse(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		return createSingleUserResponse(false, username, uriInfo);
 	}
 
 	@GET
@@ -79,40 +152,6 @@ public class UserResource {
 	public Response getUser(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
 		return createSingleUserResponse(true, username, uriInfo);
-	}
-
-	@HEAD
-	@Path("{username}")
-	public Response getUserHeaders(@PathParam("username") String username,
-			@Context UriInfo uriInfo) {
-		return createSingleUserResponse(false, username, uriInfo);
-	}
-
-	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getUsers(@Context UriInfo uriInfo) {
-
-		ResponseBuilder rb = Response.ok(new UserCollectionRepresentation(
-				userRepository.getUsers(), uriInfo));
-
-		Deque<User> users = userRepository.getUsers();
-
-		rb.links(
-				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
-						.rel("self").title("users").build(),
-
-				Link.fromUriBuilder(
-						uriInfo.getAbsolutePathBuilder().path(
-								users.getFirst().getUsername())).rel("first")
-						.title(users.getFirst().getRealname()).build(),
-
-				Link.fromUriBuilder(
-						uriInfo.getAbsolutePathBuilder().path(
-								users.getLast().getUsername())).rel("last")
-						.title(users.getLast().getRealname()).build());
-
-		return rb.build();
-
 	}
 
 }

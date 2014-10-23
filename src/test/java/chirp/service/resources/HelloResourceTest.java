@@ -11,18 +11,16 @@ public class HelloResourceTest extends JerseyResourceTest {
 		String hello = target("/greetings").request().get(String.class);
 		assertEquals("Hello!", hello);
 	}
-
+	
 	@Test
-	public void testGetHelloSomebodyAsParameter() {
-		String hello = target("/greetings").queryParam("name", "NewCircle")
-				.request().get(String.class);
+	public void helloResourceMustSayHelloWithName() {
+		String hello = target("/greetings/NewCircle").request().get(String.class);
 		assertEquals("Hello, NewCircle!", hello);
 	}
 
 	@Test
-	public void testGetHelloSomebodyAsPath() {
-		String hello = target("/greetings/NewCircle").request().get(
-				String.class);
+	public void helloResourceMustSayHelloWithPathParam() {
+		String hello = target("/greetings/NewCircle").request().get(String.class);
 		assertEquals("Hello, NewCircle!", hello);
 	}
 

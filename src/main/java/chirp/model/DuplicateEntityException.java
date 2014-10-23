@@ -5,9 +5,9 @@ package chirp.model;
  */
 public class DuplicateEntityException extends RuntimeException {
 	
-	public DuplicateEntityException(String string) {
-		super(string);
-	}
-
 	private static final long serialVersionUID = 1L;
+	
+	public DuplicateEntityException(String message) {
+		super(message);
+	}
 }

@@ -17,13 +17,15 @@ public class Server {
 	public static final String BASE_URI = "http://localhost:8080/";
 
 	private static HttpServer createServer() {
-		
+
+		// Modify jersey log levels here using code
+
 		// Jersey uses java.util.logging - bridge to slf4
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		final ResourceConfig rc = new ResourceConfig()
-				.packages("chirp.service.resources","chirp.service.providers");
+		final ResourceConfig rc = new ResourceConfig().packages(
+				"chirp.service.resources", "chirp.service.providers");
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI
@@ -32,9 +34,7 @@ public class Server {
 	}
 
 	public static void main(String[] args) throws IOException {
-	
-		// final UserRepository users = UserRepository.getInstance(true);
-		
+
 		// wait for shutdown ...
 		HttpServer httpServer = createServer();
 		System.out.println(String.format(
@@ -46,9 +46,6 @@ public class Server {
 		System.in.read();
 		httpServer.shutdownNow();
 
-		// save state
-		// users.freeze();
 	}
 
-	
 }
