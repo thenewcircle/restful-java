@@ -48,9 +48,7 @@ public class ChirpResource {
             UriInfo uriInfo, Request request) {
         final User user = userRepository.getUser(username);
         final Chirp chirp = user.getChirp(new ChirpId(id));
-
         final Date lastModified = chirp.getLastModified();
-
         final EntityTag etag = new EntityTag(Integer.toHexString(chirp.strongHashCode()));
 
         ResponseBuilder rb = request.evaluatePreconditions(lastModified, etag);
@@ -58,7 +56,6 @@ public class ChirpResource {
             rb =
                     (isGet) ? Response.ok(new ChirpRepresentation(chirp, false, uriInfo
                             .getAbsolutePathBuilder().build())) : Response.ok();
-
             rb.tag(etag);
             rb.lastModified(chirp.getLastModified());
 
@@ -72,11 +69,9 @@ public class ChirpResource {
                                     .path(uriInfo.getPathSegments().get(0).getPath())
                                     .path(uriInfo.getPathSegments().get(1).getPath())).rel("up")
                             .title(user.getRealname() + " chrips").build(),
-
                     Link.fromUriBuilder(
                             uriInfo.getBaseUriBuilder().path("/users").path(user.getUsername()))
                             .rel("related").title(user.getRealname()).build());
-
         }
 
         final CacheControl cc = new CacheControl();
