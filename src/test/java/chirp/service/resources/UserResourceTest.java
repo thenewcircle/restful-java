@@ -12,9 +12,9 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
+import chirp.service.representations.UsersCollectionRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 
@@ -73,10 +73,12 @@ public class UserResourceTest extends JerseyResourceTest<UsersResource> {
 		createUserSuccess(MediaType.APPLICATION_JSON_TYPE);
 		createUser("test", "Test User", Response.Status.CREATED);
 
-		@SuppressWarnings("unchecked")
-		Collection<UserRepresentation> users = (Collection<UserRepresentation>) target("/users").request(MediaType.APPLICATION_JSON).get(
-				Collection.class);
+		UsersCollectionRepresentation userCollection = target("/users")
+				.request(MediaType.APPLICATION_JSON).get(
+						UsersCollectionRepresentation.class);
 
+		assertNotNull(userCollection);
+		Collection<UserRepresentation> users = userCollection.getUserReps();
 		assertNotNull(users);
 		assertEquals(2, users.size());
 	}

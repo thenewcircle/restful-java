@@ -44,7 +44,7 @@ public class UsersCollectionRepresentation {
 	}
 
 	@XmlElement
-	public Collection<UserRepresentation> getUsers() {
+	public Collection<UserRepresentation> getUserReps() {
 		return userReps;
 	}
 

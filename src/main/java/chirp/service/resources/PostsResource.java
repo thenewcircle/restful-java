@@ -39,8 +39,9 @@ public class PostsResource {
 		Post post = user.createPost(content);
 
 		return Response.created(
-				UriBuilder.fromResource(this.getClass()).path(username)
-						.path(post.getTimestamp().toString()).build()).build();
+				UriBuilder.fromResource(this.getClass())
+						.path(post.getTimestamp().toString()).build(username))
+				.build();
 	}
 
 	@GET
