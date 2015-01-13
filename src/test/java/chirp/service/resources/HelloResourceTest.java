@@ -18,7 +18,16 @@ public class HelloResourceTest extends JerseyResourceTest {
 	@Test
 	public void helloResourceWithName() {
 		String hello = target("/greeting").queryParam("name", "Doug").request().get(String.class);
-		assertEquals("Hello Doug!", hello);
+		assertEquals("Hello, Doug!", hello);
+	}
+
+	/**
+	 * Test http://localhost:8080/greeting/Doug returns "Hello, Doug!"
+	 */
+	@Test
+	public void helloSubresource() {
+		String hello = target("/greeting").path("Doug").request().get(String.class);
+		assertEquals("Hello, Doug!!", hello);
 	}
 
 }
