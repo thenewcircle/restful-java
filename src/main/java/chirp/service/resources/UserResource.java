@@ -1,5 +1,6 @@
 package chirp.service.resources;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -20,5 +21,19 @@ public class UserResource {
 		UserRepository database = UserRepository.getInstance();
 		database.createUser(username,  realName);
 	}
+	
+	/**
+	 * GET http://localhost:8080/users/{username}
+	 * 
+	 * Download: the real name of the user as plain text in the body
+	 */
+	@Path("{username}")
+	@GET
+	public String getUserRealName(@PathParam("username") String username) {
+		UserRepository database = UserRepository.getInstance();
+		String realName = database.getUser(username).getRealname();
+		return realName;
+	}
+	
 	
 }
