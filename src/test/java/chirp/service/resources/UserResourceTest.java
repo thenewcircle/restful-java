@@ -1,6 +1,8 @@
 package chirp.service.resources;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,6 +39,22 @@ public class UserResourceTest extends JerseyResourceTest {
 		//Act (Do the action you want to test)
 		Entity<String> body = Entity.entity(realname, "text/plain");
 		target("users").path(username).request().put(body);
+		//Assert (Assert the correct outcome)
+		UserRepository database = UserRepository.getInstance();
+		Assert.assertEquals(realname, database.getUser(username).getRealname());
+	}
+
+	@Test
+	public void testCreatedDuplicateUser() {
+		//Assemble (Create test data)
+		String realname = "Luke Skywalker";
+		String username = "luke";
+		//Act (Do the action you want to test)
+		Entity<String> body = Entity.entity(realname, "text/plain");
+		Response response1 = target("users").path(username).request().put(body);
+		Assert.assertEquals(Status.OK, response1.getStatusInfo());
+		Response response2 = target("users").path(username).request().put(body);
+		Assert.assertEquals(Status.CONFLICT, response2.getStatusInfo());
 		//Assert (Assert the correct outcome)
 		UserRepository database = UserRepository.getInstance();
 		Assert.assertEquals(realname, database.getUser(username).getRealname());

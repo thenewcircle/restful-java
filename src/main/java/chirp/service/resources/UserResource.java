@@ -4,7 +4,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import chirp.model.DuplicateEntityException;
+import chirp.model.NoSuchEntityException;
 import chirp.model.UserRepository;
 
 @Path("/users")
@@ -17,9 +21,14 @@ public class UserResource {
 	 */
 	@Path("{username}")
 	@PUT
-	public void createUser(@PathParam("username") String username, String realName) {
-		UserRepository database = UserRepository.getInstance();
-		database.createUser(username,  realName);
+	public Response createUser(@PathParam("username") String username, String realName) {
+		try {
+			UserRepository database = UserRepository.getInstance();
+			database.createUser(username,  realName);
+			return Response.ok().build();
+		} catch (DuplicateEntityException e) {
+			return Response.status(Status.CONFLICT).build();
+		}
 	}
 	
 	/**
@@ -29,10 +38,10 @@ public class UserResource {
 	 */
 	@Path("{username}")
 	@GET
-	public String getUserRealName(@PathParam("username") String username) {
+	public Response getUserRealName(@PathParam("username") String username) {
 		UserRepository database = UserRepository.getInstance();
 		String realName = database.getUser(username).getRealname();
-		return realName;
+		return Response.ok(realName).build();
 	}
 	
 	
