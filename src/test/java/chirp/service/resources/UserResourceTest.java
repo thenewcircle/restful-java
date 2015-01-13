@@ -24,9 +24,9 @@ public class UserResourceTest extends JerseyResourceTest {
 		//Act (Do the action you want to test)
 		Entity<String> body = Entity.entity(realname, "text/plain");
 		target("users").path(username).request().put(body);
+		String realname2 = target("/users").path(username).request().get(String.class);
 		//Assert (Assert the correct outcome)
-		String username2 = target("/users").path(username).request().get(String.class);
-		Assert.assertEquals(realname, username2);
+		Assert.assertEquals(realname, realname2);
 	}
 
 	@Test
