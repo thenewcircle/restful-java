@@ -27,7 +27,7 @@ public class UserResource {
 	// http://localhost:8080/users/username
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public UserRepresentation getUser(@PathParam("username") String username) {
 		User user = UserRepository.getInstance().getUser(username);
 		logger.info("Retrived username={}",username);

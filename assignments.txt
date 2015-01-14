@@ -9,4 +9,19 @@ Representation Objects
     2) a view of the application independent of domain classes
   Strategy
     1) create a user representation object that does not contain chirps
-    2)  
+ 
+ 
+ Homework Day Two -- Add support for creating and retrieving a chirp
+   1) Create a chirp.service.resources.ChirpResource class with support for GET and POST (create)
+      URL: http://localhost:8080/chirps/{username} -- creating a chirp with a POST
+      URL: http://localhost:8080/chirps/{username}/{id} -- specific chirp created by a user
+   
+   2) Create a ChirpRepresentation class for sharing chirp reads with the client
+      a) include the content and id properties only from the chirp
+      
+   3) Return chirps in both XML and JSON formats
+   
+   4) Create supporting test cases
+   
+   5) Extra Credit: return all chirps for a given user 
+       

@@ -3,7 +3,7 @@ package chirp.service.resources;
 import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
+import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -47,7 +47,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
 		return new ResourceConfig().packages("chirp.service.resources",
-				"chirp.service.providers").register(MoxyXmlFeature.class);
+				"chirp.service.providers").register(MoxyJsonFeature.class);
 
 	}
 
@@ -58,7 +58,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 	 */
 	@Override
 	protected void configureClient(ClientConfig config) {
-		config.register(MoxyXmlFeature.class); // required to deserialize JSON
+		config.register(MoxyJsonFeature.class); // required to deserialize JSON / XML
 												// responses into Java objects
 												// in the test client.
 	}
