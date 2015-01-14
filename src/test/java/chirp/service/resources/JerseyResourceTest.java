@@ -2,6 +2,7 @@ package chirp.service.resources;
 
 import javax.ws.rs.core.Application;
 
+import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -45,7 +46,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
 		return new ResourceConfig().packages("chirp.service.resources",
-				"chirp.service.providers");
+				"chirp.service.providers").register(MoxyXmlFeature.class);
 
 	}
 

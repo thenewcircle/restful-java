@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of chirps, indexed by id.
@@ -18,7 +17,7 @@ public class User implements Serializable {
 	private final String username;
 	private final String realname;
 	private final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
-	
+
 	public User(String username, String realname) {
 		this.username = username;
 		this.realname = realname;
@@ -35,7 +34,8 @@ public class User implements Serializable {
 	public Chirp createChirp(String content) {
 		ChirpId id = new ChirpId();
 		if (chirps.containsKey(id))
-			throw new DuplicateEntityException("Chirp " + id + " already exists.");
+			throw new DuplicateEntityException("Chirp " + id
+					+ " already exists.");
 
 		Chirp chirp = new Chirp(id, content, this);
 		chirps.put(id, chirp);

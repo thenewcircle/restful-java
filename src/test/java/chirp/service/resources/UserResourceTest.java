@@ -1,6 +1,6 @@
 package chirp.service.resources;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import chirp.model.UserRepository;
+import chirp.service.resprentations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 	
@@ -55,6 +56,19 @@ public class UserResourceTest extends JerseyResourceTest {
 		
 		logger.info("End: createSameUserTwiceWithPOSTFailure");
 		
+	}
+	
+	@Test
+	public void getCreatedUserSuccess() {
+		logger.info("Start: getCreatedUserSuccess");
+		
+		Response response = createBobStudentUser();
+		assertEquals(Response.Status.CREATED.getStatusCode(), createBobStudentUser().getStatus());
+
+		UserRepresentation user = target(response.getLocation().getPath()).request().get(UserRepresentation.class);
+		assertEquals("student", user.getUsername());
+		
+		logger.info("End: getCreatedUserSuccess");
 	}
 
 
