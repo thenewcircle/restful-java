@@ -63,7 +63,7 @@ public class UserResourceTest extends JerseyResourceTest {
 		logger.info("Start: getCreatedUserSuccess");
 		
 		Response response = createBobStudentUser();
-		assertEquals(Response.Status.CREATED.getStatusCode(), createBobStudentUser().getStatus());
+		assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
 		UserRepresentation user = target(response.getLocation().getPath()).request().get(UserRepresentation.class);
 		assertEquals("student", user.getUsername());
