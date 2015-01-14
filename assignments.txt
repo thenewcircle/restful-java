@@ -1,0 +1,4 @@
+Steps to create a user in Chirp
+  1) Create a URI for adding a user -- http://localhost:8080/users
+  2) Choose the HTTP method for adding a user -- POST
+  3) Which class should hanle creating a user -- service.resources.UserResource
