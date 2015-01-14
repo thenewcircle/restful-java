@@ -35,7 +35,7 @@ public class User implements Serializable {
 	public Chirp createChirp(String content) {
 		ChirpId id = new ChirpId();
 		if (chirps.containsKey(id))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("Chirp " + id + " already exists.");
 
 		Chirp chirp = new Chirp(id, content, this);
 		chirps.put(id, chirp);

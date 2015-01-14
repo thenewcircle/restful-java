@@ -41,10 +41,11 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		// Jersey uses java.util.logging - bridge to slf4
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
-		
+
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig().packages("chirp.service.resources");
+		return new ResourceConfig().packages("chirp.service.resources",
+				"chirp.service.providers");
 
 	}
 
