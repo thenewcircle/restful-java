@@ -1,13 +1,21 @@
 package chirp.service.resources;
 
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.junit.After;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import chirp.model.UserRepository;
 
 /**
  * Common base class for jerseytest classes that assumes a single servce to test
@@ -19,6 +27,9 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest extends JerseyTest {
+
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
@@ -62,5 +73,21 @@ public abstract class JerseyResourceTest extends JerseyTest {
 												// responses into Java objects
 												// in the test client.
 	}
+	
+	@After
+	public void clearUserRepository() {
+		UserRepository.getInstance().clear(); // remove data between test method
+												// invocations
+	}
+
+	
+	protected Response createUserBobStudent() {
+		Form newUser = new Form().param("realname", "Bob Student").param(
+				"username", "student");
+		Response response  = target("/users").request().post(Entity.form(newUser));
+		return response;
+	}
+	
+
 
 }
