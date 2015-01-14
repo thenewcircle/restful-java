@@ -68,9 +68,24 @@ public class UserResourceTest extends JerseyResourceTest {
 		UserRepository database = UserRepository.getInstance();
 		database.createUser(username, realname);
 		//Act (Do the action you want to test)
-		String realname2 = target("users").path(username).request().get(String.class);
+		String realname2 = target("users").path(username).request()
+				.accept("text/plain").get(String.class);
 		//Assert (Assert the correct outcome)
 		Assert.assertEquals(realname, realname2);
+	}
+	
+	@Test
+	public void testGetUserAsXML() {
+		//Assemble (Create test data)
+		String realname = "Luke Skywalker";
+		String username = "luke";
+		UserRepository database = UserRepository.getInstance();
+		database.createUser(username, realname);
+		//Act (Do the action you want to test)
+		UserRepresentation user = target("users").path(username).request()
+				.accept("text/xml").get(UserRepresentation.class);
+		//Assert (Assert the correct outcome)
+		Assert.assertEquals(realname, user.getRealName());
 	}
 	
 }
