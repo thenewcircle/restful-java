@@ -1,16 +1,22 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.Deque;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
@@ -27,14 +33,48 @@ public class UserResource {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	private Response createSingleResponse(boolean isGet, String username,
+			UriInfo uriInfo) {
+		User user = UserRepository.getInstance().getUser(username);
+		logger.info("Retrived username={}", username);
+
+		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
+				uriInfo.getAbsolutePath(), false)) : Response.ok();
+
+		rb.links(
+
+				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+						.rel("self").build(),
+
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path(
+								uriInfo.getPathSegments().get(0).getPath()))
+						.rel("up").title("all users").build(),
+
+				Link.fromUriBuilder(
+						uriInfo.getBaseUriBuilder().path("/chirps")
+								.path(user.getUsername())).rel("related")
+						.title(user.getRealname() + "'s chirps").build());
+
+		return rb.build();
+	}
+
+	@HEAD
+	@Path("{username}")
+	public Response getUserHead(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+
+		return createSingleResponse(false, username, uriInfo);
+	}
+
 	// http://localhost:8080/users/username
 	@GET
 	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserRepresentation getUser(@PathParam("username") String username, @Context UriInfo uriInfo) {
-		User user = UserRepository.getInstance().getUser(username);
-		logger.info("Retrived username={}", username);
-		return new UserRepresentation(user, uriInfo.getAbsolutePath(), false);
+	public Response getUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+		
+		return createSingleResponse(true, username, uriInfo);
 	}
 
 	@POST
@@ -60,10 +100,32 @@ public class UserResource {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserCollectionRepresentation getUsers(@Context UriInfo uriInfo) {
+	public Response getUsers(@Context UriInfo uriInfo,
+			@DefaultValue("20") @QueryParam("limit") int limit) {
 
-		return new UserCollectionRepresentation(UserRepository.getInstance()
-				.getUsers(), uriInfo);
+		Deque<User> users = UserRepository.getInstance().getUsers();
+
+		ResponseBuilder rb = Response.ok(new UserCollectionRepresentation(
+				UserRepository.getInstance().getUsers(), uriInfo));
+
+		if (users.size() > 0) {
+			rb.links(
+
+					Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
+							.rel("self").build(),
+
+					Link.fromUriBuilder(
+							uriInfo.getAbsolutePathBuilder().path(
+									users.getFirst().getUsername()))
+							.rel("first").build(),
+
+					Link.fromUriBuilder(
+							uriInfo.getAbsolutePathBuilder().path(
+									users.getLast().getUsername())).rel("last")
+							.build());
+		}
+
+		return rb.build();
 
 	}
 

@@ -48,10 +48,10 @@ public class UserResourceTest extends JerseyResourceTest {
 
 		Response response = createUserBobStudent(Response.Status.CREATED);
 
-		UserRepresentation user = target(response.getLocation().getPath())
-				.request().get(UserRepresentation.class);
-		assertEquals("student", user.getUsername());
-
+		response = getHead(response.getLocation(), MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
+		
+		verifyLinkHeaderExists("self", MediaType.APPLICATION_JSON_TYPE, response);
+		
 		logger.info("End: {}", testName.getMethodName());
 	}
 	

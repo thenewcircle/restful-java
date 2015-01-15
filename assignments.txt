@@ -34,5 +34,41 @@ Representation Objects
   Day Three Lunch Assignment
    1) Add self links in the ChirpRepresentation and ChirpCollectionRepresentation classes.
       a) use the User representation classes as a template
-   2) Create summary views for chirp representations.   
+   2) Create summary views for chirp representations.  
+   
+   
+   
+   <http://localhost:8080/users>; rel="self", <http://localhost:8080/users/other>; rel="first", <http://localhost:8080/users/student>; rel="last"
+   
+   
+   
+   
+   
+   
+   <http://localhost:8080/users/other>; rel="self", <http://localhost:8080/users>; rel="up"; title="all users", <http://localhost:8080/chrips/other>; rel="related"; title="Joe Other's chrips"
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    
        
