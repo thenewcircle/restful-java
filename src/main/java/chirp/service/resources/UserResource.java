@@ -8,9 +8,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +30,11 @@ public class UserResource {
 	// http://localhost:8080/users/username
 	@GET
 	@Path("{username}")
-	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-	public UserRepresentation getUser(@PathParam("username") String username) {
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserRepresentation getUser(@PathParam("username") String username, @Context UriInfo uriInfo) {
 		User user = UserRepository.getInstance().getUser(username);
-		logger.info("Retrived username={}",username);
-		return new UserRepresentation(user); 
+		logger.info("Retrived username={}", username);
+		return new UserRepresentation(user, uriInfo.getAbsolutePathBuilder().build(), false);
 	}
 
 	@POST
@@ -55,13 +57,14 @@ public class UserResource {
 		return Response.created(location).build();
 
 	}
-	
+
 	@GET
-	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-	public UserCollectionRepresentation getUsers() {
-		
-		return new UserCollectionRepresentation(UserRepository.getInstance().getUsers());
-		
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserCollectionRepresentation getUsers(@Context UriInfo uriInfo) {
+
+		return new UserCollectionRepresentation(UserRepository.getInstance()
+				.getUsers(), uriInfo);
+
 	}
 
 }

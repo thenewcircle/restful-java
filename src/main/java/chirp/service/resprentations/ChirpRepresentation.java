@@ -1,5 +1,7 @@
 package chirp.service.resprentations;
 
+import java.net.URI;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
