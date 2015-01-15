@@ -1,6 +1,7 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.Collection;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -50,19 +51,48 @@ public class UserResource {
 		String realName = database.getUser(username).getRealname();
 		return Response.ok(realName).type("text/plain").build();
 	}
+	
 	/**
 	 * GET http://localhost:8080/users/{username}
 	 * 
 	 * Download: the real name of the user as plain text in the body
 	 */
-	
 	@Path("{username}")
 	@GET
 	@Produces({"text/xml", "application/xml", "application/json"})
 	public Response getUser(@PathParam("username") String username) {
 		UserRepository database = UserRepository.getInstance();
 		User user = database.getUser(username);
-		UserRepresentation body = new UserRepresentation(user);
+		UserRepresentation body = new UserRepresentation(user, false);
+		return Response.ok(body).build();
+	}
+	
+	/**
+	 * GET http://localhost:8080/users/{username}
+	 * 
+	 * Download: the real name of the user as plain text in the body
+	 */
+	@Path("{username}/summary")
+	@GET
+	@Produces({"text/xml", "application/xml", "application/json"})
+	public Response getUserSummary(@PathParam("username") String username) {
+		UserRepository database = UserRepository.getInstance();
+		User user = database.getUser(username);
+		UserRepresentation body = new UserRepresentation(user, true);
+		return Response.ok(body).build();
+	}
+	
+	/**
+	 * GET http://localhost:8080/users/
+	 * 
+	 * Download: the real name of the user as plain text in the body
+	 */
+	@GET
+	@Produces({"text/xml", "application/xml", "application/json"})
+	public Response getAllUsers() {
+		UserRepository database = UserRepository.getInstance();
+		Collection<User> users = database.getUsers();
+		UserCollectionRepresentation body = new UserCollectionRepresentation(users);
 		return Response.ok(body).build();
 	}
 	

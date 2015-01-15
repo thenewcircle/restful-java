@@ -38,6 +38,9 @@ public class ChirpResourceTest extends JerseyResourceTest {
 				.accept(mediaType).get();
 		ChirpRepresentation chirp = response3.readEntity(ChirpRepresentation.class);
 
+		ChirpRepresentation chirp1 = client().target(chirpLocation).request()
+				.accept(mediaType).get(ChirpRepresentation.class);
+
 		Assert.assertEquals(mediaType, response3.getMediaType().toString());
 		Assert.assertEquals(username, chirp.getUsername());
 		Assert.assertEquals(message, chirp.getMessage());

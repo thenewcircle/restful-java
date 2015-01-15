@@ -14,6 +14,8 @@ public class ChirpCollectionRepresentation {
 	
 	private List<ChirpRepresentation> chirpList = new ArrayList<>();
 	
+	public ChirpCollectionRepresentation() {}
+	
 	public ChirpCollectionRepresentation(Collection<Chirp> chirps) {
 		for (Chirp chirp : chirps) {
 			ChirpRepresentation rep = new ChirpRepresentation(chirp);

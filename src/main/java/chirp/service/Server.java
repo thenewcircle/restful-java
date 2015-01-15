@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.linking.DeclarativeLinkingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -37,6 +38,7 @@ public class Server {
 
 		/* register chirp REST resources and providers */
 		rc.packages("chirp.service.resources");
+		rc.register(DeclarativeLinkingFeature.class);
 
 		return rc;
 	}

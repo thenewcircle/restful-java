@@ -1,9 +1,12 @@
 package chirp.service.resources;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,12 +24,18 @@ public class UserResourceTest extends JerseyResourceTest {
 	@Test
 	public void testCreateAndGetUser() {
 		//Assemble (Create test data)
+		Client client = ClientBuilder.newClient();
+		HttpClient
 		String realname = "Luke Skywalker";
 		String username = "luke";
 		//Act (Do the action you want to test)
 		Entity<String> body = Entity.entity(realname, "text/plain");
 		target("users").path(username).request().put(body);
-		String realname2 = target("/users").path(username).request().get(String.class);
+		String oauthTicket = "OAuth oauth_consumer_key=\"xvz1evFS4wEEPTGEFPHBog\"";
+		String realname2 = target("/users")
+				.register(HttpAuthenticationFeature.digest("doug", "bateman"))
+				.path(username).request()
+				.get(String.class);
 		//Assert (Assert the correct outcome)
 		Assert.assertEquals(realname, realname2);
 	}
