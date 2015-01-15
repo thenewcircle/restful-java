@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.resprentations.UserCollectionRepresentation;
 import chirp.service.resprentations.UserRepresentation;
 
 @Path("/users")
@@ -53,6 +54,13 @@ public class UserResource {
 
 		return Response.created(location).build();
 
+	}
+	
+	@GET
+	public UserCollectionRepresentation getUsers() {
+		
+		return new UserCollectionRepresentation(UserRepository.getInstance().getUsers());
+		
 	}
 
 }

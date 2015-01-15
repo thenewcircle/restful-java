@@ -4,30 +4,20 @@ import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.core.Response;
 
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import chirp.model.UserRepository;
 import chirp.service.resprentations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
-
-	// Thanks to Muthu for finding this Junit 4.7 and greater feature returning
-	// the name of the current method.
-	@Rule
-	public TestName testName = new TestName();
 
 	@Test
 	public void createUserWithPOSTSuccess() {
 
 		logger.info("Start: {}", testName.getMethodName());
 
-		assertEquals(Response.Status.CREATED.getStatusCode(),
-				createUserBobStudent().getStatus());
+		createUserBobStudent(Response.Status.CREATED);
 
 		logger.info("End: {}", testName.getMethodName());
 
@@ -38,16 +28,13 @@ public class UserResourceTest extends JerseyResourceTest {
 
 		logger.info("Start: {}", testName.getMethodName());
 
-		assertEquals(Response.Status.CREATED.getStatusCode(),
-				createUserBobStudent().getStatus());
-
-		Response response = createUserBobStudent();
-		assertEquals(Response.Status.FORBIDDEN.getStatusCode(),
-				response.getStatus());
-		// Object entityContent = response.getEntity();
-		// assertTrue(entityContent instanceof String);
-		// String entityString = (String)entityContent;
-		// assertEquals("User student already exists.", entityString);
+		createUserBobStudent(Response.Status.CREATED);
+		
+		Response response = createUserBobStudent(Response.Status.FORBIDDEN);
+		
+		String message = readEntity(response, String.class);
+		
+		assertEquals("User student already exists.", message);
 
 		logger.info("End: {}", testName.getMethodName());
 
@@ -57,9 +44,7 @@ public class UserResourceTest extends JerseyResourceTest {
 	public void getCreatedUserSuccess() {
 		logger.info("Start: {}", testName.getMethodName());
 
-		Response response = createUserBobStudent();
-		assertEquals(Response.Status.CREATED.getStatusCode(),
-				response.getStatus());
+		Response response = createUserBobStudent(Response.Status.CREATED);
 
 		UserRepresentation user = target(response.getLocation().getPath())
 				.request().get(UserRepresentation.class);
