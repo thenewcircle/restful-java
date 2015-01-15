@@ -25,7 +25,6 @@ public class UserResourceTest extends JerseyResourceTest {
 	public void testCreateAndGetUser() {
 		//Assemble (Create test data)
 		Client client = ClientBuilder.newClient();
-		HttpClient
 		String realname = "Luke Skywalker";
 		String username = "luke";
 		//Act (Do the action you want to test)
