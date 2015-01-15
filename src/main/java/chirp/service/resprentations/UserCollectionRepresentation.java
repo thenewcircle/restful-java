@@ -27,7 +27,8 @@ public class UserCollectionRepresentation {
 
 	@XmlElement
 	public Collection<UserRepresentation> getUsers() {
-		return Collections.unmodifiableCollection(users);
+		// return Collections.unmodifiableCollection(users);
+		return users;
 	}
 
 }

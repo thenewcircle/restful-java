@@ -49,14 +49,14 @@ public class User implements Serializable {
 	public Chirp getChirp(ChirpId id) {
 		Chirp chirp = chirps.get(id);
 		if (chirp == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Chirp " + id + " does not exist");
 
 		return chirp;
 	}
 
 	public void deleteChirp(String id) {
 		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Chirp " + id + " does not exist");
 	}
 
 	@Override

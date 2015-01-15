@@ -27,7 +27,8 @@ public class ChirpCollectionRepresentation {
 	
 	@XmlElement
 	public Collection<ChirpRepresentation> getChirps() {
-		return Collections.unmodifiableCollection(chirps);
+		// return Collections.unmodifiableCollection(chirps);
+		return chirps; // TODO: fix unmodifable collection issue with @After
 	}
 
 }
