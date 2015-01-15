@@ -34,7 +34,7 @@ public class UserResource {
 	public UserRepresentation getUser(@PathParam("username") String username, @Context UriInfo uriInfo) {
 		User user = UserRepository.getInstance().getUser(username);
 		logger.info("Retrived username={}", username);
-		return new UserRepresentation(user, uriInfo.getAbsolutePathBuilder().build(), false);
+		return new UserRepresentation(user, uriInfo.getAbsolutePath(), false);
 	}
 
 	@POST

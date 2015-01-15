@@ -8,9 +8,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import chirp.model.Chirp;
 import chirp.model.ChirpId;
@@ -25,10 +27,12 @@ public class ChirpResource {
 	@Path("{chirpId}")
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public ChirpRepresentation getChirp(@PathParam("username") String username,
-			@PathParam("chirpId") String chirpId) {
+			@PathParam("chirpId") String chirpId, @Context UriInfo uriInfo) {
+		
 		Chirp chirp = UserRepository.getInstance().getUser(username)
 				.getChirp(new ChirpId(chirpId));
-		return new ChirpRepresentation(chirp);
+		
+		return new ChirpRepresentation(chirp, uriInfo.getAbsolutePath(), false);
 	}
 
 	@POST
@@ -47,10 +51,10 @@ public class ChirpResource {
 	@GET
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public ChirpCollectionRepresentation getChirps(
-			@PathParam("username") String username) {
+			@PathParam("username") String username, @Context UriInfo uriInfo) {
 
 		return new ChirpCollectionRepresentation(UserRepository.getInstance()
-				.getUser(username).getChirps());
+				.getUser(username).getChirps(), uriInfo);
 
 	}
 

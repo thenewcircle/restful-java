@@ -9,17 +9,22 @@ import chirp.model.Chirp;
 
 @XmlRootElement
 public class ChirpRepresentation {
-	
+
 	private String id;
 	private String content;
-	
+	private URI self;
+
 	public ChirpRepresentation() {
-		
+
 	}
-	
-	public ChirpRepresentation(final Chirp chirp) {
-		this.id = chirp.getId().toString();
-		this.content = chirp.getContent();
+
+	public ChirpRepresentation(final Chirp chirp, URI self, boolean isSummary) {
+
+		if (isSummary == false) {
+			this.id = chirp.getId().toString();
+			this.content = chirp.getContent();
+		}
+		this.self = self;
 	}
 
 	@XmlElement
@@ -29,6 +34,15 @@ public class ChirpRepresentation {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+
+	public void setSelf(URI self) {
+		this.self = self;
 	}
 
 	@XmlElement
@@ -70,8 +84,5 @@ public class ChirpRepresentation {
 			return false;
 		return true;
 	}
-	
-	
-	
 
 }

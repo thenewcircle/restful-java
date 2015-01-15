@@ -29,5 +29,10 @@ Representation Objects
    1) Create a testcase for creating and reading back a collection of two or more users. 
    2) Create an ExceptionMapper for handling NoSuchEntityExceptions for unknown users and chirps.  
       a) update the NoSuchEntityException class so it can describe the entity not found. 
-      b) add a test case to verify chirp returns a 404 when requesting a user that does not exist. 
+      b) add a test case to verify chirp returns a 404 when requesting a user that does not exist.
+      
+  Day Three Lunch Assignment
+   1) Add self links in the ChirpRepresentation and ChirpCollectionRepresentation classes.
+      a) use the User representation classes as a template
+   2) Create summary views for chirp representations.   
        
