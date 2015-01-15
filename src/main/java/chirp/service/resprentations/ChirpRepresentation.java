@@ -1,7 +1,11 @@
 package chirp.service.resprentations;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import chirp.model.Chirp;
 
+@XmlRootElement
 public class ChirpRepresentation {
 	
 	private String id;
@@ -16,6 +20,7 @@ public class ChirpRepresentation {
 		this.content = chirp.getContent();
 	}
 
+	@XmlElement
 	public String getId() {
 		return id;
 	}
@@ -24,6 +29,7 @@ public class ChirpRepresentation {
 		this.id = id;
 	}
 
+	@XmlElement
 	public String getContent() {
 		return content;
 	}

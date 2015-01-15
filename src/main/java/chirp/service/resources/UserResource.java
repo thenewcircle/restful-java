@@ -57,6 +57,7 @@ public class UserResource {
 	}
 	
 	@GET
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public UserCollectionRepresentation getUsers() {
 		
 		return new UserCollectionRepresentation(UserRepository.getInstance().getUsers());

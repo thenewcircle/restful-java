@@ -7,6 +7,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
@@ -21,6 +23,7 @@ public class ChirpResource {
 
 	@GET
 	@Path("{chirpId}")
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public ChirpRepresentation getChirp(@PathParam("username") String username,
 			@PathParam("chirpId") String chirpId) {
 		Chirp chirp = UserRepository.getInstance().getUser(username)
@@ -42,6 +45,7 @@ public class ChirpResource {
 	}
 
 	@GET
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	public ChirpCollectionRepresentation getChirps(
 			@PathParam("username") String username) {
 
