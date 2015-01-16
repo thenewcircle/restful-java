@@ -12,9 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriBuilder;
@@ -34,13 +37,23 @@ public class UserResource {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private Response createSingleResponse(boolean isGet, String username,
-			UriInfo uriInfo) {
+			UriInfo uriInfo, Request request) {
 		User user = UserRepository.getInstance().getUser(username);
 		logger.info("Retrived username={}", username);
+		
+		UserRepresentation userRep = new UserRepresentation(user,
+				uriInfo.getAbsolutePath(), false);
+		
+		EntityTag eTag = new EntityTag(Integer.toHexString(userRep
+				.hashCode()));
 
-		ResponseBuilder rb = (isGet) ? Response.ok(new UserRepresentation(user,
-				uriInfo.getAbsolutePath(), false)) : Response.ok();
+		ResponseBuilder rb = request.evaluatePreconditions(eTag);
 
+		if (rb == null) {
+
+			rb = (isGet) ? Response.ok(userRep) : Response.ok();
+			rb.tag(eTag);
+		
 		rb.links(
 
 				Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder())
@@ -55,6 +68,15 @@ public class UserResource {
 						uriInfo.getBaseUriBuilder().path("/chirps")
 								.path(user.getUsername())).rel("related")
 						.title(user.getRealname() + "'s chirps").build());
+		}
+		
+		CacheControl cc = new CacheControl();
+		cc.setMaxAge(300); // how long the client should wait before asking for
+							// the chirp again
+		cc.setNoStore(true); // don't store on disk
+		cc.setPrivate(true); // make it public or is this a good idea?
+		rb.cacheControl(cc); // set it in the header
+
 
 		return rb.build();
 	}
@@ -62,9 +84,9 @@ public class UserResource {
 	@HEAD
 	@Path("{username}")
 	public Response getUserHead(@PathParam("username") String username,
-			@Context UriInfo uriInfo) {
+			@Context UriInfo uriInfo, @Context Request request) {
 
-		return createSingleResponse(false, username, uriInfo);
+		return createSingleResponse(false, username, uriInfo, request);
 	}
 
 	// http://localhost:8080/users/username
@@ -72,9 +94,9 @@ public class UserResource {
 	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getUser(@PathParam("username") String username,
-			@Context UriInfo uriInfo) {
+			@Context UriInfo uriInfo, @Context Request request) {
 		
-		return createSingleResponse(true, username, uriInfo);
+		return createSingleResponse(true, username, uriInfo, request);
 	}
 
 	@POST
