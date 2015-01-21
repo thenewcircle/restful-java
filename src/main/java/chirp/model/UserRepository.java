@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -118,6 +119,7 @@ public class UserRepository implements Serializable {
 			throw new DuplicateEntityException("User " + username + " already exists.");
 
 		User user = new User(username, realname);
+		user.setLastModificationTime(new Date());
 		users.put(username, user);
 		return user;
 	}

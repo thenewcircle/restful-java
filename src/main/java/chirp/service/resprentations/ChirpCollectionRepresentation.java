@@ -2,6 +2,7 @@ package chirp.service.resprentations;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.ws.rs.core.UriInfo;
@@ -11,12 +12,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 import chirp.model.Chirp;
 
 @XmlRootElement
-public class ChirpCollectionRepresentation {
+public class ChirpCollectionRepresentation extends AbstractCacheableRepresentation {
 
 	private Collection<ChirpRepresentation> chirps = new LinkedList<>();
 	private URI self;
 
 	public ChirpCollectionRepresentation() {
+		super.setLastModificationTime(new Date());
 
 	}
 

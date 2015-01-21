@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import chirp.model.User;
 
 @XmlRootElement
-public class UserRepresentation {
+public class UserRepresentation extends AbstractCacheableRepresentation {
 
 	private String username;
 	private String realname;
@@ -18,6 +18,7 @@ public class UserRepresentation {
 	}
 
 	public UserRepresentation(User user, URI self, boolean isSummary) {
+		super(user);
 		if (isSummary == false) {
 			this.username = user.getUsername();
 			this.realname = user.getRealname();

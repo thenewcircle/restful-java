@@ -7,6 +7,7 @@ import java.net.URI;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Test;
@@ -49,11 +50,35 @@ public class ChirpResourceTest extends JerseyResourceTest {
 		assertEquals(Response.Status.CREATED.getStatusCode(),
 				response.getStatus());
 
-		ChirpRepresentation chirp = target(response.getLocation().getPath())
-				.request().get(ChirpRepresentation.class);
+		ChirpRepresentation chirp = readEntity(
+				response.getLocation().getPath(),
+				MediaType.APPLICATION_JSON_TYPE, ChirpRepresentation.class);
 
 		assertNotNull(chirp);
 		logger.info("End: {}", testName.getMethodName());
 
 	}
+
+	@Test
+	public void verifySecondChirpGetRequestReturnsNotModified() {
+		logger.info("Start: {}", testName.getMethodName());
+
+		Response response = createChirpForBobStudent();
+		assertEquals(Response.Status.CREATED.getStatusCode(),
+				response.getStatus());
+
+		URI location = response.getLocation();
+		response = getEntity(location,
+				MediaType.APPLICATION_JSON_TYPE, Response.Status.OK);
+		ChirpRepresentation chirp = readEntity(response, ChirpRepresentation.class);
+		assertNotNull(chirp);
+
+		getEntity(location, MediaType.APPLICATION_JSON_TYPE,
+				response.getLastModified(), response.getEntityTag(),
+				Response.Status.NOT_MODIFIED);
+
+		logger.info("End: {}", testName.getMethodName());
+
+	}
+
 }

@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import chirp.model.Chirp;
 
 @XmlRootElement
-public class ChirpRepresentation {
+public class ChirpRepresentation extends AbstractCacheableRepresentation {
 
 	private String id;
 	private String content;
@@ -19,7 +19,7 @@ public class ChirpRepresentation {
 	}
 
 	public ChirpRepresentation(final Chirp chirp, URI self, boolean isSummary) {
-
+		super(chirp);
 		if (isSummary == false) {
 			this.id = chirp.getId().toString();
 			this.content = chirp.getContent();

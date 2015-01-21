@@ -4,11 +4,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.net.URI;
+import java.util.Date;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,13 +43,11 @@ import chirp.model.UserRepository;
 public abstract class JerseyResourceTest extends JerseyTest {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	// Thanks to Muthu for finding this Junit 4.7 and greater feature returning
 	// the name of the current method.
 	@Rule
 	public TestName testName = new TestName();
-
-
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
@@ -111,10 +113,28 @@ public abstract class JerseyResourceTest extends JerseyTest {
 	}
 
 	private Response getEntity(WebTarget target, MediaType acceptHeaderValue,
+			Date lastModification, EntityTag eTag,
 			Response.Status expectedResponse) {
-		Response response = target.request(acceptHeaderValue).get();
+
+		Invocation.Builder builder = target.request(acceptHeaderValue);
+
+		if (lastModification != null)
+			builder.header(HttpHeaders.IF_MODIFIED_SINCE, lastModification);
+
+		if (eTag != null)
+			builder.header(HttpHeaders.IF_NONE_MATCH, eTag).get();
+
+		Response response = builder.get();
+
 		assertEquals(expectedResponse.getStatusCode(), response.getStatus());
+
 		return response;
+	}
+
+	private Response getEntity(WebTarget target, MediaType acceptHeaderValue,
+			Response.Status expectedResponse) {
+		return getEntity(target, acceptHeaderValue, null, null,
+				expectedResponse);
 	}
 
 	/**
@@ -151,11 +171,22 @@ public abstract class JerseyResourceTest extends JerseyTest {
 				expectedResponse);
 	}
 
+	protected Response getEntity(URI uri, MediaType acceptHeaderValue,
+			Date lastModification, EntityTag eTag,
+			Response.Status expectedResponse) {
+		return getEntity(client().target(uri), acceptHeaderValue,
+				lastModification, eTag, expectedResponse);
+	}
+
 	/**
 	 * Read an entity from the test server.
-	 * @param response the object containing the unread entity
-	 * @param acceptHeaderValue the data format exchanged over the wire
-	 * @param entityClass the class type of the entity to read.
+	 * 
+	 * @param response
+	 *            the object containing the unread entity
+	 * @param acceptHeaderValue
+	 *            the data format exchanged over the wire
+	 * @param entityClass
+	 *            the class type of the entity to read.
 	 * @return the entity from the server.
 	 */
 	protected <T> T readEntity(String uri, MediaType acceptHeaderValue,
@@ -170,9 +201,13 @@ public abstract class JerseyResourceTest extends JerseyTest {
 	}
 
 	/**
-	 * Extract an entity from the response object. This may only be done once per request.
-	 * @param response the object containing the unread entity
-	 * @param entityClass the class type of the entity to read.
+	 * Extract an entity from the response object. This may only be done once
+	 * per request.
+	 * 
+	 * @param response
+	 *            the object containing the unread entity
+	 * @param entityClass
+	 *            the class type of the entity to read.
 	 * @return the entity from the response.
 	 */
 	protected <T> T readEntity(Response response, Class<T> entityClass) {
