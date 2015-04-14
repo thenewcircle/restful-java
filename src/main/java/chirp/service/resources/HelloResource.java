@@ -1,7 +1,5 @@
 package chirp.service.resources;
 
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
