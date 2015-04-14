@@ -36,7 +36,8 @@ public class Server {
 		rc.addProperties(props);
 
 		/* register chirp REST resources and providers */
-		rc.packages("chirp.service.resources");
+		rc.packages("chirp.service.resources", 
+		            "chirp.service.providers");
 
 		return rc;
 	}
