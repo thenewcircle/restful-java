@@ -25,4 +25,20 @@ public class HelloResourceTest extends JerseyResourceTest {
     assertEquals("Jacob", text);
   }
 
+  @Test
+  public void greetingTestInPath() {
+//    String text = target("/greetings/Jacob")
+//        .request()
+//        .get(String.class);
+
+    String userName = "Jacob";
+    
+    String text = target("/greetings")
+        .path(userName)
+        .request()
+        .get(String.class);
+    
+    assertEquals("Jacob", text);
+  }
+
 }
