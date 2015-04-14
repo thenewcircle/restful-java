@@ -61,7 +61,7 @@ public class Server {
 		/* Start a new instance of grizzly http server. */
 		ResourceConfig rc = createConfig();
 		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(
-				URI.create(SERVER_BIND_ADDRESS), rc);
+		    URI.create(SERVER_BIND_ADDRESS), rc);
 		/* Enable logging of exceptions while suppressing unnecessary messages */
 		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
 		Logger.getLogger("org.glassfish.grizzly.nio").setLevel(Level.INFO);

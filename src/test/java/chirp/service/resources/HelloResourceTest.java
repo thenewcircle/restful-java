@@ -6,10 +6,23 @@ import org.junit.Test;
 
 public class HelloResourceTest extends JerseyResourceTest {
 
-	@Test
-	public void helloResourceMustSayHello() {
-		String hello = target("/hello").request().get(String.class);
-		assertEquals("Hello!", hello);
-	}
+  @Test
+  public void helloResourceMustSayHello() {
+    String text = target("/greetings")
+        .request()
+        .get(String.class);
+    
+    assertEquals("Hello!", text);
+  }
+
+  @Test
+  public void greetingTest() {
+    String text = target("/greetings")
+        .queryParam("name", "Jacob")
+        .request()
+        .get(String.class);
+    
+    assertEquals("Jacob", text);
+  }
 
 }
