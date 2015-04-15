@@ -14,11 +14,17 @@ public class Chirp implements Serializable {
 	private final String content;
 	private final User user;
 
-	public Chirp(ChirpId id, String content, User user) {
-		this.id = id;
-		this.content = content;
-		this.user = user;
-	}
+  public Chirp() {
+    this.id = null;
+    this.content = null;
+    this.user = null;
+  }
+
+  public Chirp(ChirpId id, String content, User user) {
+    this.id = id;
+    this.content = content;
+    this.user = user;
+  }
 
 	public ChirpId getId() {
 		return id;
