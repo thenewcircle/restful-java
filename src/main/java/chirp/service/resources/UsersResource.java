@@ -19,6 +19,7 @@ import javax.ws.rs.core.UriBuilder;
 
 import com.sun.research.ws.wadl.Application;
 
+import chirp.model.Chirp;
 import chirp.model.DuplicateEntityException;
 import chirp.model.User;
 import chirp.model.UserRepository;
@@ -62,6 +63,20 @@ public class UsersResource {
   public Response createUserWithCsv(UserRep user) {
     users.createUser(user.getUsername(), user.getRealname());
     URI uri = UriBuilder.fromResource(this.getClass()).path(user.getUsername()).build();
+    return Response.created(uri).build();
+  }
+
+  @POST
+  @Path("{username}/chirps")
+  @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+  public Response createChirp(@PathParam("username") String username, String content) {
+    
+    Chirp chrip = users.getUser(username).createChirp(content);
+    
+    URI uri = UriBuilder.fromResource(ChirpsResource.class)
+        .path(chrip.getId().toString())
+        .build();
+
     return Response.created(uri).build();
   }
 }
