@@ -21,4 +21,10 @@ public class UserResourceTest extends JerseyResourceTest {
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 	}
 
+	@Test
+	public void headUserDoesNotExistFails() {
+		Response response = target("/users/doesnotexist").request().head();
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), response.getStatus());
+		
+	}
 }

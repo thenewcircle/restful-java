@@ -1,0 +1,7 @@
+1. Pull latest version of branch class-3960
+2. Create a new branch, e.g., exception-lab
+3. Add a message to every location the NoSuchEntityException is thrown
+4. Add a message constructor to the DuplciateEntityhException 
+5. Add a message to every location the DuplicateEntityException is thrown
+6. Provide an ExceptionMapper for DuplicateEntityException include message from the exception. 
+7. Add test cases for testing duplicate user adds fail.

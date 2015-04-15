@@ -56,7 +56,7 @@ public class User implements Serializable {
 
 	public void deleteChirp(String id) {
 		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Cannot delete chirp with id " + id + " as it does not exist.");
 	}
 
 	@Override

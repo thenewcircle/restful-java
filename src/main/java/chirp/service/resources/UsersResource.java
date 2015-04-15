@@ -40,16 +40,10 @@ public class UsersResource {
 	@HEAD
 	@Path("{username}")
 	public Response headUser(@PathParam("username") String username) {
-		Response response;
 
-		try {
-			UserRepository.getInstance().getUser(username);
-			response = Response.ok().build();
-		} catch (NoSuchEntityException nsee) {
-			response = Response.status(404).build();
+		UserRepository.getInstance().getUser(username);
+		return Response.ok().build();
 
-		}
-		return response;
 	}
 
 }
