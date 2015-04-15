@@ -49,7 +49,7 @@ public class User implements Serializable {
 	public Chirp getChirp(ChirpId id) {
 		Chirp chirp = chirps.get(id);
 		if (chirp == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format("User with id %d does not exist",id));
 
 		return chirp;
 	}

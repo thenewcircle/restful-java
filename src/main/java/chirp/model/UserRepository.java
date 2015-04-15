@@ -129,14 +129,14 @@ public class UserRepository implements Serializable {
 	public User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format("User with username %s does not exist",username));
 
 		return user;
 	}
 
 	public void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format("User with username %s does not exist",username));
 	}
 
 	public int createBulkDeletion() {
@@ -148,7 +148,7 @@ public class UserRepository implements Serializable {
 		try {
 			bulkDeletions.get(id).add(getUser(username));
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format("Entity with id %d does not exist or user with username %s does not exist",id, username));
 		}
 	}
 
@@ -156,7 +156,7 @@ public class UserRepository implements Serializable {
 		try {
 			bulkDeletions.set(id, null);
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format("Entity with id %d does not exist",id));
 		}
 	}
 
@@ -174,7 +174,7 @@ public class UserRepository implements Serializable {
 			bulkDeletions.set(id, null);
 			return true;
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Entities did not exist during bulk delete");
 		}
 	}
 
