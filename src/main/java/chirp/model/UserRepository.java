@@ -115,7 +115,7 @@ public class UserRepository implements Serializable {
 
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException(String.format("User %s already exists",username));
 
 		User user = new User(username, realname);
 		users.put(username, user);
@@ -129,7 +129,7 @@ public class UserRepository implements Serializable {
 	public User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException(String.format("User with username %s does not exist",username));
+			throw new NoSuchEntityException(String.format("User with username %s does not exist\n",username));
 
 		return user;
 	}

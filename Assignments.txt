@@ -1,3 +1,11 @@
+Day 2 Homework
+---------------------------------------------------------------------
+1. Pull latest code from class-3690 branch
+2. Look at the Jersey User Guide and determine how to add validation messages to @NotNull and @Email annotations per the Bean Validation Section, chapter 18.
+
+
+Day 2 Afternoon Lab
+---------------------------------------------------------------------
 1. Pull latest version of branch class-3960
 2. Create a new branch, e.g., exception-lab
 3. Add a message to every location the NoSuchEntityException is thrown

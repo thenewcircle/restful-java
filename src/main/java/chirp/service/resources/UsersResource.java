@@ -2,6 +2,7 @@ package chirp.service.resources;
 
 import java.net.URI;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
@@ -10,10 +11,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import chirp.model.NoSuchEntityException;
 import chirp.model.UserRepository;
 
 @Path("/users")
@@ -22,8 +23,8 @@ public class UsersResource {
 
 	@POST
 	public Response createUserFromRequest(
-			@FormParam("username") String username,
-			@FormParam("realname") String realname) {
+			@NotNull @Email @FormParam("username") String username,
+			@NotNull @FormParam("realname") String realname) {
 		UserRepository.getInstance().createUser(username, realname);
 		logger.info("created user {} with username {}", realname, username);
 
