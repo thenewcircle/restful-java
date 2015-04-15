@@ -6,11 +6,16 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of chirps, indexed by id.
  */
+@XmlRootElement
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,10 +29,12 @@ public class User implements Serializable {
 		this.realname = realname;
 	}
 
+	@XmlElement
 	public String getUsername() {
 		return username;
 	}
 
+	@XmlElement
 	public String getRealname() {
 		return realname;
 	}
@@ -42,6 +49,7 @@ public class User implements Serializable {
 		return chirp;
 	}
 
+	@XmlTransient
 	public Deque<Chirp> getChirps() {
 		return new LinkedList<Chirp>(chirps.values());
 	}

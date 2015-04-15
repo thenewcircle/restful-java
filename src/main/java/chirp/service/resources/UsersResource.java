@@ -4,17 +4,20 @@ import java.net.URI;
 
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.HEAD;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import chirp.model.User;
 import chirp.model.UserRepository;
 
 @Path("/users")
@@ -23,7 +26,7 @@ public class UsersResource {
 
 	@POST
 	public Response createUserFromRequest(
-			@NotNull @Email @FormParam("username") String username,
+			@NotNull @FormParam("username") String username,
 			@NotNull @FormParam("realname") String realname) {
 		UserRepository.getInstance().createUser(username, realname);
 		logger.info("created user {} with username {}", realname, username);
@@ -44,6 +47,17 @@ public class UsersResource {
 
 		UserRepository.getInstance().getUser(username);
 		return Response.ok().build();
+
+	}
+
+	@GET
+	@Path("{username}")
+	@Produces(MediaType.APPLICATION_XML)
+	public User getUser(@PathParam("username") String username) {
+
+		logger.info("getting user {}", username);
+		return UserRepository.getInstance().getUser(username);
+		// return Response.ok().build();
 
 	}
 
