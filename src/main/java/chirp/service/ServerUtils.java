@@ -32,11 +32,11 @@ public class ServerUtils {
     SLF4JBridgeHandler.install();
 
 		/* Enable logging of exceptions while suppressing unnecessary messages */
-    Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
-    Logger.getLogger("org.glassfish.grizzly.nio").setLevel(Level.INFO);
-    Logger.getLogger("org.glassfish.grizzly.http.io").setLevel(Level.FINE);
-    Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler").setLevel(Level.FINE);
-    Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.FINER);
-    Logger.getLogger("org.glassfish.jersey.tracing").setLevel(Level.FINEST);
+    Logger.getLogger("org.glassfish.grizzly").setLevel(Level.WARNING);
+    Logger.getLogger("org.glassfish.grizzly.nio").setLevel(Level.WARNING);
+    Logger.getLogger("org.glassfish.grizzly.http.io").setLevel(Level.WARNING);
+    Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler").setLevel(Level.WARNING);
+    Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.WARNING);
+    Logger.getLogger("org.glassfish.jersey.tracing").setLevel(Level.WARNING);
   }
 }
