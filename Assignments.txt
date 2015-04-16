@@ -1,3 +1,10 @@
+Day 3 Afternoon Lab
+---------------------------------------------------------------------
+1. Pull the latest class-3960 branch.
+2. Create a UsersCollectionRerepesnation class with support for absolute URIs
+3. Add self absolute URI support for UserReprentation class
+4. Checkin at 2:45 PM
+
 Day 3 Morning Lab
 ---------------------------------------------------------------------
 1. Pull the latest class-3960 branch to get user representation,

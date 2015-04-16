@@ -10,9 +10,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,8 @@ import chirp.model.Chirp;
 import chirp.model.ChirpId;
 import chirp.model.UserRepository;
 import chirp.service.representations.ChirpRepresentation;
+import chirp.service.representations.ChirpsCollectionRepresentation;
+import chirp.service.representations.ChirpsCollectionRepresentation;
 
 @Path("/users/{username}/chirps")
 public class ChirpsResource {
@@ -61,10 +65,20 @@ public class ChirpsResource {
 	@Path("{chirpId}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ChirpRepresentation getChirp(@PathParam("username") String username,
-			@PathParam("chirpId") String chirpIdAsString) {
+			@PathParam("chirpId") String chirpIdAsString,
+			@Context UriInfo uriInfo) {
 
 		logger.info("getting chirp {} for username {}", username);
-		return new ChirpRepresentation(getChirpFromUriParams(username, chirpIdAsString));
+		return new ChirpRepresentation(getChirpFromUriParams(username,
+				chirpIdAsString), false, uriInfo);
 
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public ChirpsCollectionRepresentation getAll(
+			@PathParam("username") String username, @Context UriInfo uriInfo) {
+		return new ChirpsCollectionRepresentation(UserRepository.getInstance()
+				.getUser(username).getChirps(), username, uriInfo);
 	}
 }
