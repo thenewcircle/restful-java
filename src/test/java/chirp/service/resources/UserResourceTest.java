@@ -43,6 +43,15 @@ public class UserResourceTest extends JerseyResourceTest {
 	}
 
 	@Test
+	public void getUserDoesNotExistFails() {
+		Response response = target("/users/doesnotexist").request().get();
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(),
+				response.getStatus());
+		assertNotNull(response.getEntity());
+
+	}
+
+	@Test
 	public void createUserTwiceFails() {
 		Form userForm = new Form().param("username", "bob").param("realname",
 				"Bob Smith");

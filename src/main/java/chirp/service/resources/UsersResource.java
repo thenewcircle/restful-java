@@ -26,8 +26,8 @@ public class UsersResource {
 
 	@POST
 	public Response createUserFromRequest(
-			@NotNull @FormParam("username") String username,
-			@NotNull @FormParam("realname") String realname) {
+			@NotNull(message="{usersresource.createuserfromrequest.username.notnull}") @FormParam("username") String username,
+			@NotNull(message="{usersresource.createuserfromrequest.realname.notnull}") @FormParam("realname") String realname) {
 		UserRepository.getInstance().createUser(username, realname);
 		logger.info("created user {} with username {}", realname, username);
 

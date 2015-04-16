@@ -6,6 +6,7 @@ import java.net.URI;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
@@ -22,13 +23,14 @@ public class Server {
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		final ResourceConfig rc = new ResourceConfig().packages(
-				"chirp.service.resources", "chirp.service.providers");
+		final ResourceConfig rc = new ResourceConfig()
+			.packages("chirp.service.resources", "chirp.service.providers")
+			.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 		/*
-		final ResourceConfig rc = new ResourceConfig().packages(
-				"chirp.service.resources", "chirp.service.providers").register(
-				MoxyJsonFeature.class);
-				*/
+		 * final ResourceConfig rc = new ResourceConfig().packages(
+		 * "chirp.service.resources", "chirp.service.providers").register(
+		 * MoxyJsonFeature.class);
+		 */
 
 		// create and start a new instance of grizzly http server
 		// exposing the Jersey application at BASE_URI
