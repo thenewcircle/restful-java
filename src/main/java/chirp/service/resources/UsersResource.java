@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import com.sun.research.ws.wadl.Application;
 
@@ -34,16 +35,21 @@ public class UsersResource {
   
   @GET
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
-  public UsersRep getUsers(@QueryParam("summary") boolean summary) {
-    return new UsersRep(users.getUsers(), summary);
+  public UsersRep getUsers(@QueryParam("summary") boolean summary,
+                           @Context UriInfo uriInfo) {
+    
+    return new UsersRep(users.getUsers(), summary, uriInfo);
   }
   
   @GET
   @Path("{username}")
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
-  public UserRep getUser(@PathParam("username") String username, @QueryParam("summary") boolean summary) {
+  public UserRep getUser(@PathParam("username") String username, 
+                         @QueryParam("summary") boolean summary,
+                         @Context UriInfo uriInfo) {
+    
     User user = users.getUser(username);
-    return new UserRep(user, summary);
+    return new UserRep(user, summary, uriInfo);
   }
   
   @POST

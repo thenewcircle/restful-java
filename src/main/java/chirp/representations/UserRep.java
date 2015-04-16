@@ -1,8 +1,11 @@
 package chirp.representations;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -14,6 +17,9 @@ import chirp.model.User;
 @XmlRootElement
 public class UserRep {
 
+  @XmlElement
+  private URI self;
+  
   @XmlAttribute
   private final String username;
   
@@ -35,13 +41,19 @@ public class UserRep {
     this.chirps = null;
   }
 
-  public UserRep(User user, boolean summary) {
+  public UserRep(User user, boolean summary, UriInfo uriInfo) {
     this.username = user.getUsername();
     
     this.realname = summary ? null : user.getRealname();
-    this.chirps = summary ? null : new ChirpsRep(user.getChirps(), summary);
+    this.chirps = summary ? null : new ChirpsRep(user, user.getChirps(), summary, uriInfo);
+
+    this.self = uriInfo.getBaseUriBuilder().path("users").path(username).build();
   }
 
+  public URI getSelf() {
+    return self;
+  }
+  
   public String getUsername() {
     return username;
   }
