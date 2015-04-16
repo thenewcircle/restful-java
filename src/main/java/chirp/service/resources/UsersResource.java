@@ -17,8 +17,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
 public class UsersResource {
@@ -53,11 +53,10 @@ public class UsersResource {
 	@GET
 	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public User getUser(@PathParam("username") String username) {
+	public UserRepresentation getUser(@PathParam("username") String username) {
 
 		logger.info("getting user {}", username);
-		return UserRepository.getInstance().getUser(username);
-		// return Response.ok().build();
+		return new UserRepresentation(UserRepository.getInstance().getUser(username));
 
 	}
 

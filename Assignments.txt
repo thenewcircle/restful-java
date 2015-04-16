@@ -1,3 +1,18 @@
+Day 3 Morning Lab
+---------------------------------------------------------------------
+1. Pull the latest class-3960 branch to get user representation,
+new test client and bean validation updates.
+2. Create a ChirpRepresentation class
+  a. include id and content fields in the representation (api) object
+  b. include getters, setters and an no-parameter constructor plus JAXB tags
+  c. include a construct that accepts a Chirp.
+  d. How to represent the chirp Id?
+3. Create a ChripResource class
+  a. add post support for creating a chirp.  /users/{username}/chirps
+  b. and get and head support for looking up a single chirp. / users/{username}/chrips/{chirpId}
+4. Create a ChirpResourceTest class that creates and chirp and verifies it's existence with a head or get request.
+
+
 Day 2 Homework
 ---------------------------------------------------------------------
 1. Pull latest code from class-3690 branch
