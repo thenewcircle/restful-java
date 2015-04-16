@@ -1,0 +1,15 @@
+
+
+  Client (application that wants a resource) ------------------- Resource Provider  
+     -- include an redirect URL for authentication
+  
+  
+  Resource Provider (authenticate the client) .................. Authentication Server
+     -- call autentication server redirect 
+     
+     
+     SSO
+     
+     Identity Provider
+     -----------------
+     OAuth 2.0

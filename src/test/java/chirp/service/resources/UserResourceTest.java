@@ -1,9 +1,7 @@
 package chirp.service.resources;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,6 +40,7 @@ public class UserResourceTest extends JerseyResourceTest {
 		getEntity("/users/doesnotexist", MediaType.APPLICATION_JSON_TYPE,
 				Response.Status.NOT_FOUND);
 	}
+
 
 	@Test
 	public void createUserTwiceFails() {
