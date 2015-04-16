@@ -21,26 +21,25 @@ public class UserRep {
   private final String realname;
   
   @XmlElement
-  List<ChirpRep> chirps = new ArrayList<>();
+  private final ChirpsRep chirps;
   
   private UserRep() {
     this.username = null;
     this.realname = null;
+    this.chirps = null;
   }
   
   public UserRep(String username, String realname) {
     this.username = username;
     this.realname = realname;
+    this.chirps = null;
   }
 
-  public UserRep(User user) {
+  public UserRep(User user, boolean summary) {
     this.username = user.getUsername();
-    this.realname = user.getRealname();
     
-    for (Chirp chirp : user.getChirps()) {
-      ChirpRep chirpRep = new ChirpRep(chirp);
-      this.chirps.add(chirpRep);
-    }
+    this.realname = summary ? null : user.getRealname();
+    this.chirps = summary ? null : new ChirpsRep(user.getChirps(), summary);
   }
 
   public String getUsername() {
@@ -51,7 +50,7 @@ public class UserRep {
     return realname;
   }
 
-  public List<ChirpRep> getChirps() {
+  public ChirpsRep getChirps() {
     return chirps;
   }
 }

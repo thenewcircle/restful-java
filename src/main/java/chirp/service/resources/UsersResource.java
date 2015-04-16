@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
@@ -24,6 +25,7 @@ import chirp.model.DuplicateEntityException;
 import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.representations.UserRep;
+import chirp.representations.UsersRep;
 
 @Path("/users")
 public class UsersResource {
@@ -32,20 +34,16 @@ public class UsersResource {
   
   @GET
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
-  public List<UserRep> getUsers() {
-    List<UserRep> list = new ArrayList<>();
-    for (User user : this.users.getUsers()) {
-      list.add(new UserRep(user));
-    }
-    return list;
+  public UsersRep getUsers(@QueryParam("summary") boolean summary) {
+    return new UsersRep(users.getUsers(), summary);
   }
   
   @GET
   @Path("{username}")
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
-  public UserRep getUser(@PathParam("username") String username) {
+  public UserRep getUser(@PathParam("username") String username, @QueryParam("summary") boolean summary) {
     User user = users.getUser(username);
-    return new UserRep(user);
+    return new UserRep(user, summary);
   }
   
   @POST

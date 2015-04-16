@@ -13,18 +13,21 @@
 		<logback-classic.version>1.1.2</logback-classic.version>
 		<slf4j.version>1.7.6</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jackson.version>1.8.6</jackson.version>
 	</properties>
 
 	<dependencies>
-
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
-		<dependency>
+
+
+
+<!--  use these for a CFX backed implementation -->
+<!--
+ 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxrs</artifactId>
 			<version>3.0.4</version>
@@ -37,27 +40,30 @@
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
-			<version>${jackson.version}</version>
+			<version>1.8.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
+			<version>1.8.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-jaxrs</artifactId>
-			<version>${jackson.version}</version>
+			<version>1.8.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>3.2.6.RELEASE</version>
 		</dependency>
+-->
 
+<!-- 
+  Use **ONE* of these for Jersey backed implementation 
+ -->
 
-
-		<!--
+<!--  This pair is for running in a servlet container -->
         <dependency>
           <groupId>org.glassfish.jersey.containers</groupId>
           <artifactId>jersey-container-servlet-core</artifactId>
@@ -68,47 +74,68 @@
           <artifactId>jersey-container-servlet</artifactId>
           <version>${jersey.version}</version>
         </dependency>
-
+		
+<!--  This is for the Jetty web server -->
         <dependency>
           <groupId>org.glassfish.jersey.containers</groupId>
           <artifactId>jersey-container-jetty-http</artifactId>
           <version>${jersey.version}</version>
         </dependency>
 
+<!-- this is for the JDK http server -->
         <dependency>
           <groupId>org.glassfish.jersey.containers</groupId>
           <artifactId>jersey-container-jdk-http</artifactId>
           <version>${jersey.version}</version>
         </dependency>
 
+<!-- this is for Jersey's simple http server-->
         <dependency>
           <groupId>org.glassfish.jersey.containers</groupId>
           <artifactId>jersey-container-simple-http</artifactId>
           <version>${jersey.version}</version>
         </dependency>
 
+<!-- this is for Grizzly's http server -->
         <dependency>
           <groupId>org.glassfish.jersey.containers</groupId>
           <artifactId>jersey-container-grizzly2-http</artifactId>
           <version>${jersey.version}</version>
         </dependency>
 
-        <dependency>
-          <groupId>org.glassfish.jersey.media</groupId>
-          <artifactId>jersey-media-moxy</artifactId>
-          <version>${jersey.version}</version>
-        </dependency>
-    -->
-
-
-
-
+<!-- 
+ Use **ONE* of these marshalling XML & JSON (moxvy vs jackson) 
+ **ONLY** if you are using Jersey (aka not Apache CFX)
+ --> 
+ 
+<!-- if you use ANY of the jersey solutions above, use moxy for XML & JSON marshaling instead of jackson. -->
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-moxy</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+<!-- if you use ANY of the jersey solutions above, use jackson for XML JSON marshalling instead of moxy -->
+<!--   <dependency>
+    <groupId>org.glassfish.jersey.media</groupId>
+    <artifactId>jersey-media-json-jackson</artifactId>
+    <version>2.17</version>
+  </dependency>
+  <dependency>
+    <groupId>com.fasterxml.jackson.jaxrs</groupId>
+    <artifactId>jackson-jaxrs-xml-provider</artifactId>
+    <version>2.5.2</version>
+  </dependency>
+ -->
+ 
+ 
+<!-- 
+  the following libraries we will use no matter what.
+ -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jul-to-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
@@ -116,14 +143,27 @@
 			<scope>runtime</scope>
 		</dependency>
 
+<!-- 
+the following dependency is for unit tests only
+ -->
 		<dependency>
 			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
 			<artifactId>jersey-test-framework-provider-inmemory</artifactId>
-			<version>${jersey.version}</version>
-			<scope>test</scope>
-		</dependency>
+      <version>${jersey.version}</version>
+      <scope>test</scope>
 
-	 </dependencies>
+<!-- alternatives...
+      jersey-test-framework-provider-jetty
+      jersey-test-framework-provider-simple
+      jersey-test-framework-provider-jdk-http
+      jersey-test-framework-provider-external
+      jersey-test-framework-provider-grizzly2
+      
+if you want all of 'em in one big shot...
+      jersey-test-framework-provider-bundle
+ -->
+		</dependency>
+  </dependencies>
 
 	<build>
 		<plugins>

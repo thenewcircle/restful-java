@@ -9,10 +9,10 @@ import chirp.model.ChirpId;
 
 public class ChirpRep {
 
-  @XmlElement
+  @XmlAttribute
   private final String id;
 
-  @XmlAttribute
+  @XmlElement
   private final String content;
 
   private ChirpRep() {
@@ -20,9 +20,9 @@ public class ChirpRep {
     content = null;
   }
 
-  public ChirpRep(Chirp chirp) {
+  public ChirpRep(Chirp chirp, boolean summary) {
     this.id = chirp.getId().toString();
-    this.content = chirp.getContent();
+    this.content = summary ? null : chirp.getContent();
   }
 
   public String getId() {

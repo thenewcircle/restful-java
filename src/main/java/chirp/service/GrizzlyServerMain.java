@@ -1,6 +1,5 @@
 package chirp.service;
 
-/*
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,11 +12,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import chirp.model.UserRepository;
-*/
 
 public class GrizzlyServerMain {
 
-/*
 	public static void main(String[] args) throws Exception {
 		ServerUtils.initLogging();
 
@@ -34,6 +31,4 @@ public class GrizzlyServerMain {
 
 		httpServer.shutdownNow();
 	}
-*/
-
 }
