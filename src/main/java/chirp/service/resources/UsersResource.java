@@ -61,7 +61,7 @@ public class UsersResource {
 
 		logger.info("getting user {}", username);
 		return new UserRepresentation(UserRepository.getInstance().getUser(
-				username), false, uriInfo.);
+				username), false, uriInfo.getAbsolutePathBuilder().build());
 
 	}
 

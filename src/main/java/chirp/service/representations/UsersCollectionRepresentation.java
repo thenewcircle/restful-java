@@ -20,8 +20,10 @@ public class UsersCollectionRepresentation {
 	public UsersCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
 
 		for (User user : users) {
-			this.users.add(new UserRepresentation(user, true, uriInfo));
-
+			this.users
+					.add(new UserRepresentation(user, true, uriInfo
+							.getAbsolutePathBuilder().path(user.getUsername())
+							.build()));
 		}
 
 		self = uriInfo.getAbsolutePathBuilder().build();

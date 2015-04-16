@@ -2,7 +2,6 @@ package chirp.service.representations;
 
 import java.net.URI;
 
-import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,14 +17,13 @@ public class UserRepresentation {
 	public UserRepresentation() {
 	}
 
-	public UserRepresentation(User user, boolean summary, UriInfo uriInfo) {
+	public UserRepresentation(User user, boolean summary, URI self) {
 		if (summary == false) {
 			this.username = user.getUsername();
 			this.realname = user.getRealname();
 		}
+		this.self = self;
 
-		self = uriInfo.getBaseUriBuilder().().path(user.getUsername())
-				.build();
 	}
 
 	@XmlElement
