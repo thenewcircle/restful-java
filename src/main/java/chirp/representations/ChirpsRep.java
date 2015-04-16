@@ -25,8 +25,8 @@ public class ChirpsRep {
   private ChirpsRep() {
   }
   
-  ChirpsRep(User user, Collection<? extends Chirp> chirps, boolean summary, UriInfo uriInfo) {
-    for (Chirp chirp : chirps) {
+  public ChirpsRep(User user, boolean summary, UriInfo uriInfo) {
+    for (Chirp chirp : user.getChirps()) {
       ChirpRep chirpRep = new ChirpRep(chirp, summary, uriInfo);
       this.chirps.add(chirpRep);
     }

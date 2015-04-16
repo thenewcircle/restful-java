@@ -26,27 +26,19 @@ public class UserRep {
   @XmlAttribute
   private final String realname;
   
-  @XmlElement
-  private final ChirpsRep chirps;
-  
   private UserRep() {
     this.username = null;
     this.realname = null;
-    this.chirps = null;
   }
   
   public UserRep(String username, String realname) {
     this.username = username;
     this.realname = realname;
-    this.chirps = null;
   }
 
   public UserRep(User user, boolean summary, UriInfo uriInfo) {
     this.username = user.getUsername();
-    
     this.realname = summary ? null : user.getRealname();
-    this.chirps = summary ? null : new ChirpsRep(user, user.getChirps(), summary, uriInfo);
-
     this.self = uriInfo.getBaseUriBuilder().path("users").path(username).build();
   }
 
@@ -60,9 +52,5 @@ public class UserRep {
 
   public String getRealname() {
     return realname;
-  }
-
-  public ChirpsRep getChirps() {
-    return chirps;
   }
 }

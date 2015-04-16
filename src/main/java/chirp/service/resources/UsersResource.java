@@ -25,6 +25,7 @@ import chirp.model.Chirp;
 import chirp.model.DuplicateEntityException;
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.representations.ChirpsRep;
 import chirp.representations.UserRep;
 import chirp.representations.UsersRep;
 
@@ -44,12 +45,37 @@ public class UsersResource {
   @GET
   @Path("{username}")
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
-  public UserRep getUser(@PathParam("username") String username, 
+  public Response getUser(@PathParam("username") String username, 
                          @QueryParam("summary") boolean summary,
                          @Context UriInfo uriInfo) {
     
     User user = users.getUser(username);
-    return new UserRep(user, summary, uriInfo);
+    UserRep userRep = new UserRep(user, summary, uriInfo);
+
+    URI chirpsUri = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
+    URI allUsers = uriInfo.getBaseUriBuilder().path("users").build();
+    
+    return Response.ok(userRep)
+        .link("all", allUsers.toString())
+        .link("chirps", chirpsUri.toString())
+        .build();
+  }
+  
+  @GET
+  @Path("{username}/chirps")
+  @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
+  public Response getUserChirps(@PathParam("username") String username, 
+                                @QueryParam("summary") boolean summary,
+                                @Context UriInfo uriInfo) {
+    
+    User user = users.getUser(username);
+    ChirpsRep chirps = new ChirpsRep(user, summary, uriInfo);
+
+    URI userUri = uriInfo.getBaseUriBuilder().path("users").build();
+
+    return Response.ok(chirps)
+        .link("user", userUri.toString())
+        .build();
   }
   
   @POST
