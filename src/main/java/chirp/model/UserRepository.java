@@ -92,11 +92,20 @@ public class UserRepository implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	private static Map<String, User> thaw() {
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-				file))) {
+		ObjectInputStream in = null;
+		try {
+			in = new ObjectInputStream(new FileInputStream(file));
 			return (Map<String, User>) in.readObject();
 		} catch (Exception e) {
 			return new ConcurrentHashMap<String, User>();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 
@@ -105,11 +114,18 @@ public class UserRepository implements Serializable {
 	 * <code>state.bin</code>.
 	 */
 	public void freeze() {
-		try (ObjectOutputStream out = new ObjectOutputStream(
-				new FileOutputStream(file))) {
+		ObjectOutputStream out = null;
+		try {
+			out = new ObjectOutputStream(new FileOutputStream(file));
 			out.writeObject(users);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (out != null) out.close();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 
