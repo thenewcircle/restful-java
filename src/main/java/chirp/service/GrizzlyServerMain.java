@@ -13,36 +13,23 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import chirp.model.UserRepository;
 
-/**
- * Lightweight, embedded HTTP server. Knows how to load and save the user
- * repository, and provide it for injection into resource classes.
- */
 public class GrizzlyServerMain {
 
 	public static void main(String[] args) throws Exception {
-		/* Jersey uses java.util.logging - bridge to slf4 */
-		SLF4JBridgeHandler.removeHandlersForRootLogger();
-		SLF4JBridgeHandler.install();
-		
+		ServerUtils.initLogging();
+
 		/* Start a new instance of grizzly http server. */
 		URI baseUri = URI.create(ServerUtils.SERVER_BIND_ADDRESS);
-		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, ServerUtils.createConfig());
+		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, new ChirpApplication());
 
-		/* Enable logging of exceptions while suppressing unnecessary messages */
-		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
-		Logger.getLogger("org.glassfish.grizzly.nio").setLevel(Level.INFO);
-		Logger.getLogger("org.glassfish.grizzly.http.io").setLevel(Level.FINE);
-		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler").setLevel(Level.FINE);
-		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.FINER);
-		Logger.getLogger("org.glassfish.jersey.tracing").setLevel(Level.FINEST);
-		
 		/* Preload data into the database. */
 		ServerUtils.resetAndSeedRepository();
 
 		/* Wait for shutdown ... */
-		System.out.format("Jersey app started with WADL available at %s\nHit enter to stop it...\n\n", ServerUtils.WADL_RESOURCE);
+		System.out.format("Grizzly HTTP Server started with WADL available at %s\nHit enter to stop it...\n\n", ServerUtils.WADL_RESOURCE);
 		System.in.read();
 
 		httpServer.shutdownNow();
 	}
+
 }
