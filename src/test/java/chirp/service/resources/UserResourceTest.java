@@ -6,15 +6,9 @@ import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.After;
 import org.junit.Test;
 
 public class UserResourceTest extends JerseyResourceTest {
-
-	@After
-	public void tearDown() {
-		clearUserRepository();
-	}
 
 	@Test
 	public void createUserSuccess() {
