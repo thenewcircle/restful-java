@@ -10,7 +10,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of chirps, indexed by id.
@@ -20,10 +19,13 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String username;
-	private final String realname;
+
+	private String username;
+	private String realname;
 	private final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
 	
+	public User() {}
+
 	public User(String username, String realname) {
 		this.username = username;
 		this.realname = realname;
@@ -39,10 +41,19 @@ public class User implements Serializable {
 		return realname;
 	}
 
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
+	}
+	
 	public Chirp createChirp(String content) {
 		ChirpId id = new ChirpId();
 		if (chirps.containsKey(id))
-			throw new DuplicateEntityException("Chirp with content " + content + " already exists");
+			throw new DuplicateEntityException("Chirp with content " + content
+					+ " already exists");
 
 		Chirp chirp = new Chirp(id, content, this);
 		chirps.put(id, chirp);
@@ -57,14 +68,16 @@ public class User implements Serializable {
 	public Chirp getChirp(ChirpId id) {
 		Chirp chirp = chirps.get(id);
 		if (chirp == null)
-			throw new NoSuchEntityException(String.format("User with id %d does not exist",id));
+			throw new NoSuchEntityException(String.format(
+					"User with id %d does not exist", id));
 
 		return chirp;
 	}
 
 	public void deleteChirp(String id) {
 		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException("Cannot delete chirp with id " + id + " as it does not exist.");
+			throw new NoSuchEntityException("Cannot delete chirp with id " + id
+					+ " as it does not exist.");
 	}
 
 	@Override

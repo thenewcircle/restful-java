@@ -52,7 +52,7 @@ public class UsersResource {
 
 	@GET
 	@Path("{username}")
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public User getUser(@PathParam("username") String username) {
 
 		logger.info("getting user {}", username);

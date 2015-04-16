@@ -1,7 +1,8 @@
 Day 2 Homework
 ---------------------------------------------------------------------
 1. Pull latest code from class-3690 branch
-2. Look at the Jersey User Guide and determine how to add validation messages to @NotNull and @Email annotations per the Bean Validation Section, chapter 18.
+2. Look at the Jersey User Guide and determine how to add validation messages for the @NotNull annotation per the Bean Validation Section, chapter 18.
+3. Look on the web and other resources you might have and determine if an API and database class should be the same for an entity.
 
 
 Day 2 Afternoon Lab
