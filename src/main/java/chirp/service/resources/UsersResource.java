@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
@@ -46,8 +49,10 @@ public class UsersResource {
   @Path("{username}")
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, "text/csv"})
   public Response getUser(@PathParam("username") String username, 
-                         @QueryParam("summary") boolean summary,
-                         @Context UriInfo uriInfo) {
+                          @QueryParam("summary") boolean summary,
+                          @Context UriInfo uriInfo,
+                          @HeaderParam("Authorization") String authHeader,
+                          @CookieParam("session-id") Cookie sessionCookie) {
     
     User user = users.getUser(username);
     UserRep userRep = new UserRep(user, summary, uriInfo);
