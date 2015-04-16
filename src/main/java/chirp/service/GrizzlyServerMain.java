@@ -1,5 +1,6 @@
 package chirp.service;
 
+/*
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,24 +13,27 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import chirp.model.UserRepository;
+*/
 
 public class GrizzlyServerMain {
 
+/*
 	public static void main(String[] args) throws Exception {
 		ServerUtils.initLogging();
 
-		/* Start a new instance of grizzly http server. */
+		// Start a new instance of grizzly http server.
 		URI baseUri = URI.create(ServerUtils.SERVER_BIND_ADDRESS);
 		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, new ChirpApplication());
 
-		/* Preload data into the database. */
+		// Preload data into the database.
 		ServerUtils.resetAndSeedRepository();
 
-		/* Wait for shutdown ... */
+		// Wait for shutdown ...
 		System.out.format("Grizzly HTTP Server started with WADL available at %s\nHit enter to stop it...\n\n", ServerUtils.WADL_RESOURCE);
 		System.in.read();
 
 		httpServer.shutdownNow();
 	}
+*/
 
 }
