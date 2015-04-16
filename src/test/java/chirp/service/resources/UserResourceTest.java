@@ -39,27 +39,20 @@ public class UserResourceTest extends JerseyResourceTest {
 
 	@Test
 	public void getUserDoesNotExistFails() {
-		Response response = target("/users/doesnotexist").request().get();
-		assertEquals(Response.Status.NOT_FOUND.getStatusCode(),
-				response.getStatus());
-		assertNotNull(response.getEntity());
-
+		getEntity("/users/doesnotexist", MediaType.APPLICATION_JSON_TYPE,
+				Response.Status.NOT_FOUND);
 	}
 
 	@Test
 	public void createUserTwiceFails() {
-		Form userForm = new Form().param("username", "bob").param("realname",
-				"Bob Smith");
-		Response response = target("/users").request().post(
-				Entity.form(userForm));
-		assertEquals(Response.Status.CREATED.getStatusCode(),
-				response.getStatus());
-		assertNotNull(response.getLocation());
-
-		response = target("/users").request().post(Entity.form(userForm)); // do
-																			// it
-																			// again
-		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(),
-				response.getStatus());
+		createUserBobStudent(Response.Status.CREATED);
+		createUserBobStudent(Response.Status.BAD_REQUEST);
+	}
+	
+	@Test
+	public void createUserWithNullRealnameFails() {
+		Form form = new Form().param("username", "doesnotexist");
+		postFormData("/users", form, Response.Status.BAD_REQUEST);
+	
 	}
 }
