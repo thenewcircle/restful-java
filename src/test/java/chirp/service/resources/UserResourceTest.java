@@ -5,40 +5,35 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.After;
 import org.junit.Test;
 
-import chirp.model.UserRepository;
-
 public class UserResourceTest extends JerseyResourceTest {
-	
+
 	@After
 	public void tearDown() {
-		UserRepository.getInstance().clear();
+		clearUserRepository();
 	}
 
 	@Test
 	public void createUserSuccess() {
-		Form userForm = new Form().param("username", "bob").param("realname",
-				"Bob Smith");
-		Response response = target("/users").request().post(
-				Entity.form(userForm));
-		assertEquals(Response.Status.CREATED.getStatusCode(),
-				response.getStatus());
+
+		Response response = createUserBobStudent(Response.Status.CREATED);
 		assertNotNull(response.getLocation());
 
-		// a subsequent head request should return a 200
-		response = target(response.getLocation().getPath()).request().head();
-		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		getHead(response.getLocation(), MediaType.APPLICATION_JSON_TYPE,
+				Response.Status.OK);
 	}
 
 	@Test
 	public void headUserDoesNotExistFails() {
-		Response response = target("/users/doesnotexist").request().head();
-		assertEquals(Response.Status.NOT_FOUND.getStatusCode(),
-				response.getStatus());
+		
+		getHead("/users/doesnotexist", MediaType.APPLICATION_JSON_TYPE,
+				Response.Status.NOT_FOUND);
+
 
 	}
 
