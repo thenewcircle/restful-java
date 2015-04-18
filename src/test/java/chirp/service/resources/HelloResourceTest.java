@@ -17,8 +17,8 @@ public class HelloResourceTest extends JerseyResourceTest {
 
 	@Test
 	public void helloResourceGreetsByName() {
-		String hello = target("/hello/Cisco")
-				.request().header("Accept", MediaType.TEXT_HTML_TYPE).get(String.class);
+		String hello = target("/hello/Cisco").request()
+				.header("Accept", MediaType.TEXT_HTML_TYPE).get(String.class);
 		assertEquals("<html><body><h1>Hello Cisco!</h1></body></html>", hello);
 	}
 

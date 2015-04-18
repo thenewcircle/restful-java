@@ -23,6 +23,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.slf4j.Logger;
@@ -93,8 +94,14 @@ public abstract class JerseyResourceTest extends JerseyTest {
 												// in the test client.
 	}
 
+	@Before
+	public void beforeEveryTest() {
+		logger.info("Start: {}", testName.getMethodName());
+	}
+
 	@After
-	public void clearUserRepository() {
+	public void afterEveryTest() {
+		logger.info("End: {}", testName.getMethodName());
 		UserRepository.getInstance().clear(); // remove data between test method
 												// invocations
 	}
@@ -224,7 +231,7 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		return response;
 	}
 
-	public Response getHead(URI uri, MediaType mediaType,
+	protected Response getHead(URI uri, MediaType mediaType,
 			Response.Status expectedResponse) {
 		return getHead(client().target(uri), mediaType, expectedResponse);
 	}

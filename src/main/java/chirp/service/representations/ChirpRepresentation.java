@@ -2,31 +2,38 @@ package chirp.service.representations;
 
 import java.net.URI;
 
-import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.Chirp;
 
 @XmlRootElement
-public class ChirpRepresentation {
+public class ChirpRepresentation extends AbstractCacheableRepresentation {
 
+	private String id;
 	private String content;
-	private String chirpId;
 	private URI self;
 
 	public ChirpRepresentation() {
+
 	}
 
-	public ChirpRepresentation(Chirp chirp, boolean summary, UriInfo uriInfo) {
-		super();
-		if (summary == false) {
+	public ChirpRepresentation(final Chirp chirp, URI self, boolean isSummary) {
+		super(chirp);
+		if (isSummary == false) {
+			this.id = chirp.getId().toString();
 			this.content = chirp.getContent();
-			this.chirpId = chirp.getId().toString();
 		}
+		this.self = self;
+	}
 
-		self = uriInfo.getAbsolutePathBuilder().path(chirp.getId().toString())
-				.build(chirp.getUser().getUsername());
+	@XmlElement
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@XmlElement
@@ -47,13 +54,35 @@ public class ChirpRepresentation {
 		this.content = content;
 	}
 
-	@XmlElement
-	public String getChirpId() {
-		return chirpId;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((content == null) ? 0 : content.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
-	public void setChirpId(String chirpId) {
-		this.chirpId = chirpId;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChirpRepresentation other = (ChirpRepresentation) obj;
+		if (content == null) {
+			if (other.content != null)
+				return false;
+		} else if (!content.equals(other.content))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

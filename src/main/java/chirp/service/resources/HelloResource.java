@@ -10,30 +10,23 @@ import javax.ws.rs.core.MediaType;
 @Path("/hello")
 public class HelloResource {
 
+	// http://localhost:8080/hello?name=Cisco
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getHello(@QueryParam("name") String uriNameParam) {
-
+		StringBuffer sb = new StringBuffer("Hello");
 		if (uriNameParam != null)
-			return "Hello " + uriNameParam + "!";
-		else
-			return "Hello!";
+			sb.append(" ").append(uriNameParam);
+		sb.append('!');
+		return sb.toString();
 	}
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	@Path("{name}")
 	public String anotherGetHello(@PathParam("name") String name) {
-		
-		StringBuilder builder = new StringBuilder("<html><body><h1>Hello");
-		
-		if (name.length() > 0) {
-			builder.append(" ").append(name);
-		}
-		
-		builder.append("!</h1></body></html>");
-		
-		return builder.toString();
+
+		return String.format("<html><body><h1>Hello %s!</h1></body></html>",name);
 	}
 
 }

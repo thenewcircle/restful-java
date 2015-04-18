@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import chirp.model.User;
 
 @XmlRootElement
-public class UserRepresentation {
+public class UserRepresentation extends AbstractCacheableRepresentation {
 
 	private String username;
 	private String realname;
@@ -17,13 +17,13 @@ public class UserRepresentation {
 	public UserRepresentation() {
 	}
 
-	public UserRepresentation(User user, boolean summary, URI self) {
-		if (summary == false) {
+	public UserRepresentation(User user, URI self, boolean isSummary) {
+		super(user);
+		if (isSummary == false) {
 			this.username = user.getUsername();
 			this.realname = user.getRealname();
 		}
 		this.self = self;
-
 	}
 
 	@XmlElement
@@ -51,6 +51,39 @@ public class UserRepresentation {
 
 	public void setSelf(URI self) {
 		this.self = self;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((realname == null) ? 0 : realname.hashCode());
+		result = prime * result
+				+ ((username == null) ? 0 : username.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserRepresentation other = (UserRepresentation) obj;
+		if (realname == null) {
+			if (other.realname != null)
+				return false;
+		} else if (!realname.equals(other.realname))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		return true;
 	}
 
 }

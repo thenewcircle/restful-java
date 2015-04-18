@@ -1,0 +1,74 @@
+Steps to create a user in Chirp
+  1) Create a URI for adding a user -- http://localhost:8080/users
+  2) Choose the HTTP method for adding a user -- POST
+  3) Which class should handle creating a user -- service.resources.UserResource
+  
+Representation Objects
+  Goals
+    1) to avoid circular dependencies between domain objects
+    2) a view of the application independent of domain classes
+  Strategy
+    1) create a user representation object that does not contain chirps
+ 
+ 
+ Homework Day Two -- Add support for creating and retrieving a chirp
+   1) Create a chirp.service.resources.ChirpResource class with support for GET and POST (create)
+      URL: http://localhost:8080/chirps/{username} -- creating a chirp with a POST
+      URL: http://localhost:8080/chirps/{username}/{id} -- specific chirp created by a user
+   
+   2) Create a ChirpRepresentation class for sharing chirp reads with the client
+      a) include the content and id properties only from the chirp
+      
+   3) Return chirps in both XML and JSON formats
+   
+   4) Create supporting test cases
+   
+   5) Extra Credit: return all chirps for a given user 
+   
+  Day Three AM Assignment
+   1) Create a testcase for creating and reading back a collection of two or more users. 
+   2) Create an ExceptionMapper for handling NoSuchEntityExceptions for unknown users and chirps.  
+      a) update the NoSuchEntityException class so it can describe the entity not found. 
+      b) add a test case to verify chirp returns a 404 when requesting a user that does not exist.
+      
+  Day Three Lunch Assignment
+   1) Add self links in the ChirpRepresentation and ChirpCollectionRepresentation classes.
+      a) use the User representation classes as a template
+   2) Create summary views for chirp representations.  
+   
+   
+   
+   <http://localhost:8080/users>; rel="self", <http://localhost:8080/users/other>; rel="first", <http://localhost:8080/users/student>; rel="last"
+   
+   
+   
+   
+   
+   
+   <http://localhost:8080/users/other>; rel="self", <http://localhost:8080/users>; rel="up"; title="all users", <http://localhost:8080/chrips/other>; rel="related"; title="Joe Other's chrips"
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    
+       
