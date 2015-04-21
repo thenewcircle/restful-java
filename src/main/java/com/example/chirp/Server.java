@@ -32,13 +32,19 @@ public class Server {
 		/* Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
-		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.FINER);
-		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler").setLevel(Level.FINE);
 		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
+		Logger.getLogger("org.glassfish.grizzly.nio").setLevel(Level.INFO);
+		Logger.getLogger("org.glassfish.grizzly.http.io").setLevel(Level.FINE);
+		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler").setLevel(Level.FINE);
+		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.FINER);
+		Logger.getLogger("org.glassfish.jersey.tracing").setLevel(Level.FINEST);
 	}
 
 	public static ResourceConfig createConfig() {
-		/* log additional debugging data in headers when in development. */
+		/*
+		 * Log additional debugging data in headers when in development. See
+		 * https://jersey.java.net/documentation/latest/monitoring_tracing.html
+		 */
 		final ResourceConfig rc = new ResourceConfig();
 		Map<String, Object> props = new HashMap<String, Object>();
 		props.put("jersey.config.server.tracing", "ALL");
