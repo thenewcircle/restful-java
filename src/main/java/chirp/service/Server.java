@@ -41,18 +41,7 @@ public class Server {
 		return rc;
 	}
 
-	public static void resetAndSeedRepository() {
-		UserRepository database = UserRepository.getInstance();
-		database.clear();
-		database.createUser("maul", "Darth Maul");
-		database.createUser("luke", "Luke Skywaler");
-		database.createUser("vader", "Darth Vader");
-		database.createUser("yoda", "Master Yoda");
-		database.getUser("yoda").createChirp("Do or do not.  There is no try.", "wars01");
-		database.getUser("yoda").createChirp("Fear leads to anger, anger leads to hate, and hate leads to suffering.","wars02");
-		database.getUser("vader").createChirp("You have failed me for the last time.", "wars03");
-	}
-
+	
 	public static void main(String[] args) throws Exception {
 		/* Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
@@ -70,8 +59,6 @@ public class Server {
 		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder").setLevel(Level.FINER);
 		Logger.getLogger("org.glassfish.jersey.tracing").setLevel(Level.FINEST);
 		
-		/* Preload data into the database. */
-		resetAndSeedRepository();
 
 		/* Wait for shutdown ... */
 		System.out.format("Jersey app started with WADL available at "
