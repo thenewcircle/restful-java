@@ -8,10 +8,9 @@ import java.util.logging.Logger;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
-
-import chirp.model.UserRepository;
 
 /**
  * Lightweight, embedded HTTP server. Knows how to load and save the user
@@ -36,7 +35,7 @@ public class Server {
 		rc.addProperties(props);
 
 		/* register chirp REST resources and providers */
-		rc.packages("chirp.service.resources","chirp.service.providers");
+		rc.packages("chirp.service.resources","chirp.service.providers").register(MoxyXmlFeature.class);
 
 		return rc;
 	}
