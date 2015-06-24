@@ -1,6 +1,23 @@
-Labs 
+Labs
+
+Day Two Homework
+----------------
+
+1. Create a ChripRepresentation object containing only the ChirpId and Content Fields.
+   a. consider representation the chirp id as a string instead of an object
+
+2. Create a ChirpResource class to handling creating and retrieving single chirps. You may need to
+   correct or add code the example on how create a chirp post.
+   
+   POST http://localhost:8080/chirps/{username} -- create a chirp  
+   GET http://localhost:8080/chirps/{username}/{id} -- get a chirp (this is the format for location URI too)
+
+3. Annotate the ChirpRepresentation class for XML and JSON formatting. Create test cases to confirm both XML and JSON formats work.
+
+
 
 Day Two Lunch
+--------------
 
 Fix code on class-4037 branch so it returns a status code of 
 Bad Request when detecting a duplicate username. Note the exception thrown is 

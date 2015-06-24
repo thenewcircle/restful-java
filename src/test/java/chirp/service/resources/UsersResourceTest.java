@@ -11,8 +11,8 @@ import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 public class UsersResourceTest extends JerseyResourceTest {
 
@@ -50,8 +50,8 @@ public class UsersResourceTest extends JerseyResourceTest {
 	private void createAndGetUserSuccess(String mediaType) {
 		createBobStudent(Response.Status.CREATED);
 
-		User user = target("/users").path("student").request()
-				.accept(mediaType).get(User.class);
+		UserRepresentation user = target("/users").path("student").request()
+				.accept(mediaType).get(UserRepresentation.class);
 		assertNotNull(user);
 		assertEquals("student", user.getUsername());
 	}
