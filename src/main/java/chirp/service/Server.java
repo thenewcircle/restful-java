@@ -31,8 +31,8 @@ public class Server {
 		 */
 		final ResourceConfig rc = new ResourceConfig();
 		Map<String, Object> props = new HashMap<String, Object>();
-		props.put("jersey.config.server.tracing.type", "ALL");
-		props.put("jersey.config.server.tracing.threshold", "VERBOSE");
+		// props.put("jersey.config.server.tracing.type", "ALL");
+		// props.put("jersey.config.server.tracing.threshold", "VERBOSE");
 		rc.addProperties(props);
 
 		/* register chirp REST resources and providers */
