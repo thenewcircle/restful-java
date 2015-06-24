@@ -1,0 +1,37 @@
+
+
+
+Preference for create is plural entity name only in URI path
+METHOD is POST or PUT.  
+
+URI: http://localhost:8080/users
+METHOD: POST
+
+Location Response Header: http://localhost:8080/users/student
+
+Retrieve a single user
+URI: http://localhost:8080/users/{username}
+METHOD: GET
+CONTENT-TYPE: application/xml, application/json, text/plain
+RETURNS a user representation
+  realname : String
+  username : String
+
+Retrieve all users
+URI: http://localhost:8080/users
+METHOD: GET
+RETURNs a collection of users 
+{
+   { 
+    username : String
+    realname : String
+    } 
+    ...
+}
+
+
+
+REST AnitPatterns for URI composition -- don't follow these
+URI  http://localhost:8080/create
+URI: http://localhost:8080/users.json
+URI: http://localhost:8080/users.xml
