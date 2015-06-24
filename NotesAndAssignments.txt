@@ -1,5 +1,15 @@
+Labs 
+
+Day Two Lunch
+
+Fix code on class-4037 branch so it returns a status code of 
+Bad Request when detecting a duplicate username. Note the exception thrown is 
+DuplicateEntityException.
 
 
+----
+
+Notes -- API Design
 
 Preference for create is plural entity name only in URI path
 METHOD is POST or PUT.  
