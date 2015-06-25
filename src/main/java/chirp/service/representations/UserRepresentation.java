@@ -2,13 +2,11 @@ package chirp.service.representations;
 
 import java.net.URI;
 
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.User;
-import chirp.service.resources.UsersResource;
 
 @XmlRootElement
 public class UserRepresentation {
