@@ -16,20 +16,6 @@ import chirp.service.representations.UserRepresentation;
 
 public class UsersResourceTest extends JerseyResourceTest {
 
-	private Response createBobStudent(Response.Status expectedStatus) {
-		Response response = target("/users").request().post(
-				Entity.form(new Form().param("realname", "Bob Student").param(
-						"username", "student")));
-
-		assertEquals(expectedStatus.getStatusCode(), response.getStatus());
-
-		return response;
-	}
-
-	@Before
-	public void testSetup() {
-		UserRepository.getInstance().clear();
-	}
 
 	@Test
 	public void createUserSuccess() {
@@ -50,9 +36,12 @@ public class UsersResourceTest extends JerseyResourceTest {
 	private void createAndGetUserSuccess(String mediaType) {
 		createBobStudent(Response.Status.CREATED);
 
-		UserRepresentation user = target("/users").path("student").request()
-				.accept(mediaType).get(UserRepresentation.class);
-		assertNotNull(user);
+		Response response = target("/users").path("student").request()
+				.accept(mediaType).get();
+		assertNotNull(response);
+		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		
+		UserRepresentation user = response.readEntity(UserRepresentation.class);
 		assertEquals("student", user.getUsername());
 	}
 

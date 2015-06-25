@@ -1,12 +1,20 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.assertEquals;
+
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.moxy.xml.MoxyXmlFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.junit.Before;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import chirp.model.UserRepository;
 
 /**
  * Common base class for jerseytest classes that assumes a single servce to test
@@ -18,6 +26,22 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest extends JerseyTest {
+	
+
+	@Before
+	public void testSetup() {
+		UserRepository.getInstance().clear();
+	}
+	
+	protected Response createBobStudent(Response.Status expectedStatus) {
+		Response response = target("/users").request().post(
+				Entity.form(new Form().param("realname", "Bob Student").param(
+						"username", "student")));
+
+		assertEquals(expectedStatus.getStatusCode(), response.getStatus());
+
+		return response;
+	}
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following
