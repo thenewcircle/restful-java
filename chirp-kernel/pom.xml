@@ -1,0 +1,29 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.example.chirp</groupId>
+    <artifactId>chirp-root</artifactId>
+    <version>trunk-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>chirp-kernel</artifactId>
+  <packaging>jar</packaging>
+
+  <dependencies>
+<!--
+     <dependency>
+      <groupId>com.example.chirp</groupId>
+      <artifactId>chirp-pub</artifactId>
+      <version>trunk-SNAPSHOT</version>
+    </dependency>
+ -->
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>${jaxrs.version}</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

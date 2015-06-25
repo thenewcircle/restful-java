@@ -1,47 +1,46 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project>
+  <modelVersion>4.0.0</modelVersion>
 
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.marakana</groupId>
-	<artifactId>chirp</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<groupId>com.example.chirp</groupId>
+	<artifactId>chirp-root</artifactId>
+	<version>trunk-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-	<properties>
-		<jax-rs.version>2.0</jax-rs.version>
-		<jersey.version>2.13</jersey.version>
-		<logback-classic.version>1.1.2</logback-classic.version>
-		<slf4j.version>1.7.6</slf4j.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+  <properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-grizzly2-http</artifactId>
-			<version>${jersey.version}</version>
-		</dependency>
+    <spring.version>3.1.4.RELEASE</spring.version>
+    <spring.data.jpa.version>1.4.5.RELEASE</spring.data.jpa.version>
+    <hibernate.version>3.6.10.Final</hibernate.version>
 
-		<dependency>
-			<groupId>org.glassfish.jersey.test-framework.providers</groupId>
-			<artifactId>jersey-test-framework-provider-inmemory</artifactId>
-			<version>${jersey.version}</version>
-			<scope>test</scope>
-		</dependency>
+    <!--<spring.version>4.1.6.RELEASE</spring.version>-->
+    <!--<spring.data.jpa.version>1.8.0.RELEASE</spring.data.jpa.version>-->
+    <!--<hibernate.version>4.3.10.Final</hibernate.version>-->
 
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jul-to-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
+    <jaxrs.version>2.0.1</jaxrs.version>
+    <jackson.version>2.5.2</jackson.version>
+    <resteasy.version>3.0.9.Final</resteasy.version>
+    <servlet.api.version>3.1.0</servlet.api.version>
+    <jersey.version>2.17</jersey.version>
+    <slf4j.version>1.7.7</slf4j.version>
+    <logback.version>1.1.3</logback.version>
+  </properties>
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback-classic.version}</version>
-			<scope>runtime</scope>
-		</dependency>
+	<modules>
+		<!--<module>chirp-pub</module>-->
+    <!--<module>chirp-client-java</module>-->
 
-	</dependencies>
+    <module>chirp-app</module>
+		<module>chirp-kernel</module>
+
+    <module>chirp-dist-grizzly</module>
+ 		<!--<module>chirp-dist-jersey</module>-->
+		<!--<module>chirp-dist-resteasy</module>-->
+
+    <module>chirp-store-memory</module>
+    <module>chirp-store-spring-data</module>
+    <!--<module>chirp-store-couchdb</module>-->
+    <!--<module>chirp-store-jpa</module>-->
+	</modules>
 
 	<build>
 		<plugins>
@@ -50,23 +49,11 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.7</source>
+          <source>1.7</source>
 					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<configuration>
-					<executable>java</executable>
-					<arguments>
-						<argument>-cp</argument>
-						<classpath />
-						<argument>chirp.service.Server</argument>
-					</arguments>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
