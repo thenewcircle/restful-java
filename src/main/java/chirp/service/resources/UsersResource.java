@@ -1,6 +1,8 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -15,6 +17,7 @@ import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
 
@@ -53,5 +56,17 @@ public class UsersResource {
 		logger.info("Getting info for user {}", username);
 		return new UserRepresentation(UserRepository.getInstance().getUser(username));
 	}
-
+	
+	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public Collection<UserRepresentation> getAllUsers() {
+		Collection<UserRepresentation> users = new LinkedList<>(); 
+				
+		for (User user : UserRepository.getInstance().getUsers()) {
+			users.add(new UserRepresentation(user));
+		}
+		
+		return users;
+		
+	}
 }

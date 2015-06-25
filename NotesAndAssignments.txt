@@ -1,5 +1,13 @@
 Labs
 
+Day Three
+----------
+
+Morning Lab
+
+1. Create a getAllChirps method for a given user and return the chirp representations in a collection.
+2. Add a self link to ChripRepresetnation and test using postman. 
+
 Day Two Homework
 ----------------
 

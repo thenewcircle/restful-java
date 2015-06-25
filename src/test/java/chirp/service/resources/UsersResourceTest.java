@@ -3,15 +3,11 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
 
 public class UsersResourceTest extends JerseyResourceTest {
