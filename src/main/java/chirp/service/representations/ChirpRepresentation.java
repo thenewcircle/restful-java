@@ -1,15 +1,20 @@
 package chirp.service.representations;
 
+import java.net.URI;
+
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.Chirp;
+import chirp.service.resources.ChirpsResource;
 
 @XmlRootElement
 public class ChirpRepresentation {
 
 	private String content;
 	private String id;
+	private URI self;
 
 	public ChirpRepresentation() {
 	}
@@ -17,6 +22,9 @@ public class ChirpRepresentation {
 	public ChirpRepresentation(Chirp chirp) {
 		content = chirp.getContent();
 		id = chirp.getId().toString();
+		self = UriBuilder.fromResource(ChirpsResource.class)
+				.path(chirp.getId().toString())
+				.build(chirp.getUser().getUsername());
 	}
 
 	@XmlElement
@@ -35,6 +43,15 @@ public class ChirpRepresentation {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+
+	public void setSelf(URI self) {
+		this.self = self;
 	}
 
 	@Override
@@ -73,7 +90,5 @@ public class ChirpRepresentation {
 		return String.format("ChirpRepresentation [content=%s, id=%s]",
 				content, id);
 	}
-	
-	
 
 }
