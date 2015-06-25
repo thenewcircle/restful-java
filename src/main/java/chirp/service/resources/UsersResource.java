@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
@@ -56,7 +57,7 @@ public class UsersResource {
 
 		logger.info("Getting info for user {}", username);
 		return new UserRepresentation(UserRepository.getInstance().getUser(
-				username), uriInfo, false);
+				username), uriInfo.getAbsolutePathBuilder().build(), false);
 	}
 
 	@GET

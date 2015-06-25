@@ -1,4 +1,4 @@
-package chirp.service.resources;
+package chirp.service.representations;
 
 import java.net.URI;
 import java.util.Collection;
@@ -10,20 +10,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
-import chirp.service.representations.UserRepresentation;
 
 @XmlRootElement
 public class UserCollectionRepresentation {
 
 	private URI self;
 	private Collection<UserRepresentation> users = new LinkedList<>();
-	
-	public UserCollectionRepresentation() {}
+
+	public UserCollectionRepresentation() {
+	}
 
 	public UserCollectionRepresentation(UriInfo uriInfo) {
 
 		for (User user : UserRepository.getInstance().getUsers()) {
-			users.add(new UserRepresentation(user, uriInfo, true));
+			users.add(new UserRepresentation(user, uriInfo
+					.getAbsolutePathBuilder().path(user.getUsername()).build(),
+					true));
 		}
 
 		self = uriInfo.getAbsolutePathBuilder().build();
