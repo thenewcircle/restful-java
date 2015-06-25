@@ -33,8 +33,8 @@
 		<module>chirp-kernel</module>
 
     <module>chirp-dist-grizzly</module>
- 		<!--<module>chirp-dist-jersey</module>-->
-		<!--<module>chirp-dist-resteasy</module>-->
+ 		<module>chirp-dist-jersey</module>
+		<module>chirp-dist-resteasy</module>
 
     <module>chirp-store-memory</module>
     <!--<module>chirp-store-spring-data</module>-->

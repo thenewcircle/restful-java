@@ -1,0 +1,124 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.example.chirp</groupId>
+    <artifactId>chirp-root</artifactId>
+    <version>trunk-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>chirp-dist-resteasy</artifactId>
+  <packaging>war</packaging>
+
+  <dependencies>
+
+    <!-- The main application -->
+    <dependency>
+      <groupId>com.example.chirp</groupId>
+      <artifactId>chirp-app</artifactId>
+      <version>trunk-SNAPSHOT</version>
+    </dependency>
+
+
+    <!-- choose which store to use -->
+<!--
+    <dependency>
+      <groupId>com.example.chirp</groupId>
+      <artifactId>chirp-store-spring-data</artifactId>
+      <version>trunk-SNAPSHOT</version>
+    </dependency>
+-->
+    <dependency>
+      <groupId>com.example.chirp</groupId>
+      <artifactId>chirp-store-memory</artifactId>
+      <version>trunk-SNAPSHOT</version>
+    </dependency>
+
+
+    <!-- Logging -->
+    <!-- inherited from chirp-app -->
+
+
+    <!-- General annotations -->
+    <!-- inherited from chirp-app -->
+
+
+    <!-- Using Jackson for JSON & XML data binding -->
+    <!-- inherited from chirp-app -->
+
+
+    <!-- Add dependency on Spring -->
+    <!-- inherited from chirp-app -->
+
+
+    <!-- Declare servlet dependencies for the context listeners -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet.api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <!-- RESTEasy dependencies -->
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-jaxrs</artifactId>
+      <version>${resteasy.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-client</artifactId>
+      <version>${resteasy.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-spring</artifactId>
+      <version>${resteasy.version}</version>
+    </dependency>
+
+
+    <!-- Add dependency on Spring -->
+<!--
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+-->
+
+
+    <!-- Add Spring dependency required for integration -->
+<!--
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+-->
+<!--
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+-->
+
+  </dependencies>
+
+</project>
