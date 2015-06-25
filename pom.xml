@@ -37,7 +37,7 @@
 		<!--<module>chirp-dist-resteasy</module>-->
 
     <module>chirp-store-memory</module>
-    <module>chirp-store-spring-data</module>
+    <!--<module>chirp-store-spring-data</module>-->
     <!--<module>chirp-store-couchdb</module>-->
     <!--<module>chirp-store-jpa</module>-->
 	</modules>
