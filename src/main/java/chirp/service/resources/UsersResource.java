@@ -1,8 +1,6 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.Collection;
-import java.util.LinkedList;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -10,26 +8,28 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import chirp.model.User;
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
 public class UsersResource {
-	
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * Use this to create a new user than does not already exist in the system.
 	 * 
-	 * DuplicationEntityExceptions handled by DuplicatedEntityExceptionMapper class
+	 * DuplicationEntityExceptions handled by DuplicatedEntityExceptionMapper
+	 * class
 	 * 
 	 * @param username
 	 * @param realname
@@ -46,27 +46,24 @@ public class UsersResource {
 		return Response.created(location).build();
 
 	}
-	
+
 	// http://localhost:8080/users/student
 	@Path("{username}")
 	@GET
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public UserRepresentation getUser(@PathParam("username") String username) {
-		
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserRepresentation getUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
+
 		logger.info("Getting info for user {}", username);
-		return new UserRepresentation(UserRepository.getInstance().getUser(username));
+		return new UserRepresentation(UserRepository.getInstance().getUser(
+				username), uriInfo, false);
 	}
-	
+
 	@GET
-	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	public Collection<UserRepresentation> getAllUsers() {
-		Collection<UserRepresentation> users = new LinkedList<>(); 
-				
-		for (User user : UserRepository.getInstance().getUsers()) {
-			users.add(new UserRepresentation(user));
-		}
-		
-		return users;
-		
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserCollectionRepresentation getAllUsers(@Context UriInfo uriInfo) {
+
+		return new UserCollectionRepresentation(uriInfo);
+
 	}
 }

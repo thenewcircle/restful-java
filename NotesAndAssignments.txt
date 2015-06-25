@@ -2,6 +2,10 @@ Labs
 
 Day Three
 ----------
+Lunch Lab
+
+1. Create a ChripRepresentationCollections object with a self link.
+2. Make sure all links are absolute, e.g., uriInfo.AbsoluiteUriBuilder
 
 Morning Lab
 
