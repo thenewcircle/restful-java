@@ -6,14 +6,11 @@ import com.example.chirp.app.LogbackUtil;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.net.URI;
 
 public class ChirpAppGrizzlyMain {
-
-	private static final org.slf4j.Logger log = LoggerFactory.getLogger(ChirpAppGrizzlyMain.class);
 
 	private static final int SERVER_PORT = 8080;
 	private static final String SERVER_INTERFACE = "0.0.0.0";
