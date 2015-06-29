@@ -1,4 +1,4 @@
-package com.example.chirp.app.resources;
+package com.example.chirp.app;
 
 import com.example.chirp.store.memory.InMemoryUsersStore;
 

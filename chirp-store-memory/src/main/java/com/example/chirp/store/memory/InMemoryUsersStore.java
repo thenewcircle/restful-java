@@ -42,7 +42,7 @@ public class InMemoryUsersStore implements UserStore {
 
   public final User createUser(String username, String fullName) {
     if (users.containsKey(username))
-      throw new DuplicateEntityException();
+      throw new DuplicateEntityException(username);
 
     User user = new User(username, fullName);
     users.put(username, user);

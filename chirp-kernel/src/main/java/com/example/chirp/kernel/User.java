@@ -38,7 +38,7 @@ public class User implements Serializable {
 	public Chirp createChirp(String content) {
 		ChirpId chirpId = new ChirpId();
 		if (chirps.containsKey(chirpId))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException(chirpId.toString());
 
 		Chirp chirp = new Chirp(chirpId, content, this);
 		chirps.put(chirpId, chirp);
@@ -48,7 +48,7 @@ public class User implements Serializable {
 	public Chirp createChirp(String content, String id) {
 		ChirpId chripId = new ChirpId(id);
 		if (chirps.containsKey(chripId)) {
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException(id);
 		}
 		return addChirp(new Chirp(chripId, content, this));
 	}

@@ -2,6 +2,7 @@ package com.example.chirp.app;
 
 import com.example.chirp.app.resources.HelloResource;
 import com.example.chirp.app.resources.RootResource;
+import com.example.chirp.app.resources.UserResource;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import javax.ws.rs.core.Application;
@@ -27,6 +28,8 @@ public class ChirpApplication extends Application {
   }
 
   private void registerClasses() {
+    classes.add(DuplicateEntityExceptionMapper.class);
+    classes.add(UserResource.class);
     classes.add(HelloResource.class);
     classes.add(RootResource.class);
     classes.add(JacksonXMLProvider.class);

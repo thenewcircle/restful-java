@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.MemoryStoreUtil;
 import com.example.chirp.store.memory.InMemoryUsersStore;
 
 public class UserResourceTest extends ResourceTestSupport {
@@ -22,10 +23,27 @@ public class UserResourceTest extends ResourceTestSupport {
 		Form user = new Form()
 				.param("username", "mickey.mouse")
 				.param("realName", "Mickey Mouse");
-		Response response = target("/users").request().post(Entity.form(user));
+		Response response = target("/users").request().put(Entity.form(user));
 
-		Assert.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
+		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 		Assert.assertNotNull(MemoryStoreUtil.usersStore.getUser("mickey.mouse"));
-    }
+
+		String location = response.getHeaderString("Location");
+		Assert.assertEquals("http://localhost:9998/users/mickey.mouse", location);
+	}
 	
+	
+	@Test
+	public void testCreateDuplicateUser() throws Exception {
+		Form user = new Form()
+				.param("username", "mickey.mouse")
+				.param("realName", "Mickey Mouse");
+		Response response = target("/users").request().put(Entity.form(user));
+		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+
+		response = target("/users").request().put(Entity.form(user));
+		Assert.assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
+		String msg = response.readEntity(String.class);
+		Assert.assertEquals("The record \"mickey.mouse\" already exists.", msg);
+	}
 }
