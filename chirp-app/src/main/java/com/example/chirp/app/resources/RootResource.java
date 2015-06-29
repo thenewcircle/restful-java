@@ -17,7 +17,7 @@ public class RootResource {
 
   @GET
   @Produces(MediaType.TEXT_HTML)
-	public String ack(@Context UriInfo uriInfo) {
+  public String ack(@Context UriInfo uriInfo) {
 
 	  String html = "" +
         "<html>\n" +

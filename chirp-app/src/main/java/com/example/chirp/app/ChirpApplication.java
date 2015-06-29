@@ -1,5 +1,6 @@
 package com.example.chirp.app;
 
+import com.example.chirp.app.resources.HelloResource;
 import com.example.chirp.app.resources.RootResource;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
@@ -26,6 +27,7 @@ public class ChirpApplication extends Application {
   }
 
   private void registerClasses() {
+    classes.add(HelloResource.class);
     classes.add(RootResource.class);
     classes.add(JacksonXMLProvider.class);
   }
