@@ -1,8 +1,5 @@
 package com.example.chirp.app.resources;
 
-import com.example.chirp.kernel.stores.UserStore;
-
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
