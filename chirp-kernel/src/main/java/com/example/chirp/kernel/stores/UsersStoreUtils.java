@@ -2,9 +2,9 @@ package com.example.chirp.kernel.stores;
 
 import com.example.chirp.kernel.User;
 
-public abstract class UserStoreUtils {
+public abstract class UsersStoreUtils {
 
-  public static void resetAndSeedRepository(UserStore userStore) {
+  public static void resetAndSeedRepository(UsersStore userStore) {
 
     userStore.clear();
 

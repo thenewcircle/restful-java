@@ -4,7 +4,7 @@ import com.example.chirp.kernel.User;
 
 import java.util.Deque;
 
-public interface UserStore {
+public interface UsersStore {
 
   void clear();
   User createUser(String username, String fullName);

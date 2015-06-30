@@ -12,12 +12,12 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.MemoryStoreUtil;
-import com.example.chirp.kernel.stores.UserStore;
+import com.example.chirp.kernel.stores.UsersStore;
 
 @Path("/users")
 public class UserResource {
 
-	UserStore usersStore = MemoryStoreUtil.usersStore;
+	UsersStore usersStore = MemoryStoreUtil.usersStore;
 	
 	@PUT
 	public Response createUser(@Context UriInfo uriInfo,

@@ -1,7 +1,7 @@
 package com.example.chirp.store.memory;
 
 import com.example.chirp.kernel.User;
-import com.example.chirp.kernel.stores.UserStoreUtils;
+import com.example.chirp.kernel.stores.UsersStoreUtils;
 
 import java.io.*;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class PersistentMemoryUsersStore extends InMemoryUsersStore implements Se
 		logger.trace("Created new UserRepository from persisted Users Map");
 
 		if (seedDatabase) {
-			UserStoreUtils.resetAndSeedRepository(this);
+			UsersStoreUtils.resetAndSeedRepository(this);
 		}
 	}
 

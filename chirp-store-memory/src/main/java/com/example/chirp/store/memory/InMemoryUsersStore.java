@@ -3,8 +3,8 @@ package com.example.chirp.store.memory;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.kernel.exceptions.NoSuchEntityException;
-import com.example.chirp.kernel.stores.UserStore;
-import com.example.chirp.kernel.stores.UserStoreUtils;
+import com.example.chirp.kernel.stores.UsersStore;
+import com.example.chirp.kernel.stores.UsersStoreUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * deletion of users, which will be covered when modeling RESTful transactions.
  * This class is thread-safe.
  */
-public class InMemoryUsersStore implements UserStore {
+public class InMemoryUsersStore implements UsersStore {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -29,7 +29,7 @@ public class InMemoryUsersStore implements UserStore {
 		logger.trace("Created new UserRepository with new Users Map");
 
 		if (seedDatabase) {
-			UserStoreUtils.resetAndSeedRepository(this);
+			UsersStoreUtils.resetAndSeedRepository(this);
 		}
 	}
 
