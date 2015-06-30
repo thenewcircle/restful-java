@@ -8,14 +8,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.example.chirp.app.MemoryStoreUtil;
 import com.example.chirp.store.memory.InMemoryUsersStore;
 
 public class UserResourceTest extends ResourceTestSupport {
 
 	@Before
 	public void beforeTest() {
-		MemoryStoreUtil.usersStore.clear();
+		getUserStore().clear();
 	}
 	
 	@Test
@@ -26,7 +25,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		Response response = target("/users").request().put(Entity.form(user));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-		Assert.assertNotNull(MemoryStoreUtil.usersStore.getUser("mickey.mouse"));
+		Assert.assertNotNull(getUserStore().getUser("mickey.mouse"));
 
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/users/mickey.mouse", location);

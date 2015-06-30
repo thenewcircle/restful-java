@@ -3,6 +3,8 @@ package com.example.chirp.app;
 import com.example.chirp.app.resources.HelloResource;
 import com.example.chirp.app.resources.RootResource;
 import com.example.chirp.app.resources.UserResource;
+import com.example.chirp.kernel.stores.UsersStore;
+import com.example.chirp.store.memory.InMemoryUsersStore;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import javax.ws.rs.core.Application;
@@ -25,6 +27,9 @@ public class ChirpApplication extends Application {
   private void registerProperties() {
     properties.put("jersey.config.server.tracing.type", "ALL");
     properties.put("jersey.config.server.tracing.threshold", "VERBOSE");
+  
+    UsersStore usersStore = new InMemoryUsersStore(true);
+    properties.put(UsersStore.class.getName(), usersStore);
   }
 
   private void registerClasses() {
