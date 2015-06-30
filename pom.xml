@@ -34,11 +34,12 @@
     <!--<module>chirp-client-java</module>-->
 
     <module>chirp-app</module>
-		<module>chirp-kernel</module>
+    <module>chirp-pub</module>
+	<module>chirp-kernel</module>
 
     <module>chirp-dist-grizzly</module>
- 		<module>chirp-dist-jersey</module>
-		<module>chirp-dist-resteasy</module>
+	<module>chirp-dist-jersey</module>
+	<module>chirp-dist-resteasy</module>
 
     <module>chirp-store-memory</module>
     <!--<module>chirp-store-spring-data</module>-->

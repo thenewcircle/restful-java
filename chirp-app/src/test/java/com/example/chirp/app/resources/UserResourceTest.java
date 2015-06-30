@@ -2,12 +2,14 @@ package com.example.chirp.app.resources;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.kernel.stores.UsersStoreUtils;
 import com.example.chirp.store.memory.InMemoryUsersStore;
 
 public class UserResourceTest extends ResourceTestSupport {
@@ -15,6 +17,35 @@ public class UserResourceTest extends ResourceTestSupport {
 	@Before
 	public void beforeTest() {
 		getUserStore().clear();
+	}
+	
+	@Test
+	public void testGetUserName() {
+		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		
+		Response response = target("/users/vader")
+				.request()
+				.header("Accept", MediaType.TEXT_PLAIN)
+				.get();
+
+		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		String name = response.readEntity(String.class);
+		Assert.assertEquals("Darth Vader", name);
+	}
+	
+	@Test
+	public void testGetUser() {
+		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		
+		Response response = target("/users/vader")
+				.request()
+				.header("Accept", MediaType.APPLICATION_JSON)
+				.get();
+
+		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		String json = response.readEntity(String.class);
+		String expected = "{\"self\":\"http://localhost:9998/users/vader\",\"username\":\"vader\",\"realName\":\"Darth Vader\"}";
+		Assert.assertEquals("xx", json);
 	}
 	
 	@Test

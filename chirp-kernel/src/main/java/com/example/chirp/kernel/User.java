@@ -1,6 +1,7 @@
 package com.example.chirp.kernel;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.TreeMap;
 
 import com.example.chirp.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.kernel.exceptions.NoSuchEntityException;
+import com.example.chirp.pub.PubUser;
 
 
 /**
@@ -104,6 +106,10 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return "User [username=" + username + "]";
+	}
+
+	public PubUser toPubUser(URI self) {
+		return new PubUser(self, this.username, this.realname);
 	}
 
 }

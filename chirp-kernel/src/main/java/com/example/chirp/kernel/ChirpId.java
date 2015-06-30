@@ -24,6 +24,10 @@ public class ChirpId implements Comparable<ChirpId>, Serializable {
 		this.id = Long.toString(baseId.getAndIncrement());
 	}
 
+	public String getId() {
+		return id;
+	}
+	
 	@Override
 	public int compareTo(ChirpId other) {
 		return id.compareTo(other.id);

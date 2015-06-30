@@ -11,20 +11,16 @@
     <version>trunk-SNAPSHOT</version>
   </parent>
 
-  <artifactId>chirp-kernel</artifactId>
+  <artifactId>chirp-pub</artifactId>
   <packaging>jar</packaging>
 
   <dependencies>
-     <dependency>
-      <groupId>com.example.chirp</groupId>
-      <artifactId>chirp-pub</artifactId>
-      <version>trunk-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.ws.rs</groupId>
-      <artifactId>javax.ws.rs-api</artifactId>
-      <version>${jaxrs.version}</version>
-    </dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 
   </dependencies>
 
