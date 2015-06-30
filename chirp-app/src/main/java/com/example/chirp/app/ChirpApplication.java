@@ -34,6 +34,7 @@ public class ChirpApplication extends Application {
 
   private void registerClasses() {
     classes.add(DuplicateEntityExceptionMapper.class);
+    classes.add(NoSuchEntityExceptionMapper.class);
     classes.add(UserResource.class);
     classes.add(HelloResource.class);
     classes.add(RootResource.class);

@@ -108,8 +108,8 @@ public class User implements Serializable {
 		return "User [username=" + username + "]";
 	}
 
-	public PubUser toPubUser(URI self) {
-		return new PubUser(self, this.username, this.realname);
+	public PubUser toPubUser(URI self, URI parent) {
+		return new PubUser(self, parent, this.username, this.realname);
 	}
 
 }

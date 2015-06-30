@@ -9,30 +9,32 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 
 import com.example.chirp.pub.PubUser;
 
-public class PubUserMessageBodyWriter implements MessageBodyWriter {
+@Provider
+public class PubUserMessageBodyWriter implements MessageBodyWriter<PubUser> {
 
 	@Override
-	public boolean isWriteable(Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+	public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
 		if (MediaType.TEXT_PLAIN_TYPE.equals(mediaType) == false) {
 			return false;
 		}
-		if (PubUser.class.equals(type) == false) {
-			return false;
-		}
-		return true;
+		return PubUser.class.equals(type);
 	}
 
 	@Override
-	public long getSize(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+	public long getSize(PubUser t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+		// TODO Auto-generated method stub
 		return -1;
 	}
 
 	@Override
-	  public void writeTo(Object t, Class type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-	      PubUser user = (PubUser)t;
+	public void writeTo(PubUser user, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+			MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
+					throws IOException, WebApplicationException {
+
 	      String realName = user.getRealName();
 	      entityStream.write(realName.getBytes());
 	}

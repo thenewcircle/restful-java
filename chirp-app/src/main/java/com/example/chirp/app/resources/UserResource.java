@@ -1,6 +1,9 @@
 package com.example.chirp.app.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,9 +19,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.stores.UsersStore;
 import com.example.chirp.pub.PubUser;
+import com.example.chirp.pub.PubUsers;
 
 @Path("/users")
 public class UserResource {
@@ -45,7 +50,23 @@ public class UserResource {
             // URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
             // URI self = uriInfo.getAbsolutePathBuilder().build();
             URI self = uriInfo.getAbsolutePath();
-            return user.toPubUser(self);
+    		URI parent = uriInfo.getAbsolutePathBuilder().path("..").build();
+//    		URI parent = uriInfo.getAbsolutePathBuilder().path("test").build();
+            return user.toPubUser(self, parent);
+	}
+	
+	@POST
+    @Path("/{username}/chirps")
+    public Response createChirp(@Context UriInfo uriInfo, 
+    		                    @PathParam("username") String username,
+    		                    String content) {
+
+		User user = usersStore.getUser(username);
+		Chirp chirp = user.createChirp(content);
+		usersStore.updateUser(user);
+		
+		URI location = uriInfo.getBaseUriBuilder().path("chirps").path(chirp.getId().toString()).build();
+		return Response.created(location).build();
 	}
 	
 //	@GET
@@ -69,6 +90,24 @@ public class UserResource {
 //            URI self = uriInfo.getAbsolutePath();
 //            return user.toPubUser(self);
 //	}
+
+	@GET
+	public Response getUsers(@Context UriInfo uriInfo) {
+		Deque<User> que = usersStore.getUsers();
+		
+		URI thisUri = uriInfo.getAbsolutePath();
+		
+		List<PubUser> users = new ArrayList<>();
+		for (User user : que) {
+			URI self = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
+				
+			PubUser pubUser = user.toPubUser(self, thisUri);
+			users.add(pubUser);
+		}
+		
+		PubUsers pubUsers = new PubUsers(thisUri, users);
+		return Response.ok(pubUsers).build();
+	}
 	
 	@PUT
 	public Response createUser(@Context UriInfo uriInfo,
