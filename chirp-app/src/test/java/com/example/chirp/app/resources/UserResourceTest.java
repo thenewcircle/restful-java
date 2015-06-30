@@ -34,7 +34,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	}
 	
 	@Test
-	public void testGetUser() {
+	public void testGetUserJson() {
 		UsersStoreUtils.resetAndSeedRepository(getUserStore());
 		
 		Response response = target("/users/vader")
@@ -45,7 +45,22 @@ public class UserResourceTest extends ResourceTestSupport {
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		String json = response.readEntity(String.class);
 		String expected = "{\"self\":\"http://localhost:9998/users/vader\",\"username\":\"vader\",\"realName\":\"Darth Vader\"}";
-		Assert.assertEquals("xx", json);
+		Assert.assertEquals(expected, json);
+		Assert.assertTrue(json.startsWith("{"));
+	}
+	
+	@Test
+	public void testGetUserXml() {
+		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		
+		Response response = target("/users/vader")
+				.request()
+				.header("Accept", MediaType.APPLICATION_XML)
+				.get();
+
+		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		String xml = response.readEntity(String.class);
+		Assert.assertTrue(xml.startsWith("<"));
 	}
 	
 	@Test

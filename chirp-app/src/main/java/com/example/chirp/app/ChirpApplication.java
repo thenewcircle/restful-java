@@ -38,6 +38,7 @@ public class ChirpApplication extends Application {
     classes.add(HelloResource.class);
     classes.add(RootResource.class);
     classes.add(JacksonXMLProvider.class);
+    classes.add(PubUserMessageBodyWriter.class);
   }
 
 

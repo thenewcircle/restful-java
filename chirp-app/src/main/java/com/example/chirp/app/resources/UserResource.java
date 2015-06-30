@@ -29,18 +29,18 @@ public class UserResource {
 		this.usersStore = (UsersStore)application.getProperties().get(UsersStore.class.getName());
 	}
 	
-	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-    @Path("/{username}")
-    public String getUserName(@PathParam("username") String username) {
-            return usersStore.getUser(username).getRealname();
-    }
+//	@GET
+//	@Produces(MediaType.TEXT_PLAIN)
+//    @Path("/{username}")
+//    public String getUserName(@PathParam("username") String username) {
+//            return usersStore.getUser(username).getRealname();
+//    }
 	
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/{username}")
-    public PubUser getUserJson(@Context UriInfo uriInfo, 
-    		                   @PathParam("username") String username) {
+    public PubUser getUser(@Context UriInfo uriInfo, 
+    		               @PathParam("username") String username) {
             User user = usersStore.getUser(username);
             // URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
             // URI self = uriInfo.getAbsolutePathBuilder().build();
@@ -49,11 +49,26 @@ public class UserResource {
 	}
 	
 //	@GET
+//	@Produces(MediaType.APPLICATION_JSON)
+//    @Path("/{username}")
+//    public PubUser getUserJson(@Context UriInfo uriInfo, 
+//    		                   @PathParam("username") String username) {
+//            User user = usersStore.getUser(username);
+//            // URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
+//            // URI self = uriInfo.getAbsolutePathBuilder().build();
+//            URI self = uriInfo.getAbsolutePath();
+//            return user.toPubUser(self);
+//	}
+	
+//	@GET
 //	@Produces(MediaType.APPLICATION_XML)
 //    @Path("/{username}")
-//    public User getUser(@PathParam("username") String username) {
-//            return usersStore.getUser(username);
-//    }
+//    public PubUser getUserXml(@Context UriInfo uriInfo, 
+//    		                   @PathParam("username") String username) {
+//            User user = usersStore.getUser(username);
+//            URI self = uriInfo.getAbsolutePath();
+//            return user.toPubUser(self);
+//	}
 	
 	@PUT
 	public Response createUser(@Context UriInfo uriInfo,
