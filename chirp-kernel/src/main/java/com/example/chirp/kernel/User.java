@@ -120,7 +120,10 @@ public class User implements Serializable {
 
 	// TODO - refactor this to pass the UriInfo, then build the URIs in the method
 	// do not pass the URI's into the method (delete 'em)
-	public PubUser toPubUser(String variantString, URI userLink, URI parent) {
+	public PubUser toPubUser(String variantString, UriInfo uriInfo) {
+		
+		URI userLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
+		URI parent = uriInfo.getBaseUriBuilder().path("users").build();
 		
 		Variant variant;
 		
@@ -147,7 +150,7 @@ public class User implements Serializable {
 			for (Chirp chirp : getChirps()) {
 				// TODO use a reference to uriInfo to build this link
 				URI self = URI.create("http://localhost:8080/chirps/" + chirp.getId());
-				chirps.add(chirp.toChirp(self, userLink));
+				chirps.add(chirp.toPubChirp(uriInfo));
 			}
 			PubUser user = new PubUser(userLink, parent, this.username, this.realname, chirps.toArray(new PubChirp[0]));
 			return user; 

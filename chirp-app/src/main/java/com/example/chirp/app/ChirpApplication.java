@@ -1,5 +1,6 @@
 package com.example.chirp.app;
 
+import com.example.chirp.app.resources.ChirpResource;
 import com.example.chirp.app.resources.HelloResource;
 import com.example.chirp.app.resources.RootResource;
 import com.example.chirp.app.resources.UserResource;
@@ -36,6 +37,7 @@ public class ChirpApplication extends Application {
     classes.add(DuplicateEntityExceptionMapper.class);
     classes.add(NoSuchEntityExceptionMapper.class);
     classes.add(UserResource.class);
+    classes.add(ChirpResource.class);
     classes.add(HelloResource.class);
     classes.add(RootResource.class);
     classes.add(JacksonXMLProvider.class);

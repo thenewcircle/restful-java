@@ -55,11 +55,11 @@ public class UserResource {
 		User user = usersStore.getUser(username);
         // URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
         // URI self = uriInfo.getAbsolutePathBuilder().build();
-        URI self = uriInfo.getAbsolutePath();
-		URI parent = uriInfo.getAbsolutePathBuilder().path("..").build();
+        // URI self = uriInfo.getAbsolutePath();
+		// URI parent = uriInfo.getAbsolutePathBuilder().path("..").build();
 		// URI parent = uriInfo.getAbsolutePathBuilder().path("test").build();
 
-		return user.toPubUser(variant, self, parent);
+		return user.toPubUser(variant, uriInfo);
 	}
 	
 	@POST
@@ -85,9 +85,7 @@ public class UserResource {
 		User user = usersStore.getUser(username);
 		List<PubChirp> chirps = new ArrayList<>();
 		for (Chirp chirp : user.getChirps()) {
-			URI self = uriInfo.getBaseUriBuilder().path("chirps").path(chirp.getId().toString()).build();
-			URI userLnk = uriInfo.getBaseUriBuilder().path("users").path(username).build();
-			PubChirp pubChirp = chirp.toChirp(self, userLnk);
+			PubChirp pubChirp = chirp.toPubChirp(uriInfo);
 			chirps.add(pubChirp);
 		}
 
@@ -129,9 +127,7 @@ public class UserResource {
 		
 		List<PubUser> users = new ArrayList<>();
 		for (User user : que) {
-			URI self = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
-				
-			PubUser pubUser = user.toPubUser(variant, self, thisUri);
+			PubUser pubUser = user.toPubUser(variant, uriInfo);
 			users.add(pubUser);
 		}
 		

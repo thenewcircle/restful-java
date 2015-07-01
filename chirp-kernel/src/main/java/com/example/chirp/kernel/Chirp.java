@@ -3,6 +3,9 @@ package com.example.chirp.kernel;
 import java.io.Serializable;
 import java.net.URI;
 
+import javax.ws.rs.core.UriInfo;
+
+import com.example.chirp.pub.OldChirp;
 import com.example.chirp.pub.PubChirp;
 
 /**
@@ -72,8 +75,16 @@ public class Chirp implements Serializable {
 		return "Chirp [id=" + id + ", content=" + content + "]";
 	}
 
-	public PubChirp toChirp(URI self, URI userLnk) {
-			return new PubChirp(self, userLnk, this.id.toString(), this.content);
+	public PubChirp toPubChirp(UriInfo uriInfo) {
+		URI self = uriInfo.getBaseUriBuilder().path("chirps").path(this.getId().toString()).build();
+		URI userLnk = uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).build();
+		return new PubChirp(self, userLnk, this.id.toString(), this.content);
+	}
+
+	public OldChirp toOldChirp(UriInfo uriInfo) {
+		URI self = uriInfo.getBaseUriBuilder().path("chirps").path(this.getId().toString()).build();
+		URI userLnk = uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).build();
+		return new OldChirp(self, userLnk, this.id.toString(), this.content);
 	}
 
 }
