@@ -22,6 +22,8 @@ import javax.ws.rs.core.UriInfo;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.stores.UsersStore;
+import com.example.chirp.pub.PubChirp;
+import com.example.chirp.pub.PubChirps;
 import com.example.chirp.pub.PubUser;
 import com.example.chirp.pub.PubUsers;
 
@@ -67,6 +69,27 @@ public class UserResource {
 		
 		URI location = uriInfo.getBaseUriBuilder().path("chirps").path(chirp.getId().toString()).build();
 		return Response.created(location).build();
+	}
+	
+	@GET
+    @Path("/{username}/chirps")
+    public Response getChirp(@Context UriInfo uriInfo, 
+    		                 @PathParam("username") String username) {
+
+		User user = usersStore.getUser(username);
+		List<PubChirp> chirps = new ArrayList<>();
+		for (Chirp chirp : user.getChirps()) {
+			URI self = uriInfo.getBaseUriBuilder().path("chirps").path(chirp.getId().toString()).build();
+			URI userLnk = uriInfo.getBaseUriBuilder().path("users").path(username).build();
+			PubChirp pubChirp = chirp.toChirp(self, userLnk);
+			chirps.add(pubChirp);
+		}
+
+		URI self = uriInfo.getAbsolutePath();
+		PubChirps pubChirps = new PubChirps(self, chirps);
+		
+		return Response.ok(pubChirps).build();
+		
 	}
 	
 //	@GET

@@ -13,6 +13,7 @@ import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.stores.UsersStoreUtils;
+import com.example.chirp.pub.PubChirps;
 import com.example.chirp.store.memory.InMemoryUsersStore;
 
 public class UserResourceTest extends ResourceTestSupport {
@@ -21,10 +22,27 @@ public class UserResourceTest extends ResourceTestSupport {
 	public void beforeTest() {
 		getUserStore().clear();
 	}
+
+	@Test
+	public void getChirpsForUser() {
+		 UsersStoreUtils.resetAndSeedRepository(getUserStore());
+			
+		Response response = target("users")
+			  .path("vader")
+			  .path("chirps")
+			  .request()
+			  .get();
+
+		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+		
+		PubChirps chirps = response.readEntity(PubChirps.class);
+		Assert.assertNotNull(chirps);
+		Assert.assertEquals(2, chirps.getChirps().size());
+	}
 	
 	@Test
 	public void testCreateChirp() {
-		// UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		 UsersStoreUtils.resetAndSeedRepository(getUserStore());
 		
 		String message = "I will KEEL you.";
 		Response response = target("users")

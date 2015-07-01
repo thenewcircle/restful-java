@@ -1,6 +1,9 @@
 package com.example.chirp.kernel;
 
 import java.io.Serializable;
+import java.net.URI;
+
+import com.example.chirp.pub.PubChirp;
 
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Chirp,
@@ -67,6 +70,10 @@ public class Chirp implements Serializable {
 	@Override
 	public String toString() {
 		return "Chirp [id=" + id + ", content=" + content + "]";
+	}
+
+	public PubChirp toChirp(URI self, URI userLnk) {
+			return new PubChirp(self, userLnk, this.id.toString(), this.content);
 	}
 
 }
