@@ -48,7 +48,7 @@ public class UserResource {
 	@GET
 	@Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/{username}")
-    public PubUser getUser(@Context UriInfo uriInfo, 
+    public Response getUser(@Context UriInfo uriInfo, 
     		               @PathParam("username") String username,
     		               @QueryParam("variant") String variant) {
 
@@ -59,7 +59,14 @@ public class UserResource {
 		// URI parent = uriInfo.getAbsolutePathBuilder().path("..").build();
 		// URI parent = uriInfo.getAbsolutePathBuilder().path("test").build();
 
-		return user.toPubUser(variant, uriInfo);
+		URI chirpsLink = uriInfo.getAbsolutePathBuilder().path("chirps").build();
+		URI allUsersLink = uriInfo.getBaseUriBuilder().path("users").build();
+		
+		PubUser pubUser = user.toPubUser(variant, uriInfo);
+		return Response.ok(pubUser)
+				.link(chirpsLink, "chirps")
+				.link(allUsersLink, "all-users")
+				.build();
 	}
 	
 	@POST

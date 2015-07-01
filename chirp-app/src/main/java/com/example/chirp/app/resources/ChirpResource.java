@@ -32,7 +32,8 @@ public class ChirpResource {
 	@GET
 	@Path("/{id}")
 	@Produces({"application/xml", "application/json",
-		       "application/v2+xml", "application/v2+json"})
+		       "application/v2+xml", "application/v2+json",
+		       "application/xml;version=2", "application/json;version=2"})
 	public Response getPubChirp(@Context UriInfo uriInfo,
 							    @PathParam("id") String id) {
 		
@@ -43,6 +44,7 @@ public class ChirpResource {
 	@GET
 	@Path("/{id}")
 	@Produces({"application/v1+xml", "application/v1+json"})
+//		       "application/xml;version=1", "application/json;version=1"})
 	public Response getOldChirp(@Context UriInfo uriInfo,
 							 @PathParam("id") String id) {
 		
