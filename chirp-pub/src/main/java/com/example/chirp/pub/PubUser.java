@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class PubUser {
 
   private final URI self;
@@ -22,7 +21,10 @@ public class PubUser {
   private final String username;
   private final String realName;
 
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private final List<URI> chirpLinks = new ArrayList<>();
+  
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private final List<PubChirp> chirps = new ArrayList<>();
 
   @JsonCreator

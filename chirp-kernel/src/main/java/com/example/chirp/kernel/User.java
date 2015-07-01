@@ -2,17 +2,21 @@ package com.example.chirp.kernel;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.kernel.exceptions.NoSuchEntityException;
+import com.example.chirp.pub.PubChirp;
 import com.example.chirp.pub.PubUser;
 
 
@@ -114,7 +118,9 @@ public class User implements Serializable {
 		return "User [username=" + username + "]";
 	}
 
-	public PubUser toPubUser(String variantString, URI self, URI parent) {
+	// TODO - refactor this to pass the UriInfo, then build the URIs in the method
+	// do not pass the URI's into the method (delete 'em)
+	public PubUser toPubUser(String variantString, URI userLink, URI parent) {
 		
 		Variant variant;
 		
@@ -122,7 +128,9 @@ public class User implements Serializable {
 		// and an exception mapper to handle it.
 		
 		try {
-			variant = (variantString == null) ? null : Variant.valueOf(variantString);
+			// force the string to lower case to  be as liberal as possible
+			variant = (variantString == null) ? null : Variant.valueOf(variantString.toLowerCase());
+		
 		} catch (IllegalArgumentException e) {
 			String msg = String.format("The variant %s is not supported. Must be one of %s.", 
 					variantString, 
@@ -132,8 +140,28 @@ public class User implements Serializable {
 		}
 		
 		if (variant == null || Variant.summary == variant) {
-			return new PubUser(self, parent, this.username, this.realname);
+			return new PubUser(userLink, parent, this.username, this.realname);
 
+		} else if (Variant.full == variant) {
+			List<PubChirp> chirps = new ArrayList<>();
+			for (Chirp chirp : getChirps()) {
+				// TODO use a reference to uriInfo to build this link
+				URI self = URI.create("http://localhost:8080/chirps/" + chirp.getId());
+				chirps.add(chirp.toChirp(self, userLink));
+			}
+			PubUser user = new PubUser(userLink, parent, this.username, this.realname, chirps.toArray(new PubChirp[0]));
+			return user; 
+			
+		} else if (Variant.abbreviated == variant) {
+			List<URI> links = new ArrayList<>();
+			for (Chirp chirp : getChirps()) {
+				// TODO use a reference to uriInfo to build this link
+				URI self = URI.create("http://localhost:8080/chirps/" + chirp.getId());
+				links.add(self);
+			}
+			PubUser user = new PubUser(userLink, parent, this.username, this.realname, links.toArray(new URI[0]));
+			return user; 
+			
 		} else {
 			String msg = String.format("The variant %s is not yet supported.", variantString);
 			Response response = Response.status(Response.Status.BAD_REQUEST).entity(msg).build();
