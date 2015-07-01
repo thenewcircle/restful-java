@@ -12,6 +12,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.User;
+import com.example.chirp.kernel.User.Variant;
 import com.example.chirp.kernel.stores.UsersStore;
 import com.example.chirp.pub.PubChirp;
 import com.example.chirp.pub.PubChirps;
@@ -47,14 +49,17 @@ public class UserResource {
 	@Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/{username}")
     public PubUser getUser(@Context UriInfo uriInfo, 
-    		               @PathParam("username") String username) {
-            User user = usersStore.getUser(username);
-            // URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
-            // URI self = uriInfo.getAbsolutePathBuilder().build();
-            URI self = uriInfo.getAbsolutePath();
-    		URI parent = uriInfo.getAbsolutePathBuilder().path("..").build();
-//    		URI parent = uriInfo.getAbsolutePathBuilder().path("test").build();
-            return user.toPubUser(self, parent);
+    		               @PathParam("username") String username,
+    		               @QueryParam("variant") String variant) {
+
+		User user = usersStore.getUser(username);
+        // URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
+        // URI self = uriInfo.getAbsolutePathBuilder().build();
+        URI self = uriInfo.getAbsolutePath();
+		URI parent = uriInfo.getAbsolutePathBuilder().path("..").build();
+		// URI parent = uriInfo.getAbsolutePathBuilder().path("test").build();
+
+		return user.toPubUser(variant, self, parent);
 	}
 	
 	@POST
@@ -73,6 +78,7 @@ public class UserResource {
 	
 	@GET
     @Path("/{username}/chirps")
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getChirp(@Context UriInfo uriInfo, 
     		                 @PathParam("username") String username) {
 
@@ -115,7 +121,8 @@ public class UserResource {
 //	}
 
 	@GET
-	public Response getUsers(@Context UriInfo uriInfo) {
+	public Response getUsers(@Context UriInfo uriInfo,
+			                 @QueryParam("variant") String variant) {
 		Deque<User> que = usersStore.getUsers();
 		
 		URI thisUri = uriInfo.getAbsolutePath();
@@ -124,7 +131,7 @@ public class UserResource {
 		for (User user : que) {
 			URI self = uriInfo.getAbsolutePathBuilder().path(user.getUsername()).build();
 				
-			PubUser pubUser = user.toPubUser(self, thisUri);
+			PubUser pubUser = user.toPubUser(variant, self, thisUri);
 			users.add(pubUser);
 		}
 		

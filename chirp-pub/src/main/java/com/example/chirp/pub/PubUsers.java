@@ -5,13 +5,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PubUsers {
 
 	private final URI self;
 	
 	private final List<PubUser> users = new ArrayList<>();
 
-	public PubUsers(URI self, Collection<PubUser> users) {
+	@JsonCreator
+	public PubUsers(@JsonProperty("self") URI self, 
+			        @JsonProperty("users") Collection<PubUser> users) {
 		this.self = self;
 
 		if (users != null) {

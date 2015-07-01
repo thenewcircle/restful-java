@@ -31,13 +31,14 @@ public class UserResourceTest extends ResourceTestSupport {
 			  .path("vader")
 			  .path("chirps")
 			  .request()
+			  .header("Accept", MediaType.APPLICATION_JSON)
 			  .get();
 
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		
 		PubChirps chirps = response.readEntity(PubChirps.class);
 		Assert.assertNotNull(chirps);
-		Assert.assertEquals(2, chirps.getChirps().size());
+		Assert.assertEquals(1, chirps.getChirps().size());
 	}
 	
 	@Test

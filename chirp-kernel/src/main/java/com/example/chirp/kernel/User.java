@@ -2,10 +2,14 @@ package com.example.chirp.kernel;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 import com.example.chirp.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.kernel.exceptions.NoSuchEntityException;
@@ -17,6 +21,8 @@ import com.example.chirp.pub.PubUser;
  * collection of chirps, indexed by id.
  */
 public class User implements Serializable {
+
+	public static enum Variant {summary, full, abbreviated};
 
 	private static final long serialVersionUID = 1L;
 
@@ -108,8 +114,30 @@ public class User implements Serializable {
 		return "User [username=" + username + "]";
 	}
 
-	public PubUser toPubUser(URI self, URI parent) {
-		return new PubUser(self, parent, this.username, this.realname);
-	}
+	public PubUser toPubUser(String variantString, URI self, URI parent) {
+		
+		Variant variant;
+		
+		// this would clean up a lot with a custom exception like HttpBadRequestException
+		// and an exception mapper to handle it.
+		
+		try {
+			variant = (variantString == null) ? null : Variant.valueOf(variantString);
+		} catch (IllegalArgumentException e) {
+			String msg = String.format("The variant %s is not supported. Must be one of %s.", 
+					variantString, 
+					Arrays.asList(Variant.values()));
+			Response response = Response.status(Response.Status.BAD_REQUEST).entity(msg).build();
+			throw new WebApplicationException(response);
+		}
+		
+		if (variant == null || Variant.summary == variant) {
+			return new PubUser(self, parent, this.username, this.realname);
 
+		} else {
+			String msg = String.format("The variant %s is not yet supported.", variantString);
+			Response response = Response.status(Response.Status.BAD_REQUEST).entity(msg).build();
+			throw new WebApplicationException(response);
+		}
+	}
 }

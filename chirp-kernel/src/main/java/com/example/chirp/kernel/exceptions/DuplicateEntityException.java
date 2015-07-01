@@ -18,5 +18,4 @@ public class DuplicateEntityException extends RuntimeException {
 	public String getEntityId() {
 		return entityId;
 	}
-	
 }

@@ -3,6 +3,9 @@ package com.example.chirp.pub;
 import java.net.URI;
 import java.net.URL;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class PubChirp {
 
 	private final URI self;
@@ -10,7 +13,11 @@ public class PubChirp {
 	private final String id;
 	private final String content;
 
-	public PubChirp(URI self, URI user, String id, String content) {
+	@JsonCreator
+	public PubChirp(@JsonProperty("self") URI self, 
+					@JsonProperty("user") URI user, 
+					@JsonProperty("id") String id, 
+					@JsonProperty("content") String content) {
 		super();
 		this.self = self;
 		this.user = user;

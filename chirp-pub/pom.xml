@@ -16,12 +16,25 @@
 
   <dependencies>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-annotations</artifactId>
+		<version>${jackson.version}</version>
+	</dependency>
+	<!-- these one is only required if you want to control the output
+	of and XML document with annotations -->
+    <dependency>
+		<groupId>com.fasterxml.jackson.dataformat</groupId>
+		<artifactId>jackson-dataformat-xml</artifactId>
+    	<version>${jackson.version}</version>
+    </dependency>
+    <!--  This on is required if you want to deserialize XML into a POJO -->
+    <dependency>
+    	<groupId>com.fasterxml.jackson.jaxrs</groupId>
+    	<artifactId>jackson-jaxrs-xml-provider</artifactId>
+    	<version>${jackson.version}</version>
+    	<scope>test</scope>
+    </dependency>
   </dependencies>
 
 </project>
