@@ -123,7 +123,6 @@ public class User implements Serializable {
 	public PubUser toPubUser(String variantString, UriInfo uriInfo) {
 		
 		URI userLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
-		URI parent = uriInfo.getBaseUriBuilder().path("users").build();
 		
 		Variant variant;
 		
@@ -143,7 +142,7 @@ public class User implements Serializable {
 		}
 		
 		if (variant == null || Variant.summary == variant) {
-			return new PubUser(userLink, parent, this.username, this.realname);
+			return new PubUser(userLink, this.username, this.realname);
 
 		} else if (Variant.full == variant) {
 			List<PubChirp> chirps = new ArrayList<>();
@@ -152,7 +151,7 @@ public class User implements Serializable {
 				URI self = URI.create("http://localhost:8080/chirps/" + chirp.getId());
 				chirps.add(chirp.toPubChirp(uriInfo));
 			}
-			PubUser user = new PubUser(userLink, parent, this.username, this.realname, chirps.toArray(new PubChirp[0]));
+			PubUser user = new PubUser(userLink, this.username, this.realname, chirps.toArray(new PubChirp[0]));
 			return user; 
 			
 		} else if (Variant.abbreviated == variant) {
@@ -162,7 +161,7 @@ public class User implements Serializable {
 				URI self = URI.create("http://localhost:8080/chirps/" + chirp.getId());
 				links.add(self);
 			}
-			PubUser user = new PubUser(userLink, parent, this.username, this.realname, links.toArray(new URI[0]));
+			PubUser user = new PubUser(userLink, this.username, this.realname, links.toArray(new URI[0]));
 			return user; 
 			
 		} else {

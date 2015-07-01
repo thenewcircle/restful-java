@@ -1,7 +1,10 @@
 package com.example.chirp.app.resources;
 
+import java.net.URI;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -29,6 +32,18 @@ public class ChirpResource {
 	}
 
 	
+	@POST
+	@Path("/{username}")
+	@Produces({"application/xml", "application/json"})
+	public Response createChirp(@PathParam("username") String username,
+								@Context Application application,
+								@Context UriInfo uriInfo,
+								String content) {
+		
+		UserResource resource = new UserResource(application);
+		return resource.createChirp(uriInfo, username, content);
+	}
+	
 	@GET
 	@Path("/{id}")
 	@Produces({"application/xml", "application/json",
@@ -37,8 +52,17 @@ public class ChirpResource {
 	public Response getPubChirp(@Context UriInfo uriInfo,
 							    @PathParam("id") String id) {
 		
-		PubChirp chirp = findChirp(id).toPubChirp(uriInfo);
-		return Response.ok(chirp).build();
+		Chirp chirp = findChirp(id);
+		PubChirp pubChirp = chirp.toPubChirp(uriInfo);
+		
+		String username = chirp.getUser().getUsername();
+		URI userLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
+		URI allChirps = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
+
+		return Response.ok(pubChirp)
+				.link(userLink, "user")
+				.link(allChirps, "all-chirps")
+				.build();
 	}
 
 	@GET

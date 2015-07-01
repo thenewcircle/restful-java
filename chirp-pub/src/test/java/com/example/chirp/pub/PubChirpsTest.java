@@ -22,13 +22,10 @@ public class PubChirpsTest {
 
 		List<PubChirp> chirps = new ArrayList<>();
 		chirps.add(new PubChirp(URI.create("http://localhost/test/chirps/1001"), 
-				                URI.create("http://localhost/test/users/mickey.mouse"),
 				                "1001", "I like cheese"));
 		chirps.add(new PubChirp(URI.create("http://localhost/test/chirps/1002"), 
-				                URI.create("http://localhost/test/users/mickey.mouse"),
 				                "1002", "My shoes are black"));
 		chirps.add(new PubChirp(URI.create("http://localhost/test/chirps/1003"), 
-				                URI.create("http://localhost/test/users/mickey.mouse"),
 				                "1003", "Are we having fun yet?"));
 		
 		PubChirps oldChirps = new PubChirps(selfLnk, chirps);

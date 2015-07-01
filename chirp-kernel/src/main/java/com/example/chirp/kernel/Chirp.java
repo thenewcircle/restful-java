@@ -77,8 +77,7 @@ public class Chirp implements Serializable {
 
 	public PubChirp toPubChirp(UriInfo uriInfo) {
 		URI self = uriInfo.getBaseUriBuilder().path("chirps").path(this.getId().toString()).build();
-		URI userLnk = uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).build();
-		return new PubChirp(self, userLnk, this.id.toString(), this.content);
+		return new PubChirp(self, this.id.toString(), this.content);
 	}
 
 	public OldChirp toOldChirp(UriInfo uriInfo) {

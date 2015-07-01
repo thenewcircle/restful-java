@@ -17,7 +17,6 @@ import java.util.List;
 public class PubUser {
 
   private final URI self;
-  private final URI parent;
   private final String username;
   private final String realName;
 
@@ -29,26 +28,24 @@ public class PubUser {
 
   @JsonCreator
   public PubUser(@JsonProperty("self") URI self, 
-		  		 @JsonProperty("parent") URI parent, 
 		  		 @JsonProperty("username") String username, 
 		  		 @JsonProperty("realName") String realName) {
 	super();
 	this.self = self;
-	this.parent = parent;
 	this.username = username;
 	this.realName = realName;
   }
   
-  public PubUser(URI self, URI parent, String username, String realName, PubChirp... chirps) {
-	this(self, parent, username, realName);
+  public PubUser(URI self, String username, String realName, PubChirp... chirps) {
+	this(self, username, realName);
 	
 	if (chirps != null) {
 		Collections.addAll(this.chirps, chirps);
 	}
   }
   
-  public PubUser(URI self, URI parent, String username, String realName, URI... chirpLinks) {
-	this(self, parent, username, realName);
+  public PubUser(URI self, String username, String realName, URI... chirpLinks) {
+	this(self, username, realName);
 	
 	if (chirpLinks != null) {
 		Collections.addAll(this.chirpLinks, chirpLinks);
@@ -65,10 +62,6 @@ public class PubUser {
 
 	public URI getSelf() {
 		return self;
-	}
-	
-	public URI getParent() {
-		return parent;
 	}
 	
 	public String getUsername() {

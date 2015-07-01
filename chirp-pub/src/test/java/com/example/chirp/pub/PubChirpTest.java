@@ -13,14 +13,13 @@ public class PubChirpTest {
 
 	@Test
 	public void testDeserialization() throws Exception {
-		URI userLnk = URI.create("http://localhost/test/users/mickey.mouse");
 		List<PubChirp> chirps = new ArrayList<>();
 		
 		URI self = URI.create("http://localhost/test/chirps/1001");
-		chirps.add(new PubChirp(self, userLnk, "1001", "I like cheese"));
+		chirps.add(new PubChirp(self, "1001", "I like cheese"));
 
 		self = URI.create("http://localhost/test/chirps/1002");
-		chirps.add(new PubChirp(self, userLnk, "1002", "I have big feet"));
+		chirps.add(new PubChirp(self, "1002", "I have big feet"));
 		
 		self = URI.create("http://localhost/test/user/mickey.mouse/chirps");
 		PubChirps oldChirps = new PubChirps(self, chirps);
@@ -40,9 +39,8 @@ public class PubChirpTest {
 		ObjectMapper objectMapper = new ObjectMapper(); 
 		
 		URI selfLnk = URI.create("http://localhost/test/chirps/123");
-		URI userLnk = URI.create("http://localhost/test/users/mickey.mouse");
 
-		PubChirp oldChirp = new PubChirp(selfLnk, userLnk, "123", "I like you a lot");
+		PubChirp oldChirp = new PubChirp(selfLnk, "123", "I like you a lot");
 		String json = objectMapper.writeValueAsString(oldChirp);
 		
 		// {"self":"http://localhost/test/chirps/123","user":"http://localhost/test/users/mickey.mouse","id":"123","content":"I like you a lot"}

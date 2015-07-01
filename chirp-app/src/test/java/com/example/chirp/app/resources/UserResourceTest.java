@@ -67,7 +67,33 @@ public class UserResourceTest extends ResourceTestSupport {
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/chirps/"+id, location);
 	}
-	
+
+	@Test
+	public void testCreateChirpAtOtherUri() {
+		 UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		
+		String message = "I will KEEL you.";
+		Response response = target("chirps")
+			  .path("vader")
+			  .request()
+			  .post(Entity.text(message));
+
+		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
+
+		// After the update, get the user form the store
+		User user = getUserStore().getUser("vader");
+		// There should be at least one chirp
+		Assert.assertFalse(user.getChirps().isEmpty());
+		// The first one should be the one we created
+		Chirp chirp = user.getChirps().getFirst();
+		// Get the last chrip's ID
+		ChirpId id = chirp.getId();
+
+		// Get the location header and validate it
+		String location = response.getHeaderString("Location");
+		Assert.assertEquals("http://localhost:9998/chirps/"+id, location);
+	}
+
 	@Test
 	public void testGetUsers() {
 		UsersStoreUtils.resetAndSeedRepository(getUserStore());
