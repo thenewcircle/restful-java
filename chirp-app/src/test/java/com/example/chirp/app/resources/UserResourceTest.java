@@ -16,7 +16,6 @@ import com.example.chirp.kernel.ChirpId;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.stores.UsersStoreUtils;
 import com.example.chirp.pub.PubChirps;
-import com.example.chirp.store.memory.InMemoryUsersStore;
 
 public class UserResourceTest extends ResourceTestSupport {
 
@@ -71,6 +70,9 @@ public class UserResourceTest extends ResourceTestSupport {
 		// Get the location header and validate it
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/chirps/"+id, location);
+
+		String deprecatedHeader = response.getHeaderString("Deprecated");
+		Assert.assertNull(deprecatedHeader);
 	}
 
 	@Test
@@ -99,6 +101,9 @@ public class UserResourceTest extends ResourceTestSupport {
 		// Get the location header and validate it
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/chirps/"+id, location);
+
+		String deprecatedHeader = response.getHeaderString("Deprecated");
+		Assert.assertNotNull(deprecatedHeader);
 	}
 
 	@Test

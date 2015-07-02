@@ -3,17 +3,16 @@ package com.example.chirp.app.resources;
 import java.net.URI;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import com.example.chirp.app.providers.DeprecatedRequest;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
 import com.example.chirp.kernel.User;
@@ -31,7 +30,17 @@ public class ChirpResource {
 		this.usersStore = (UsersStore)application.getProperties().get(UsersStore.class.getName());
 	}
 
-	
+	/** 
+	 * this call is a **REALLT** bad idea for several reason
+	 * 1) We have a path collision with ../chirps/{id}. The only reason this works is because of the different between GET and POST
+	 * 2) We are not in a logical context. We are saying create a post at a user resource. It makes more sense to create a post the posts resource 
+	 * @param username the user's name
+	 * @param application injected reference to the Application
+	 * @param uriInfo injected reference to the UriInfo
+	 * @param content the plain/text message that represents this post.
+	 * @return a response object
+	 */
+	@DeprecatedRequest // applies our custom "deprecated" filter to this call only
 	@POST
 	@Path("/{username}")
 	@Produces({"application/xml", "application/json"})
