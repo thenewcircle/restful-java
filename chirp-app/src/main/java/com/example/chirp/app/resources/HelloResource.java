@@ -2,12 +2,11 @@ package com.example.chirp.app.resources;
 
 import javax.inject.Named;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 
 import org.springframework.http.MediaType;
@@ -17,6 +16,7 @@ import org.springframework.http.MediaType;
 public class HelloResource {
 
 	@GET
+	@Produces(MediaType.TEXT_PLAIN_VALUE)
 	public Response sayHello(@QueryParam("name") String name, @QueryParam("age") String ageString) {
 		try {
 			int age = (ageString == null) ? 0 : Integer.valueOf(ageString);
@@ -30,12 +30,14 @@ public class HelloResource {
 
 	@GET
 	@Path("/{name}")
+	@Produces(MediaType.TEXT_PLAIN_VALUE)
 	public String sayHelloWithName(@PathParam("name") String name) {
 		return "Hello " + name + "!";
 	}
 
 	@GET
 	@Path("/{name}/{age}")
+	@Produces(MediaType.TEXT_PLAIN_VALUE)
 	public String sayHelloWithName(@PathParam("name") String name, @PathParam("age") int age) {
 		return "Hello " + name + ", welcome to " + age;
 	}
