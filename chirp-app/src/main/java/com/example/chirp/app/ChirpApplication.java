@@ -1,6 +1,7 @@
 package com.example.chirp.app;
 
 import com.example.chirp.app.providers.AuthenticationFilter;
+import com.example.chirp.app.providers.CopyrightWriterInterceptor;
 import com.example.chirp.app.providers.CsrfPreventionRequestFilter;
 import com.example.chirp.app.providers.DeprecatedRequestFilter;
 import com.example.chirp.app.providers.DuplicateEntityExceptionMapper;
@@ -41,7 +42,8 @@ public class ChirpApplication extends Application {
   }
 
   private void registerClasses() {
-	// Resources
+
+	  // Resources
 	classes.add(UserResource.class);
 	classes.add(ChirpResource.class);
 	classes.add(HelloResource.class);
@@ -52,6 +54,9 @@ public class ChirpApplication extends Application {
 	classes.add(AuthenticationFilter.class);
 	classes.add(FileExtensionRequestFilter.class);
 	classes.add(DeprecatedRequestFilter.class);
+
+	// Intercepters
+	classes.add(CopyrightWriterInterceptor.class);
 	
 	// Exception Mappers
 	classes.add(DuplicateEntityExceptionMapper.class);

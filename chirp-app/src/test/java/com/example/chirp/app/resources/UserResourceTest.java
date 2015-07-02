@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.example.chirp.app.providers.AuthenticationFilter;
+import com.example.chirp.app.providers.CopyrightWriterInterceptor;
 import com.example.chirp.app.providers.CsrfPreventionRequestFilter;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
@@ -146,9 +147,9 @@ public class UserResourceTest extends ResourceTestSupport {
 
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		String json = response.readEntity(String.class);
-//		String expected = "{\"self\":\"http://localhost:9998/users/vader\",\"username\":\"vader\",\"realName\":\"Darth Vader\"}";
-//		Assert.assertEquals(expected, json);
 		Assert.assertTrue(json.startsWith("{"));
+		Assert.assertTrue(json.contains(CopyrightWriterInterceptor.JSON_COPYRIGHT));
+		System.out.println(json);
 	}
 	
 	@Test
@@ -164,6 +165,8 @@ public class UserResourceTest extends ResourceTestSupport {
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 		String xml = response.readEntity(String.class);
 		Assert.assertTrue(xml.startsWith("<"));
+		Assert.assertTrue(xml.contains(CopyrightWriterInterceptor.XML_COPYRIGHT));
+		System.out.println(xml);
 	}
 	
 	@Test
