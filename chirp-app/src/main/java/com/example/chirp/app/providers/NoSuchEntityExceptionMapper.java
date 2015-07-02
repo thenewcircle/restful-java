@@ -1,4 +1,4 @@
-package com.example.chirp.app;
+package com.example.chirp.app.providers;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;

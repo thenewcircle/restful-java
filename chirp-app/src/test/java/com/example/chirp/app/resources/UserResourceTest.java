@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.example.chirp.app.AuthenticationFilter;
+import com.example.chirp.app.providers.AuthenticationFilter;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
 import com.example.chirp.kernel.User;

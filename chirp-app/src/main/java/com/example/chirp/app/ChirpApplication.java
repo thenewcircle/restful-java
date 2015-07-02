@@ -1,5 +1,9 @@
 package com.example.chirp.app;
 
+import com.example.chirp.app.providers.AuthenticationFilter;
+import com.example.chirp.app.providers.DuplicateEntityExceptionMapper;
+import com.example.chirp.app.providers.NoSuchEntityExceptionMapper;
+import com.example.chirp.app.providers.PubUserMessageBodyWriter;
 import com.example.chirp.app.resources.ChirpResource;
 import com.example.chirp.app.resources.HelloResource;
 import com.example.chirp.app.resources.RootResource;

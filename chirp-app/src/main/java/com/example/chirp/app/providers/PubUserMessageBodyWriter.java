@@ -1,4 +1,4 @@
-package com.example.chirp.app;
+package com.example.chirp.app.providers;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 
-import com.example.chirp.app.AuthenticationFilter;
+import com.example.chirp.app.providers.AuthenticationFilter;
 
 
 public class HelloResourceTest extends ResourceTestSupport {
