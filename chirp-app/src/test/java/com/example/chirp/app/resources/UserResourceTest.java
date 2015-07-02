@@ -22,12 +22,12 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	@Before
 	public void beforeTest() {
-		getUserStore().clear();
+		getUsersStore().clear();
 	}
 
 	@Test
 	public void getChirpsForUser() {
-		 UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		 UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 			
 		Response response = target("users")
 			  .path("vader")
@@ -46,7 +46,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	
 	@Test
 	public void testCreateChirp() {
-		 UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		 UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 		
 		String message = "I will KEEL you.";
 		Response response = target("users")
@@ -60,7 +60,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
 		// After the update, get the user form the store
-		User user = getUserStore().getUser("vader");
+		User user = getUsersStore().getUser("vader");
 		// There should be at least one chirp
 		Assert.assertFalse(user.getChirps().isEmpty());
 		// The first one should be the one we created
@@ -78,7 +78,7 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	@Test
 	public void testCreateChirpAtOtherUri() {
-		 UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		 UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 		
 		String message = "I will KEEL you.";
 		Response response = target("chirps")
@@ -91,7 +91,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
 		// After the update, get the user form the store
-		User user = getUserStore().getUser("vader");
+		User user = getUsersStore().getUser("vader");
 		// There should be at least one chirp
 		Assert.assertFalse(user.getChirps().isEmpty());
 		// The first one should be the one we created
@@ -109,7 +109,7 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	@Test
 	public void testGetUsers() {
-		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 		
 		Response response = target("/users")
 				.request()
@@ -122,7 +122,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	
 	@Test
 	public void testGetUserName() {
-		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 		
 		Response response = target("/users/vader")
 				.request()
@@ -137,7 +137,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	
 	@Test
 	public void testGetUserJson() {
-		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 		
 		Response response = target("/users/vader")
 				.request()
@@ -154,7 +154,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	
 	@Test
 	public void testGetUserXml() {
-		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 		
 		Response response = target("/users/vader")
 				.request()
@@ -180,7 +180,7 @@ public class UserResourceTest extends ResourceTestSupport {
 				.put(Entity.form(user));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
-		Assert.assertNotNull(getUserStore().getUser("mickey.mouse"));
+		Assert.assertNotNull(getUsersStore().getUser("mickey.mouse"));
 
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/users/mickey.mouse", location);

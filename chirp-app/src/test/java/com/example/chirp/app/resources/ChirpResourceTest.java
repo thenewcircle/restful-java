@@ -1,5 +1,7 @@
 package com.example.chirp.app.resources;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -15,13 +17,15 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 	@Before
 	public void beforeTest() {
-		getUserStore().clear();
+		getUsersStore().clear();
 	}
 
 	@Test
 	public void getChirp() {
-		UsersStoreUtils.resetAndSeedRepository(getUserStore());
-			
+		UsersStoreUtils.resetAndSeedRepository(getUsersStore());
+		
+		// ClientBuilder.newClient().target("");
+		
 		Response response = target("chirps")
 			  .path("wars01")
 			  .request()
@@ -39,7 +43,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 	@Test
 	public void getChirpByExtension() {
-		UsersStoreUtils.resetAndSeedRepository(getUserStore());
+		UsersStoreUtils.resetAndSeedRepository(getUsersStore());
 			
 		// the extension ".json" specified in the path will 
 		// override the media type specified in the header.

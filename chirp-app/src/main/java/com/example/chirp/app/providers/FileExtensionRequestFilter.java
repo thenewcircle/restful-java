@@ -2,6 +2,7 @@ package com.example.chirp.app.providers;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,20 +15,34 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.*;
 
+@Provider
 @PreMatching
 @Priority(Priorities.HEADER_DECORATOR)
-@Provider
 public class FileExtensionRequestFilter implements ContainerRequestFilter {
 
-	// Create a map of file extensions to media type
-	public static final Map<String, String> extMediaTypes;
-	static {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		map.put(".txt", "text/plain");
-		map.put(".xml", "application/xml");
-		map.put(".json", "application/json");
-		extMediaTypes = Collections.unmodifiableMap(map);
+	public final Map<String, String> extMediaTypes = new HashMap<>();
+
+	public FileExtensionRequestFilter() {
 	}
+
+	// .txt:text/plain,.xml:application/xml,.json:application/json
+	public void setValues(String values) {
+		String[] items = values.split(",");
+		for (String item : items) {
+			String[] pairs = item.split(":");
+			extMediaTypes.put(pairs[0], pairs[1]);
+		}
+	}
+	
+	// Create a map of file extensions to media type
+//	public static final Map<String, String> extMediaTypes;
+//	static {
+//		Map<String, String> map = new LinkedHashMap<String, String>();
+//		map.put(".txt", "text/plain");
+//		map.put(".xml", "application/xml");
+//		map.put(".json", "application/json");
+//		extMediaTypes = Collections.unmodifiableMap(map);
+//	}
 	
     @Override
     public void filter(ContainerRequestContext rc) throws IOException {

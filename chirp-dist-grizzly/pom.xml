@@ -25,12 +25,14 @@
 
 
     <!-- choose which store to use -->
-    <dependency>
+<!--
+     <dependency>
       <groupId>com.example.chirp</groupId>
       <artifactId>chirp-store-spring-data</artifactId>
       <version>trunk-SNAPSHOT</version>
     </dependency>
-    <dependency>
+ -->
+     <dependency>
       <groupId>com.example.chirp</groupId>
       <artifactId>chirp-store-memory</artifactId>
       <version>trunk-SNAPSHOT</version>

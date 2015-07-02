@@ -62,7 +62,7 @@ public abstract class ResourceTestSupport extends JerseyTest {
     return WebApplicationContextUtils.getWebApplicationContext(servletContext);
   }
 
-  public UsersStore getUserStore() {
+  public UsersStore getUsersStore() {
     return getBeanFactory().getBean(UsersStore.class);
   }
 }

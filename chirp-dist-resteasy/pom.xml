@@ -24,11 +24,13 @@
 
 
     <!-- choose which store to use -->
+<!--  
     <dependency>
       <groupId>com.example.chirp</groupId>
       <artifactId>chirp-store-spring-data</artifactId>
       <version>trunk-SNAPSHOT</version>
     </dependency>
+-->
     <dependency>
       <groupId>com.example.chirp</groupId>
       <artifactId>chirp-store-memory</artifactId>
@@ -102,21 +104,6 @@
       <artifactId>spring-aop</artifactId>
       <version>${spring.version}</version>
     </dependency>
-
-
-    <!-- Add Spring dependency required for integration -->
-<!-- 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
--->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>

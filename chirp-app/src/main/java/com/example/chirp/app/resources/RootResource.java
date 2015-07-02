@@ -9,17 +9,23 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.SpringVersion;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.example.chirp.kernel.stores.UsersStore;
 
-@Named
+@Component
 @Path("/")
 public class RootResource {
 
-  @Inject
+  @Autowired
   private UsersStore usersStore;
 
+  public RootResource() {
+  }
+  
   @GET
   @Produces(MediaType.TEXT_HTML)
   public String ack(@Context UriInfo uriInfo) {

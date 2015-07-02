@@ -45,6 +45,7 @@ public class UserResource {
 	}
 
 	// This constructor is used by by the ChirpsResource
+	// It is provided only to demonstrate code resuse from another resource
 	public UserResource(UsersStore usersStore) {
 		this.usersStore = usersStore;
 	}

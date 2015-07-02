@@ -12,9 +12,9 @@
     <param-value>classpath:/chirp-app-spring.xml</param-value>
   </context-param>
 
-  <!--<listener>-->
-    <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
-  <!--</listener>-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
   <!-- If deployed in JBoss, the container will crash after
   scanning for and find multiple applications. Disable scanning -->
