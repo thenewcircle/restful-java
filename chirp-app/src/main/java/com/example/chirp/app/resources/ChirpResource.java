@@ -14,6 +14,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
+
+import com.example.chirp.app.ChirpApplication;
+import com.example.chirp.app.UsersStoreAccessor;
 import com.example.chirp.app.providers.DeprecatedRequest;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
@@ -27,11 +33,16 @@ import com.example.chirp.pub.PubChirp;
 @Path("/chirps")
 public class ChirpResource {
 
-	@Inject
 	private UsersStore usersStore;
 
 	public ChirpResource() {
 	}
+
+	@Autowired
+	  @Required
+	  public void setUsersStoreAccessor(UsersStoreAccessor usersStoreAccessor) {
+		  this.usersStore = usersStoreAccessor.getUsersStore();
+	  }
 
 	/** 
 	 * this call is a **REALLT** bad idea for several reason

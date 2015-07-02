@@ -10,20 +10,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.example.chirp.app.ChirpApplication;
+import com.example.chirp.app.UsersStoreAccessor;
 import com.example.chirp.kernel.stores.UsersStore;
 
 @Component
 @Path("/")
 public class RootResource {
 
-  @Autowired
   private UsersStore usersStore;
 
   public RootResource() {
+  }
+
+  @Autowired
+  @Required
+  public void setUsersStoreAccessor(UsersStoreAccessor usersStoreAccessor) {
+	  this.usersStore = usersStoreAccessor.getUsersStore();
   }
   
   @GET

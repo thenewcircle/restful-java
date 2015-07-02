@@ -8,15 +8,20 @@ import com.example.chirp.spring.data.entities.UserEntity;
 import com.example.chirp.spring.data.repository.UserRepository;
 
 import javax.inject.Inject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+@Component
 public class SpringDataUserStore implements UsersStore {
 
   private UserRepository userRepository;
 
-  @Inject
+  @Autowired
   public SpringDataUserStore(UserRepository userRepository) {
     this.userRepository = userRepository;
   }

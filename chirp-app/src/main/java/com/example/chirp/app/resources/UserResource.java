@@ -23,7 +23,11 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 
+import com.example.chirp.app.ChirpApplication;
+import com.example.chirp.app.UsersStoreAccessor;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.User.Variant;
@@ -37,12 +41,17 @@ import com.example.chirp.pub.PubUsers;
 @Path("/users")
 public class UserResource {
 
-	@Inject
 	private UsersStore usersStore;
 
 	// This constructor is used by Spring
 	public UserResource() {
 	}
+
+	  @Autowired
+	  @Required
+	  public void setUsersStoreAccessor(UsersStoreAccessor usersStoreAccessor) {
+		  this.usersStore = usersStoreAccessor.getUsersStore();
+	  }
 
 	// This constructor is used by by the ChirpsResource
 	// It is provided only to demonstrate code resuse from another resource
