@@ -87,7 +87,9 @@ public class UserResource {
     @Path("/{username}/chirps")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getChirps(@Context UriInfo uriInfo, 
-    		                 @PathParam("username") String username) {
+    		                  @PathParam("username") String username, 
+    		                  @QueryParam("offset") int offset, 
+    		                  @QueryParam("size") int size) {
 
 		User user = usersStore.getUser(username);
 		List<PubChirp> chirps = new ArrayList<>();
@@ -97,7 +99,7 @@ public class UserResource {
 		}
 
 		URI self = uriInfo.getAbsolutePath();
-		PubChirps pubChirps = new PubChirps(self, chirps);
+		PubChirps pubChirps = new PubChirps(self, offset, size, chirps);
 		
 		URI userLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
 		URI allUsersLink = uriInfo.getBaseUriBuilder().path("users").build();
@@ -106,7 +108,6 @@ public class UserResource {
 				.link(userLink, "user")
 				.link(allUsersLink, "all-users")
 				.build();
-		
 	}
 	
 //	@GET

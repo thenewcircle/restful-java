@@ -28,7 +28,7 @@ public class PubChirpsTest {
 		chirps.add(new PubChirp(URI.create("http://localhost/test/chirps/1003"), 
 				                "1003", "Are we having fun yet?"));
 		
-		PubChirps oldChirps = new PubChirps(selfLnk, chirps);
+		PubChirps oldChirps = new PubChirps(selfLnk, 0, 4, chirps);
 		String json = objectMapper.writeValueAsString(oldChirps);
 
 		System.out.println(json);

@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,6 +15,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+//ignore anything the client sends that I don't know about
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class PubUser {
 
   private final URI self;

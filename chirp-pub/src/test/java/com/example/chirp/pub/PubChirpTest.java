@@ -22,7 +22,7 @@ public class PubChirpTest {
 		chirps.add(new PubChirp(self, "1002", "I have big feet"));
 		
 		self = URI.create("http://localhost/test/user/mickey.mouse/chirps");
-		PubChirps oldChirps = new PubChirps(self, chirps);
+		PubChirps oldChirps = new PubChirps(self, 0, 4, chirps);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(oldChirps);

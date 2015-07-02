@@ -4,8 +4,11 @@ import java.net.URI;
 import java.net.URL;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+//ignore anything the client sends that I don't know about
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class PubChirp {
 
 	private final URI self;
