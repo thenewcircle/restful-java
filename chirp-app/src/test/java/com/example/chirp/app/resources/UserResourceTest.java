@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.example.chirp.app.providers.AuthenticationFilter;
+import com.example.chirp.app.providers.CsrfPreventionRequestFilter;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
 import com.example.chirp.kernel.User;
@@ -53,6 +54,7 @@ public class UserResourceTest extends ResourceTestSupport {
 			  .path("chirps")
 			  .request()
 			  .header("Authorization", AuthenticationFilter.DEFAULT)
+			  .header(CsrfPreventionRequestFilter.HEADER, "whatever")
 			  .post(Entity.text(message));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
@@ -80,6 +82,7 @@ public class UserResourceTest extends ResourceTestSupport {
 			  .path("vader")
 			  .request()
 			  .header("Authorization", AuthenticationFilter.DEFAULT)
+			  .header(CsrfPreventionRequestFilter.HEADER, "whatever")
 			  .post(Entity.text(message));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());

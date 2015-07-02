@@ -1,6 +1,7 @@
 package com.example.chirp.app;
 
 import com.example.chirp.app.providers.AuthenticationFilter;
+import com.example.chirp.app.providers.CsrfPreventionRequestFilter;
 import com.example.chirp.app.providers.DuplicateEntityExceptionMapper;
 import com.example.chirp.app.providers.NoSuchEntityExceptionMapper;
 import com.example.chirp.app.providers.PubUserMessageBodyWriter;
@@ -38,15 +39,23 @@ public class ChirpApplication extends Application {
   }
 
   private void registerClasses() {
-    classes.add(DuplicateEntityExceptionMapper.class);
-    classes.add(NoSuchEntityExceptionMapper.class);
-    classes.add(UserResource.class);
-    classes.add(ChirpResource.class);
-    classes.add(HelloResource.class);
-    classes.add(RootResource.class);
-    classes.add(JacksonXMLProvider.class);
-    classes.add(PubUserMessageBodyWriter.class);
-    classes.add(AuthenticationFilter.class);
+	// Resources
+	classes.add(UserResource.class);
+	classes.add(ChirpResource.class);
+	classes.add(HelloResource.class);
+	classes.add(RootResource.class);
+	  
+	// Filters
+	classes.add(CsrfPreventionRequestFilter.class);
+	classes.add(AuthenticationFilter.class);
+
+	// Exception Mappers
+	classes.add(DuplicateEntityExceptionMapper.class);
+	classes.add(NoSuchEntityExceptionMapper.class);
+
+	// Readers and Writers
+	classes.add(JacksonXMLProvider.class);
+	classes.add(PubUserMessageBodyWriter.class);
   }
 
 
