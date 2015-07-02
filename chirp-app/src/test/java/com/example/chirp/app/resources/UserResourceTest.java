@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.AuthenticationFilter;
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.ChirpId;
 import com.example.chirp.kernel.User;
@@ -32,6 +33,7 @@ public class UserResourceTest extends ResourceTestSupport {
 			  .path("chirps")
 			  .request()
 			  .header("Accept", MediaType.APPLICATION_JSON)
+			  .header("Authorization", AuthenticationFilter.DEFAULT)
 			  .get();
 
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -50,6 +52,7 @@ public class UserResourceTest extends ResourceTestSupport {
 			  .path("vader")
 			  .path("chirps")
 			  .request()
+			  .header("Authorization", AuthenticationFilter.DEFAULT)
 			  .post(Entity.text(message));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
@@ -76,6 +79,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		Response response = target("chirps")
 			  .path("vader")
 			  .request()
+			  .header("Authorization", AuthenticationFilter.DEFAULT)
 			  .post(Entity.text(message));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
@@ -100,6 +104,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		
 		Response response = target("/users")
 				.request()
+				.header("Authorization", AuthenticationFilter.DEFAULT)
 				.header("Accept", MediaType.APPLICATION_JSON)
 				.get();
 
@@ -112,6 +117,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		
 		Response response = target("/users/vader")
 				.request()
+				.header("Authorization", AuthenticationFilter.DEFAULT)
 				.header("Accept", MediaType.TEXT_PLAIN)
 				.get();
 
@@ -126,6 +132,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		
 		Response response = target("/users/vader")
 				.request()
+				.header("Authorization", AuthenticationFilter.DEFAULT)
 				.header("Accept", MediaType.APPLICATION_JSON)
 				.get();
 
@@ -143,6 +150,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		Response response = target("/users/vader")
 				.request()
 				.header("Accept", MediaType.APPLICATION_XML)
+				.header("Authorization", AuthenticationFilter.DEFAULT)
 				.get();
 
 		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
@@ -155,7 +163,10 @@ public class UserResourceTest extends ResourceTestSupport {
 		Form user = new Form()
 				.param("username", "mickey.mouse")
 				.param("realName", "Mickey Mouse");
-		Response response = target("/users").request().put(Entity.form(user));
+		Response response = target("/users")
+				.request()
+				.header("Authorization", AuthenticationFilter.DEFAULT)
+				.put(Entity.form(user));
 
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 		Assert.assertNotNull(getUserStore().getUser("mickey.mouse"));
@@ -170,10 +181,16 @@ public class UserResourceTest extends ResourceTestSupport {
 		Form user = new Form()
 				.param("username", "mickey.mouse")
 				.param("realName", "Mickey Mouse");
-		Response response = target("/users").request().put(Entity.form(user));
+		Response response = target("/users")
+				.request()
+				.header("Authorization", AuthenticationFilter.DEFAULT)
+				.put(Entity.form(user));
 		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 
-		response = target("/users").request().put(Entity.form(user));
+		response = target("/users")
+				.request()
+				.header("Authorization", AuthenticationFilter.DEFAULT)
+				.put(Entity.form(user));
 		Assert.assertEquals(Response.Status.FORBIDDEN.getStatusCode(), response.getStatus());
 		String msg = response.readEntity(String.class);
 		Assert.assertEquals("The record \"mickey.mouse\" already exists.", msg);
