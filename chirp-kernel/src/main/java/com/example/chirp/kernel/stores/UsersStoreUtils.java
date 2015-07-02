@@ -16,7 +16,7 @@ public abstract class UsersStoreUtils {
     userStore.updateUser(vader);
 
     User yoda = userStore.createUser("yoda", "Master Yoda");
-    yoda.createChirp("Do or do not.  There is no try.", "wars01");
+    yoda.createChirp("Do or do not. There is no try.", "wars01");
     yoda.createChirp("Fear leads to anger, anger leads to hate, and hate leads to suffering.", "wars02");
     userStore.updateUser(yoda);
 
