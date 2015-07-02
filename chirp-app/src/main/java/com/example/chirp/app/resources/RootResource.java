@@ -33,8 +33,8 @@ public class RootResource {
         "      <tr><td>JAX-RS Provider: </td><td><b>" + getProviderName() + "</b></td></tr>\n" +
         "      <tr><td>Selected Store: </td><td><b>" + usersStore.getClass().getName() + "</b></td></tr>\n" +
         "      <tr><td>Spring Version: </td><td><b>" + SpringVersion.getVersion() + "</b></td></tr>\n" +
-        "      <tr><td>Test Links:</td><td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("greetings").build()+"'>/greetings</a></td></tr>\n" +
-        "      <tr><td></td>           <td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("greetings").queryParam("name", "Mickey Mouse").build()+"'>/greetings?name=Mickey Mouse</a></td></tr>\n" +
+        "      <tr><td>Test Links:</td><td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("hello").build()+"'>/hello</a></td></tr>\n" +
+        "      <tr><td></td>           <td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("hello").queryParam("name", "Mickey Mouse").build()+"'>/hello?name=Mickey Mouse</a></td></tr>\n" +
         "      <tr><td></td>           <td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("users").build()+"'>/users</a></td></tr>\n" +
         "      <tr><td></td>           <td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("users").path("yoda").build()+"'>/users/yoda</a></td></tr>\n" +
         "      <tr><td></td>           <td><a target='_blank' href='"+uriInfo.getAbsolutePathBuilder().path("users").path("yoda").path("chirps").build()+"'>/users/yoda/chirps</a></td></tr>\n" +

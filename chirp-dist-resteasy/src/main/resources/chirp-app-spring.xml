@@ -19,12 +19,12 @@
 
   <task:annotation-driven/>
   <context:component-scan base-package="com.example.chirp"/>
-  <bean class="com.example.chirp.store.memory.InMemoryUsersStore">
+<!--
+   <bean class="com.example.chirp.store.memory.InMemoryUsersStore">
     <constructor-arg value="true"/>
   </bean>
-<!-- 
+ -->
   <bean class="com.example.chirp.spring.data.SpringDataUserStore">
     <property name="seedDatabase" value="true"/>
   </bean>
- -->
 </beans>

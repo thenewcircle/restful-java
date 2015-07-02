@@ -13,6 +13,9 @@
         <dependent-module archiveName="chirp-pub-trunk-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chirp-pub/chirp-pub">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="chirp-store-spring-data-trunk-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chirp-store-spring-data/chirp-store-spring-data">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="chirp-store-memory-trunk-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/chirp-store-memory/chirp-store-memory">
             <dependency-type>uses</dependency-type>
         </dependent-module>
