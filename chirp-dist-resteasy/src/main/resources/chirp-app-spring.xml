@@ -39,4 +39,8 @@
    		 p:values=".txt:text/plain,.xml:application/xml,.json:application/json"/>
  -->
 
+	<bean class="com.example.chirp.app.providers.AuthenticationFilter">
+    	<property name="validClients" value="jacobp:yes,admin:secret"/>
+	</bean>
+
 </beans>

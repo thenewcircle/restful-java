@@ -3,8 +3,10 @@ package com.example.chirp.app.providers;
 import javax.ws.rs.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Priority;
@@ -16,6 +18,8 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.DatatypeConverter;
 
+import org.springframework.beans.factory.annotation.Required;
+
 @Provider
 @PreMatching
 @Priority(Priorities.AUTHENTICATION)
@@ -24,14 +28,26 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	  public static final String DEFAULT = toHttpAuth("admin", "secret");
 	
 	  // Load one time from the file system, spring, DB, System Properties, wherever.
-	  public static final java.util.List<String> VALID_CLIENTS = 
-			  Collections.singletonList(DEFAULT);
-
+	  public final java.util.List<String> validClients = new ArrayList<>();
+	  
 	  private List<String> unsecuredPaths = Arrays.asList("", "/", "application.wadl");
 
 	  @Context
 	  private UriInfo uriInfo;
 
+	  public AuthenticationFilter() {
+		  validClients.add(DEFAULT);
+	  }
+	  
+	  @Required
+	  public void setValidClients(String values) {
+			String[] items = values.split(",");
+			for (String item : items) {
+				String[] pairs = item.split(":");
+				validClients.add(toHttpAuth(pairs[0], pairs[1]));
+			}
+	  }
+	  
 	  @Override
 	  public void filter(ContainerRequestContext requestContext) throws IOException {
 	    String authHeader = requestContext.getHeaderString("Authorization");
@@ -41,7 +57,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 	      return;
 	    }
 
-	    if (VALID_CLIENTS.contains(authHeader) == false) {
+	    if (validClients.contains(authHeader) == false) {
 	      throw new NotAuthorizedException("BASIC");
 	    }
 	  }

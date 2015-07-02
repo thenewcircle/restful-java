@@ -48,9 +48,9 @@ public class ChirpApplication extends Application {
 	classes.add(RootResource.class);
 	  
 	// Filters
-	classes.add(AuthenticationFilter.class);
+	// classes.add(AuthenticationFilter.class);
 	classes.add(CsrfPreventionRequestFilter.class);
-	classes.add(FileExtensionRequestFilter.class);
+	// classes.add(FileExtensionRequestFilter.class);
 	classes.add(DeprecatedRequestFilter.class);
 
 	// Intercepters
