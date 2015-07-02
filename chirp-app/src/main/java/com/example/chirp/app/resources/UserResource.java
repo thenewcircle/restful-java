@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,6 +22,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.chirp.kernel.Chirp;
 import com.example.chirp.kernel.User;
 import com.example.chirp.kernel.User.Variant;
@@ -29,13 +33,20 @@ import com.example.chirp.pub.PubChirps;
 import com.example.chirp.pub.PubUser;
 import com.example.chirp.pub.PubUsers;
 
+@Named
 @Path("/users")
 public class UserResource {
 
+	@Inject
 	private UsersStore usersStore;
-	
-	public UserResource(@Context Application application) {
-		this.usersStore = (UsersStore)application.getProperties().get(UsersStore.class.getName());
+
+	// This constructor is used by Spring
+	public UserResource() {
+	}
+
+	// This constructor is used by by the ChirpsResource
+	public UserResource(UsersStore usersStore) {
+		this.usersStore = usersStore;
 	}
 	
 //	@GET
@@ -133,6 +144,7 @@ public class UserResource {
 //	}
 
 	@GET
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public Response getUsers(@Context UriInfo uriInfo,
 			                 @QueryParam("variant") String variant) {
 		Deque<User> que = usersStore.getUsers();

@@ -66,17 +66,17 @@
       <artifactId>jersey-media-json-jackson</artifactId>
       <version>${jersey.version}</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.glassfish.jersey.ext</groupId>-->
-      <!--<artifactId>jersey-spring3</artifactId>-->
-      <!--<version>${jersey.version}</version>-->
-    <!--</dependency>-->
-    <!-- required for spring injection -->
-    <!--<dependency>-->
-      <!--<groupId>javax.servlet</groupId>-->
-      <!--<artifactId>javax.servlet-api</artifactId>-->
-      <!--<version>${servlet.api.version}</version>-->
-    <!--</dependency>-->
+
+    <dependency>
+      <groupId>org.glassfish.jersey.ext</groupId>
+      <artifactId>jersey-spring3</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>${servlet.api.version}</version>
+    </dependency>
 
   </dependencies>
 

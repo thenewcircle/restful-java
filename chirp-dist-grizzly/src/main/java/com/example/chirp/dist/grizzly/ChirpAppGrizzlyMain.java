@@ -24,10 +24,10 @@ public class ChirpAppGrizzlyMain {
 		// Create the application and then Jersey's ResourceConfig
 		ChirpApplication chirpApplication = new ChirpApplication();
 
-    // Start a new instance of grizzly http server.
-    URI baseUri = URI.create(SERVER_BIND_ADDRESS);
+		// Start a new instance of grizzly http server.
+		URI baseUri = URI.create(SERVER_BIND_ADDRESS);
 		ResourceConfig resourceConfig = ResourceConfig.forApplication(chirpApplication);
-    HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, resourceConfig);
+		HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(baseUri, resourceConfig);
 
 		Desktop.getDesktop().browse(URI.create(ROOT_RESOURCE));
 

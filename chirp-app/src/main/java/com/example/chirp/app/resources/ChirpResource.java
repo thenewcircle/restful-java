@@ -2,6 +2,8 @@ package com.example.chirp.app.resources;
 
 import java.net.URI;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -21,13 +23,14 @@ import com.example.chirp.kernel.stores.UsersStore;
 import com.example.chirp.pub.OldChirp;
 import com.example.chirp.pub.PubChirp;
 
+@Named
 @Path("/chirps")
 public class ChirpResource {
 
-	private final UsersStore usersStore;
+	@Inject
+	private UsersStore usersStore;
 
-	public ChirpResource(@Context Application application) {
-		this.usersStore = (UsersStore)application.getProperties().get(UsersStore.class.getName());
+	public ChirpResource() {
 	}
 
 	/** 
@@ -49,7 +52,7 @@ public class ChirpResource {
 								@Context UriInfo uriInfo,
 								String content) {
 		
-		UserResource resource = new UserResource(application);
+		UserResource resource = new UserResource(usersStore);
 		return resource.createChirp(uriInfo, username, content);
 	}
 	

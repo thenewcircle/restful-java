@@ -8,7 +8,7 @@ import com.example.chirp.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.kernel.exceptions.NoSuchEntityException;
 
 @Provider
-public class NoSuchEntityExceptionMapper implements ExceptionMapper<NoSuchEntityException>{
+public class NoSuchEntityExceptionMapper implements ExceptionMapper<NoSuchEntityException> {
 
 	@Override
 	public Response toResponse(NoSuchEntityException exception) {

@@ -36,9 +36,7 @@ public class ChirpApplication extends Application {
   private void registerProperties() {
     properties.put("jersey.config.server.tracing.type", "ALL");
     properties.put("jersey.config.server.tracing.threshold", "VERBOSE");
-  
-    UsersStore usersStore = new InMemoryUsersStore(true);
-    properties.put(UsersStore.class.getName(), usersStore);
+    properties.put("contextConfigLocation", "classpath:/chirp-app-spring.xml");
   }
 
   private void registerClasses() {
@@ -50,8 +48,8 @@ public class ChirpApplication extends Application {
 	classes.add(RootResource.class);
 	  
 	// Filters
-	classes.add(CsrfPreventionRequestFilter.class);
 	classes.add(AuthenticationFilter.class);
+	classes.add(CsrfPreventionRequestFilter.class);
 	classes.add(FileExtensionRequestFilter.class);
 	classes.add(DeprecatedRequestFilter.class);
 
@@ -61,7 +59,7 @@ public class ChirpApplication extends Application {
 	// Exception Mappers
 	classes.add(DuplicateEntityExceptionMapper.class);
 	classes.add(NoSuchEntityExceptionMapper.class);
-
+	
 	// Readers and Writers
 	classes.add(JacksonXMLProvider.class);
 	classes.add(PubUserMessageBodyWriter.class);
