@@ -149,7 +149,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		String json = response.readEntity(String.class);
 		Assert.assertTrue(json.startsWith("{"));
 		Assert.assertTrue(json.contains(CopyrightWriterInterceptor.JSON_COPYRIGHT));
-		System.out.println(json);
+		// System.out.println(json);
 	}
 	
 	@Test
@@ -166,7 +166,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		String xml = response.readEntity(String.class);
 		Assert.assertTrue(xml.startsWith("<"));
 		Assert.assertTrue(xml.contains(CopyrightWriterInterceptor.XML_COPYRIGHT));
-		System.out.println(xml);
+		// System.out.println(xml);
 	}
 	
 	@Test
