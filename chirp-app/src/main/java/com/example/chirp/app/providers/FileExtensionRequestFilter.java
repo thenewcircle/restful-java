@@ -11,8 +11,14 @@ import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import javax.ws.rs.*;
 
+@Component
 @Provider
 @PreMatching
 @Priority(Priorities.HEADER_DECORATOR)
@@ -20,7 +26,9 @@ public class FileExtensionRequestFilter implements ContainerRequestFilter {
 
 	public final Map<String, String> extMediaTypes = new HashMap<>();
 
-	public FileExtensionRequestFilter() {
+	@Autowired
+	public FileExtensionRequestFilter(@Value("${fileExtensionFilterMapping}") String extMediaTypes) {
+		setValues(extMediaTypes);
 	}
 
 	// .txt:text/plain,.xml:application/xml,.json:application/json

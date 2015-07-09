@@ -1,22 +1,16 @@
 package com.example.chirp.app;
 
-import com.example.chirp.app.providers.AuthenticationFilter;
-import com.example.chirp.app.providers.CopyrightWriterInterceptor;
-import com.example.chirp.app.providers.CsrfPreventionRequestFilter;
-import com.example.chirp.app.providers.DeprecatedRequestFilter;
-import com.example.chirp.app.providers.DuplicateEntityExceptionMapper;
-import com.example.chirp.app.providers.FileExtensionRequestFilter;
-import com.example.chirp.app.providers.NoSuchEntityExceptionMapper;
-import com.example.chirp.app.providers.PubUserMessageBodyWriter;
+import com.example.chirp.app.providers.*;
 import com.example.chirp.app.resources.ChirpResource;
 import com.example.chirp.app.resources.HelloResource;
 import com.example.chirp.app.resources.RootResource;
 import com.example.chirp.app.resources.UserResource;
-import com.example.chirp.kernel.stores.UsersStore;
-import com.example.chirp.store.memory.InMemoryUsersStore;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import javax.ws.rs.core.Application;
+
+import org.springframework.beans.factory.BeanFactoryAware;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -41,16 +35,16 @@ public class ChirpApplication extends Application {
 
   private void registerClasses() {
 
-	  // Resources
+	// Resources
 	classes.add(UserResource.class);
 	classes.add(ChirpResource.class);
 	classes.add(HelloResource.class);
 	classes.add(RootResource.class);
 	  
 	// Filters
-	// classes.add(AuthenticationFilter.class);
+	classes.add(AuthenticationFilter.class);
+	classes.add(FileExtensionRequestFilter.class);
 	classes.add(CsrfPreventionRequestFilter.class);
-	// classes.add(FileExtensionRequestFilter.class);
 	classes.add(DeprecatedRequestFilter.class);
 
 	// Intercepters

@@ -10,8 +10,6 @@ import com.example.chirp.kernel.stores.UsersStore;
 public class UsersStoreAccessor {
 
 	@Autowired
-	// @Qualifier("inMemoryUsersStore")
-	@Qualifier("springDataUserStore")
 	private UsersStore usersStore;
 
 	public UsersStoreAccessor() {

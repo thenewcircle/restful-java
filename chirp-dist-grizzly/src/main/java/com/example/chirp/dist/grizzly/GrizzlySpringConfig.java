@@ -1,4 +1,4 @@
-package com.example.chirp.dist.resteasy;
+package com.example.chirp.dist.grizzly;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,12 @@ import com.example.chirp.spring.data.repository.UserRepository;
 import com.example.chirp.store.memory.InMemoryUsersStore;
 
 @Configuration
-public class ResteasySpringConfig {
+public class GrizzlySpringConfig {
 
+	public GrizzlySpringConfig() {
+		System.out.println("I'm in the spring config");
+	}
+	
 	@Bean(name="usersStore")
 	public SpringDataUserStore getSpringDataUserStore(UserRepository userRepository) {
 		// return new InMemoryUsersStore(true);

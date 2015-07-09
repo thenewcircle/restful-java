@@ -1,15 +1,13 @@
 package com.example.chirp.app.providers;
 
-import javax.ws.rs.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Priority;
+import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
@@ -18,8 +16,9 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 import javax.xml.bind.DatatypeConverter;
 
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Component;
 
+@Component
 @Provider
 @PreMatching
 @Priority(Priorities.AUTHENTICATION)
@@ -39,7 +38,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 		  validClients.add(DEFAULT);
 	  }
 	  
-	  @Required
 	  public void setValidClients(String values) {
 			String[] items = values.split(",");
 			for (String item : items) {

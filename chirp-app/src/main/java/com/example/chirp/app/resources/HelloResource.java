@@ -1,6 +1,5 @@
 package com.example.chirp.app.resources;
 
-import javax.inject.Named;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -11,7 +10,6 @@ import javax.ws.rs.core.Response;
 
 import org.springframework.http.MediaType;
 
-@Named
 @Path("/hello")
 public class HelloResource {
 
