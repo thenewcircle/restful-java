@@ -14,6 +14,7 @@ public class ChirpApplication extends Application {
 	public ChirpApplication() {
 
 		classes.add(RootResource.class);
+		classes.add(GreetingsResource.class);
 
 	}
 
