@@ -6,8 +6,13 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+import com.example.chirp.app.stores.InMemoryUserStore;
+import com.example.chirp.app.stores.UserStore;
+
 @ApplicationPath("/")
 public class ChirpApplication extends Application {
+
+	public static final UserStore userStore = new InMemoryUserStore(true);
 
 	private Set<Class<?>> classes = new HashSet<>();
 

@@ -23,13 +23,14 @@ public class GreetingsResourceTest extends ResourceTestSupport {
 		Assert.assertEquals("Hello Tom!", text);
 	}
 
-	@Test
-	public void testSayHelloWithPathParam() {
-		Response response = target("/greetings").path("Tom").request().get();
-		Assert.assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
-		String text = response.readEntity(String.class);
-		Assert.assertEquals("Hello Tom!", text);
-	}
+	// @Test
+	// public void testSayHelloWithPathParam() {
+	// Response response = target("/greetings").path("Tom").request().get();
+	// Assert.assertEquals(Response.Status.OK.getStatusCode(),
+	// response.getStatus());
+	// String text = response.readEntity(String.class);
+	// Assert.assertEquals("Hello Tom!", text);
+	// }
 
 	@Test
 	public void testEchoHeader() {
@@ -39,4 +40,16 @@ public class GreetingsResourceTest extends ResourceTestSupport {
 		String text = response.getHeaderString("X-NewCircle-Echo-Response");
 		Assert.assertEquals("Tom, Tom, Tom", text);
 	}
+
+	// @Test
+	// public void testEchoHttpHeaders() {
+	// Response response =
+	// target("/greetings").path("Tom").request().header("X-NewCircle-Echo",
+	// "Tom").get();
+	//
+	// Assert.assertEquals(Response.Status.OK.getStatusCode(),
+	// response.getStatus());
+	// String text = response.getHeaderString("X-NewCircle-Echo-Response");
+	// Assert.assertEquals("Tom, Tom, Tom", text);
+	// }
 }
