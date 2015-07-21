@@ -2,8 +2,7 @@ package com.example.chirp.app;
 
 import java.net.URI;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -37,24 +36,26 @@ public class UserResource {
 	@Context
 	private HttpHeaders headers;
 
+	@Context
+	private UriInfo uriInfo;
+
 	public UserResource() {
 	}
 
 	// mapps to http://localhost:8080/users/student
 	@PUT
 	@Path("/{username}")
-	public Response createUser(@Context UriInfo uriInfo, @PathParam("username") String username, @FormParam("realname") String realname) {
-		if (username != null && username.contains(" ")) {
-			throw new BadRequestException("The username cannot contain any spaces.");
-		}
+	public Response createUser(@BeanParam CreateUserRequest createUserRequest) {
+
+		createUserRequest.validate();
 
 		log.warn("URI: {}", uriInfo.getAbsolutePath());
 
-		userStore.createUser(username, realname);
+		userStore.createUser(createUserRequest.getUsername(), createUserRequest.getRealname());
 
 		// base == http://localhost:8080/
 		// result == http://localhost:8080/users/studen
-		URI uri = uriInfo.getBaseUriBuilder().path("users").path(username).build();
+		URI uri = uriInfo.getBaseUriBuilder().path("users").path(createUserRequest.getUsername()).build();
 
 		// base == http://localhost:8080/users/student
 		// result == http://localhost:8080/users/studen
@@ -64,7 +65,7 @@ public class UserResource {
 		// uri =
 		// UriBuilder.fromResource(UserResource.class).path(username).build();
 
-		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
+		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(createUserRequest.getUsername()).path("chirps").build();
 		chirpsLink = uriInfo.getAbsolutePathBuilder().path("chirps").build();
 
 		return Response.created(uri).link(chirpsLink, "chirps").build();
