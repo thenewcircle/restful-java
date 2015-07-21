@@ -7,8 +7,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -17,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.chirp.app.kernel.User;
+import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
 import com.sun.research.ws.wadl.Application;
 
@@ -72,12 +75,20 @@ public class UserResource {
 	}
 
 	@GET
+	@Produces(MediaType.TEXT_PLAIN)
 	@Path("/{username}")
 	public Response getUserName(@PathParam("username") String username) {
 		User user = userStore.getUser(username);
 		String realName = user.getRealname();
-		// return realName;
-		// return Response.ok().entity(realName).build();
 		return Response.ok(realName).build();
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Path("/{username}")
+	public Response getPubUser(@PathParam("username") String username) {
+		User user = userStore.getUser(username);
+		PubUser pubUser = user.toPubUser();
+		return Response.ok(pubUser).build();
 	}
 }

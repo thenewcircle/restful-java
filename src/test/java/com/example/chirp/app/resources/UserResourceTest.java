@@ -2,12 +2,14 @@ package com.example.chirp.app.resources;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStoreUtils;
 
 public class UserResourceTest extends ResourceTestSupport {
@@ -40,11 +42,39 @@ public class UserResourceTest extends ResourceTestSupport {
 	public void testGetUser() {
 		UserStoreUtils.resetAndSeedRepository(getUserStore());
 
-		Response response = target("/users").path("yoda").request().get();
+		Response response = target("/users").path("yoda").request().accept(MediaType.TEXT_PLAIN).get();
 		Assert.assertEquals(200, response.getStatus());
 
 		String realname = response.readEntity(String.class);
 		Assert.assertEquals("Master Yoda", realname);
+	}
+
+	@Test
+	public void testGetGetUserJson() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+		Response response = target("/users").path("yoda").request().accept(MediaType.APPLICATION_JSON).get();
+		Assert.assertEquals(200, response.getStatus());
+
+		// String text = response.readEntity(String.class);
+		// Assert.assertTrue(text.startsWith("{"));
+		// Assert.assertTrue(text.endsWith("}"));
+
+		PubUser pubUser = response.readEntity(PubUser.class);
+		Assert.assertEquals("yoda", pubUser.getUsername());
+		Assert.assertEquals("Master Yoda", pubUser.getRealname());
+	}
+
+	@Test
+	public void testGetGetUserXml() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+		Response response = target("/users").path("yoda").request().accept(MediaType.APPLICATION_XML).get();
+		Assert.assertEquals(200, response.getStatus());
+
+		String text = response.readEntity(String.class);
+		Assert.assertTrue(text.startsWith("<"));
+		Assert.assertTrue(text.endsWith(">"));
 	}
 
 	@Test
