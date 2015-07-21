@@ -75,16 +75,7 @@ public class UserResource {
 	}
 
 	@GET
-	@Produces(MediaType.TEXT_PLAIN)
-	@Path("/{username}")
-	public Response getUserName(@PathParam("username") String username) {
-		User user = userStore.getUser(username);
-		String realName = user.getRealname();
-		return Response.ok(realName).build();
-	}
-
-	@GET
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/{username}")
 	public Response getPubUser(@PathParam("username") String username) {
 		User user = userStore.getUser(username);

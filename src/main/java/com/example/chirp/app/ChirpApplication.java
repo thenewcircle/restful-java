@@ -24,6 +24,9 @@ public class ChirpApplication extends Application {
 		classes.add(DuplicateEntityExceptionMapper.class);
 		classes.add(NoSuchEntityExceptionMapper.class);
 
+		classes.add(ToStringMessageBodyWriter.class);
+		classes.add(FileExtensionRequestFilter.class);
+
 		classes.add(JacksonXMLProvider.class);
 	}
 

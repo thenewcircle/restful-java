@@ -34,8 +34,9 @@ public class UserResourceTest extends ResourceTestSupport {
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/users/student", location);
 
-		response = target(location.substring(21)).request().get();
-		Assert.assertEquals("Bob Student", response.readEntity(String.class));
+		response = target(location.substring(21)).request().accept(MediaType.APPLICATION_JSON).get();
+		PubUser pubUser = response.readEntity(PubUser.class);
+		Assert.assertEquals("Bob Student", pubUser.getRealname());
 	}
 
 	@Test
@@ -106,4 +107,40 @@ public class UserResourceTest extends ResourceTestSupport {
 		Response response = target("/users").path(username).request().put(Entity.form(user));
 		Assert.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
 	}
+
+	@Test
+	public void testGetUserTxtExt() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+		Response response = target("/users").path("yoda.txt").request().get();
+		Assert.assertEquals(200, response.getStatus());
+	}
+
+	@Test
+	public void testGetUserJsonExt() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+		Response response = target("/users").path("yoda.json").request().get();
+		Assert.assertEquals(200, response.getStatus());
+	}
+
+	@Test
+	public void testGetUserXmlExt() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+		Response response = target("/users").path("yoda.xml").request().get();
+		Assert.assertEquals(200, response.getStatus());
+	}
+
+	@Test
+	public void testGetUserAviExt() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+		Response response = target("/users").path("yoda.avi").request().get();
+		Assert.assertEquals(406, response.getStatus());
+	}
+
+	// @Test
+	// public void testGetUserAvi() {
+	// UserStoreUtils.resetAndSeedRepository(getUserStore());
+	// Response response =
+	// target("/users").path("yoda").request().accept("application/avi").get();
+	// Assert.assertEquals(200, response.getStatus());
+	// }
 }
