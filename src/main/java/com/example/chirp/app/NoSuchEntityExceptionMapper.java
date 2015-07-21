@@ -11,7 +11,6 @@ public class NoSuchEntityExceptionMapper implements ExceptionMapper<NoSuchEntity
 
 	@Override
 	public Response toResponse(NoSuchEntityException exception) {
-		// TODO Auto-generated method stub
 		return Response.status(404).entity("This entity does not exist").build();
 	}
 

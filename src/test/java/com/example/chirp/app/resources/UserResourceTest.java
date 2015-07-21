@@ -67,4 +67,13 @@ public class UserResourceTest extends ResourceTestSupport {
 		String msg = response.readEntity(String.class);
 		Assert.assertEquals("This entity does not exist", msg);
 	}
+
+	@Test
+	public void testCreateWithBadName() {
+		String username = "mickey mouse";
+		Form user = new Form().param("realname", "Bob Student");
+
+		Response response = target("/users").path(username).request().put(Entity.form(user));
+		Assert.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+	}
 }

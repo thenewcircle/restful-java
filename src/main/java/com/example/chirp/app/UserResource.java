@@ -2,6 +2,7 @@ package com.example.chirp.app;
 
 import java.net.URI;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -43,6 +44,9 @@ public class UserResource {
 	@PUT
 	@Path("/{username}")
 	public Response createUser(@Context UriInfo uriInfo, @PathParam("username") String username, @FormParam("realname") String realname) {
+		if (username != null && username.contains(" ")) {
+			throw new BadRequestException("The username cannot contain any spaces.");
+		}
 
 		log.warn("URI: {}", uriInfo.getAbsolutePath());
 
