@@ -30,6 +30,6 @@ public abstract class ResourceTestSupport extends JerseyTest {
 	}
 
 	public UserStore getUserStore() {
-		return ChirpApplication.userStore;
+		return ChirpApplication.USER_STORE;
 	}
 }

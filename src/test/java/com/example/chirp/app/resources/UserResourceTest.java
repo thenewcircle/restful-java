@@ -24,8 +24,10 @@ public class UserResourceTest extends ResourceTestSupport {
 
 		Response response = target("/users").path(username).request().put(Entity.form(user));
 
-		Assert.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
+		Assert.assertEquals(Response.Status.CREATED.getStatusCode(), response.getStatus());
 		Assert.assertNotNull(getUserStore().getUser("student"));
+
+		String location = response.getHeaderString("Location");
+		Assert.assertEquals("http://localhost:9998/users/student", location);
 	}
 }

@@ -12,7 +12,7 @@ import com.example.chirp.app.stores.UserStore;
 @ApplicationPath("/")
 public class ChirpApplication extends Application {
 
-	public static final UserStore userStore = new InMemoryUserStore(true);
+	public static final UserStore USER_STORE = new InMemoryUserStore(true);
 
 	private Set<Class<?>> classes = new HashSet<>();
 
