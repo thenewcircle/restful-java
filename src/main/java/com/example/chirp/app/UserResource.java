@@ -47,6 +47,12 @@ public class UserResource {
 		// result == http://localhost:8080/users/studen
 		// uri = uriInfo.getAbsolutePathBuilder().build();
 
-		return Response.created(uri).build();
+		// This provides a relative URL
+		// uri = Resource.builder(UserResource.class).path(username).build();
+
+		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
+		chirpsLink = uriInfo.getAbsolutePathBuilder().path("chirps").build();
+
+		return Response.created(uri).link(chirpsLink, "chirps").build();
 	}
 }
