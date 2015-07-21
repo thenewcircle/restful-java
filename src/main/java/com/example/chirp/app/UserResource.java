@@ -11,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -58,7 +57,8 @@ public class UserResource {
 		// uri = uriInfo.getAbsolutePathBuilder().build();
 
 		// This provides a relative URL
-		uri = UriBuilder.fromResource(UserResource.class).path(username).build();
+		// uri =
+		// UriBuilder.fromResource(UserResource.class).path(username).build();
 
 		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
 		chirpsLink = uriInfo.getAbsolutePathBuilder().path("chirps").build();
