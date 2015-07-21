@@ -20,7 +20,7 @@ public class ChirpApplication extends Application {
 
 		classes.add(RootResource.class);
 		classes.add(GreetingsResource.class);
-
+		classes.add(UserResource.class);
 	}
 
 	@Override

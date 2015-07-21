@@ -22,7 +22,7 @@ public class UserResourceTest extends ResourceTestSupport {
 
 		Form user = new Form().param("realname", "Bob Student");
 
-		Response response = target("/users/" + username).request().put(Entity.form(user));
+		Response response = target("/users").path(username).request().put(Entity.form(user));
 
 		Assert.assertEquals(Response.Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
