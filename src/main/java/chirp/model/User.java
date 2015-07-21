@@ -1,24 +1,24 @@
 package chirp.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
-
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of chirps, indexed by id.
  */
-public class User implements Serializable {
+public class User extends AbstractModelEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private final  String username;
-	private  final String realname;
-	private  final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
-	
+	private final String username;
+	private final String realname;
+	private final Map<ChirpId, Chirp> chirps = new TreeMap<ChirpId, Chirp>();
+
 	public User(String username, String realname) {
 		this.username = username;
 		this.realname = realname;
@@ -31,23 +31,26 @@ public class User implements Serializable {
 	public String getRealname() {
 		return realname;
 	}
+	
+	private ChirpId createUniqueChirpId(final String id) {
+		final ChirpId chirpId = (id == null) ? new ChirpId() : new ChirpId(id);
+		if (chirps.containsKey(chirpId))
+			throw new DuplicateEntityException(String.format(
+					"Chirp %s already exists.", id));
+		return chirpId;
+	}
 
 	public Chirp createChirp(String content) {
-		ChirpId chirpId = new ChirpId();
-		if (chirps.containsKey(chirpId))
-			throw new DuplicateEntityException();
-
-		Chirp chirp = new Chirp(chirpId, content, this);
-		chirps.put(chirpId, chirp);
+		final ChirpId id = createUniqueChirpId(null);
+		final Chirp chirp = new Chirp(id, content, this);
+		chirp.setLastModificationTime(new Date());
+		chirps.put(id, chirp);
 		return chirp;
 	}
 
-	public Chirp createChirp(String content, String id) {
-		ChirpId chripId = new ChirpId(id);
-		if (chirps.containsKey(chripId))
-			throw new DuplicateEntityException();
-
-		Chirp chirp = new Chirp(chripId, content, this);
+	public Chirp createChirp(String content, final String id) {
+		final ChirpId chripId = createUniqueChirpId(id);
+		final Chirp chirp = new Chirp(chripId, content, this);
 		chirps.put(chripId, chirp);
 		return chirp;
 	}
@@ -59,14 +62,15 @@ public class User implements Serializable {
 	public Chirp getChirp(ChirpId id) {
 		Chirp chirp = chirps.get(id);
 		if (chirp == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Chirp " + id + " does not exist");
 
 		return chirp;
 	}
 
 	public void deleteChirp(String id) {
 		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Cannot delete chirp with id " + id
+					+ " as it does not exist.");
 	}
 
 	@Override

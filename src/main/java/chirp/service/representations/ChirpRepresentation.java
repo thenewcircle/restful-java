@@ -2,14 +2,13 @@ package chirp.service.representations;
 
 import java.net.URI;
 
-import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.Chirp;
 
 @XmlRootElement
-public class ChirpRepresentation {
+public class ChirpRepresentation extends AbstractCacheableRepresentation {
 
 	private String content;
 	private String id;

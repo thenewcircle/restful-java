@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -115,9 +116,11 @@ public class UserRepository implements Serializable {
 
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
-			throw new DuplicateEntityException("User " + username + " already exists");
+			throw new DuplicateEntityException(String.format(
+					"User %s already exists.", username));
 
 		User user = new User(username, realname);
+		user.setLastModificationTime(new Date());
 		users.put(username, user);
 		return user;
 	}
@@ -129,14 +132,16 @@ public class UserRepository implements Serializable {
 	public User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format(
+					"User %s does not exist.", username));
 
 		return user;
 	}
 
 	public void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format(
+					"User %s does not exist.", username));
 	}
 
 	public int createBulkDeletion() {
@@ -148,7 +153,10 @@ public class UserRepository implements Serializable {
 		try {
 			bulkDeletions.get(id).add(getUser(username));
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(
+					String.format(
+							"Entity with id %d does not exist or user with username %s does not exist",
+							id, username));
 		}
 	}
 
@@ -156,7 +164,8 @@ public class UserRepository implements Serializable {
 		try {
 			bulkDeletions.set(id, null);
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(String.format(
+					"Entity with id %d does not exist", id));
 		}
 	}
 
@@ -174,8 +183,8 @@ public class UserRepository implements Serializable {
 			bulkDeletions.set(id, null);
 			return true;
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(
+					"Entities did not exist during bulk delete");
 		}
 	}
-
 }
