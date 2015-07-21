@@ -9,7 +9,12 @@ import javax.ws.rs.core.UriInfo;
 public class CreateUserRequest {
 
 	private @Context UriInfo uriInfo;
+
 	private @PathParam("username") String username;
+
+	private @PathParam("lastName") String lastName;
+	private @FormParam("firstName") String firstName;
+
 	private @FormParam("realname") String realname;
 
 	public UriInfo getUriInfo() {
@@ -29,5 +34,4 @@ public class CreateUserRequest {
 			throw new BadRequestException("The username cannot contain any spaces.");
 		}
 	}
-
 }
