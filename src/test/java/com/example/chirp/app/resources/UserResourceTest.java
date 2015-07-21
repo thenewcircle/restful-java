@@ -8,6 +8,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.stores.UserStoreUtils;
+
 public class UserResourceTest extends ResourceTestSupport {
 
 	@Before
@@ -29,5 +31,19 @@ public class UserResourceTest extends ResourceTestSupport {
 
 		String location = response.getHeaderString("Location");
 		Assert.assertEquals("http://localhost:9998/users/student", location);
+
+		response = target(location.substring(21)).request().get();
+		Assert.assertEquals("Bob Student", response.readEntity(String.class));
+	}
+
+	@Test
+	public void testGetUser() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+		Response response = target("/users").path("yoda").request().get();
+		Assert.assertEquals(200, response.getStatus());
+
+		String realname = response.readEntity(String.class);
+		Assert.assertEquals("Master Yoda", realname);
 	}
 }

@@ -3,6 +3,7 @@ package com.example.chirp.app;
 import java.net.URI;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -10,13 +11,20 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.example.chirp.app.kernel.User;
 import com.example.chirp.app.stores.UserStore;
 import com.sun.research.ws.wadl.Application;
 
 @Path("/users")
 public class UserResource {
+
+	private static final Logger log = LoggerFactory.getLogger(ChirpAppGrizzlyMain.class);
 
 	private final UserStore userStore = ChirpApplication.USER_STORE;
 
@@ -37,6 +45,8 @@ public class UserResource {
 	@Path("/{username}")
 	public Response createUser(@Context UriInfo uriInfo, @PathParam("username") String username, @FormParam("realname") String realname) {
 
+		log.warn("URI: {}", uriInfo.getAbsolutePath());
+
 		userStore.createUser(username, realname);
 
 		// base == http://localhost:8080/
@@ -48,11 +58,21 @@ public class UserResource {
 		// uri = uriInfo.getAbsolutePathBuilder().build();
 
 		// This provides a relative URL
-		// uri = Resource.builder(UserResource.class).path(username).build();
+		uri = UriBuilder.fromResource(UserResource.class).path(username).build();
 
 		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
 		chirpsLink = uriInfo.getAbsolutePathBuilder().path("chirps").build();
 
 		return Response.created(uri).link(chirpsLink, "chirps").build();
+	}
+
+	@GET
+	@Path("/{username}")
+	public Response getUserName(@PathParam("username") String username) {
+		User user = userStore.getUser(username);
+		String realName = user.getRealname();
+		// return realName;
+		// return Response.ok().entity(realName).build();
+		return Response.ok(realName).build();
 	}
 }
