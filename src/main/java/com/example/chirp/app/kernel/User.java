@@ -129,14 +129,20 @@ public class User {
 		URI selfLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
 		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
 
+		List<URI> chirpLinks = new ArrayList<>();
 		List<PubChirp> pubChirps = new ArrayList<>();
-		if (UserResource.Variant.FULL == variant) {
-			for (Chirp chirp : this.getChirps()) {
+
+		for (Chirp chirp : this.getChirps()) {
+			if (UserResource.Variant.FULL == variant) {
 				PubChirp pubChirp = chirp.toPubChirp(uriInfo);
 				pubChirps.add(pubChirp);
+
+			} else if (UserResource.Variant.LINKS == variant) {
+				PubChirp pubChirp = chirp.toPubChirp(uriInfo);
+				chirpLinks.add(pubChirp.getSelf());
 			}
 		}
 
-		return new PubUser(chirpsLink, selfLink, username, realname, pubChirps);
+		return new PubUser(chirpsLink, selfLink, username, realname, pubChirps, chirpLinks);
 	}
 }

@@ -95,6 +95,9 @@ public class UserResourceTest extends ResourceTestSupport {
 
 		List<PubChirp> chirps = pubUser.getChirps();
 		Assert.assertEquals(0, chirps.size());
+
+		List<URI> chirpLinks = pubUser.getChirpLinks();
+		Assert.assertEquals(0, chirpLinks.size());
 	}
 
 	@Test
@@ -105,6 +108,17 @@ public class UserResourceTest extends ResourceTestSupport {
 		PubUser pubUser = response.readEntity(PubUser.class);
 
 		List<PubChirp> chirps = pubUser.getChirps();
+		Assert.assertEquals(2, chirps.size());
+	}
+
+	@Test
+	public void testGetGetUserJsonLinks() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+		Response response = target("/users").path("yoda").queryParam("variant", UserResource.Variant.LINKS).request().accept(MediaType.APPLICATION_JSON).get();
+		Assert.assertEquals(200, response.getStatus());
+		PubUser pubUser = response.readEntity(PubUser.class);
+
+		List<URI> chirps = pubUser.getChirpLinks();
 		Assert.assertEquals(2, chirps.size());
 	}
 
