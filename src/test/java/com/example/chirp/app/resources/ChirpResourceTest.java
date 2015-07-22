@@ -33,6 +33,12 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		Assert.assertEquals("http://localhost:9998/users/yoda", response.getLink("user").getUri().toString());
 		Assert.assertEquals("http://localhost:9998/users/yoda/chirps", response.getLink("chirps").getUri().toString());
+
+		response = target("users").path("whatever").path("chirps").path("wars01").request().get();
+		Assert.assertEquals(200, response.getStatus());
+		PubChirp secondChirp = response.readEntity(PubChirp.class);
+
+		Assert.assertEquals(chirp.getId(), secondChirp.getId());
 	}
 
 	@Test
