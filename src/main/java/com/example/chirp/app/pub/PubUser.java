@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PubUser {
@@ -16,12 +14,6 @@ public class PubUser {
 
 	private final URI self;
 	private final URI chirpsLink;
-
-	@JsonInclude(Include.NON_EMPTY)
-	private final List<PubChirp> chirps;
-
-	@JsonInclude(Include.NON_EMPTY)
-	private final List<URI> chirpLinks;
 
 	public PubUser(URI chirpsLink, URI self, String username, String realname) {
 		this(chirpsLink, self, username, realname, Collections.<PubChirp> emptyList(), Collections.<URI> emptyList());
