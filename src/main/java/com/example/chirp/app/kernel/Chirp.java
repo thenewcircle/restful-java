@@ -81,6 +81,9 @@ public class Chirp {
 		// http://localhost:8080/chirp-app/users/tom
 		URI userLink = uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).build();
 
+		// http://localhost:8080/chirp-app/users/
+		// URI allUsersLink = uriInfo.getBaseUriBuilder().path("users").build();
+
 		return new PubChirp(id.toString(), content, self, chirpsLink, userLink);
 	}
 }
