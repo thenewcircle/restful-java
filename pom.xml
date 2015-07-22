@@ -64,6 +64,11 @@
       <artifactId>jackson-jaxrs-xml-provider</artifactId>
       <version>${jackson.version}</version>
     </dependency>
+	<dependency>
+		<groupId>com.fasterxml.jackson.datatype</groupId>
+		<artifactId>jackson-datatype-joda</artifactId>
+		<version>${jackson.version}</version>
+    </dependency>
 
 	<!-- these one is only required if you want to control the output of and XML document with annotations -->
 	<!--
