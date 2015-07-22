@@ -155,4 +155,15 @@ public class UserResourceTest extends ResourceTestSupport {
 	// target("/users").path("yoda").request().accept("application/avi").get();
 	// Assert.assertEquals(200, response.getStatus());
 	// }
+
+	@Test
+	public void testCreateChirp() {
+		String newMessage = "I don't like Jar Jar Binks.";
+		Entity<String> entity = Entity.entity(newMessage, MediaType.TEXT_PLAIN);
+		Response response = target("/users").path("yoda").path("chirps").request().post(entity);
+		Assert.assertEquals(201, response.getStatus());
+
+		String location = response.getHeaderString("Location");
+		Assert.assertEquals("x", location);
+	}
 }

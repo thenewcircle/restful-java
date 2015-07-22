@@ -33,10 +33,8 @@ public class ChirpResource {
 
 		for (User user : userStore.getUsers()) {
 			for (Chirp chirp : user.getChirps()) {
-				if (chirpId.equals(chirp.getId().toString())) {
-
+				if (chirpId.equals(chirp.getId().getId())) {
 					PubChirp pubChirp = chirp.toPubChirp(uriInfo);
-
 					return Response.ok(pubChirp).link(pubChirp.getUserLink(), "user").link(pubChirp.getChirpsLink(), "chirps").build();
 				}
 			}
