@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -18,6 +19,7 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.kernel.User;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
@@ -43,6 +45,19 @@ public class UserResource {
 	private UriInfo uriInfo;
 
 	public UserResource() {
+	}
+
+	@POST
+	@Path("/{username}/chirps")
+	public Response createChirp(@PathParam("username") String username, String content) {
+
+		User user = userStore.getUser(username);
+		Chirp chirp = user.createChirp(content);
+		String chirpId = chirp.getId().getId();
+		userStore.updateUser(user);
+
+		URI location = uriInfo.getBaseUriBuilder().path("chirps").path(chirpId).build();
+		return Response.created(location).build();
 	}
 
 	// mapps to http://localhost:8080/users/student

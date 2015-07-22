@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStoreUtils;
 
@@ -158,12 +159,20 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	@Test
 	public void testCreateChirp() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+
 		String newMessage = "I don't like Jar Jar Binks.";
 		Entity<String> entity = Entity.entity(newMessage, MediaType.TEXT_PLAIN);
 		Response response = target("/users").path("yoda").path("chirps").request().post(entity);
 		Assert.assertEquals(201, response.getStatus());
 
 		String location = response.getHeaderString("Location");
-		Assert.assertEquals("x", location);
+		location = location.substring(21);
+		// Assert.assertEquals("http://localhost:9998/chirps/1437598712438",
+		// location);
+
+		response = target(location).request().get();
+		PubChirp chirp = response.readEntity(PubChirp.class);
+		Assert.assertEquals(newMessage, chirp.getContent());
 	}
 }
