@@ -14,8 +14,19 @@ public class CreateUserRequest {
 
 	private @PathParam("lastName") String lastName;
 	private @FormParam("firstName") String firstName;
+	private java.sql.Timestamp timeOfBirth;
 
 	private @FormParam("realname") String realname;
+
+	// @FormParam("timeOfBith")
+	// public void setTimeOfBirth(String value) {
+	// this.timeOfBirth = DateUtil.toTimeStamp(value);
+	// }
+
+	// @FormParam("age")
+	// public void setAge(String value) {
+	// int age = Integer.valueOf(value);
+	// }
 
 	public UriInfo getUriInfo() {
 		return uriInfo;

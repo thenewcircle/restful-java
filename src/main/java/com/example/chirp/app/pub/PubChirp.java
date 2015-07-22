@@ -9,6 +9,7 @@ public class PubChirp {
 
 	private final String id;
 	private final String content;
+	// private final java.util.Date createdAt;
 
 	private final URI self;
 	private final URI chirpsLink;
