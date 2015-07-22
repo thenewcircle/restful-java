@@ -1,9 +1,12 @@
 package com.example.chirp.app.kernel;
 
+import java.net.URI;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
@@ -102,7 +105,10 @@ public class User {
 		return "User [username=" + username + "]";
 	}
 
-	public PubUser toPubUser() {
-		return new PubUser(username, realname);
+	public PubUser toPubUser(UriInfo uriInfo) {
+		URI selfLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
+		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
+
+		return new PubUser(chirpsLink, selfLink, username, realname);
 	}
 }

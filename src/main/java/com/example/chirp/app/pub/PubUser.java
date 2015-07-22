@@ -1,20 +1,33 @@
 package com.example.chirp.app.pub;
 
+import java.net.URI;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PubUser {
 
-	private String username;
-	private String realname;
+	private final String username;
+	private final String realname;
 
-	private PubUser() {
-	}
+	private final URI self;
+	private final URI chirpsLink;
 
 	@JsonCreator
-	public PubUser(@JsonProperty("username") String username, @JsonProperty("realname") String realname) {
+	public PubUser(@JsonProperty("chirpsLInk") URI chirpsLink, @JsonProperty("self") URI self, @JsonProperty("username") String username,
+			@JsonProperty("realname") String realname) {
+		this.self = self;
+		this.chirpsLink = chirpsLink;
 		this.username = username;
 		this.realname = realname;
+	}
+
+	public URI getChirpsLink() {
+		return chirpsLink;
+	}
+
+	public URI getSelf() {
+		return self;
 	}
 
 	public String getUsername() {

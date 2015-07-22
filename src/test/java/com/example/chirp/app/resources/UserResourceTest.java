@@ -1,7 +1,10 @@
 package com.example.chirp.app.resources;
 
+import java.net.URI;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -64,6 +67,15 @@ public class UserResourceTest extends ResourceTestSupport {
 		PubUser pubUser = response.readEntity(PubUser.class);
 		Assert.assertEquals("yoda", pubUser.getUsername());
 		Assert.assertEquals("Master Yoda", pubUser.getRealname());
+
+		URI selfLink = URI.create("http://localhost:9998/users/yoda");
+		Assert.assertEquals(selfLink, pubUser.getSelf());
+
+		URI chirpsLink = URI.create("http://localhost:9998/users/yoda/chirps");
+		Assert.assertEquals(chirpsLink, pubUser.getChirpsLink());
+
+		Link link = response.getLink("chirps");
+		Assert.assertEquals(chirpsLink, link.getUri());
 	}
 
 	@Test

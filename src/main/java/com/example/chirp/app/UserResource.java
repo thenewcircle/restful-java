@@ -79,7 +79,7 @@ public class UserResource {
 	@Path("/{username}")
 	public Response getPubUser(@PathParam("username") String username) {
 		User user = userStore.getUser(username);
-		PubUser pubUser = user.toPubUser();
-		return Response.ok(pubUser).build();
+		PubUser pubUser = user.toPubUser(uriInfo);
+		return Response.ok(pubUser).link(pubUser.getChirpsLink(), "chirps").build();
 	}
 }
