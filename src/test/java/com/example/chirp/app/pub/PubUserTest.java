@@ -17,7 +17,15 @@ public class PubUserTest {
 	public void testTranslationJson() throws Exception {
 		URI selfLink = URI.create("http://whatever");
 		URI chirpsLink = URI.create("http://whatever");
+
 		PubUser oldUser = new PubUser(chirpsLink, selfLink, "mickey.mouse", "Mickey Mouse");
+		// PubUser newUser = oldUser.withUsername("Mickey Mouse");
+
+		// PubUser newUser = new PubUser(oldUser.getChirpsLink(),
+		// oldUser.getSelf(),
+		// oldUser.getUsername(),
+		// "Mickey Mouse");
+
 		String json = objectMapper.writeValueAsString(oldUser);
 		PubUser newUser = objectMapper.readValue(json, PubUser.class);
 

@@ -16,6 +16,7 @@ public class PubUser {
 	@JsonCreator
 	public PubUser(@JsonProperty("chirpsLInk") URI chirpsLink, @JsonProperty("self") URI self, @JsonProperty("username") String username,
 			@JsonProperty("realname") String realname) {
+
 		this.self = self;
 		this.chirpsLink = chirpsLink;
 		this.username = username;

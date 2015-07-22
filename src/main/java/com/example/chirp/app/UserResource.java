@@ -74,8 +74,23 @@ public class UserResource {
 		return Response.created(uri).link(chirpsLink, "chirps").build();
 	}
 
+	// @GET
+	// @Produces({ MediaType.TEXT_PLAIN })
+	// @Path("/{username}")
+	// public Response getPubUserName(@PathParam("username") String username) {
+	// User user = userStore.getUser(username);
+	// PubUser pubUser = user.toPubUser(uriInfo);
+	// return Response.ok(pubUser.getRealname())
+	// .link(pubUser.getChirpsLink(), "chirps")
+	// .build();
+	// }
+
+	// private static final String[] PRODUCES = new String[]{};
+
 	@GET
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	// @Produces({ "application/vnd.vsp;version=1+json",
+	// "application/vnd.vsp;version=1+json" })
 	@Path("/{username}")
 	public Response getPubUser(@PathParam("username") String username) {
 		User user = userStore.getUser(username);
