@@ -17,13 +17,19 @@ public class ChirpResourceTest extends ResourceTestSupport {
 		PubChirp chirp = response.readEntity(PubChirp.class);
 
 		Assert.assertEquals("wars01", chirp.getId());
-		Assert.assertEquals("Do or do not. There is no try", chirp.getContent());
+		Assert.assertEquals("Do or do not. There is no try.", chirp.getContent());
 
-		Assert.assertEquals("x", chirp.getSelf());
-		Assert.assertEquals("x", chirp.getUserLink());
-		Assert.assertEquals("x", chirp.getChirpsLink());
+		Assert.assertEquals("http://localhost:9998/chirps/wars01", chirp.getSelf().toString());
+		Assert.assertEquals("http://localhost:9998/users/yoda", chirp.getUserLink().toString());
+		Assert.assertEquals("http://localhost:9998/users/yoda/chirps", chirp.getChirpsLink().toString());
 
-		Assert.assertEquals("x", response.getLink("user"));
-		Assert.assertEquals("x", response.getLink("chirps"));
+		Assert.assertEquals("http://localhost:9998/users/yoda", response.getLink("user").getUri().toString());
+		Assert.assertEquals("http://localhost:9998/users/yoda/chirps", response.getLink("chirps").getUri().toString());
+	}
+
+	@Test
+	public void testGetBadChirp() {
+		Response response = target("chirps").path("99999").request().get();
+		Assert.assertEquals(404, response.getStatus());
 	}
 }
