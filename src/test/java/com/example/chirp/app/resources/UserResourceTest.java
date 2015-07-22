@@ -1,6 +1,7 @@
 package com.example.chirp.app.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
@@ -12,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.UserResource;
 import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStoreUtils;
@@ -58,7 +60,20 @@ public class UserResourceTest extends ResourceTestSupport {
 	public void testGetGetUserJson() {
 		UserStoreUtils.resetAndSeedRepository(getUserStore());
 
-		Response response = target("/users").path("yoda").request().accept(MediaType.APPLICATION_JSON).get();
+		// "standard" no chirps
+		// http://localhost:8080/chirp-app/users/yoda
+
+		// "full" with all
+		// http://localhost:8080/chirp-app/users/yoda?variant=full
+		// http://localhost:8080/chirp-app/users/yoda (header: variant=full)
+
+		// Header Link to alter(stand)
+		// Header Link to alter(full)
+		// Header Link to alter(id)
+		// Header Link to alter(links)
+
+		Response response = target("/users").path("yoda").queryParam("variant", UserResource.Variant.STANDARD).request().accept(MediaType.APPLICATION_JSON)
+				.get();
 		Assert.assertEquals(200, response.getStatus());
 
 		// String text = response.readEntity(String.class);
@@ -77,6 +92,20 @@ public class UserResourceTest extends ResourceTestSupport {
 
 		Link link = response.getLink("chirps");
 		Assert.assertEquals(chirpsLink, link.getUri());
+
+		List<PubChirp> chirps = pubUser.getChirps();
+		Assert.assertEquals(0, chirps.size());
+	}
+
+	@Test
+	public void testGetGetUserJsonFull() {
+		UserStoreUtils.resetAndSeedRepository(getUserStore());
+		Response response = target("/users").path("yoda").queryParam("variant", UserResource.Variant.FULL).request().accept(MediaType.APPLICATION_JSON).get();
+		Assert.assertEquals(200, response.getStatus());
+		PubUser pubUser = response.readEntity(PubUser.class);
+
+		List<PubChirp> chirps = pubUser.getChirps();
+		Assert.assertEquals(2, chirps.size());
 	}
 
 	@Test

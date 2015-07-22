@@ -34,16 +34,17 @@ public class PubUserTest {
 		Assert.assertEquals(oldUser.getSelf(), newUser.getSelf());
 	}
 
-	@Test
-	public void testTranslationXml() throws Exception {
-		URI selfLink = URI.create("http://whatever");
-		URI chirpsLink = URI.create("http://whatever");
-		PubUser oldUser = new PubUser(chirpsLink, selfLink, "mickey.mouse", "Mickey Mouse");
-		String json = xmlMapper.writeValueAsString(oldUser);
-		PubUser newUser = xmlMapper.readValue(json, PubUser.class);
-
-		Assert.assertEquals(oldUser.getUsername(), newUser.getUsername());
-		Assert.assertEquals(oldUser.getRealname(), newUser.getRealname());
-		Assert.assertEquals(oldUser.getSelf(), newUser.getSelf());
-	}
+	// @Test
+	// public void testTranslationXml() throws Exception {
+	// URI selfLink = URI.create("http://whatever");
+	// URI chirpsLink = URI.create("http://whatever");
+	// PubUser oldUser = new PubUser(chirpsLink, selfLink, "mickey.mouse",
+	// "Mickey Mouse");
+	// String json = xmlMapper.writeValueAsString(oldUser);
+	// PubUser newUser = xmlMapper.readValue(json, PubUser.class);
+	//
+	// Assert.assertEquals(oldUser.getUsername(), newUser.getUsername());
+	// Assert.assertEquals(oldUser.getRealname(), newUser.getRealname());
+	// Assert.assertEquals(oldUser.getSelf(), newUser.getSelf());
+	// }
 }

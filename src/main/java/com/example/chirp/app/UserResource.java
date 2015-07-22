@@ -3,11 +3,13 @@ package com.example.chirp.app;
 import java.net.URI;
 
 import javax.ws.rs.BeanParam;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +27,10 @@ import com.sun.research.ws.wadl.Application;
 
 @Path("/")
 public class UserResource {
+
+	public static enum Variant {
+		STANDARD, FULL
+	}
 
 	private static final Logger log = LoggerFactory.getLogger(ChirpAppGrizzlyMain.class);
 
@@ -98,9 +104,14 @@ public class UserResource {
 	// @Produces({ "application/vnd.vsp;version=1+json",
 	// "application/vnd.vsp;version=1+json" })
 	@Path("/users/{username}")
-	public Response getPubUser(@PathParam("username") String username) {
+	public Response getPubUser(@PathParam("username") String username, @DefaultValue("STANDARD") @QueryParam("variant") String variantString) {
+
+		Variant variant;
+
 		User user = userStore.getUser(username);
-		PubUser pubUser = user.toPubUser(uriInfo);
+
+		PubUser pubUser = user.toPubUser(uriInfo, variantString);
+
 		return Response.ok(pubUser).link(pubUser.getChirpsLink(), "chirps").build();
 	}
 }
