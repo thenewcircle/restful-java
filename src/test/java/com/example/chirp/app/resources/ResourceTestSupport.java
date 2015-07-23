@@ -18,10 +18,10 @@ public abstract class ResourceTestSupport extends JerseyTest {
 	@Override
 	protected Application configure() {
 		LogbackUtil.initLogback(Level.WARN);
+
 		ChirpApplication application = new ChirpApplication();
 		ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
-		resourceConfig.packages("com.example.chirp.app");
-		return resourceConfig;
+		return resourceConfig.packages("com.example.chirp.app");
 	}
 
 	@Override
