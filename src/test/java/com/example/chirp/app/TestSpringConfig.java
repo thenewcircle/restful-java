@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.example.chirp.app.stores.InMemoryUserStore;
+import com.example.chirp.app.stores.UserStore;
+
 @Component
 @Profile("test")
 @Configuration
@@ -30,4 +33,14 @@ public class TestSpringConfig {
     map.put(".avi",  "application/avi");
     return map;
   }
+
+
+  @Bean
+  public UserStore getWhatever() {
+	  return new InMemoryUserStore(true);
+  }
 }
+
+
+
+

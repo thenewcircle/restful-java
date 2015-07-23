@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.kernel.Chirp;
@@ -31,7 +32,8 @@ public class ChirpResource {
 	@Context
 	private UriInfo uriInfo;
 
-	private UserStore userStore = ChirpApplication.USER_STORE;
+	@Autowired
+	private UserStore userStore;
 
 	@GET
 	@Path("/users/{username}/chirps")

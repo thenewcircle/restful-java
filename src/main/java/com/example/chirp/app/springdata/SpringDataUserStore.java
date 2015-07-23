@@ -4,22 +4,25 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.kernel.User;
 import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
 import com.example.chirp.app.stores.UserStore;
 import com.example.chirp.app.stores.UserStoreUtils;
 
-@Component
 public class SpringDataUserStore implements UserStore {
+
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
   private UserRepository userRepository;
 
   @Autowired
   public SpringDataUserStore(UserRepository userRepository) {
-    this.userRepository = userRepository;
+    log.warn("Created SpringDataUserStore");
+	  this.userRepository = userRepository;
   }
 
   public void setSeedDatabase(boolean seedDatabase) {

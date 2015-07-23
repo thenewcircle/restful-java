@@ -31,7 +31,7 @@ public class InMemoryUserStore implements UserStore {
 
 	public InMemoryUserStore(boolean seedDatabase) {
 		users = new ConcurrentHashMap<>();
-		logger.trace("Created new UserRepository with new Users Map");
+		logger.warn("Created new UserRepository with new Users Map");
 
 		if (seedDatabase) {
 			UserStoreUtils.resetAndSeedRepository(this);

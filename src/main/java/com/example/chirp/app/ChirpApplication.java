@@ -6,14 +6,10 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.example.chirp.app.stores.InMemoryUserStore;
-import com.example.chirp.app.stores.UserStore;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 @ApplicationPath("/")
 public class ChirpApplication extends Application {
-
-	public static final UserStore USER_STORE = new InMemoryUserStore(true);
 
 	private Set<Class<?>> classes = new HashSet<>();
 

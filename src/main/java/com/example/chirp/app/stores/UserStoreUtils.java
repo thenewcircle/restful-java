@@ -6,7 +6,7 @@ public abstract class UserStoreUtils {
 
 	public static void resetAndSeedRepository(UserStore userStore) {
 
-		userStore.clear();
+		// userStore.clear();
 
 		userStore.createUser("maul", "Darth Maul");
 		userStore.createUser("luke", "Luke Skywaler");

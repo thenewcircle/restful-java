@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.kernel.PubUtils;
@@ -37,7 +38,8 @@ public class UserResource {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	private final UserStore userStore = ChirpApplication.USER_STORE;
+	@Autowired
+	private UserStore userStore;
 
 	@Context
 	private Application application;

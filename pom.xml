@@ -253,11 +253,18 @@
       <artifactId>hibernate-entitymanager</artifactId>
       <version>${hibernate.version}</version>
     </dependency>
+
     <dependency>
       <groupId>hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <version>1.8.0.7</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.derby</groupId>
+		<artifactId>derby</artifactId>
+		<version>10.11.1.1</version>
+   </dependency>
 
     <dependency>
       <groupId>javax.el</groupId>

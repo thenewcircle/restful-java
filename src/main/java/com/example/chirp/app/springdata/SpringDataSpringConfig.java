@@ -32,7 +32,7 @@ class SpringDataSpringConfig {
   @Bean
   public DataSource dataSource() {
     EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    return builder.setType(EmbeddedDatabaseType.HSQL).build();
+    return builder.setType(EmbeddedDatabaseType.DERBY).build();
   }
 
   @Bean
@@ -43,7 +43,7 @@ class SpringDataSpringConfig {
 
     LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
     factory.setJpaVendorAdapter(vendorAdapter);
-    factory.setPackagesToScan("com.example.chirp.spring.data");
+    factory.setPackagesToScan("com.example.chirp.app.springdata");
     factory.setDataSource(dataSource());
     factory.afterPropertiesSet();
 
