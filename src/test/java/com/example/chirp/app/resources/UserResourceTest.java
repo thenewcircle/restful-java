@@ -161,12 +161,12 @@ public class UserResourceTest extends ResourceTestSupport {
 		String username = "mickey mouse";
 		Form user = new Form().param("realname", "Bob Student");
 
-		Response response = target("/users").path(username).request().put(Entity.form(user));
+		Response response = target("/users").path(username).request().accept(MediaType.APPLICATION_JSON).put(Entity.form(user));
 		Assert.assertEquals(400, response.getStatus());
 
 		ExceptionInfo info = response.readEntity(ExceptionInfo.class);
 		Assert.assertEquals(400, info.getStatus());
-		Assert.assertEquals("That sucked.", info.getMessage());
+		Assert.assertEquals("The username cannot contain any spaces.", info.getMessage());
 	}
 
 	@Test

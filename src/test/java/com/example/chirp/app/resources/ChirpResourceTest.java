@@ -2,6 +2,7 @@ package com.example.chirp.app.resources;
 
 import java.net.URI;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
@@ -25,7 +26,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		// *********************************************
 		// Check with default values (no limit or offset)
-		Response response = target("users").path("jarjar").path("chirps").request().get();
+		Response response = target("users").path("jarjar").path("chirps").request().accept(MediaType.APPLICATION_JSON).get();
 		PubChirps chirps = response.readEntity(PubChirps.class);
 
 		Assert.assertEquals(4, chirps.getChirps().size());
@@ -42,7 +43,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		// *********************************************
 		// Test with a limit of 8
-		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).request().get();
+		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).request().accept(MediaType.APPLICATION_JSON).get();
 		chirps = response.readEntity(PubChirps.class);
 
 		Assert.assertEquals(8, chirps.getChirps().size());
@@ -59,7 +60,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		// *********************************************
 		// Test with a limit of 8, offset 8
-		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "8").request().get();
+		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "8").request().accept(MediaType.APPLICATION_JSON).get();
 		chirps = response.readEntity(PubChirps.class);
 
 		Assert.assertEquals(8, chirps.getChirps().size());
@@ -76,7 +77,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		// *********************************************
 		// Test with a limit of 8, offset 8
-		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "8").request().get();
+		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "8").request().accept(MediaType.APPLICATION_JSON).get();
 		chirps = response.readEntity(PubChirps.class);
 
 		Assert.assertEquals(8, chirps.getChirps().size());
@@ -93,7 +94,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		// *********************************************
 		// Test with a limit of 8, offset 16
-		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "16").request().get();
+		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "16").request().accept(MediaType.APPLICATION_JSON).get();
 		chirps = response.readEntity(PubChirps.class);
 
 		Assert.assertEquals(8, chirps.getChirps().size());
@@ -110,7 +111,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 
 		// *********************************************
 		// Test with a limit of 8, offset 24
-		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "24").request().get();
+		response = target("users").path("jarjar").path("chirps").queryParam("limit", 8).queryParam("offset", "24").request().accept(MediaType.APPLICATION_JSON).get();
 		chirps = response.readEntity(PubChirps.class);
 
 		Assert.assertNull(chirps.getChirps());
@@ -143,7 +144,7 @@ public class ChirpResourceTest extends ResourceTestSupport {
 		Assert.assertEquals("http://localhost:9998/users/yoda", response.getLink("user").getUri().toString());
 		Assert.assertEquals("http://localhost:9998/users/yoda/chirps", response.getLink("chirps").getUri().toString());
 
-		response = target("users").path("whatever").path("chirps").path("wars01").request().get();
+		response = target("users").path("whatever").path("chirps").path("wars01").request().accept(MediaType.APPLICATION_JSON).get();
 		Assert.assertEquals(200, response.getStatus());
 		PubChirp secondChirp = response.readEntity(PubChirp.class);
 
