@@ -18,20 +18,6 @@ public class ChirpApplication extends Application {
 	private Set<Class<?>> classes = new HashSet<>();
 
 	public ChirpApplication() {
-
-		classes.add(RootResource.class);
-		classes.add(GreetingsResource.class);
-		classes.add(UserResource.class);
-		
-		classes.add(DefaultExceptionMapper.class);
-		classes.add(WebApplicationExceptionMapper.class);
-		classes.add(DuplicateEntityExceptionMapper.class);
-		classes.add(NoSuchEntityExceptionMapper.class);
-		
-		classes.add(ChirpResource.class);
-		classes.add(ToStringMessageBodyWriter.class);
-		classes.add(FileExtensionRequestFilter.class);
-
 		classes.add(JacksonXMLProvider.class);
 	}
 

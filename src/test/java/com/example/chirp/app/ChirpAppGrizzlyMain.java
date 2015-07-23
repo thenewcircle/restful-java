@@ -59,6 +59,7 @@ public class ChirpAppGrizzlyMain {
 	public ChirpAppGrizzlyMain() {
 		ChirpApplication application = new ChirpApplication();
 		resourceConfig = ResourceConfig.forApplication(application);
+		resourceConfig.packages("com.example.chirp.app");
 	}
 
 	public ResourceConfig getResourceConfig() {
