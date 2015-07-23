@@ -1,10 +1,10 @@
 package com.example.chirp.app.pub;
 
 import java.net.URI;
-import java.util.Collections;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PubUser {
@@ -15,28 +15,26 @@ public class PubUser {
 	private final URI self;
 	private final URI chirpsLink;
 
+	@JsonInclude(Include.NON_EMPTY)
+	private final PubChirps chirps;
+
 	public PubUser(URI chirpsLink, URI self, String username, String realname) {
-		this(chirpsLink, self, username, realname, Collections.<PubChirp> emptyList(), Collections.<URI> emptyList());
+		this(chirpsLink, self, username, realname, null);
 	}
 
 	@JsonCreator
 	public PubUser(@JsonProperty("chirpsLInk") URI chirpsLink, @JsonProperty("self") URI self, @JsonProperty("username") String username,
-			@JsonProperty("realname") String realname, @JsonProperty("chirps") List<PubChirp> chirps, @JsonProperty("chirpLinks") List<URI> chirpLinks) {
+			@JsonProperty("realname") String realname, @JsonProperty("chirps") PubChirps chirps) {
 
 		this.self = self;
 		this.chirpsLink = chirpsLink;
 		this.username = username;
 		this.realname = realname;
 
-		this.chirps = Collections.unmodifiableList(chirps);
-		this.chirpLinks = Collections.unmodifiableList(chirpLinks);
+		this.chirps = chirps;
 	}
 
-	public List<URI> getChirpLinks() {
-		return chirpLinks;
-	}
-
-	public List<PubChirp> getChirps() {
+	public PubChirps getChirps() {
 		return chirps;
 	}
 

@@ -20,6 +20,7 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.example.chirp.app.kernel.PubUtils;
 import com.example.chirp.app.kernel.User;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
@@ -104,13 +105,16 @@ public class UserResource {
 	// @Produces({ "application/vnd.vsp;version=1+json",
 	// "application/vnd.vsp;version=1+json" })
 	@Path("/users/{username}")
-	public Response getPubUser(@PathParam("username") String username, @DefaultValue("STANDARD") @QueryParam("variant") String variantString) {
+	public Response getPubUser(@PathParam("username") String username, 
+			                   @DefaultValue("STANDARD") @QueryParam("variant") String variantString,
+			                   @QueryParam("offset") String offsetString,
+			                   @QueryParam("limit") String limitString) {
 
 		Variant variant;
 
 		User user = userStore.getUser(username);
 
-		PubUser pubUser = user.toPubUser(uriInfo, variantString);
+		PubUser pubUser = PubUtils.toPubUser(user, uriInfo, variantString, offsetString, limitString);
 
 		return Response.ok(pubUser).link(pubUser.getChirpsLink(), "chirps").build();
 	}

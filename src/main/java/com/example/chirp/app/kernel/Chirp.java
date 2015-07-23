@@ -1,10 +1,5 @@
 package com.example.chirp.app.kernel;
 
-import java.net.URI;
-
-import javax.ws.rs.core.UriInfo;
-
-import com.example.chirp.app.pub.PubChirp;
 
 /**
  * Entity representing a "chirp" posted by a user. To properly create a Chirp,
@@ -68,22 +63,5 @@ public class Chirp {
 	@Override
 	public String toString() {
 		return "Chirp [id=" + id + ", content=" + content + "]";
-	}
-
-	public PubChirp toPubChirp(UriInfo uriInfo) {
-
-		// http://localhost:8080/chirp-app/chrips/123
-		URI self = uriInfo.getBaseUriBuilder().path("chirps").path(id.toString()).build();
-
-		// http://localhost:8080/chirp-app/users/tom/chirps
-		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).path("chirps").build();
-
-		// http://localhost:8080/chirp-app/users/tom
-		URI userLink = uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).build();
-
-		// http://localhost:8080/chirp-app/users/
-		// URI allUsersLink = uriInfo.getBaseUriBuilder().path("users").build();
-
-		return new PubChirp(id.toString(), content, self, chirpsLink, userLink);
 	}
 }

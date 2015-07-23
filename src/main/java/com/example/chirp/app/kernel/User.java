@@ -1,22 +1,12 @@
 package com.example.chirp.app.kernel;
 
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.core.UriInfo;
-
-import com.example.chirp.app.UserResource;
-import com.example.chirp.app.UserResource.Variant;
 import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
-import com.example.chirp.app.pub.PubChirp;
-import com.example.chirp.app.pub.PubUser;
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
@@ -109,40 +99,5 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [username=" + username + "]";
-	}
-
-	public PubUser toPubUser(UriInfo uriInfo, String variantString) {
-
-		Variant variant;
-
-		try {
-			if (variantString == null || variantString.isEmpty()) {
-				variant = Variant.STANDARD;
-			} else {
-				variant = Variant.valueOf(variantString);
-			}
-		} catch (IllegalArgumentException e) {
-			String msg = String.format("The value %s is not a valid Variant.", variantString);
-			throw new BadRequestException(msg, e);
-		}
-
-		URI selfLink = uriInfo.getBaseUriBuilder().path("users").path(username).build();
-		URI chirpsLink = uriInfo.getBaseUriBuilder().path("users").path(username).path("chirps").build();
-
-		List<URI> chirpLinks = new ArrayList<>();
-		List<PubChirp> pubChirps = new ArrayList<>();
-
-		for (Chirp chirp : this.getChirps()) {
-			if (UserResource.Variant.FULL == variant) {
-				PubChirp pubChirp = chirp.toPubChirp(uriInfo);
-				pubChirps.add(pubChirp);
-
-			} else if (UserResource.Variant.LINKS == variant) {
-				PubChirp pubChirp = chirp.toPubChirp(uriInfo);
-				chirpLinks.add(pubChirp.getSelf());
-			}
-		}
-
-		return new PubUser(chirpsLink, selfLink, username, realname, pubChirps, chirpLinks);
 	}
 }

@@ -3,8 +3,10 @@ package com.example.chirp.app.pub;
 import java.net.URI;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PubChirps {
 
@@ -21,6 +23,62 @@ public class PubChirps {
 
 	@JsonInclude(Include.NON_EMPTY)
 	private final List<PubChirp> chirps;
+
+	@JsonInclude(Include.NON_EMPTY)
+	private final List<URI> links;
+
+	@JsonCreator
+	public PubChirps(@JsonProperty("self") URI self, 
+			         @JsonProperty("next") URI next, 
+			         @JsonProperty("previous") URI previous, 
+			         @JsonProperty("first") URI first, 
+			         @JsonProperty("limit") int limit, 
+			         @JsonProperty("offset") int offset, 
+			         @JsonProperty("chirps") List<PubChirp> chirps, 
+			         @JsonProperty("links") List<URI> links) {
+
+		this.self = self;
+		this.next = next;
+		this.previous = previous;
+		this.first = first;
+		this.limit = limit;
+		this.offset = offset;
+		this.chirps = chirps;
+		this.links = links;
+	}
+
+	public URI getSelf() {
+		return self;
+	}
+
+	public URI getNext() {
+		return next;
+	}
+
+	public URI getPrevious() {
+		return previous;
+	}
+
+	public URI getFirst() {
+		return first;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public List<PubChirp> getChirps() {
+		return chirps;
+	}
+
+	public List<URI> getLinks() {
+		return links;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -82,52 +140,4 @@ public class PubChirps {
 			return false;
 		return true;
 	}
-
-	@JsonInclude(Include.NON_EMPTY)
-	private final List<URI> links;
-
-	public PubChirps(URI self, URI next, URI previous, URI first, int limit, int offset, List<PubChirp> chirps, List<URI> links) {
-		super();
-		this.self = self;
-		this.next = next;
-		this.previous = previous;
-		this.first = first;
-		this.limit = limit;
-		this.offset = offset;
-		this.chirps = chirps;
-		this.links = chirpLinks;
-	}
-
-	public URI getSelf() {
-		return self;
-	}
-
-	public URI getNext() {
-		return next;
-	}
-
-	public URI getPrevious() {
-		return previous;
-	}
-
-	public URI getFirst() {
-		return first;
-	}
-
-	public int getLimit() {
-		return limit;
-	}
-
-	public int getOffset() {
-		return offset;
-	}
-
-	public List<PubChirp> getChirps() {
-		return chirps;
-	}
-
-	public List<URI> getLinks() {
-		return links;
-	}
-
 }
