@@ -22,5 +22,5 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
 		String message = exception.getMessage() != null ?  exception.getMessage() : exception.getClass().getName();
 		ExceptionInfo info = new ExceptionInfo(status, message);
 		return Response.status(status).entity(info).build();
-}
+	}
 }

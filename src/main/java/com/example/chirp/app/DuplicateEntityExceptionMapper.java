@@ -21,5 +21,5 @@ public class DuplicateEntityExceptionMapper implements ExceptionMapper<Duplicate
 		String message = exception.getMessage() != null ?  exception.getMessage() : exception.getClass().getName();
 		ExceptionInfo info = new ExceptionInfo(403, message);
 		return Response.status(403).entity(info).build();
-}
+	}
 }
