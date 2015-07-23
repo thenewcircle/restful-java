@@ -1,16 +1,15 @@
 package com.example.chirp.app;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Priority;
+import javax.annotation.Resource;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.PreMatching;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
@@ -22,13 +21,10 @@ import org.springframework.stereotype.Component;
 @Priority(Priorities.HEADER_DECORATOR)
 public class FileExtensionRequestFilter implements ContainerRequestFilter {
 
-	public final Map<String, String> extMediaTypes = new HashMap<>();
+	@Resource(name="fileExtensionMap")
+	public Map<String, String> extMediaTypes;
 
 	public FileExtensionRequestFilter() {
-		extMediaTypes.put(".txt", MediaType.TEXT_PLAIN);
-		extMediaTypes.put(".json", MediaType.APPLICATION_JSON);
-		extMediaTypes.put(".xml", MediaType.APPLICATION_XML);
-		extMediaTypes.put(".avi", "application/avi");
 	}
 
 	@Override

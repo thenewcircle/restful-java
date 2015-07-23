@@ -27,7 +27,7 @@ public abstract class ResourceTestSupport extends JerseyTest {
 		resourceConfig.packages("com.example.chirp.app");
 
 		// Indicates to Jersey the location for the spring-config file.
-		return resourceConfig.property("contextConfigLocation", "classpath:/chirp-app-spring.xml");	
+		return resourceConfig.property("contextConfigLocation", "classpath:/chirp-test-spring.xml");	
 	}
 
 	@Override
