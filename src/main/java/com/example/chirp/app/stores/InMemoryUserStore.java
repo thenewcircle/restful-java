@@ -47,7 +47,7 @@ public class InMemoryUserStore implements UserStore {
 
 	public final User createUser(String username, String fullName) {
 		if (users.containsKey(username)) {
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException(User.class, username);
 		}
 
 		User user = new User(username, fullName);
@@ -66,14 +66,14 @@ public class InMemoryUserStore implements UserStore {
 	public final User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(User.class, username);
 
 		return user;
 	}
 
 	public final void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(User.class, username);
 	}
 
 	public final int createBulkDeletion() {
@@ -85,7 +85,7 @@ public class InMemoryUserStore implements UserStore {
 		try {
 			bulkDeletions.get(id).add(getUser(username));
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(User.class, username);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class InMemoryUserStore implements UserStore {
 		try {
 			bulkDeletions.set(id, null);
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(Set.class, id);
 		}
 	}
 
@@ -111,7 +111,7 @@ public class InMemoryUserStore implements UserStore {
 			bulkDeletions.set(id, null);
 			return true;
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(Set.class, id);
 		}
 	}
 }

@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.example.chirp.app.UserResource;
+import com.example.chirp.app.pub.ExceptionInfo;
 import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStoreUtils;
@@ -146,12 +147,13 @@ public class UserResourceTest extends ResourceTestSupport {
 	}
 
 	@Test
-	public void testGetWrongUser() {
+	public void testGetWrongUser() throws Exception {
 		Response response = target("users").path("mickey.mouse").request().get();
 		Assert.assertEquals(404, response.getStatus());
 
-		String msg = response.readEntity(String.class);
-		Assert.assertEquals("This entity does not exist", msg);
+		ExceptionInfo info = response.readEntity(ExceptionInfo.class);
+		Assert.assertEquals(404, info.getStatus());
+		Assert.assertEquals("User \"mickey.mouse\" was not found.", info.getMessage());
 	}
 
 	@Test
@@ -160,7 +162,11 @@ public class UserResourceTest extends ResourceTestSupport {
 		Form user = new Form().param("realname", "Bob Student");
 
 		Response response = target("/users").path(username).request().put(Entity.form(user));
-		Assert.assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), response.getStatus());
+		Assert.assertEquals(400, response.getStatus());
+
+		ExceptionInfo info = response.readEntity(ExceptionInfo.class);
+		Assert.assertEquals(400, info.getStatus());
+		Assert.assertEquals("That sucked.", info.getMessage());
 	}
 
 	@Test

@@ -33,7 +33,7 @@ public class UserResource {
 		STANDARD, FULL, LINKS
 	}
 
-	private static final Logger log = LoggerFactory.getLogger(ChirpAppGrizzlyMain.class);
+	private final Logger log = LoggerFactory.getLogger(getClass());
 
 	private final UserStore userStore = ChirpApplication.USER_STORE;
 
