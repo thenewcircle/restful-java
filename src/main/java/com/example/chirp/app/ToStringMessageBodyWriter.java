@@ -11,8 +11,11 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import org.springframework.stereotype.Component;
+
 import com.example.chirp.app.pub.PubUser;
 
+@Component
 @Provider
 public class ToStringMessageBodyWriter implements MessageBodyWriter {
 

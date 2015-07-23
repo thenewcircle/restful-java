@@ -57,10 +57,17 @@ public class ChirpAppGrizzlyMain {
 	}
 
 	public ChirpAppGrizzlyMain() {
+		// This configures Spring to use the "test" profile.
+		System.getProperties().setProperty("spring.profiles.active", "live");
+		
 		ChirpApplication application = new ChirpApplication();
 		resourceConfig = ResourceConfig.forApplication(application);
 		resourceConfig.packages("com.example.chirp.app");
-	}
+		
+		
+		// Indicates to Jersey the location for the spring-config file.
+		resourceConfig.property("contextConfigLocation", "classpath:/chirp-app-spring.xml");	
+  }
 
 	public ResourceConfig getResourceConfig() {
 		return resourceConfig;

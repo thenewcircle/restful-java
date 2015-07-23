@@ -11,7 +11,6 @@ public class ExceptionInfo {
 	@JsonCreator
 	public ExceptionInfo(@JsonProperty("status") int status, 
 			             @JsonProperty("message") String message) {
-		super();
 		this.status = status;
 		this.message = message;
 	}

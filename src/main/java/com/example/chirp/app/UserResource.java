@@ -19,6 +19,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.kernel.PubUtils;
 import com.example.chirp.app.kernel.User;
@@ -26,6 +27,7 @@ import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
 import com.sun.research.ws.wadl.Application;
 
+@Component
 @Path("/")
 public class UserResource {
 

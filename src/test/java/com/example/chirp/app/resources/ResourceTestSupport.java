@@ -19,9 +19,15 @@ public abstract class ResourceTestSupport extends JerseyTest {
 	protected Application configure() {
 		LogbackUtil.initLogback(Level.WARN);
 
+		// This configures Spring to use the "test" profile.
+		System.getProperties().setProperty("spring.profiles.active", "test");
+
 		ChirpApplication application = new ChirpApplication();
 		ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
-		return resourceConfig.packages("com.example.chirp.app");
+		resourceConfig.packages("com.example.chirp.app");
+
+		// Indicates to Jersey the location for the spring-config file.
+		return resourceConfig.property("contextConfigLocation", "classpath:/chirp-app-spring.xml");	
 	}
 
 	@Override

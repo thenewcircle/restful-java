@@ -6,10 +6,12 @@ import javax.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.app.pub.ExceptionInfo;
 
+@Component
 @Provider
 public class DuplicateEntityExceptionMapper implements ExceptionMapper<DuplicateEntityException> {
 

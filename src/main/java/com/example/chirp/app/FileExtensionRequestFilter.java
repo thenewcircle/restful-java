@@ -14,6 +14,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
+import org.springframework.stereotype.Component;
+
+@Component
 @Provider
 @PreMatching
 @Priority(Priorities.HEADER_DECORATOR)

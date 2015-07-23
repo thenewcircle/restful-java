@@ -12,7 +12,10 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.stereotype.Component;
+
 // http://localhost/chirp-app/greetings
+@Component
 @Path("/greetings")
 public class GreetingsResource {
 

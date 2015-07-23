@@ -12,7 +12,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
+
+import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.kernel.PubUtils;
@@ -21,6 +24,7 @@ import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubChirps;
 import com.example.chirp.app.stores.UserStore;
 
+@Component
 @Path("/")
 public class ChirpResource {
 
@@ -40,7 +44,13 @@ public class ChirpResource {
 
 		PubChirps chirps = PubUtils.toPubChirps(user, uriInfo, variantString, offsetString, limitString, false);
 
-		return Response.ok(chirps).build();
+		ResponseBuilder builder = Response.ok(chirps);
+		builder.link(chirps.getSelf(), "self");
+		builder.link(chirps.getFirst(), "first");
+		if (chirps.getNext() != null)		builder.link(chirps.getNext(), "next");
+		if (chirps.getPrevious() != null)	builder.link(chirps.getPrevious(), "previous");
+				
+		return builder.build();
 	}
 
 	@POST
