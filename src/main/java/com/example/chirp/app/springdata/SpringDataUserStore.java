@@ -21,8 +21,8 @@ public class SpringDataUserStore implements UserStore {
 
   @Autowired
   public SpringDataUserStore(UserRepository userRepository) {
-    log.warn("Created SpringDataUserStore");
-	  this.userRepository = userRepository;
+    log.info("Created SpringDataUserStore");
+	this.userRepository = userRepository;
   }
 
   public void setSeedDatabase(boolean seedDatabase) {

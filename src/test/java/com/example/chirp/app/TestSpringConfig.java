@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import com.example.chirp.app.resources.ResourceTestSupport;
 import com.example.chirp.app.stores.InMemoryUserStore;
 import com.example.chirp.app.stores.UserStore;
 
@@ -18,7 +19,7 @@ import com.example.chirp.app.stores.UserStore;
 @Configuration
 public class TestSpringConfig {
 
-	private final Logger log = LoggerFactory.getLogger(getClass());
+  private final Logger log = LoggerFactory.getLogger(getClass());
 
   public TestSpringConfig() {
 	  log.warn("Created.");
@@ -37,7 +38,10 @@ public class TestSpringConfig {
 
   @Bean
   public UserStore getWhatever() {
-	  return new InMemoryUserStore(true);
+	  UserStore userStore = new InMemoryUserStore(true);
+	  // Just a little hack to make our unit test work.
+	  ResourceTestSupport.userStore = userStore;
+	  return userStore;
   }
 }
 

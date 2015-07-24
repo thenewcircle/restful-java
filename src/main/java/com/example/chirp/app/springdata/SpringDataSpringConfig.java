@@ -32,7 +32,7 @@ class SpringDataSpringConfig {
   @Bean
   public DataSource dataSource() {
     EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    return builder.setType(EmbeddedDatabaseType.DERBY).build();
+    return builder.setType(EmbeddedDatabaseType.HSQL).build();
   }
 
   @Bean

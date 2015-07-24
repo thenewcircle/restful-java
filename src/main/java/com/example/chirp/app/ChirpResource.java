@@ -32,9 +32,13 @@ public class ChirpResource {
 	@Context
 	private UriInfo uriInfo;
 
-	@Autowired
 	private UserStore userStore;
 
+	@Autowired
+	public ChirpResource(UserStore userStore) {
+		this.userStore = userStore;
+	}
+	
 	@GET
 	@Path("/users/{username}/chirps")
 	public Response getChirps(@PathParam("username") String username, 

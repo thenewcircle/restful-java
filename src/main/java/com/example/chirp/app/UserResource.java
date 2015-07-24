@@ -38,7 +38,6 @@ public class UserResource {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
-	@Autowired
 	private UserStore userStore;
 
 	@Context
@@ -53,13 +52,15 @@ public class UserResource {
 	@Context
 	private UriInfo uriInfo;
 
-	public UserResource() {
+	@Autowired
+	public UserResource(UserStore userStore) {
+		this.userStore = userStore;
 	}
 
 	@GET
 	@Path("/users/{username}/chirps/{chirpId}")
 	public Response getChirp(@PathParam("chirpId") String chirpId) {
-		return new ChirpResource().getChirp(uriInfo, chirpId);
+		return new ChirpResource(userStore).getChirp(uriInfo, chirpId);
 	}
 
 	// mapps to http://localhost:8080/users/student

@@ -15,6 +15,8 @@ import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 public abstract class ResourceTestSupport extends JerseyTest {
 
+	public static UserStore userStore;
+	
 	@Override
 	protected Application configure() {
 		LogbackUtil.initLogback(Level.WARN);
@@ -37,6 +39,6 @@ public abstract class ResourceTestSupport extends JerseyTest {
 	}
 
 	public UserStore getUserStore() {
-		return null; // ChirpApplication.USER_STORE;
+		return userStore;
 	}
 }
