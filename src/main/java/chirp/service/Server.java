@@ -8,8 +8,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
-import chirp.model.UserRepository;
-
 /**
  * Lightweight, embedded HTTP server. Knows how to load and save the user
  * repository, and provide it for injection into resource classes.
@@ -34,8 +32,6 @@ public class Server {
 	}
 
 	public static void main(String[] args) throws IOException {
-	
-		// final UserRepository users = UserRepository.getInstance(true);
 		
 		// wait for shutdown ...
 		HttpServer httpServer = createServer();
@@ -48,8 +44,6 @@ public class Server {
 		System.in.read();
 		httpServer.shutdownNow();
 
-		// save state
-		// users.freeze();
 	}
 
 	
