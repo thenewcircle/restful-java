@@ -12,4 +12,10 @@ public class HelloResourceTest extends JerseyResourceTest {
 		assertEquals("Hello!", hello);
 	}
 
+	@Test
+	public void helloResourceWithNameMustSayHello() {
+		String hello = target("/hello").queryParam("name", "Xoom").request("text/plain").get(String.class);
+		assertEquals("Hello Xoom!", hello);
+	}
+
 }
