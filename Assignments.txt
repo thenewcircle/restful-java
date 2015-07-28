@@ -1,5 +1,5 @@
 Day One Afternoon Lab
 1) Grab latest code from restful-java/class-3976 branch
 2) Create a local branch called dayonelab
-3) Add support for a test case that pass data to the server as a PathParam for the name.
-4) Compile and run.
+3) Add support for a test case that passes data to the server as a PathParam for the name.
+4) Compile and test.
