@@ -1,6 +1,7 @@
 package chirp.service.resources;
 
 import java.net.URI;
+import java.util.Collection;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
@@ -42,6 +44,15 @@ public class UserResource {
 	public UserRepresentation getUser(@PathParam("username") String username,
 			@Context UriInfo uriInfo) {
 		return new UserRepresentation(UserRepository.getInstance().getUser(
-				username), uriInfo.getAbsolutePath());
+				username), uriInfo.getAbsolutePath(), false);
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserCollectionRepresentation getAllUsers(@Context UriInfo uriInfo) {
+
+		return new UserCollectionRepresentation(UserRepository.getInstance()
+				.getUsers(), uriInfo);
+
 	}
 }

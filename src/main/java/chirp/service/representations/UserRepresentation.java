@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.User;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @XmlRootElement
 public class UserRepresentation {
 	private String username;
@@ -16,10 +19,22 @@ public class UserRepresentation {
 	public UserRepresentation() {
 	}
 
-	public UserRepresentation(User user, URI self) {
-		this.username = user.getUsername();
-		this.realname = user.getRealname();
+	public UserRepresentation(User user, URI self, boolean isSummary) {
+
+		if (isSummary == false) {
+			this.username = user.getUsername();
+			this.realname = user.getRealname();
+		}
 		this.self = self;
+	}
+
+	@JsonCreator
+	public UserRepresentation(@JsonProperty("self") URI self,
+			@JsonProperty("username") String username,
+			@JsonProperty("realname") String realname) {
+		this.self = self;
+		this.username = username;
+		this.realname = realname;
 	}
 
 	@XmlElement

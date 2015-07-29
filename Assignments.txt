@@ -1,3 +1,12 @@
+Day Three Mid Afternoon Lab
+---------------------------
+1) Pull the latest code from the branch class-3976
+2) Create a ChripCollectionRepresentation class similar to UserCollectionRepresentation class. 
+3) Add support for summary Chirp representations, self link only. 
+4) Test by creating two chirps for the same user inspecting the collection in postman. 
+
+
+
 Day Two Early Afternoon Lab
 ---------------------------
 1) Pull the latest code from the branch class-3976
