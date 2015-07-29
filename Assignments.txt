@@ -1,4 +1,12 @@
-Day Three Mid Afternoon Lab
+Day Two Homework
+----------------
+1) Pull the latest code from the branch class-3976
+2) Create Link Headers for single Chirps and Chirp collections similar to user resources.
+3) Create head method implementations for reading a single chirps and collections of chirp
+4) Create a head method implementation for reading a collectino of users.
+5) Extra credit, write a test case that validates link headers.
+
+Day Two Mid Afternoon Lab
 ---------------------------
 1) Pull the latest code from the branch class-3976
 2) Create a ChripCollectionRepresentation class similar to UserCollectionRepresentation class. 
