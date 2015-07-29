@@ -8,9 +8,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +50,13 @@ public class ChirpResource {
 	@Path("{id}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public ChirpRepresentation getChirp(@PathParam("username") String username,
-			@PathParam("id") String id) {
+			@PathParam("id") String id, @Context UriInfo uriInfo) {
 
 		logger.debug("Reading chirp with id:{} for username:{}", id, username);
 
 		return new ChirpRepresentation(UserRepository.getInstance()
-				.getUser(username).getChirp(new ChirpId(id)));
+				.getUser(username).getChirp(new ChirpId(id)),
+				uriInfo.getAbsolutePath());
 
 	}
 }
