@@ -1,13 +1,23 @@
 package chirp.service.resources;
 
+import static org.junit.Assert.assertNotNull;
+
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
+import org.junit.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
+
+import chirp.model.UserRepository;
 
 /**
  * Common base class for jerseytest classes that assumes a single servce to test
@@ -19,6 +29,20 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  *            the jax-rs resource under test.
  */
 public abstract class JerseyResourceTest extends JerseyTest {
+
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	protected Response addStudentUser() {
+		Response response = target("/users").request().post(
+				Entity.form(new Form().param("username", "student")));
+		assertNotNull(response);
+		return response;
+	}
+
+	@Before
+	public void setup() {
+		UserRepository.getInstance().clear();
+	}
 
 	/**
 	 * Call this method to recreate a jersey test runtime with the following

@@ -16,17 +16,7 @@ import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
-	private Response addStudentUser() {
-		Response response = target("/users").request().post(
-				Entity.form(new Form().param("username", "student")));
-		assertNotNull(response);
-		return response;
-	}
 
-	@Before
-	public void setup() {
-		UserRepository.getInstance().clear();
-	}
 
 	@Test
 	public void addUserSuccess() {

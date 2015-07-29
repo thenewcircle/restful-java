@@ -131,7 +131,7 @@ public class UserRepository implements Serializable {
 		User user = users.get(username);
 		if (user == null)
 			throw new NoSuchEntityException(
-					"Can not find a user with an username of " + username
+					"Can not find a user with username:" + username
 							+ " as it does not exist.");
 
 		return user;
