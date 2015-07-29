@@ -34,7 +34,8 @@ public abstract class JerseyResourceTest extends JerseyTest {
 
 	protected Response addStudentUser() {
 		Response response = target("/users").request().post(
-				Entity.form(new Form().param("username", "student")));
+				Entity.form(new Form().param("username", "student").param(
+						"realname", "bob")));
 		assertNotNull(response);
 		return response;
 	}

@@ -8,9 +8,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
 
 import chirp.model.UserRepository;
 import chirp.service.representations.UserRepresentation;
@@ -37,8 +39,9 @@ public class UserResource {
 	@GET
 	@Path("{username}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public UserRepresentation getUser(@PathParam("username") String username) {
+	public UserRepresentation getUser(@PathParam("username") String username,
+			@Context UriInfo uriInfo) {
 		return new UserRepresentation(UserRepository.getInstance().getUser(
-				username));
+				username), uriInfo.getAbsolutePath());
 	}
 }

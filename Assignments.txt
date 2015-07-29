@@ -1,3 +1,9 @@
+Day Two Early Afternoon Lab
+---------------------------
+1) Pull the latest code from the branch class-3976
+2) Add a self link property to the ChirpRepresenation class
+3) Test by creating a chirp and inspecting the self URI. 
+
 Day Two Lunch Lab
 -----------------
 1) Pull the latest code from the branch class-3976
