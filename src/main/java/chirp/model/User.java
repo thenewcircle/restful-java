@@ -35,7 +35,7 @@ public class User implements Serializable {
 	public Chirp createChirp(String content) {
 		ChirpId id = new ChirpId();
 		if (chirps.containsKey(id))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("Chirp with id " + id.toString() + " already exists");
 
 		Chirp chirp = new Chirp(id, content, this);
 		chirps.put(id, chirp);
@@ -49,14 +49,14 @@ public class User implements Serializable {
 	public Chirp getChirp(ChirpId id) {
 		Chirp chirp = chirps.get(id);
 		if (chirp == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Can not find chirp with an id of " + id + ", as it does not exist");
 
 		return chirp;
 	}
 
 	public void deleteChirp(String id) {
 		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("Can not delete chirp as a chirp with an id of " + id + ", as it does not exist");
 	}
 
 	@Override
