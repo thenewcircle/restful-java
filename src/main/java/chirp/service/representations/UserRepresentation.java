@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @XmlRootElement
-@JsonInclude(Include.NON_NULL) 
+@JsonInclude(Include.NON_EMPTY)
 public class UserRepresentation {
 	private String username;
 	private String realname;

@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.ws.rs.core.UriInfo;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.User;
 
+@XmlRootElement
 public class UserCollectionRepresentation {
 
 	private Collection<UserRepresentation> users = new ArrayList<>();
@@ -25,6 +28,7 @@ public class UserCollectionRepresentation {
 		this.self = uriInfo.getAbsolutePath();
 	}
 
+	@XmlElement
 	public Collection<UserRepresentation> getUsers() {
 		return users;
 	}
@@ -33,6 +37,7 @@ public class UserCollectionRepresentation {
 		this.users = users;
 	}
 
+	@XmlElement
 	public URI getSelf() {
 		return self;
 	}

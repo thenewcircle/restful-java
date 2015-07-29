@@ -45,7 +45,7 @@ public class UserResourceTest extends JerseyResourceTest {
 		addStudentUser();
 		addAnyUser("Chris", "ChrisB");
 		UserCollectionRepresentation users = target("/users").request(
-				MediaType.APPLICATION_JSON).get(
+				MediaType.APPLICATION_XML).get(
 				UserCollectionRepresentation.class);
 	}
 
