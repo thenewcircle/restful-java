@@ -12,7 +12,7 @@ public class NoSuchEntityExceptionMapper implements
 
 	@Override
 	public Response toResponse(NoSuchEntityException exception) {
-		return Response.status(400).entity(exception.getMessage()).build();
+		return Response.status(404).entity(exception.getMessage()).build();
 	}
 
 }
