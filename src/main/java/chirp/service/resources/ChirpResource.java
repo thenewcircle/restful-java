@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import chirp.model.Chirp;
 import chirp.model.ChirpId;
 import chirp.model.UserRepository;
+import chirp.service.representations.ChirpCollectionRepresentation;
 import chirp.service.representations.ChirpRepresentation;
 
 @Path("/users/{username}/chirps")
@@ -56,7 +57,20 @@ public class ChirpResource {
 
 		return new ChirpRepresentation(UserRepository.getInstance()
 				.getUser(username).getChirp(new ChirpId(id)),
-				uriInfo.getAbsolutePath());
+				uriInfo.getAbsolutePath(), false);
+
+	}
+
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public ChirpCollectionRepresentation getAllChirps(
+			@PathParam("username") String username, @PathParam("id") String id,
+			@Context UriInfo uriInfo) {
+
+		logger.debug("Reading chirp with id:{} for username:{}", id, username);
+
+		return new ChirpCollectionRepresentation(UserRepository.getInstance()
+				.getUser(username).getChirps(), uriInfo);
 
 	}
 }

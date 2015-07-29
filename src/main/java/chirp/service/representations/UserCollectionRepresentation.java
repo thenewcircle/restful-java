@@ -8,9 +8,6 @@ import javax.ws.rs.core.UriInfo;
 
 import chirp.model.User;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class UserCollectionRepresentation {
 
 	private Collection<UserRepresentation> users = new ArrayList<>();
@@ -27,8 +24,6 @@ public class UserCollectionRepresentation {
 
 		this.self = uriInfo.getAbsolutePath();
 	}
-
-
 
 	public Collection<UserRepresentation> getUsers() {
 		return users;

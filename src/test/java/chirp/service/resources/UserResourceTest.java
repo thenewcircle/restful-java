@@ -3,20 +3,15 @@ package chirp.service.resources;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import chirp.model.UserRepository;
+import chirp.service.representations.UserCollectionRepresentation;
 import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
-
-
 
 	@Test
 	public void addUserSuccess() {
@@ -43,6 +38,15 @@ public class UserResourceTest extends JerseyResourceTest {
 				MediaType.APPLICATION_JSON).get(UserRepresentation.class);
 		assertNotNull(user);
 		assertEquals("student", user.getUsername());
+	}
+
+	@Test
+	public void getUserCollection() {
+		addStudentUser();
+		addAnyUser("Chris", "ChrisB");
+		UserCollectionRepresentation users = target("/users").request(
+				MediaType.APPLICATION_JSON).get(
+				UserCollectionRepresentation.class);
 	}
 
 }

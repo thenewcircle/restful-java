@@ -33,9 +33,13 @@ public abstract class JerseyResourceTest extends JerseyTest {
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	protected Response addStudentUser() {
+		return addAnyUser("student", "bob");
+	}
+
+	protected Response addAnyUser(String username, String realname) {
 		Response response = target("/users").request().post(
-				Entity.form(new Form().param("username", "student").param(
-						"realname", "bob")));
+				Entity.form(new Form().param("username", username).param(
+						"realname", realname)));
 		assertNotNull(response);
 		return response;
 	}

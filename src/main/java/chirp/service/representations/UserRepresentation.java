@@ -8,9 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 import chirp.model.User;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @XmlRootElement
+@JsonInclude(Include.NON_NULL) 
 public class UserRepresentation {
 	private String username;
 	private String realname;

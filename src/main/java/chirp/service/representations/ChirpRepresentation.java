@@ -7,7 +7,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.Chirp;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 @XmlRootElement
+@JsonInclude(Include.NON_NULL)
 public class ChirpRepresentation {
 
 	private String id;
@@ -17,9 +21,11 @@ public class ChirpRepresentation {
 	public ChirpRepresentation() {
 	}
 
-	public ChirpRepresentation(Chirp chirp, URI self) {
-		this.id = chirp.getId().toString();
-		this.content = chirp.getContent();
+	public ChirpRepresentation(Chirp chirp, URI self, boolean isSummary) {
+		if (isSummary == false) {
+			this.id = chirp.getId().toString();
+			this.content = chirp.getContent();
+		}
 		this.self = self;
 	}
 
@@ -39,6 +45,15 @@ public class ChirpRepresentation {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+
+	public void setSelf(URI self) {
+		this.self = self;
 	}
 
 	@Override
