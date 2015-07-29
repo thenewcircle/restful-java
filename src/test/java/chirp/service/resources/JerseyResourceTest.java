@@ -2,6 +2,8 @@ package chirp.service.resources;
 
 import javax.ws.rs.core.Application;
 
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -41,11 +43,23 @@ public abstract class JerseyResourceTest extends JerseyTest {
 		// Jersey uses java.util.logging - bridge to slf4
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
-		
+
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig().packages("chirp.service.resources", "chirp.service.providers");
+		return new ResourceConfig().packages("chirp.service.resources",
+				"chirp.service.providers").register(JacksonFeature.class);
+	}
 
+	/**
+	 * Override this method to configure the JerseyTest client as opposed to the
+	 * test server above
+	 * 
+	 */
+	@Override
+	protected void configureClient(ClientConfig config) {
+		config.register(JacksonFeature.class); // required to deserialize JSON
+												// responses into Java objects
+												// in the test client.
 	}
 
 }

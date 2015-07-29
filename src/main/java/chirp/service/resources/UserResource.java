@@ -3,12 +3,17 @@ package chirp.service.resources;
 import java.net.URI;
 
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 @Path("/users")
 public class UserResource {
@@ -27,5 +32,13 @@ public class UserResource {
 
 		return response;
 
+	}
+
+	@GET
+	@Path("{username}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public UserRepresentation getUser(@PathParam("username") String username) {
+		return new UserRepresentation(UserRepository.getInstance().getUser(
+				username));
 	}
 }

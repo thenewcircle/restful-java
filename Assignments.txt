@@ -1,8 +1,13 @@
-Day One Afternoon Lab
-1) Grab latest code from restful-java/class-3976 branch
-2) Create a local branch called dayonelab
-3) Add support for a test case that passes data to the server as a PathParam for the name.
-4) Compile and test.
+Day Two Lunch Lab
+-----------------
+1) Pull the latest code from the branch class-3976
+2) Create a ChirpResource to create a chirp and read a chirp. Assume the type for a chirp is java.lang.String.
+3) Create Chirp URL is /users/{username}/chirps
+4) Read Chirp URL is /users/{username}/chirps/{id}
+5) Provide support for XML and JSON formats
+6) Test using POSTMAN
+7) Extra credit, create unit test cases for creating and reading a chirp. 
+
 
 Day One Homework
 1) Grab the latest code from restful-java/class-3976 branch -- warning it won't compile
@@ -13,3 +18,9 @@ Day One Homework
 5) Extra Credit, do the same for NoSuchEntityException but which error code should it map to?
 
 6) Read APIGEE Best Practices document 
+Day One Afternoon Lab
+1) Grab latest code from restful-java/class-3976 branch
+2) Create a local branch called dayonelab
+3) Add support for a test case that passes data to the server as a PathParam for the name.
+4) Compile and test.
+
