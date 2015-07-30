@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.hibernate.validator.constraints.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,7 +146,7 @@ public class UserResource {
 	@POST
 	public Response createUser(
 
-			@NotNull(message = "{usersresource.createuserfromrequest.username.notnull}") @FormParam("username") String username,
+			@NotNull(message = "{usersresource.createuserfromrequest.username.notnull}") @Email(message = "username must be an email address") @FormParam("username") String username,
 			@NotNull(message = "everyone has realname, please provide yours.") @FormParam("realname") String realname) {
 
 		// remember to validate input parameters in product code.

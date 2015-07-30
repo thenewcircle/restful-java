@@ -1,8 +1,6 @@
 package chirp.service;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,11 +30,12 @@ public class Server {
 		 * Log additional debugging data in headers when in development. See
 		 * https://jersey.java.net/documentation/latest/monitoring_tracing.html
 		 */
-		final ResourceConfig rc = new ResourceConfig();
-		Map<String, Object> props = new HashMap<String, Object>();
+		final ResourceConfig rc = new ResourceConfig().property(
+				ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
+		// Map<String, Object> props = new HashMap<String, Object>();
 		// props.put("jersey.config.server.tracing.type", "ALL");
 		// props.put("jersey.config.server.tracing.threshold", "VERBOSE");
-		rc.addProperties(props);
+		// rc.addProperties(props);
 
 		/* register chirp REST resources and providers */
 		rc.packages("chirp.service.resources", "chirp.service.providers")

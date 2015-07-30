@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.moxy.json.MoxyJsonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.After;
@@ -75,8 +76,10 @@ public abstract class JerseyResourceTest extends JerseyTest {
 
 		// ResourceConfig is a Jersey specific javax.ws.rs.core.Application
 		// subclass
-		return new ResourceConfig().packages("chirp.service.resources",
-				"chirp.service.providers").register(MoxyJsonFeature.class);
+		return new ResourceConfig()
+				.packages("chirp.service.resources", "chirp.service.providers")
+				.register(MoxyJsonFeature.class)
+				.property(ServerProperties.BV_SEND_ERROR_IN_RESPONSE, true);
 
 	}
 
