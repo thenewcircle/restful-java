@@ -1,51 +1,80 @@
 package chirp.service;
 
-import java.io.IOException;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.ServerProperties;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 /**
- * Lightweight, embedded HTTP server. Knows how to load and save the user
- * repository, and provide it for injection into resource classes.
+ * Lightweight, embedded HTTP server.
  */
 public class Server {
-
-	public static final String BASE_URI = "http://localhost:8080/";
+	private static final int SERVER_PORT = 8080;
+	private static final String SERVER_INTERFACE = "0.0.0.0";
+	private static final String SERVER_BIND_ADDRESS = String.format(
+			"http://%s:%d/", SERVER_INTERFACE, SERVER_PORT);
+	private static final String ROOT_RESOURCE = String.format(
+			"http://localhost:%d/", SERVER_PORT);
+	private static final String WADL_RESOURCE = ROOT_RESOURCE
+			+ "application.wadl";
 
 	private static HttpServer createServer() {
 
-		// Jersey uses java.util.logging - bridge to slf4
+		/* Jersey uses java.util.logging - bridge to slf4 */
 		SLF4JBridgeHandler.removeHandlersForRootLogger();
 		SLF4JBridgeHandler.install();
 
-		final ResourceConfig rc = new ResourceConfig().register(
-				JacksonFeature.class).packages("chirp.service.resources",
-				"chirp.service.providers");
+		/* Start a new instance of grizzly http server. */
+		final HttpServer httpServer = GrizzlyHttpServerFactory
+				.createHttpServer(
+						URI.create(SERVER_BIND_ADDRESS),
+						new ResourceConfig()
+								.packages("chirp.service.resources",
+										"chirp.service.providers")
+								.register(JacksonFeature.class)
+								.property(
+										ServerProperties.BV_SEND_ERROR_IN_RESPONSE,
+										true));
+		/*
+		 * Enable for request based tracing returned as link headers
+		 * .property(ServerProperties.TRACING, "ALL")
+		 * .property(ServerProperties.TRACING_THRESHOLD, "ALL"));
+		 */
+		
+		/*
+		 * Log additional debugging data in headers when in development. See
+		 * https://jersey.java.net/documentation/latest/monitoring_tracing.html
+		 */
+		/* Enable logging of exceptions while suppressing unnecessary messages */
+		Logger.getLogger("org.glassfish.grizzly").setLevel(Level.FINER);
+		Logger.getLogger("org.glassfish.grizzly.nio").setLevel(Level.INFO);
+		Logger.getLogger("org.glassfish.grizzly.http.io").setLevel(Level.FINE);
+		Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler")
+				.setLevel(Level.FINE);
+		Logger.getLogger("org.glassfish.jersey.server.ServerRuntime$Responder")
+				.setLevel(Level.FINER);
+		Logger.getLogger("org.glassfish.jersey.tracing").setLevel(Level.FINEST);
 
-		// create and start a new instance of grizzly http server
-		// exposing the Jersey application at BASE_URI
-		return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI),
-				rc);
+		return httpServer;
+
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
-		// wait for shutdown ...
-		HttpServer httpServer = createServer();
-		System.out.println(String.format(
-				"Jersey app started with WADL available at "
-						+ "%sapplication.wadl\nHit enter to stop it...",
-				BASE_URI));
+		final HttpServer httpServer = createServer();
 
-		// System.out.println("Hit <return> to stop server...");
+		/* Wait for shutdown ... */
+		System.out.format("Jersey app started with WADL available at "
+				+ "%s\nHit enter to stop it...\n\n", WADL_RESOURCE);
+		
 		System.in.read();
+		
 		httpServer.shutdownNow();
-
 	}
-
 }

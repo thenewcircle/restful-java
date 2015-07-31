@@ -1,5 +1,6 @@
+bin/
+.gitignore~
+*.orig
+state.bin
 target/
 user_repository.bin
-state.bin
-.gitignore~
-/bin

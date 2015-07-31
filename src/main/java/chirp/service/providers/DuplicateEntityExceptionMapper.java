@@ -12,7 +12,9 @@ public class DuplicateEntityExceptionMapper implements
 
 	@Override
 	public Response toResponse(DuplicateEntityException exception) {
-		return Response.status(400).entity(exception.getMessage()).build();
+		return Response.status(Response.Status.BAD_REQUEST)
+				.entity(exception.getMessage()).build();
+
 	}
 
 }

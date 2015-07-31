@@ -1,31 +1,44 @@
 package chirp.service.representations;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import chirp.model.User;
+import chirp.model.UserRepository;
 
 @XmlRootElement
-public class UserCollectionRepresentation {
+public class UserCollectionRepresentation extends
+		AbstractCacheableRepresentation {
 
-	private Collection<UserRepresentation> users = new ArrayList<>();
 	private URI self;
+	private Collection<UserRepresentation> users = new LinkedList<>();
 
 	public UserCollectionRepresentation() {
 	}
 
-	public UserCollectionRepresentation(Collection<User> users, UriInfo uriInfo) {
-		for (User user : users)
-			this.users.add(new UserRepresentation(user, uriInfo
+	public UserCollectionRepresentation(UriInfo uriInfo) {
+
+		for (User user : UserRepository.getInstance().getUsers()) {
+			users.add(new UserRepresentation(user, uriInfo
 					.getAbsolutePathBuilder().path(user.getUsername()).build(),
 					true));
+		}
 
-		this.self = uriInfo.getAbsolutePath();
+		self = uriInfo.getAbsolutePathBuilder().build();
+	}
+
+	@XmlElement
+	public URI getSelf() {
+		return self;
+	}
+
+	public void setSelf(URI self) {
+		this.self = self;
 	}
 
 	@XmlElement
@@ -37,13 +50,36 @@ public class UserCollectionRepresentation {
 		this.users = users;
 	}
 
-	@XmlElement
-	public URI getSelf() {
-		return self;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((self == null) ? 0 : self.hashCode());
+		return result;
 	}
 
-	public void setSelf(URI self) {
-		this.self = self;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserCollectionRepresentation other = (UserCollectionRepresentation) obj;
+		if (self == null) {
+			if (other.self != null)
+				return false;
+		} else if (!self.equals(other.self))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return String
+				.format("UserCollectionRepresentation [self=%s, users=%s]",
+						self, users);
 	}
 
 }

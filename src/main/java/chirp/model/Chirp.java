@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Entity representing a "chirp" posted by a user. To properly create a Chirp,
  * call User.createChirp().
  */
-public class Chirp implements Serializable {
+public class Chirp extends AbstractModelEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,8 +36,7 @@ public class Chirp implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}

@@ -1,13 +1,8 @@
 package chirp.model;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -32,19 +27,13 @@ public class UserRepository implements Serializable {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	private static final File file = new File("state.bin");
 	private Map<String, User> users;
 
 	private final List<Set<User>> bulkDeletions = new ArrayList<Set<User>>();
 
 	private UserRepository(boolean favorPersistence) {
-		if (favorPersistence == false || file.exists() == false) {
-			users = new ConcurrentHashMap<String, User>();
-			logger.trace("Created new UserRepositry with new Users Map");
-		} else {
-			users = thaw();
-			logger.trace("Created new UserRepositry from persisted Users Map");
-		}
+		users = new ConcurrentHashMap<String, User>();
+		logger.trace("Created new UserRepositry with new Users Map");
 	}
 
 	/**
@@ -84,41 +73,19 @@ public class UserRepository implements Serializable {
 		users = new ConcurrentHashMap<String, User>();
 	}
 
-	/**
-	 * Call this method to create user repository from the file
-	 * <code>state.bin</code> if it exists.
-	 * 
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	private static Map<String, User> thaw() {
-		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-				file))) {
-			return (Map<String, User>) in.readObject();
-		} catch (Exception e) {
-			return new ConcurrentHashMap<String, User>();
-		}
-	}
-
-	/**
-	 * Call this method to persist the state of the user repository to the file
-	 * <code>state.bin</code>.
-	 */
-	public void freeze() {
-		try (ObjectOutputStream out = new ObjectOutputStream(
-				new FileOutputStream(file))) {
-			out.writeObject(users);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private static String duplicateUserMessage(String operation, String username) {
+		return String.format(
+				"Can not %s a user with username=%s as one already exists.",
+				operation, username);
 	}
 
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
-			throw new DuplicateEntityException("User with username " + username
-					+ " already exists");
+			throw new DuplicateEntityException(duplicateUserMessage("create",
+					username));
 
 		User user = new User(username, realname);
+		user.setLastModificationTime(new Date());
 		users.put(username, user);
 		return user;
 	}
@@ -127,21 +94,24 @@ public class UserRepository implements Serializable {
 		return new LinkedList<User>(users.values());
 	}
 
+	private static String noSuchUserMessage(String operation, String username) {
+		return String.format(
+				"Can not %s user with username=%s as it does not exist.",
+				operation, username);
+	}
+
 	public User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException(
-					"Can not find a user with username:" + username
-							+ " as it does not exist.");
+			throw new NoSuchEntityException(noSuchUserMessage("find", username));
 
 		return user;
 	}
 
 	public void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException(
-					"Can not delete a user with an username of " + username
-							+ " as it does not exist.");
+			throw new NoSuchEntityException(noSuchUserMessage("delete",
+					username));
 	}
 
 	public int createBulkDeletion() {

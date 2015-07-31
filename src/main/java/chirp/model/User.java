@@ -1,6 +1,7 @@
 package chirp.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.TreeMap;
  * Entity representing a user of the "chirp" service. A user logically owns a
  * collection of chirps, indexed by id.
  */
-public class User implements Serializable {
+public class User extends AbstractModelEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,14 +32,26 @@ public class User implements Serializable {
 		return realname;
 	}
 
-	public Chirp createChirp(String content) {
-		ChirpId id = new ChirpId();
-		if (chirps.containsKey(id))
-			throw new DuplicateEntityException("Chirp with id " + id.toString()
-					+ " already exists");
+	private ChirpId createUniqueChirpId(final String id) {
+		final ChirpId chirpId = (id == null) ? new ChirpId() : new ChirpId(id);
+		if (chirps.containsKey(chirpId))
+			throw new DuplicateEntityException(String.format(
+					"Chirp %s already exists.", id));
+		return chirpId;
+	}
 
-		Chirp chirp = new Chirp(id, content, this);
+	public Chirp createChirp(String content) {
+		final ChirpId id = createUniqueChirpId(null);
+		final Chirp chirp = new Chirp(id, content, this);
+		chirp.setLastModificationTime(new Date());
 		chirps.put(id, chirp);
+		return chirp;
+	}
+
+	public Chirp createChirp(String content, final String id) {
+		final ChirpId chripId = createUniqueChirpId(id);
+		final Chirp chirp = new Chirp(chripId, content, this);
+		chirps.put(chripId, chirp);
 		return chirp;
 	}
 
