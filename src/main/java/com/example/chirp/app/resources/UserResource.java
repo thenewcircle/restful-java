@@ -38,12 +38,16 @@ public class UserResource {
   @GET
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN})
   @Path("/{username}")
-  public PubUser getUserJson(@PathParam("username") String username,
+  public Response getUserJson(@PathParam("username") String username,
 		                     @Context UriInfo uriInfo) {
 
 	  // URI self = uriInfo.getBaseUriBuilder().path("users").path(username).build();
 	  URI self = UriBuilder.fromResource(UserResource.class).path(username).build();
-	  return userStore.getUser(username).toPubUser(self);
+	  
+	  PubUser pubUser = userStore.getUser(username).toPubUser(self);
+	  return Response.ok(pubUser)
+			  	.link(self, "self")
+			  	.build();
   }
 }
 
