@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
 import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
+import com.example.chirp.app.pub.PubUser;
 
 /**
  * Entity representing a user of the "chirp" service. A user logically owns a
@@ -101,4 +102,16 @@ public class User {
 	public String toString() {
 		return "User [username=" + username + "]";
 	}
+
+	public PubUser toPubUser() {
+		return new PubUser(username, realName);
+	}
 }
+
+
+
+
+
+
+
+
