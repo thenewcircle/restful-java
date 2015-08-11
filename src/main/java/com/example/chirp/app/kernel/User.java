@@ -1,5 +1,6 @@
 package com.example.chirp.app.kernel;
 
+import java.net.URI;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
@@ -103,8 +104,8 @@ public class User {
 		return "User [username=" + username + "]";
 	}
 
-	public PubUser toPubUser() {
-		return new PubUser(username, realName);
+	public PubUser toPubUser(URI uri) {
+		return new PubUser(uri, username, realName);
 	}
 }
 

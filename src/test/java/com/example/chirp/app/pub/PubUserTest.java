@@ -1,5 +1,7 @@
 package com.example.chirp.app.pub;
 
+import java.net.URI;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,10 +15,10 @@ public class PubUserTest {
 		
 		ObjectMapper mapper = new ObjectMapper();
 
-		PubUser oldUser = new PubUser("mickey", "Mickey Mouse");
+		PubUser oldUser = new PubUser(URI.create("http://whatever"), "mickey", "Mickey Mouse");
 
 		String json = mapper.writeValueAsString(oldUser);
-		System.out.println(json);
+		// System.out.println(json);
 		
 		PubUser newUser = mapper.readValue(json, PubUser.class);
 
@@ -29,10 +31,10 @@ public class PubUserTest {
 		
 		XmlMapper mapper = new XmlMapper();
 
-		PubUser oldUser = new PubUser("mickey", "Mickey Mouse");
+		PubUser oldUser = new PubUser(URI.create("http://whatever"), "mickey", "Mickey Mouse");
 
 		String xml = mapper.writeValueAsString(oldUser);
-		System.out.println(xml);
+		// System.out.println(xml);
 		
 		PubUser newUser = mapper.readValue(xml, PubUser.class);
 

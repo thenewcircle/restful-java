@@ -11,7 +11,7 @@ public class UserTest {
 	public void testToPubUser() {
 		
 		User user = new User("mickey", "Mickey Mouse");
-		PubUser pubUser = user.toPubUser();
+		PubUser pubUser = user.toPubUser(null);
 		
 		Assert.assertEquals(user.getUsername(), pubUser.getUsername());
 		Assert.assertEquals(user.getRealName(), pubUser.getRealName());

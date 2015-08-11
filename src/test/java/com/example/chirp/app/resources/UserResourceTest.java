@@ -9,10 +9,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStoreUtils;
 
 public class UserResourceTest extends ResourceTestSupport {
-	  @Before
+
+	@Before
 	  public void before() {
 	    getUserStore().clear();
 	  }
@@ -36,14 +38,14 @@ public class UserResourceTest extends ResourceTestSupport {
 	    String shortLocation = location.substring(21);
 	    Assert.assertEquals("/users/student", shortLocation);
 	    
-	    response = target(shortLocation).request().get();
+	    response = target(shortLocation).request().accept(MediaType.TEXT_PLAIN).get();
 	    Assert.assertEquals(200, response.getStatus());
 	    String actualName = response.readEntity(String.class);
 	    Assert.assertEquals(realName, actualName);
 	  }
 	
 	  @Test
-	  public void testGetUser() {
+	  public void testGetUserPlain() {
 	    UserStoreUtils.resetAndSeedRepository(getUserStore());
 
 	    Response response = target("/users/yoda").request()
@@ -54,7 +56,35 @@ public class UserResourceTest extends ResourceTestSupport {
 	    String realname = response.readEntity(String.class);
 	    Assert.assertEquals("Master Yoda", realname);
 	  }
-	
+		
+	  @Test
+	  public void testGetUserJson() {
+		    UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+		    Response response = target("/users/yoda").request()
+		      .accept(MediaType.APPLICATION_JSON).get();
+
+		    Assert.assertEquals(200, response.getStatus());
+
+		    PubUser user = response.readEntity(PubUser.class);
+		    Assert.assertEquals(user.getUsername(), "yoda");
+		    Assert.assertEquals(user.getRealName(), "Master Yoda");
+	  }
+		
+	  @Test
+	  public void testGetUserXml() {
+		    UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+		    Response response = target("/users/yoda").request()
+		      .accept(MediaType.APPLICATION_XML).get();
+
+		    Assert.assertEquals(200, response.getStatus());
+
+		    PubUser user = response.readEntity(PubUser.class);
+		    Assert.assertEquals(user.getUsername(), "yoda");
+		    Assert.assertEquals(user.getRealName(), "Master Yoda");
+	  }
+	  
 	  @Test
 	  public void testCreateDuplicateUser() {
 	    Form user = new Form().param("realName", "Mickey Mouse");
@@ -84,5 +114,4 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	    Assert.assertEquals(400, response.getStatus());
 	  }
-	  
 }
