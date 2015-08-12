@@ -15,7 +15,7 @@ public class PubUserTest {
 		
 		ObjectMapper mapper = new ObjectMapper();
 
-		PubUser oldUser = new PubUser(URI.create("http://whatever"), "mickey", "Mickey Mouse");
+		PubUser oldUser = new PubUser(URI.create("http://whatever"), "mickey", "Mickey Mouse", null);
 
 		String json = mapper.writeValueAsString(oldUser);
 		// System.out.println(json);
@@ -31,7 +31,7 @@ public class PubUserTest {
 		
 		XmlMapper mapper = new XmlMapper();
 
-		PubUser oldUser = new PubUser(URI.create("http://whatever"), "mickey", "Mickey Mouse");
+		PubUser oldUser = new PubUser(URI.create("http://whatever"), "mickey", "Mickey Mouse", null);
 
 		String xml = mapper.writeValueAsString(oldUser);
 		// System.out.println(xml);

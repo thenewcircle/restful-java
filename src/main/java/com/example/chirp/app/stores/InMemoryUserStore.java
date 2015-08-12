@@ -2,7 +2,6 @@ package com.example.chirp.app.stores;
 
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -67,53 +66,14 @@ public class InMemoryUserStore implements UserStore {
 	public final User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException(User.class, username);
 
 		return user;
 	}
 
 	public final void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException();
-	}
-
-	public final int createBulkDeletion() {
-		bulkDeletions.add(new HashSet<User>());
-		return bulkDeletions.size() - 1;
-	}
-
-	public final void addToBulkDeletion(int id, String username) {
-		try {
-			bulkDeletions.get(id).add(getUser(username));
-		} catch (Exception e) {
-			throw new NoSuchEntityException();
-		}
-	}
-
-	public final void cancelBulkDeletion(int id) {
-		try {
-			bulkDeletions.set(id, null);
-		} catch (Exception e) {
-			throw new NoSuchEntityException();
-		}
-	}
-
-	public final boolean commitBulkDeletion(int id) {
-		try {
-			Set<User> bulkDeletion = bulkDeletions.get(id);
-			for (User user : bulkDeletion) {
-				if (!users.containsValue(user)) {
-					return false;
-				}
-			}
-			for (User user : bulkDeletion) {
-				users.remove(user.getUsername());
-			}
-			bulkDeletions.set(id, null);
-			return true;
-		} catch (Exception e) {
-			throw new NoSuchEntityException();
-		}
+			throw new NoSuchEntityException(User.class, username);
 	}
 
 	@Override
@@ -125,6 +85,6 @@ public class InMemoryUserStore implements UserStore {
 				}
 			}
 		}
-		throw new NoSuchEntityException();
+		throw new NoSuchEntityException(Chirp.class, chirpId);
 	}
 }

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
+import com.example.chirp.app.pub.ExceptionInfo;
 
 @Provider
 public class DuplicateEntityExceptionMapper
@@ -15,9 +16,11 @@ public class DuplicateEntityExceptionMapper
   private final Logger log = LoggerFactory.getLogger(getClass());
   @Override
   public Response toResponse(DuplicateEntityException exception) {
-    String message = (exception.getMessage() != null) ?
-      exception.getMessage() : exception.getClass().getName();
-    log.info(message, exception);
-    return Response.status(403).entity(message).build();
+
+	  ExceptionInfo info = new ExceptionInfo(403, exception);
+	  
+      log.info(info.getMessage(), exception);
+
+    return Response.status(403).entity(info).build();
   }
 }

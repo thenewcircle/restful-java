@@ -41,6 +41,7 @@ public abstract class PubUtils {
 			if (index < offset) {
 				index++;
 				continue;
+
 			} else if (index >= offset+limit) {
 				index++;
 				continue;
@@ -69,7 +70,7 @@ public abstract class PubUtils {
 				.path("users")
 				.path(user.getUsername())
 				.path("chirps")
-				.queryParam("offset", 0)
+				.queryParam("offset", Math.min(0, offset))
 				.queryParam("limit", limit)
 				.build();
 		

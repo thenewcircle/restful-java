@@ -3,11 +3,17 @@ package com.example.chirp.app.pub;
 import java.net.URI;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PubChirps {
 
-	private final List<PubChirp> chirps;
+	@JsonInclude(Include.NON_NULL)
+	private final List<PubChirp> items;
+	
+//	@JsonInclude(Include.NON_NULL)
+//	private final List<URI> links;
 	
 	private final int limit;
 	private final int offset;
@@ -34,7 +40,7 @@ public class PubChirps {
    					 @JsonProperty("next") URI next,
    					 @JsonProperty("last") URI last) {
 		
-		this.chirps = chirps;
+		this.items = chirps;
 		this.limit = limit;
 		this.offset = offset;
 		this.total = total;
@@ -65,8 +71,8 @@ public class PubChirps {
 		return last;
 	}
 
-	public List<PubChirp> getChirps() {
-		return chirps;
+	public List<PubChirp> getItems() {
+		return items;
 	}
 	public int getLimit() {
 		return limit;

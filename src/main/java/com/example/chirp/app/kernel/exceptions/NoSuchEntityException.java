@@ -7,6 +7,7 @@ public class NoSuchEntityException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public NoSuchEntityException() {
+	public NoSuchEntityException(Class type, String value) {
+		super(String.format("The entity %s (%s) does not exist.", type.getName(), value));
 	}
 }

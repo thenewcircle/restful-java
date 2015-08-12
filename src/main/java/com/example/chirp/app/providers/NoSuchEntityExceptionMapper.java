@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
+import com.example.chirp.app.pub.ExceptionInfo;
 
 @Provider
 public class NoSuchEntityExceptionMapper
@@ -15,9 +16,11 @@ public class NoSuchEntityExceptionMapper
   private final Logger log = LoggerFactory.getLogger(getClass());
   @Override
   public Response toResponse(NoSuchEntityException exception) {
-    String message = (exception.getMessage() != null) ?
-      exception.getMessage() : exception.getClass().getName();
-    log.info(message, exception);
-    return Response.status(404).entity(message).build();
+
+	  ExceptionInfo info = new ExceptionInfo(404, exception);
+	  
+	  log.info(info.getMessage(), exception);
+	  
+    return Response.status(404).entity(info).build();
   }
 }
