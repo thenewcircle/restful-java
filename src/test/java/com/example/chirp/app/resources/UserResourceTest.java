@@ -114,4 +114,26 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	    Assert.assertEquals(400, response.getStatus());
 	  }
+
+	  @Test
+	  public void testGetUserTxtExt() {
+	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    Response response = target("/users").path("yoda.txt").request().get();
+	    Assert.assertEquals(200, response.getStatus());
+	  }
+
+	  @Test
+	  public void testGetUserJsonExt() {
+	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    Response response = target("/users").path("yoda.json").request().get();
+	    Assert.assertEquals(200, response.getStatus());
+	  }
+
+	  @Test
+	  public void testGetUserXmlExt() {
+	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    Response response = target("/users").path("yoda.xml").request().get();
+	    Assert.assertEquals(200, response.getStatus());
+	  }
+	  
 }

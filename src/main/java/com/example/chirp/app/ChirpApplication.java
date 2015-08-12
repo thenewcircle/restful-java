@@ -18,7 +18,7 @@ public class ChirpApplication extends Application {
   private Set<Class<?>> classes = new HashSet<>();
 
   public ChirpApplication() {
-	  
+  
 	classes.add(JacksonXMLProvider.class);
 	  
 //	classes.add(RootResource.class);
