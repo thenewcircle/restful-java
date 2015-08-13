@@ -25,7 +25,7 @@ public class UserResource {
   private final UserStore userStore = ChirpApplication.USER_STORE;
 
   @PUT
-  @Path("users/{username}")
+  @Path("/users/{username}")
   public Response createUser(@BeanParam CreateUserRequest request) throws Exception {
 
 	  request.validate();
@@ -38,7 +38,7 @@ public class UserResource {
   
   @GET
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN})
-  @Path("users/{username}")
+  @Path("/users/{username}")
   public Response getUserJson(@PathParam("username") String username,
 		                      @Context UriInfo uriInfo,
 		                      @DefaultValue("4") @QueryParam("limit") String limitString,
