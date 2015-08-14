@@ -3,17 +3,14 @@ package com.example.chirp.app;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import com.example.chirp.app.stores.InMemoryUserStore;
-import com.example.chirp.app.stores.UserStore;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
-@ApplicationPath("/")
+@Component
 public class ChirpApplication extends Application {
-
-  public static UserStore USER_STORE = new InMemoryUserStore(true);
 
   private Set<Class<?>> classes = new HashSet<>();
 

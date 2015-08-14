@@ -15,16 +15,33 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.example.chirp.app.ChirpApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
 
+@Scope("prototype")
+@Component
 @Path("/")
 public class UserResource {
- 
-  private final UserStore userStore = ChirpApplication.USER_STORE;
 
-  @PUT
+	private final Logger log = LoggerFactory.getLogger(getClass());
+
+	private UserStore userStore;
+
+	@Autowired
+	public UserResource(UserStore userStore) {
+		this.userStore = userStore;
+	}
+	
+	public void setUserStore() {
+	}
+
+	@PUT
   @Path("/users/{username}")
   public Response createUser(@BeanParam CreateUserRequest request) throws Exception {
 

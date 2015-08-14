@@ -11,7 +11,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import com.example.chirp.app.ChirpApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.kernel.User;
 import com.example.chirp.app.pub.PubChirp;
@@ -19,10 +21,16 @@ import com.example.chirp.app.pub.PubChirps;
 import com.example.chirp.app.pub.PubUtils;
 import com.example.chirp.app.stores.UserStore;
 
+@Component
 @Path("/")
 public class ChirpResource {
 
-	UserStore userStore = ChirpApplication.USER_STORE;
+	private final UserStore userStore;
+
+	@Autowired
+	public ChirpResource(UserStore userStore) {
+		this.userStore = userStore;
+	}
 	
 	@GET
 	@Path("/chirps/{chirpId}")

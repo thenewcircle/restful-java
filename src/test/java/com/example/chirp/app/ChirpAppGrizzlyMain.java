@@ -15,8 +15,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.spring.SpringLifecycleListener;
+import org.glassfish.jersey.server.spring.scope.RequestContextFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import ch.qos.logback.classic.Level;
 
@@ -38,8 +41,6 @@ public class ChirpAppGrizzlyMain {
 
 	private static final int socketAcceptTimeoutMilli = 5000;
 
-	private final ResourceConfig resourceConfig;
-
 	private HttpServer httpServer;
 	private ServerSocket socket;
 	private Thread acceptThread;
@@ -51,25 +52,33 @@ public class ChirpAppGrizzlyMain {
 	private final ReentrantLock handlerLock = new ReentrantLock();
 
 	public static void main(String[] args) throws Exception {
-		 LogbackUtil.initLogback(Level.WARN);
-
+		LogbackUtil.initLogback(Level.WARN);
 		new ChirpAppGrizzlyMain().start();
 	}
 
 	public ChirpAppGrizzlyMain() {
-		ChirpApplication application = new ChirpApplication();
-		resourceConfig = ResourceConfig.forApplication(application);
-		resourceConfig.packages("com.example.chirp.app");
 	}
 
 	public ResourceConfig getResourceConfig() {
+		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+		context.getEnvironment().setActiveProfiles("live");
+		context.register(LiveSpringConfig.class);
+		context.refresh();
+	
+		ChirpApplication application = context.getBean(ChirpApplication.class);
+
+		ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
+		resourceConfig.register(SpringLifecycleListener.class);
+		resourceConfig.register(RequestContextFilter.class);
+		resourceConfig.property("contextConfig", context);
+		resourceConfig.packages("com.example.chirp.app");
 		return resourceConfig;
 	}
 
 	/** Starts the server. */
 	public void start() {
 		try {
-			doStart(resourceConfig);
+			doStart(getResourceConfig());
 
 			log.info(String.format("Application started at %s", ROOT_RESOURCE));
 			log.info(String.format("WADL available at %s", WADL_RESOURCE));

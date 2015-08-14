@@ -8,15 +8,20 @@ import javax.ws.rs.core.Response;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.chirp.app.pub.PubUser;
+import com.example.chirp.app.stores.UserStore;
 import com.example.chirp.app.stores.UserStoreUtils;
 
 public class UserResourceTest extends ResourceTestSupport {
-
+	
+	@Autowired
+	private UserStore userStore;
+	
 	@Before
 	  public void before() {
-	    getUserStore().clear();
+		userStore.clear();
 	  }
 	  
 	  @Test
@@ -30,7 +35,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	    Response response = target("/users").path(username).request().put(entity);
 
 	    Assert.assertEquals(201, response.getStatus());
-	    Assert.assertNotNull(getUserStore().getUser(username));
+	    Assert.assertNotNull(userStore.getUser(username));
 	    String location = response.getHeaderString("Location");
 	    Assert.assertEquals("http://localhost:9998/users/student", 
 	    		location);
@@ -46,7 +51,7 @@ public class UserResourceTest extends ResourceTestSupport {
 	
 	  @Test
 	  public void testGetUserPlain() {
-	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    UserStoreUtils.resetAndSeedRepository(userStore);
 
 	    Response response = target("/users/yoda").request()
 	      .accept(MediaType.TEXT_PLAIN).get();
@@ -59,7 +64,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		
 	  @Test
 	  public void testGetUserJson() {
-		    UserStoreUtils.resetAndSeedRepository(getUserStore());
+		    UserStoreUtils.resetAndSeedRepository(userStore);
 
 		    Response response = target("/users/yoda").request()
 		      .accept(MediaType.APPLICATION_JSON).get();
@@ -73,7 +78,7 @@ public class UserResourceTest extends ResourceTestSupport {
 		
 	  @Test
 	  public void testGetUserXml() {
-		    UserStoreUtils.resetAndSeedRepository(getUserStore());
+		    UserStoreUtils.resetAndSeedRepository(userStore);
 
 		    Response response = target("/users/yoda").request()
 		      .accept(MediaType.APPLICATION_XML).get();
@@ -117,23 +122,36 @@ public class UserResourceTest extends ResourceTestSupport {
 
 	  @Test
 	  public void testGetUserTxtExt() {
-	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    UserStoreUtils.resetAndSeedRepository(userStore);
 	    Response response = target("/users").path("yoda.txt").request().get();
 	    Assert.assertEquals(200, response.getStatus());
 	  }
 
 	  @Test
 	  public void testGetUserJsonExt() {
-	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    UserStoreUtils.resetAndSeedRepository(userStore);
 	    Response response = target("/users").path("yoda.json").request().get();
 	    Assert.assertEquals(200, response.getStatus());
 	  }
 
 	  @Test
 	  public void testGetUserXmlExt() {
-	    UserStoreUtils.resetAndSeedRepository(getUserStore());
+	    UserStoreUtils.resetAndSeedRepository(userStore);
 	    Response response = target("/users").path("yoda.xml").request().get();
 	    Assert.assertEquals(200, response.getStatus());
 	  }
 	  
+	  @Test
+	  public void testGetUserAviExt() {
+	    UserStoreUtils.resetAndSeedRepository(userStore);
+	    Response response = target("/users").path("yoda.avi").request().get();
+	    Assert.assertEquals(406, response.getStatus());
+	  }
+	  
+	  @Test
+	  public void testGetUserCsvExt() {
+	    UserStoreUtils.resetAndSeedRepository(userStore);
+	    Response response = target("/users").path("yoda.csv").request().get();
+	    Assert.assertEquals(404, response.getStatus());
+	  }
 }

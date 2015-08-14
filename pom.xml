@@ -112,7 +112,6 @@
 
 
 	<!-- Add dependency on Spring -->
-	<!--
 	<dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -158,16 +157,14 @@
       <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
- -->
 
 
 	<!-- Additional libraries to make our unit tests work with spring -->
-	<!--
 	<dependency>
     	<groupId>cglib</groupId>
     	<artifactId>cglib-nodep</artifactId>
     	<version>2.2.2</version>
-		<scope>test</scope>
+		<!-- <scope>test</scope> -->
 	</dependency>
     <dependency>
       <groupId>org.glassfish.jersey.ext</groupId>
@@ -181,7 +178,6 @@
 		<version>${servlet.api.version}</version>
 		<scope>test</scope>
     </dependency>
- -->
 
 
     <!-- Test framework using Jersey & JUnit -->
@@ -221,23 +217,61 @@
 
 
     <!-- Declare servlet dependencies for the context listeners -->
-<!-- 
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
       <version>${servlet.api.version}</version>
       <scope>provided</scope>
     </dependency>
- -->
 
 	<!--  Choose only one in production code -->
-	<!--
 	<dependency>
 		<groupId>org.jboss.resteasy</groupId>
 		<artifactId>resteasy-spring</artifactId>
 		<version>${resteasy.version}</version>
     </dependency>
- -->
+
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-jdbc</artifactId>
+  <version>${spring.version}</version>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.data</groupId>
+  <artifactId>spring-data-jpa</artifactId>
+  <version>${spring.data.jpa.version}</version>
+</dependency>
+
+<dependency>
+  <groupId>org.hibernate</groupId>
+  <artifactId>hibernate-entitymanager</artifactId>
+  <version>${hibernate.version}</version>
+</dependency>
+
+<dependency>
+  <groupId>hsqldb</groupId>
+  <artifactId>hsqldb</artifactId>
+  <version>1.8.0.7</version>
+</dependency>
+
+<dependency>
+  <groupId>javax.el</groupId>
+  <artifactId>javax.el-api</artifactId>
+  <version>2.2.4</version>
+</dependency>
+
+<dependency>
+  <groupId>org.glassfish.web</groupId>
+  <artifactId>javax.el</artifactId>
+  <version>2.2.4</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-test</artifactId>
+  <version>${spring.version}</version>
+</dependency>
 
   </dependencies>
 
