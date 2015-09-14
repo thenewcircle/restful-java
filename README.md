@@ -25,3 +25,7 @@ Marakana RESTful Java
   * Assert proper MIME types (MediaType.TEXT_PLAIN for now)
 * Add `GreetingsResource` to pass the test.
 
+### Lab 4: Add DefaultValue to GreetingResource
+* Update `GreetingResourceTest` to include default value for the name, e.g. `stranger`
+* Update `GreetingResource` to pass the test.
+

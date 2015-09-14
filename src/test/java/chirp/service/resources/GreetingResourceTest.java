@@ -24,7 +24,7 @@ public class GreetingResourceTest extends JerseyResourceTest {
 		assertEquals(200, response.getStatus());
 		assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
 		String text = response.readEntity(String.class);
-		assertEquals("Hello!", text);
+		assertEquals("Hello stranger!", text);
 	}
 
 }

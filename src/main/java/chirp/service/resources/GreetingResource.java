@@ -1,5 +1,6 @@
 package chirp.service.resources;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -11,7 +12,7 @@ public class GreetingResource {
 
 	@GET
 	@Produces(MediaType.TEXT_PLAIN)
-	public String greet(@QueryParam("name") String name) {
+	public String greet(@DefaultValue("stranger") @QueryParam("name") String name) {
 		if ( name == null ) {
 			return "Hello!";
 		} else {
