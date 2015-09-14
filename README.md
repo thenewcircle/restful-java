@@ -33,3 +33,6 @@ Marakana RESTful Java
 * Update `GreetingResourceTest` to add a new test for `GreetingResource` to use path parameter value.
 * Update `GreetingResource` to pass the test.
 
+### Lab 6: Use Response object
+* Refactor `GreetingResource` to use `javax.ws.rs.core.Response` instead of `String`.
+* Make sure the test are still passing.
