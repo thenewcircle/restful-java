@@ -29,3 +29,7 @@ Marakana RESTful Java
 * Update `GreetingResourceTest` to include default value for the name, e.g. `stranger`
 * Update `GreetingResource` to pass the test.
 
+### Lab 5: Add PathParam to GreetingResource
+* Update `GreetingResourceTest` to add a new test for `GreetingResource` to use path parameter value.
+* Update `GreetingResource` to pass the test.
+

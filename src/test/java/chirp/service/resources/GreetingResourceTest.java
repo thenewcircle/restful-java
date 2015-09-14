@@ -27,4 +27,13 @@ public class GreetingResourceTest extends JerseyResourceTest {
 		assertEquals("Hello stranger!", text);
 	}
 
+	@Test
+	public void greetingResourceWithNameAsPathParameter() {
+		Response response = target("/greetings/John").request().get();
+		assertEquals(200, response.getStatus());
+		assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
+		String text = response.readEntity(String.class);
+		assertEquals("Hello John!", text);
+	}
+
 }
