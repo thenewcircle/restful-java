@@ -9,6 +9,8 @@ import org.junit.Test;
 
 public class GreetingResourceTest extends JerseyResourceTest {
 
+	public static String ECHO_VALUE = "Kilroy was here.";
+
 	@Test
 	public void greetingResourceWithName() {
 		Response response = target("/greetings").queryParam("name", "John").request().get();
@@ -29,7 +31,18 @@ public class GreetingResourceTest extends JerseyResourceTest {
 
 	@Test
 	public void greetingResourceWithNameAsPathParameter() {
-		Response response = target("/greetings/John").request().get();
+		Response response = target("/greetings").path("John").request().get();
+		assertEquals(200, response.getStatus());
+		assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
+		String text = response.readEntity(String.class);
+		assertEquals("Hello John!", text);
+	}
+
+	@Test
+	public void echoHeaderShouldReturnTheSameHeaderEchoResponse() {
+		Response response = target("/greetings").path("John").request().header("X-NewCircle-Echo", ECHO_VALUE).get();
+		String echoResponse = response.getHeaderString("X-NewCircle-Echo-Response");
+		assertEquals(ECHO_VALUE, echoResponse);
 		assertEquals(200, response.getStatus());
 		assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
 		String text = response.readEntity(String.class);

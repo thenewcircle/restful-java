@@ -35,4 +35,13 @@ Marakana RESTful Java
 
 ### Lab 6: Use Response object
 * Refactor `GreetingResource` to use `javax.ws.rs.core.Response` instead of `String`.
-* Make sure the test are still passing.
+* Make sure the tests are still passing.
+
+### Lab 7: Add HeaderParam to GreetingResource
+* Update `GreetingResourceTest` tests to use header parameters, e.g. `X-NewCircle-Echo`
+  * Assert response headers are properly handled, e.g. `X-NewCircle-Echo-Response`
+* Update `GreetingResponse`
+  * Inject `HeaderParam`, e.g. `X-NewCircle-Echo`
+  * Echo back new header, e.g. `X-NewCircle-Echo-Response`
+* Make sure the tests are passing.
+
