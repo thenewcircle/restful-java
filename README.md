@@ -45,3 +45,7 @@ Marakana RESTful Java
   * Echo back new header, e.g. `X-NewCircle-Echo-Response`
 * Make sure the tests are passing.
 
+### Lab 8: Replace @HeaderParam with HttpHeaders and @Context
+* Refactor `GreetingResponse` to use `HttpHeaders` and `@Context` instead of `@HeaderParam`.
+* Make sure the tests are passing.
+
