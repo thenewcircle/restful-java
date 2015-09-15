@@ -49,3 +49,7 @@ Marakana RESTful Java
 * Refactor `GreetingResponse` to use `HttpHeaders` and `@Context` instead of `@HeaderParam`.
 * Make sure the tests are passing.
 
+### Lab 9: Support HTML MediaType Requests
+* Update `GreetingResourceTest` to add a new test for `GreetingResource` to use HTML MediaType.
+* Update `GreetingResource` to pass the test.
+

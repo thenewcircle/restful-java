@@ -31,4 +31,13 @@ public class GreetingResource {
 		return Response.ok().entity(response).header("X-NewCircle-Echo-Response", headerValue).build();
 	}
 
+	@GET
+	@Path("/{someName}")
+	@Produces(MediaType.TEXT_HTML)
+	public Response greetWithPathAsHtml(@PathParam("someName") String name, @Context HttpHeaders httpHeaders) {
+		String response = "<html><body><h1>Hello" + ((name == null) ? "!" : " " + name + "!") + "</h1></body></html>";
+		String headerValue = httpHeaders.getHeaderString("X-NewCircle-Echo");
+		return Response.ok().entity(response).type(MediaType.TEXT_HTML).header("X-NewCircle-Echo-Response", headerValue).build();
+	}
+
 }
