@@ -64,5 +64,11 @@ Marakana RESTful Java
  * Test the deleting of a user
 * Update `UserResource` to pass the tests.
 
-
+### Lab 12: Add support for exception handling
+* Update `UserResourceTest` to test `UserResource` for:
+  * Test duplicate submission (duplicate users)
+  * Test entity not found exception
+* Update `UserResource` to handle `DuplicateEntityException` with try-catch.
+* Update `UserResource` to handle `NoSuchEntityException` with try-catch.
+* Make sure the tests are passing.
 

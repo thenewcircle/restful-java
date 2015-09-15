@@ -77,5 +77,48 @@ public class UserResourceTest extends JerseyResourceTest {
 		Response response = target("/users").path("yoda").request().delete();
 		assertEquals(204, response.getStatus());
 	}
+	
+	@Test
+	public void createDuplicateUser() {
+		
+		// setup
+		String username = "john";
+		String realname = "John Doe";
+		Form form = new Form().param("realname", realname);
+		Entity<Form> entity = Entity.form(form);		
+		
+		// act
+		Response response = target("/users").path(username).request().accept(MediaType.TEXT_PLAIN).put(entity);
+		
+		// assert status code
+		assertEquals(201, response.getStatus());
+		
+		// assert header location
+		String location = response.getHeaderString("Location");
+		assertEquals(APPLICATION_URL+"/users/"+username, location);
+		
+		// assert user actually created in the user repository
+		UserRepository repository = UserRepository.getInstance();
+		try {
+			User user = repository.getUser(username);
+			assertEquals(username, user.getUsername());
+			assertEquals(realname, user.getRealname());
+		} catch (NoSuchEntityException nsee) {
+			fail("Should have found newly created user " + username);
+		}
+		
+		// act again
+		Response response2 = target("/users").path(username).request().accept(MediaType.TEXT_PLAIN).put(entity);
+		
+		// assert status code
+		assertEquals(403, response2.getStatus());
+	
+	}
+	
+	@Test
+	public void deleteNonExistingUser() {
+		Response response = target("/users").path("nobody").request().delete();
+		assertEquals(404, response.getStatus());
+	}
 
 }
