@@ -1,16 +1,23 @@
 package chirp.service.resources;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import chirp.model.NoSuchEntityException;
+import chirp.model.User;
 import chirp.model.UserRepository;
 
 public class UserResourceTest extends JerseyResourceTest {
+
+	private static final String APPLICATION_URL = "http://localhost:9998";
 
 	@Before
 	public void resetAndSeedRepository() {
@@ -32,6 +39,43 @@ public class UserResourceTest extends JerseyResourceTest {
 		assertEquals(MediaType.TEXT_PLAIN_TYPE, response.getMediaType());
 		String text = response.readEntity(String.class);
 		assertEquals("User [username=yoda]", text);
+	}
+
+	@Test
+	public void createUserWithForm() {
+		
+		// setup
+		String username = "john";
+		String realname = "John Doe";
+		Form form = new Form().param("realname", realname);
+		Entity<Form> entity = Entity.form(form);		
+		
+		// act
+		Response response = target("/users").path(username).request().accept(MediaType.TEXT_PLAIN).put(entity);
+		
+		// assert status code
+		assertEquals(201, response.getStatus());
+		
+		// assert header location
+		String location = response.getHeaderString("Location");
+		assertEquals(APPLICATION_URL+"/users/"+username, location);
+		
+		// assert user actually created in the user repository
+		UserRepository repository = UserRepository.getInstance();
+		try {
+			User user = repository.getUser(username);
+			assertEquals(username, user.getUsername());
+			assertEquals(realname, user.getRealname());
+		} catch (NoSuchEntityException nsee) {
+			fail("Should have found newly created user " + username);
+		}
+
+	}
+	
+	@Test
+	public void deleteUser() {
+		Response response = target("/users").path("yoda").request().delete();
+		assertEquals(204, response.getStatus());
 	}
 
 }

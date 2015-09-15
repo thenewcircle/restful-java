@@ -58,3 +58,11 @@ Marakana RESTful Java
   * Test the retrieving of a user as TEXT_PLAIN
 * Create `UserResource` to pass the tests.
 
+### Lab 11: Update UserResource to save and delete users
+* Update `UserResourceTest` to test `UserResource` for:
+ * Test the creating of a user
+ * Test the deleting of a user
+* Update `UserResource` to pass the tests.
+
+
+
