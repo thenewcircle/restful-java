@@ -53,3 +53,8 @@ Marakana RESTful Java
 * Update `GreetingResourceTest` to add a new test for `GreetingResource` to use HTML MediaType.
 * Update `GreetingResource` to pass the test.
 
+### Lab 10: Create UserResource
+* Create `UserResourceTest` to test `UserResource` for:
+  * Test the retrieving of a user as TEXT_PLAIN
+* Create `UserResource` to pass the tests.
+
