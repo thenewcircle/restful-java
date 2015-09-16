@@ -7,6 +7,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -119,6 +120,15 @@ public class UserResourceTest extends JerseyResourceTest {
 	public void deleteNonExistingUser() {
 		Response response = target("/users").path("nobody").request().delete();
 		assertEquals(404, response.getStatus());
+	}
+	
+	@Test
+	public void nonSupportedMethodShouldReturn405() {
+		Response response = target("/users").path("yoda").request().trace();
+		int status = response.getStatus();
+		assertEquals(Status.METHOD_NOT_ALLOWED.getStatusCode(), status);
+		String body = response.readEntity(String.class);
+		assertEquals("HTTP 405 Method Not Allowed", body);
 	}
 
 }

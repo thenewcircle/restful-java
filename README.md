@@ -78,3 +78,11 @@ Marakana RESTful Java
 * Add `DuplicateEntityExceptionMapper` provider (`@Provider`) to handle `DuplicateEntityException` errors.
 * Add `NoSuchEntityExceptionMapper` provider (`@Provider`) to handle `NoSuchEntityException` errors.
 * Make sure the tests are passing.
+
+### Lab 14: Add generic exception mappers
+* Update `UserResourceTest` to test `UserResource` for:
+  * Test generic exception, e.g. NullPointerException
+  * Test various web application exceptions, e.g. `BadRequestException`, `NotAcceptableException`, `NotAllowedException`, `NotSupportedException`, `InteralServerErrorException`, etc.
+* Add `WebApplicationExceptionMapper` provider (`@Provider`) to handle `WebApplicationException` errors.
+* Add `DefaultExceptionMapper` provider (`@Provider`) to handle generic exceptions.
+* Make sure the tests are passing.
