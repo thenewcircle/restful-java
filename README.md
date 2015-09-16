@@ -113,4 +113,16 @@ Marakana RESTful Java
   * Add `XmlTransient` on `getChirps` method.
 * Update `UserResource` to pass the tests.
 
+### Lab 18: Refactor with UserRepresentation
+* Add new class `UserRepresentation` that will represent (REST) wrapper for `User` objects:
+  * Add `username` and `realname` fields, setters, getters, constructor, and default constructor.
+* Update `UserResource` class to use `UserRepresentation` instead of `User`
+* Update `UserResourceTest` class to use `UserRepresentation` instead of `User` (for JSON serialization)
+* Update `User` back to state before Lab16, i.e.
+  * Add `final` for both fields, `username` and `realname`
+  * Remove setters for both fields
+  * Remove default constructor
+  * Remove `XmlRootElement` and `XmlTransient` annotations
+* Make sure the tests are passing.
+ 
 

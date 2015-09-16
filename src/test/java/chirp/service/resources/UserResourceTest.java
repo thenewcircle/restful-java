@@ -14,6 +14,7 @@ import org.junit.Test;
 import chirp.model.NoSuchEntityException;
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 
 public class UserResourceTest extends JerseyResourceTest {
 
@@ -46,7 +47,7 @@ public class UserResourceTest extends JerseyResourceTest {
 		Response response = target("/users").path("yoda").request().header("Accept", MediaType.APPLICATION_JSON).get();
 		assertEquals(200, response.getStatus());
 		assertEquals(MediaType.APPLICATION_JSON_TYPE, response.getMediaType());
-		User yoda = response.readEntity(User.class);
+		UserRepresentation yoda = response.readEntity(UserRepresentation.class);
 		assertEquals("yoda", yoda.getUsername());
 		assertEquals("Master Yoda", yoda.getRealname());
 	}
@@ -58,7 +59,8 @@ public class UserResourceTest extends JerseyResourceTest {
 		String username = "john";
 		String realname = "John Doe";
 		User john = new User(username,realname);
-		Entity<User> entity = Entity.json(john);
+		UserRepresentation representation = new UserRepresentation(john);
+		Entity<UserRepresentation> entity = Entity.json(representation);
 		
 		// act
 		Response response = target("/users").path(username).request().accept(MediaType.APPLICATION_JSON).put(entity);

@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.representations.UserRepresentation;
 import chirp.service.validation.Username;
 
 @Path("/users")
@@ -44,8 +45,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getUserAsJson(@Username @PathParam("username") String username) {
 		User user = repository.getUser(username);
-		System.out.println(user);
-		return Response.ok().entity(user).build();
+		UserRepresentation rep = new UserRepresentation(user);
+		return Response.ok().entity(rep).build();
 	}
 	
 	@PUT
@@ -62,11 +63,11 @@ public class UserResource {
 	@PUT
 	@Path("/{username}")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createUserWithForm(
+	public Response createUserWithJson(
 			@Username @PathParam("username") String username,
-			@Valid User user,
+			@Valid UserRepresentation representation,
 			@Context UriInfo uriInfo) {
-		repository.createUser(username, user.getRealname());
+		repository.createUser(username, representation.getRealname());
 		URI location = uriInfo.getAbsolutePathBuilder().build();
 		return Response.created(location).build();
 	}
