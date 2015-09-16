@@ -98,5 +98,19 @@ Marakana RESTful Java
 * Update `UserResource` to use validation annotation, instead of custom validation we did in the previous lab.
 * Make sure the tests are passing.
 
+### Lab 17: Add JSON representation of the `UserResource` class
+* Update `pom.xml` to support JSON mappers (`jersey-media-moxy`).
+* Update `UserResourceTest` to test `UserResource` for:
+  * Test for retrieving user as a JSON object.
+  * Test for creating a user with POST (instead of PUT), use JSON payload.
+* Update `Server` to register `MoxyXmlFeature` class.
+* Update `JerseyResourceTest` to register `MoxyXmlFeature` class.
+* Update `User` object:
+  * Remove `final` modifiers from `username` and `realname`.
+  * Add default constructor.
+  * Add setters for `username` and `realname`.
+  * Add `XmlRootElement` annotation to the class.
+  * Add `XmlTransient` on `getChirps` method.
+* Update `UserResource` to pass the tests.
 
 

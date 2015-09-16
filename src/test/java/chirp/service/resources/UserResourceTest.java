@@ -40,7 +40,48 @@ public class UserResourceTest extends JerseyResourceTest {
 		String text = response.readEntity(String.class);
 		assertEquals("User [username=yoda]", text);
 	}
+	
+	@Test
+	public void getUserAsJson() {
+		Response response = target("/users").path("yoda").request().header("Accept", MediaType.APPLICATION_JSON).get();
+		assertEquals(200, response.getStatus());
+		assertEquals(MediaType.APPLICATION_JSON_TYPE, response.getMediaType());
+		User yoda = response.readEntity(User.class);
+		assertEquals("yoda", yoda.getUsername());
+		assertEquals("Master Yoda", yoda.getRealname());
+	}
 
+	@Test
+	public void createUserWithJsonPut() {
+		
+		// setup
+		String username = "john";
+		String realname = "John Doe";
+		User john = new User(username,realname);
+		Entity<User> entity = Entity.json(john);
+		
+		// act
+		Response response = target("/users").path(username).request().accept(MediaType.APPLICATION_JSON).put(entity);
+
+		// assert status code
+		assertEquals(201, response.getStatus());
+
+		// assert header location
+		String location = response.getHeaderString("Location");
+		assertEquals(APPLICATION_URL + "/users/" + username, location);
+
+		// assert user actually created in the user repository
+		UserRepository repository = UserRepository.getInstance();
+		try {
+			User user = repository.getUser(username);
+			assertEquals(username, user.getUsername());
+			assertEquals(realname, user.getRealname());
+		} catch (NoSuchEntityException nsee) {
+			fail("Should have found newly created user " + username);
+		}
+		
+	}
+	
 	@Test
 	public void createUserWithForm() {
 
