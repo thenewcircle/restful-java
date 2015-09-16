@@ -2,7 +2,7 @@ package chirp.service.resources;
 
 import java.net.URI;
 
-import javax.ws.rs.BadRequestException;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -18,11 +18,10 @@ import org.slf4j.LoggerFactory;
 
 import chirp.model.User;
 import chirp.model.UserRepository;
+import chirp.service.validation.Username;
 
 @Path("/users")
 public class UserResource {
-
-	private static final String USERNAME_REGEX = "^[a-z0-9_-]{3,16}$";
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -30,20 +29,17 @@ public class UserResource {
 	
 	@GET
 	@Path("/{username}")
-	public Response getUser(@PathParam("username") String username) {
-		if (!validate(username)) {
-			throw new BadRequestException("Invalid username: " + username);
-		}
+	public Response getUser(@Username @PathParam("username") String username) {
 		User user = repository.getUser(username);
 		return Response.ok().entity(user.toString()).build();
 	}
 	
 	@PUT
 	@Path("/{username}")
-	public Response createUser(@PathParam("username") String username, @FormParam("realname") String realname, @Context UriInfo uriInfo) {
-		if (!validate(username)) {
-			throw new BadRequestException("Invalid username: " + username);
-		}
+	public Response createUser(
+			@Username @PathParam("username") String username,
+			@NotNull @FormParam("realname") String realname,
+			@Context UriInfo uriInfo) {
 		repository.createUser(username, realname);
 		URI location = uriInfo.getAbsolutePathBuilder().build();
 		return Response.created(location).build();
@@ -51,16 +47,9 @@ public class UserResource {
 	
 	@DELETE
 	@Path("/{username}")
-	public Response removeUser(@PathParam("username") String username) {
-		if (!validate(username)) {
-			throw new BadRequestException("Invalid username: " + username);
-		}
+	public Response removeUser(@NotNull @PathParam("username") String username) {
 		repository.deleteUser(username);
 		return Response.noContent().build();
-	}
-	
-	private boolean validate(String username) {
-		return username != null && username.matches(USERNAME_REGEX);
 	}
 
 }

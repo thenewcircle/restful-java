@@ -93,3 +93,10 @@ Marakana RESTful Java
   * Test for having special characters in usernames.
 * Update `UserResource` to pass the tests.
 
+### Lab 16: Use bean validation annotation
+* Update `pom.xml` to include bean validation dependencies.
+* Update `UserResource` to use validation annotation, instead of custom validation we did in the previous lab.
+* Make sure the tests are passing.
+
+
+
