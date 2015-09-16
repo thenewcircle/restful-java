@@ -72,3 +72,9 @@ Marakana RESTful Java
 * Update `UserResource` to handle `NoSuchEntityException` with try-catch.
 * Make sure the tests are passing.
 
+### Lab 13: Add exception mapper provider for exception handling
+* Remove try-catch handling from `UserResource`.
+* Add new package `chirp.service.providers` for additional providers we will add.
+* Add `DuplicateEntityExceptionMapper` provider (`@Provider`) to handle `DuplicateEntityException` errors.
+* Add `NoSuchEntityExceptionMapper` provider (`@Provider`) to handle `NoSuchEntityException` errors.
+* Make sure the tests are passing.
