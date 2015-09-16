@@ -86,3 +86,10 @@ Marakana RESTful Java
 * Add `WebApplicationExceptionMapper` provider (`@Provider`) to handle `WebApplicationException` errors.
 * Add `DefaultExceptionMapper` provider (`@Provider`) to handle generic exceptions.
 * Make sure the tests are passing.
+
+### Lab 15: Add validation
+* Update `UserResourceTest` to test `UserResource` for validity of usernames, e.g.
+  * Test for having whitespaces in usernames.
+  * Test for having special characters in usernames.
+* Update `UserResource` to pass the tests.
+

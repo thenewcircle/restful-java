@@ -7,7 +7,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,10 +28,10 @@ public class UserResourceTest extends JerseyResourceTest {
 		database.createUser("vader", "Darth Vader");
 		database.createUser("yoda", "Master Yoda");
 		database.getUser("yoda").createChirp("Do or do not.  There is no try.", "wars01");
-		database.getUser("yoda").createChirp("Fear leads to anger, anger leads to hate, and hate leads to suffering.","wars02");
+		database.getUser("yoda").createChirp("Fear leads to anger, anger leads to hate, and hate leads to suffering.", "wars02");
 		database.getUser("vader").createChirp("You have failed me for the last time.", "wars03");
 	}
-	
+
 	@Test
 	public void getUserAsText() {
 		Response response = target("/users").path("yoda").request().header("Accept", MediaType.TEXT_PLAIN).get();
@@ -44,23 +43,23 @@ public class UserResourceTest extends JerseyResourceTest {
 
 	@Test
 	public void createUserWithForm() {
-		
+
 		// setup
 		String username = "john";
 		String realname = "John Doe";
 		Form form = new Form().param("realname", realname);
-		Entity<Form> entity = Entity.form(form);		
-		
+		Entity<Form> entity = Entity.form(form);
+
 		// act
 		Response response = target("/users").path(username).request().accept(MediaType.TEXT_PLAIN).put(entity);
-		
+
 		// assert status code
 		assertEquals(201, response.getStatus());
-		
+
 		// assert header location
 		String location = response.getHeaderString("Location");
-		assertEquals(APPLICATION_URL+"/users/"+username, location);
-		
+		assertEquals(APPLICATION_URL + "/users/" + username, location);
+
 		// assert user actually created in the user repository
 		UserRepository repository = UserRepository.getInstance();
 		try {
@@ -72,32 +71,32 @@ public class UserResourceTest extends JerseyResourceTest {
 		}
 
 	}
-	
+
 	@Test
 	public void deleteUser() {
 		Response response = target("/users").path("yoda").request().delete();
 		assertEquals(204, response.getStatus());
 	}
-	
+
 	@Test
 	public void createDuplicateUser() {
-		
+
 		// setup
 		String username = "john";
 		String realname = "John Doe";
 		Form form = new Form().param("realname", realname);
-		Entity<Form> entity = Entity.form(form);		
-		
+		Entity<Form> entity = Entity.form(form);
+
 		// act
 		Response response = target("/users").path(username).request().accept(MediaType.TEXT_PLAIN).put(entity);
-		
+
 		// assert status code
 		assertEquals(201, response.getStatus());
-		
+
 		// assert header location
 		String location = response.getHeaderString("Location");
-		assertEquals(APPLICATION_URL+"/users/"+username, location);
-		
+		assertEquals(APPLICATION_URL + "/users/" + username, location);
+
 		// assert user actually created in the user repository
 		UserRepository repository = UserRepository.getInstance();
 		try {
@@ -107,28 +106,40 @@ public class UserResourceTest extends JerseyResourceTest {
 		} catch (NoSuchEntityException nsee) {
 			fail("Should have found newly created user " + username);
 		}
-		
+
 		// act again
 		Response response2 = target("/users").path(username).request().accept(MediaType.TEXT_PLAIN).put(entity);
-		
+
 		// assert status code
 		assertEquals(403, response2.getStatus());
-	
+
 	}
-	
+
 	@Test
 	public void deleteNonExistingUser() {
 		Response response = target("/users").path("nobody").request().delete();
 		assertEquals(404, response.getStatus());
 	}
-	
+
 	@Test
 	public void nonSupportedMethodShouldReturn405() {
 		Response response = target("/users").path("yoda").request().trace();
 		int status = response.getStatus();
-		assertEquals(Status.METHOD_NOT_ALLOWED.getStatusCode(), status);
+		assertEquals(405, status);
 		String body = response.readEntity(String.class);
 		assertEquals("HTTP 405 Method Not Allowed", body);
+	}
+
+	@Test
+	public void createUserWithWhitespacesShouldReturn400() {
+		Response response = target("/users").path("  yoda  ").request().get();
+		assertEquals(400, response.getStatus());
+	}
+
+	@Test
+	public void createUserWithSpecialCharactersShouldReturn400() {
+		Response response = target("/users").path("++$$yoda$$\n").request().get();
+		assertEquals(400, response.getStatus());
 	}
 
 }
