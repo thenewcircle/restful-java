@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.kernel.User;
+import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
 
 @Path("/users")
 public class UserResource {
