@@ -4,11 +4,14 @@ import java.net.URI;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.example.chirp.app.pub.PubUser;
 
 public class UserResourceTest extends ResourceTestSupport {
 
@@ -66,17 +69,35 @@ public class UserResourceTest extends ResourceTestSupport {
   }
 
   @Test
-  public void testGetUser() {
+  public void testGetUserPlain() {
     getUserStore().createUser("mickey.mouse", "Mickey Mouse");
     
     Response response = target("/users")
         .path("mickey.mouse")
         .request()
+        .accept(MediaType.TEXT_PLAIN)
         .get();
     
     Assert.assertEquals(200, response.getStatus());
     String username = response.readEntity(String.class);
     Assert.assertEquals("Mickey Mouse", username);
+  }
+
+  @Test
+  public void testGetUserJson() {
+    getUserStore().createUser("mickey.mouse", "Mickey Mouse");
+    
+    Response response = target("/users")
+        .path("mickey.mouse")
+        .request()
+        .accept(MediaType.APPLICATION_JSON)
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+
+    PubUser user = response.readEntity(PubUser.class);
+    Assert.assertEquals("mickey.mouse", user.getUsername());
+    Assert.assertEquals("Mickey Mouse", user.getRealName());
   }
 
   @Test
