@@ -4,6 +4,7 @@ import java.net.URI;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -98,6 +99,14 @@ public class UserResourceTest extends ResourceTestSupport {
     PubUser user = response.readEntity(PubUser.class);
     Assert.assertEquals("mickey.mouse", user.getUsername());
     Assert.assertEquals("Mickey Mouse", user.getRealName());
+
+    URI expectedLink = URI.create("http://asdf.com:999/users/mickey.mouse");
+    URI actualLink = response.getLink("self").getUri();
+    Assert.assertEquals(expectedLink.getPath(), actualLink.getPath());
+
+    expectedLink = URI.create("http://asdf.com:999/users/mickey.mouse/chirps");
+    actualLink = response.getLink("chirps").getUri();
+    Assert.assertEquals(expectedLink.getPath(), actualLink.getPath());
   }
 
   @Test

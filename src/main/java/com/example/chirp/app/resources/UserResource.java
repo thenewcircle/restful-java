@@ -53,9 +53,14 @@ public class UserResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @Path("/{username}")
-  public PubUser getUserJson(@PathParam("username") String username) {
+  public Response getUserJson(@PathParam("username") String username) {
     User user = ChirpApplication.USER_STORE.getUser(username);
-    return PubUtils.toPubUser(uriInfo, user);
+    PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
+
+    return Response.ok(pubUser)
+        .link(pubUser.getLinks().get("self"), "self")
+        .link(pubUser.getLinks().get("chirps"), "chirps")
+        .build();
   }
 }
 
