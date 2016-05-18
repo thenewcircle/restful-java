@@ -1,4 +1,4 @@
-package com.example.chirp.app;
+package com.example.chirp.app.resources;
 
 import java.text.SimpleDateFormat;
 

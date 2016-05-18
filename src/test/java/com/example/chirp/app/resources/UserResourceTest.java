@@ -50,6 +50,22 @@ public class UserResourceTest extends ResourceTestSupport {
   }
 
   @Test
+  public void testCreateWithBadName() {
+    String username = "minnie mouse";
+    String realName = "Minnie Mouse";
+
+    Form user = new Form().param("realName", realName);
+    Entity entity = Entity.form(user);
+
+    Response response = target("/users")
+                        .path(username)
+                        .request()
+                        .put(entity);
+
+    Assert.assertEquals(400, response.getStatus());
+  }
+
+  @Test
   public void testGetUser() {
     getUserStore().createUser("mickey.mouse", "Mickey Mouse");
     
