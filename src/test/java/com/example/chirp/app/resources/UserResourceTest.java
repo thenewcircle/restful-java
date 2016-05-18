@@ -110,6 +110,31 @@ public class UserResourceTest extends ResourceTestSupport {
   }
 
   @Test
+  public void testGetUserXml() {
+    getUserStore().createUser("mickey.mouse", "Mickey Mouse");
+    
+    Response response = target("/users")
+        .path("mickey.mouse")
+        .request()
+        .accept(MediaType.APPLICATION_XML)
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+
+    PubUser user = response.readEntity(PubUser.class);
+    Assert.assertEquals("mickey.mouse", user.getUsername());
+    Assert.assertEquals("Mickey Mouse", user.getRealName());
+
+    URI expectedLink = URI.create("http://asdf.com:999/users/mickey.mouse");
+    URI actualLink = response.getLink("self").getUri();
+    Assert.assertEquals(expectedLink.getPath(), actualLink.getPath());
+
+    expectedLink = URI.create("http://asdf.com:999/users/mickey.mouse/chirps");
+    actualLink = response.getLink("chirps").getUri();
+    Assert.assertEquals(expectedLink.getPath(), actualLink.getPath());
+  }
+
+  @Test
   public void testGetNonExistingUser() {
     Response response = target("/users")
         .path("donald.duck")

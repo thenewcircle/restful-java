@@ -45,17 +45,9 @@ public class UserResource {
   }
 
   @GET
-  @Produces(MediaType.TEXT_PLAIN)
+  @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN})
   @Path("/{username}")
-  public String getUserPlain(@PathParam("username") String username) {
-    User user = ChirpApplication.USER_STORE.getUser(username);
-    return user.getRealName();
-  }
-
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{username}")
-  public Response getUserJson(@PathParam("username") String username) {
+  public Response getUser(@PathParam("username") String username) {
     User user = ChirpApplication.USER_STORE.getUser(username);
     PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
 

@@ -7,6 +7,7 @@ import javax.ws.rs.core.Application;
 
 import com.example.chirp.app.stores.InMemoryUserStore;
 import com.example.chirp.app.stores.UserStore;
+import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 //@ApplicationPath("/")
 public class ChirpApplication extends Application {
@@ -19,6 +20,7 @@ public class ChirpApplication extends Application {
 //    classes.add(RootResource.class);
 //    classes.add(GreetingsResource.class);
 //    classes.add(UserResource.class);
+    classes.add(JacksonXMLProvider.class);
   }
 
   @Override
