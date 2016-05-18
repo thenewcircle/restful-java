@@ -1,6 +1,7 @@
 package com.example.chirp.app.resources;
 
 import java.net.URI;
+import java.util.Map;
 
 import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
@@ -11,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.ChirpApplication;
@@ -57,10 +59,9 @@ public class UserResource {
     User user = ChirpApplication.USER_STORE.getUser(username);
     PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
 
-    return Response.ok(pubUser)
-        .link(pubUser.getLinks().get("self"), "self")
-        .link(pubUser.getLinks().get("chirps"), "chirps")
-        .build();
+    ResponseBuilder builder = Response.ok(pubUser);
+    PubUtils.addLinks(builder, pubUser.getLinks());
+    return builder.build();
   }
 }
 

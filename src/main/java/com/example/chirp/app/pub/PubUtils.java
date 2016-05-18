@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.kernel.User;
@@ -26,6 +27,12 @@ public class PubUtils {
     return new PubUser(links, 
                        user.getUsername(), 
                        user.getRealName());
+  }
+
+  public static void addLinks(ResponseBuilder builder, Map<String, URI> links) {
+    for (Map.Entry<String,URI> link : links.entrySet()) {
+      builder.link(link.getValue(), link.getKey());
+    }
   }
 }
 
