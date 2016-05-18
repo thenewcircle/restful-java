@@ -15,7 +15,6 @@ public class UserResource {
   public User createUser(@PathParam("username") String username, 
                          @FormParam("realName") String fullName) {
 
-    
     User user = ChirpApplication.USER_STORE.createUser(username, fullName);
     return null;
   }

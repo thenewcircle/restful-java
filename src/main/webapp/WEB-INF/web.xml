@@ -19,6 +19,11 @@
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
 
+	<context-param>
+	  <param-name>resteasy.scan</param-name>
+	  <param-value>true</param-value>
+	</context-param>
+
 <!-- 
   <listener>
     <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
