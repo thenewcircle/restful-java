@@ -1,5 +1,7 @@
 package com.example.chirp.app.resources;
 
+import java.net.URI;
+
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
@@ -34,6 +36,17 @@ public class UserResourceTest extends ResourceTestSupport {
     
     Assert.assertEquals(201, response.getStatus());
     Assert.assertNotNull(getUserStore().getUser(username));
+
+    URI uri = URI.create(location);
+    String path = uri.getPath();
+    
+    response = target(path)
+        .request()
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+    
+  
   }
 
   @Test
