@@ -28,7 +28,11 @@ public class UserResourceTest extends ResourceTestSupport {
                         .request()
                         .put(entity);
 
-    Assert.assertEquals(204, response.getStatus());
+    String location = response.getHeaderString("Location");
+    String msg = "Found " + location;
+    Assert.assertTrue(msg, location.endsWith("/users/student"));
+    
+    Assert.assertEquals(201, response.getStatus());
     Assert.assertNotNull(getUserStore().getUser(username));
   }
 }
