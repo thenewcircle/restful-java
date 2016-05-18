@@ -35,6 +35,20 @@ public class UserResourceTest extends ResourceTestSupport {
     Assert.assertEquals(201, response.getStatus());
     Assert.assertNotNull(getUserStore().getUser(username));
   }
+
+  @Test
+  public void testGetUser() {
+    getUserStore().createUser("mickey.mouse", "Mickey Mouse");
+    
+    Response response = target("/users")
+        .path("mickey.mouse")
+        .request()
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+    String username = response.readEntity(String.class);
+    Assert.assertEquals("Mickey Mouse", username);
+  }
 }
 
 
