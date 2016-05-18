@@ -17,4 +17,12 @@ public class RootResource {
     String when = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss").format(now);
     return String.format("As of %s, everything is OK.", when);
   }
+
+//  @GET
+//  @Produces(MediaType.TEXT_HTML)
+//  public String getSomething() {
+//    java.util.Date now = new java.util.Date();
+//    String when = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss").format(now);
+//    return String.format("As of %s, everything is OK.", when);
+//  }
 }
