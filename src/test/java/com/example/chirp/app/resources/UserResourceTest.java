@@ -64,6 +64,16 @@ public class UserResourceTest extends ResourceTestSupport {
   }
 
   @Test
+  public void testGetNonExistingUser() {
+    Response response = target("/users")
+        .path("donald.duck")
+        .request()
+        .get();
+    
+    Assert.assertEquals(404, response.getStatus());
+  }
+
+  @Test
   public void testCreateDuplicateUser() {
     String username = "student";
     String realName = "Bob Student";
