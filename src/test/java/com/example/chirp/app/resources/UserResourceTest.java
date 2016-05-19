@@ -161,6 +161,9 @@ public class UserResourceTest extends ResourceTestSupport {
         .get();
     
     Assert.assertEquals(200, response.getStatus());
+    
+    String contentType = response.getHeaderString("Content-Type");
+    Assert.assertEquals(MediaType.APPLICATION_JSON, contentType);
   }
 
   @Test
@@ -174,6 +177,9 @@ public class UserResourceTest extends ResourceTestSupport {
         .get();
     
     Assert.assertEquals(200, response.getStatus());
+    
+    String contentType = response.getHeaderString("Content-Type");
+    Assert.assertEquals(MediaType.TEXT_PLAIN, contentType);
   }
 
   @Test
