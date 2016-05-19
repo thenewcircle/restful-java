@@ -135,6 +135,48 @@ public class UserResourceTest extends ResourceTestSupport {
   }
 
   @Test
+  public void testGetUserXmlExt() {
+    getUserStore().createUser("mickey.mouse", "Mickey Mouse");
+    
+    Response response = target("/users")
+        .path("mickey.mouse.xml")
+        .request()
+        .accept("image/png")
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+    
+    String contentType = response.getHeaderString("Content-Type");
+    Assert.assertEquals(MediaType.APPLICATION_XML, contentType);
+  }
+
+  @Test
+  public void testGetUserJsonExt() {
+    getUserStore().createUser("mickey.mouse", "Mickey Mouse");
+    
+    Response response = target("/users")
+        .path("mickey.mouse.json")
+        .request()
+        .accept("image/png")
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+  }
+
+  @Test
+  public void testGetUserPlainExt() {
+    getUserStore().createUser("mickey.mouse", "Mickey Mouse");
+    
+    Response response = target("/users")
+        .path("mickey.mouse.txt")
+        .request()
+        .accept("image/png")
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+  }
+
+  @Test
   public void testGetNonExistingUser() {
     Response response = target("/users")
         .path("donald.duck")
