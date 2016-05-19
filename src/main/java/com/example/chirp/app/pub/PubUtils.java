@@ -60,11 +60,20 @@ public class PubUtils {
 
   public static PubChirps toPubChirps(UriInfo uriInfo, User user,
       String limitString,
-      String offsetString) {
+      String offsetString,
+      String detailString) {
 
     int limit;
     int offset;
+    boolean detail;
 
+    if (detailString == null) detail = false;
+    else if ("1".equals(detailString.toLowerCase())) detail = true;
+    else if ("t".equals(detailString.toLowerCase())) detail = true;
+    else if ("y".equals(detailString.toLowerCase())) detail = true;
+    else if ("true".equals(detailString.toLowerCase())) detail = true;
+    else detail = false;
+    
     try {
       limit = Integer.valueOf(limitString);
     } catch (Exception e) {
@@ -83,6 +92,8 @@ public class PubUtils {
 
     int index = 0;
     List<PubChirp> pubChirps = new ArrayList<>();
+    List<URI> itemLinks = new ArrayList<>();
+    
     for (Chirp chirp : user.getChirps()) {
       if (index < offset) {
         index++;
@@ -95,6 +106,9 @@ public class PubUtils {
 
       PubChirp pubChirp = PubUtils.toPubChirp(uriInfo, chirp);
       pubChirps.add(pubChirp);
+
+      itemLinks.add(pubChirp.getLinks().get("self"));
+      
       count++;
       index++;
     }
@@ -148,11 +162,12 @@ public class PubUtils {
 
     return new PubChirps(
         links,
-        pubChirps,
+        detail ? pubChirps : null,
         limit,
         offset,
         total,
-        count);
+        count,
+        detail ? null : itemLinks);
   }}
 
 

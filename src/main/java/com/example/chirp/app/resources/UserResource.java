@@ -86,11 +86,12 @@ public class UserResource {
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
   public Response getChirps(@PathParam("username") String username,
                             @DefaultValue("5") @QueryParam("limit") String limit,
-                            @DefaultValue("0") @QueryParam("offset") String offset) {
+                            @DefaultValue("0") @QueryParam("offset") String offset,
+                            @DefaultValue("false") @QueryParam("detail") String detail) {
 
     User user = ChirpApplication.USER_STORE.getUser(username);
 
-    PubChirps pubChirps = PubUtils.toPubChirps(uriInfo, user, limit, offset);
+    PubChirps pubChirps = PubUtils.toPubChirps(uriInfo, user, limit, offset, detail);
     
     ResponseBuilder builder = Response.ok(pubChirps);
     PubUtils.addLinks(builder, pubChirps.get_links());

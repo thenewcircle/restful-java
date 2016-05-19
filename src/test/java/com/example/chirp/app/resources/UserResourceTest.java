@@ -50,8 +50,6 @@ public class UserResourceTest extends ResourceTestSupport {
         .get();
     
     Assert.assertEquals(200, response.getStatus());
-    
-  
   }
 
   @Test

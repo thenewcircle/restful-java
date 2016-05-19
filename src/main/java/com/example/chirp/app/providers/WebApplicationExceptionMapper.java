@@ -25,6 +25,14 @@ public class WebApplicationExceptionMapper
     } else {
       log.error(message, exception);
     }
-    return Response.status(status).entity(message).build();
+    
+    ExceptionInfo info = new ExceptionInfo(status, message);
+    return Response.status(status).entity(info).build();
   }
 }
+
+
+
+
+
+
