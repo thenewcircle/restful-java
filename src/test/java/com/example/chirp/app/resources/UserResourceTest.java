@@ -4,7 +4,6 @@ import java.net.URI;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
-import javax.ws.rs.core.Link;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -12,7 +11,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.example.chirp.app.pub.PubChirps;
 import com.example.chirp.app.pub.PubUser;
+import com.example.chirp.app.stores.UserStoreUtils;
 
 public class UserResourceTest extends ResourceTestSupport {
 
@@ -211,6 +212,33 @@ public class UserResourceTest extends ResourceTestSupport {
         .request()
         .put(entity);
     Assert.assertEquals(403, response.getStatus());
+  }
+
+  @Test
+  public void testGetChirps() {
+    UserStoreUtils.resetAndSeedRepository(getUserStore());
+    
+    String username = "jarjar";
+    getUserStore().getUser(username);
+    
+    Response response = target("/users")
+        .path(username)
+        .path("chirps")
+        .request()
+        .get();
+    
+    Assert.assertEquals(200, response.getStatus());
+    
+    PubChirps pubChirps = response.readEntity(PubChirps.class);
+    Assert.assertEquals(5, pubChirps.getItems().size());
+
+    URI actualSelf = response.getLink("self").getUri();
+    URI expectedSelf = URI.create("http://whatever.com/users/jarjar/chirps");
+    Assert.assertEquals(expectedSelf.getPath(), actualSelf.getPath());
+
+    URI actualUser = response.getLink("user").getUri();
+    URI expectedUser = URI.create("http://whatever.com/users/jarjar");
+    Assert.assertEquals(expectedUser.getPath(), actualUser.getPath());
   }
 }
 

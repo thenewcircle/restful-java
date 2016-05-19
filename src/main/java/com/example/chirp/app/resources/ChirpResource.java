@@ -30,7 +30,6 @@ public class ChirpResource {
     
     // ResponseBuilder builder = Response.ok(pubChirp);
     ResponseBuilder builder = Response.ok().entity(pubChirp);
-    
     PubUtils.addLinks(builder, pubChirp.getLinks());
     return builder.build();
   }
