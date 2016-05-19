@@ -222,6 +222,7 @@ public class UserResourceTest extends ResourceTestSupport {
     Response response = target("/users")
         .path(username)
         .path("chirps")
+        .queryParam("detail", true)
         .request()
         .get();
     
