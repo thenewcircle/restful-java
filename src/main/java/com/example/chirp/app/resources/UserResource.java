@@ -15,6 +15,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+
+import org.springframework.stereotype.Component;
+
 import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.ChirpApplication;
@@ -26,6 +29,7 @@ import com.example.chirp.app.pub.PubChirps;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.pub.PubUtils;
 
+@Component
 @Path("/users")
 public class UserResource {
 

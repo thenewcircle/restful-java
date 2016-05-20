@@ -10,11 +10,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.stereotype.Component;
+
 import com.example.chirp.app.ChirpApplication;
 import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubUtils;
 
+@Component
 @Path("/chirps")
 public class ChirpResource {
 

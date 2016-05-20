@@ -24,7 +24,7 @@ public abstract class ResourceTestSupport extends JerseyTest {
 		application = new ChirpApplication();
 
 		ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
-    resourceConfig.packages("com.example.chirp.app");
+		resourceConfig.packages("com.example.chirp.app");
     resourceConfig.property("contextConfigLocation", 
         "classpath:/chirp-test-spring.xml");
     return resourceConfig;
