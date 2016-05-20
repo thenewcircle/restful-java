@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.core.UriInfo;
@@ -28,6 +29,7 @@ import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubChirps;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.pub.PubUtils;
+import com.example.chirp.app.stores.UserStore;
 
 @Component
 @Path("/users")
@@ -35,13 +37,23 @@ public class UserResource {
 
   @Context UriInfo uriInfo;
   
+  private UserStore userStore;
+  
+  public UserResource() {   
+  }
+  
+  @Autowired
+  public void setUserStore(UserStore userStore) {
+    this.userStore = userStore;
+  }
+  
   @PUT
   @Path("/{username}")
   public Response createUser(@BeanParam CreateUserRequest request) {
 
     request.validate();
     
-    User user = ChirpApplication.USER_STORE.createUser(
+    User user = userStore.createUser(
         request.getUsername(), 
         request.getFullName());
 
@@ -58,7 +70,7 @@ public class UserResource {
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.TEXT_PLAIN})
   @Path("/{username}")
   public Response getUser(@PathParam("username") String username) {
-    User user = ChirpApplication.USER_STORE.getUser(username);
+    User user = userStore.getUser(username);
     
     PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
     ResponseBuilder builder = Response.ok(pubUser);
@@ -72,11 +84,11 @@ public class UserResource {
   public Response createChrip(@PathParam("username") String username, 
                           String content) {
     
-    User user = ChirpApplication.USER_STORE.getUser(username);
+    User user = userStore.getUser(username);
     ChirpId chirpId = new ChirpId();
     Chirp chirp = new Chirp(chirpId, content, user);
     user.addChirp(chirp);
-    ChirpApplication.USER_STORE.updateUser(user);
+    userStore.updateUser(user);
     
     PubChirp pubChirp = PubUtils.toPubChirp(uriInfo, chirp);
     URI location = pubChirp.getLinks().get("self");
@@ -93,7 +105,7 @@ public class UserResource {
                             @DefaultValue("0") @QueryParam("offset") String offset,
                             @DefaultValue("false") @QueryParam("detail") String detail) {
 
-    User user = ChirpApplication.USER_STORE.getUser(username);
+    User user = userStore.getUser(username);
 
     PubChirps pubChirps = PubUtils.toPubChirps(uriInfo, user, limit, offset, detail);
     

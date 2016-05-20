@@ -16,7 +16,9 @@ import ch.qos.logback.classic.Level;
 public abstract class ResourceTestSupport extends JerseyTest {
 
 	private Application application;
-
+	
+	public static UserStore userStore;
+	
 	@Override
 	protected Application configure() {
 	  System.getProperties().setProperty("spring.profiles.active", "test");
@@ -37,6 +39,6 @@ public abstract class ResourceTestSupport extends JerseyTest {
 	}
 
 	public UserStore getUserStore() {
-    return ChirpApplication.USER_STORE;
+    return userStore;
   }
 }

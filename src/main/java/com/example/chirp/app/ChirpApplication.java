@@ -12,7 +12,7 @@ import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 //@ApplicationPath("/")
 public class ChirpApplication extends Application {
 
-  public static UserStore USER_STORE = new InMemoryUserStore(true);
+//  public static UserStore USER_STORE = new InMemoryUserStore(true);
   
   private Set<Class<?>> classes = new HashSet<>();
 

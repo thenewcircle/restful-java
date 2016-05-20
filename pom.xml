@@ -45,11 +45,47 @@
 
   <dependencies>
 
+		<dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-jdbc</artifactId>
+		  <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.springframework.data</groupId>
+		  <artifactId>spring-data-jpa</artifactId>
+		  <version>${spring.data.jpa.version}</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>org.hibernate</groupId>
+		  <artifactId>hibernate-entitymanager</artifactId>
+		  <version>${hibernate.version}</version>
+		</dependency>
+
     <dependency>
       <groupId>javax.ws.rs</groupId>
       <artifactId>javax.ws.rs-api</artifactId>
       <version>${jaxrs.version}</version>
     </dependency>
+
+		<dependency>
+		  <groupId>hsqldb</groupId>
+		  <artifactId>hsqldb</artifactId>
+		  <version>1.8.0.7</version>
+		</dependency>
+
+		<dependency>
+		  <groupId>javax.el</groupId>
+		  <artifactId>javax.el-api</artifactId>
+		  <version>2.2.4</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.glassfish.web</groupId>
+		  <artifactId>javax.el</artifactId>
+		  <version>2.2.4</version>
+		</dependency>
 
 	<!-- Typically only included "pub" modules -->
 	<dependency>
@@ -166,7 +202,7 @@
     	<groupId>cglib</groupId>
     	<artifactId>cglib-nodep</artifactId>
     	<version>2.2.2</version>
-		<scope>test</scope>
+    	<!-- <scope>test</scope> -->
 	</dependency>
     <dependency>
       <groupId>org.glassfish.jersey.ext</groupId>

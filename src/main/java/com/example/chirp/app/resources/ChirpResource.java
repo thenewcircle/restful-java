@@ -10,25 +10,33 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.chirp.app.ChirpApplication;
 import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.pub.PubChirp;
 import com.example.chirp.app.pub.PubUtils;
+import com.example.chirp.app.stores.UserStore;
 
 @Component
 @Path("/chirps")
 public class ChirpResource {
 
   @Context UriInfo uriInfo;
+  private UserStore userStore;
+  
+  @Autowired
+  public ChirpResource(UserStore userStore) {
+    this.userStore = userStore;
+  }
   
   @GET
   @Path("/{chirpId}")
   @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
   public Response getChirp(@PathParam("chirpId") String chirpId) {
 
-    Chirp chirp = ChirpApplication.USER_STORE.getChirp(chirpId);
+    Chirp chirp = userStore.getChirp(chirpId);
     PubChirp pubChirp = PubUtils.toPubChirp(uriInfo, chirp);
     
     // ResponseBuilder builder = Response.ok(pubChirp);

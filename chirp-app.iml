@@ -58,7 +58,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:3.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:3.1.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib-nodep:2.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.ext:jersey-spring3:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.jersey.containers:jersey-container-servlet-core:2.17" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.glassfish.hk2:hk2:2.4.0-b10" level="project" />

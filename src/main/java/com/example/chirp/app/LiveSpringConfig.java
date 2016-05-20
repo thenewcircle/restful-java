@@ -7,10 +7,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.example.chirp.app.stores.InMemoryUserStore;
+import com.example.chirp.app.stores.UserStore;
+
 @Profile("live")
 @Configuration
 public class LiveSpringConfig {
 
+  @Bean
+  public UserStore whatever() {
+    return new InMemoryUserStore(true);
+  }
+  
   @Bean(name="fileExtensionMap")
   public Map<String,String> createFileExtensionMap() {
     
