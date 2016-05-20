@@ -19,17 +19,20 @@ public abstract class ResourceTestSupport extends JerseyTest {
 
 	@Override
 	protected Application configure() {
-		 LogbackUtil.initLogback(Level.WARN);
+	  System.getProperties().setProperty("spring.profiles.active", "test");
+	  LogbackUtil.initLogback(Level.WARN);
 		application = new ChirpApplication();
 
 		ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
     resourceConfig.packages("com.example.chirp.app");
+    resourceConfig.property("contextConfigLocation", 
+        "classpath:/chirp-test-spring.xml");
     return resourceConfig;
 	}
 
 	@Override
 	protected void configureClient(ClientConfig config) {
-		config.register(JacksonXMLProvider.class);
+	  config.register(JacksonXMLProvider.class);
 		super.configureClient(config);
 	}
 

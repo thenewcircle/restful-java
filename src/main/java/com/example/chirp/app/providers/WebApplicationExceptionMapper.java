@@ -7,7 +7,9 @@ import javax.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 @Provider
 public class WebApplicationExceptionMapper
              implements ExceptionMapper<WebApplicationException> {

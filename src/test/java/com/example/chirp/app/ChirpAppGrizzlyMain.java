@@ -57,9 +57,13 @@ public class ChirpAppGrizzlyMain {
 	}
 
 	public ChirpAppGrizzlyMain() {
-		ChirpApplication application = new ChirpApplication();
+	  System.getProperties().setProperty("spring.profiles.active", "live");
+	  
+	  ChirpApplication application = new ChirpApplication();
 		resourceConfig = ResourceConfig.forApplication(application);
 		resourceConfig.packages("com.example.chirp.app");
+		resourceConfig.property("contextConfigLocation", 
+		                        "classpath:/chirp-live-spring.xml");
 	}
 
 	public ResourceConfig getResourceConfig() {

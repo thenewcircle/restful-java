@@ -1,7 +1,6 @@
 package com.example.chirp.app.providers;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Priority;
@@ -13,17 +12,22 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 @Provider
 @PreMatching
 @Priority(Priorities.HEADER_DECORATOR)
 public class FileExtensionRequestFilter implements ContainerRequestFilter {
-  
-  public Map<String, String> extMediaTypes = new HashMap<>();
+
+  @Value("#{fileExtensionMap}")
+  public Map<String, String> extMediaTypes; //  = new HashMap<>();
   
   public FileExtensionRequestFilter() {
-    extMediaTypes.put(".xml", "application/xml");
-    extMediaTypes.put(".json", "application/json");
-    extMediaTypes.put(".txt", "text/plain");
+//    extMediaTypes.put(".xml", "application/xml");
+//    extMediaTypes.put(".json", "application/json");
+//    extMediaTypes.put(".txt", "text/plain");
   }
   
   @Override

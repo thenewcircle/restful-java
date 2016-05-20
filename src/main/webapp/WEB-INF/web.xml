@@ -2,6 +2,17 @@
          xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<context-param>
+	  <param-name>spring.profiles.active</param-name>
+	  <param-value>live</param-value>
+	</context-param>
+
+	<context-param>
+	  <param-name>contextConfigLocation</param-name>
+	  <param-value>classpath:/chirp-live-spring.xml</param-value>
+	</context-param>
+
 <!-- 
   <listener>
     <listener-class>com.example.chirp.app.support.ChirpLogbackInitializer</listener-class>
@@ -19,16 +30,16 @@
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
   </listener>
 
+<!-- 
 	<context-param>
 	  <param-name>resteasy.scan</param-name>
 	  <param-value>true</param-value>
 	</context-param>
-
-<!-- 
+ -->
+ 
   <listener>
     <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
   </listener>
- -->
  
   <servlet>
     <servlet-name>Resteasy</servlet-name>

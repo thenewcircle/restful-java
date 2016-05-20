@@ -112,7 +112,6 @@
 
 
 	<!-- Add dependency on Spring -->
-	<!--
 	<dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
@@ -135,15 +134,21 @@
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId>
+      <artifactId>spring-webmvc</artifactId>
       <version>${spring.version}</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+<!--
+     <dependency>
+      <groupId>org.springframework</groupId>
       <artifactId>spring-context</artifactId>
       <version>${spring.version}</version>
     </dependency>
-    <dependency>
+     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
       <version>${spring.version}</version>
@@ -153,16 +158,10 @@
       <artifactId>spring-aop</artifactId>
       <version>${spring.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>${spring.version}</version>
-    </dependency>
  -->
 
 
 	<!-- Additional libraries to make our unit tests work with spring -->
-	<!--
 	<dependency>
     	<groupId>cglib</groupId>
     	<artifactId>cglib-nodep</artifactId>
@@ -181,7 +180,6 @@
 		<version>${servlet.api.version}</version>
 		<scope>test</scope>
     </dependency>
- -->
 
 
     <!-- Test framework using Jersey & JUnit -->
@@ -229,13 +227,11 @@
     </dependency>
 
 	<!--  Choose only one in production code -->
-	<!--
 	<dependency>
 		<groupId>org.jboss.resteasy</groupId>
 		<artifactId>resteasy-spring</artifactId>
 		<version>${resteasy.version}</version>
     </dependency>
- -->
 
   </dependencies>
 

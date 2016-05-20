@@ -148,7 +148,29 @@ public class UserResourceTest extends ResourceTestSupport {
     String contentType = response.getHeaderString("Content-Type");
     Assert.assertEquals(MediaType.APPLICATION_XML, contentType);
   }
+  
+  @Test
+  public void testGetUserAviExt() {
+    UserStoreUtils.resetAndSeedRepository(getUserStore());
+    Response response = target("/users")
+          .path("yoda.avi")
+          .request()
+          .get();
 
+    Assert.assertEquals(406, response.getStatus());
+  }
+  
+  @Test
+  public void testGetUserCsvExt() {
+    UserStoreUtils.resetAndSeedRepository(getUserStore());
+    Response response = target("/users")
+        .path("yoda.csv")
+        .request()
+        .get();
+  
+    Assert.assertEquals(404, response.getStatus());
+  }
+  
   @Test
   public void testGetUserJsonExt() {
     getUserStore().createUser("mickey.mouse", "Mickey Mouse");
