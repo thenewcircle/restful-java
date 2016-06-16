@@ -38,7 +38,7 @@
  -->
  
   <listener>
-    <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+    <listener-class>com.example.chirp.app.springdata.MySpringContextLoaderListener</listener-class>
   </listener>
  
   <servlet>
