@@ -23,11 +23,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="chirp-app" />
+        <module name="chirp-app-35" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="chirp-app" target="1.7" />
+      <module name="chirp-app-35" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

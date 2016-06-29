@@ -5,11 +5,12 @@
   </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
+    <file type="web" url="file://$PROJECT_DIR$/../../4249-spring-hibernate/restful-java/restful-java-solutions/35-PubChirps" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/../../4249-spring-hibernate/restful-java/restful-java-solutions/35-PubChirps/pom.xml" />
       </list>
     </option>
   </component>

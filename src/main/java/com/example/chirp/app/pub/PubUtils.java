@@ -14,15 +14,21 @@ import javax.ws.rs.core.UriInfo;
 
 import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.kernel.User;
+import com.example.chirp.app.providers.UriInfoRequestFilter;
 
 public class PubUtils {
-  public static PubUser toPubUser(UriInfo uriInfo, User user) {
+
+  private static UriInfo getUriInfo() {
+    return UriInfoRequestFilter.tlui.get();
+  }
+
+  public static PubUser toPubUser(User user) {
 
     Map<String, URI> links = new LinkedHashMap<>();
 
-    links.put("self", uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).build());
+    links.put("self", getUriInfo().getBaseUriBuilder().path("users").path(user.getUsername()).build());
 
-    links.put("chirps", uriInfo.getBaseUriBuilder().path("users").path(user.getUsername()).path("chirps").build());
+    links.put("chirps", getUriInfo().getBaseUriBuilder().path("users").path(user.getUsername()).path("chirps").build());
 
     return new PubUser(links, user.getUsername(), user.getRealName());
   }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-  @Query("select u from UserEntity u where u.username = ?1")
+  ///@Query("select u from UserEntity u where u.username = ?1")
   List<UserEntity> findByUsername(String username);
 
 }
