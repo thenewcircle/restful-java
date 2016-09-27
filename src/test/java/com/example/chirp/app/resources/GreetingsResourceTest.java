@@ -36,6 +36,17 @@ public class GreetingsResourceTest extends ResourceTestSupport {
         String text = response.readEntity(String.class);
         Assert.assertEquals("Hello Mary!", text);
     }
+
+    @Test
+    public void testEchoHeader() {
+        Response response = target("/greetings").request()
+                                                .header("X-NewCircle-Echo", "Mike")
+                                                .get();
+        Assert.assertEquals(200, response.getStatus());
+
+        String value = response.getHeaderString("X-NewCircle-Echo-Response");
+        Assert.assertEquals("Mike, Mike, Mike", value);
+    }
 }
 
 
