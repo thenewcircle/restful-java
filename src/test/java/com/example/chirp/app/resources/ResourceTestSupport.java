@@ -6,6 +6,7 @@ import com.example.chirp.app.stores.UserStore;
 import com.example.chirp.app.support.LogbackUtil;
 import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 
 import javax.ws.rs.core.Application;
@@ -22,7 +23,10 @@ public abstract class ResourceTestSupport extends JerseyTest {
 	protected Application configure() {
 		 LogbackUtil.initLogback(Level.WARN);
 		application = new ChirpApplication();
-		return application;
+
+		ResourceConfig resourceConfig = ResourceConfig.forApplication(application);
+		resourceConfig.packages("com.example.chirp.app");
+		return resourceConfig;
 	}
 
 	@Override
