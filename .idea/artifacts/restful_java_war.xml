@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="restful-java:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="chirp-app.war">
+      <element id="artifact" artifact-name="restful-java:war exploded" />
+    </root>
+  </artifact>
+</component>
