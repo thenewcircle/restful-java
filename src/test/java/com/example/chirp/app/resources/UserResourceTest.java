@@ -18,6 +18,17 @@ public class UserResourceTest extends ResourceTestSupport {
     }
 
     @Test
+    public void testCreateWithBadName() {
+        Form user = new Form().param("realName", "Minnie Mouse");
+        Entity entity = Entity.form(user);
+
+        Response response = target("/users").path("minnie mouse").request().put(entity);
+
+        Assert.assertEquals(400, response.getStatus());
+    }
+
+
+    @Test
     public void testCreateUser() {
         String username = "student";
         String realName = "Bob Student";
@@ -62,13 +73,13 @@ public class UserResourceTest extends ResourceTestSupport {
 
     @Test
     public void testCreateDuplicateUser() {
-      Form user = new Form().param("realName", "Mickey Mouse");
-      Entity entity = Entity.form(user);
+        Form user = new Form().param("realName", "Mickey Mouse");
+        Entity entity = Entity.form(user);
 
-      Response response = target("/users").path("mickey").request().put(entity);
-      Assert.assertEquals(201, response.getStatus());
+        Response response = target("/users").path("mickey").request().put(entity);
+        Assert.assertEquals(201, response.getStatus());
 
-      response = target("/users").path("mickey").request().put(entity);
-      Assert.assertEquals(403, response.getStatus());
+        response = target("/users").path("mickey").request().put(entity);
+        Assert.assertEquals(403, response.getStatus());
     }
 }

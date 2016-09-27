@@ -3,9 +3,7 @@ package com.example.chirp.app;
 import com.example.chirp.app.stores.UserStore;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import java.net.URI;
 
 @Path("/users")
@@ -21,23 +19,17 @@ public class UserResource {
 
     @PUT
     @Path("/{username}")
-    public Response createUser(@PathParam("username") String username,
-                               @FormParam("realName") String realName,
-                               @Context UriInfo uriInfo) {
+    public Response createUser(@BeanParam CreateUserRequest request) {
 
-        userStore.createUser(username, realName);
-        URI location = uriInfo.getBaseUriBuilder().path("/users").path(username).build();
+        request.validate();
+
+        userStore.createUser(request.getUsername(), request.getRealName());
+        URI location = request.getUriInfo()
+                              .getBaseUriBuilder()
+                              .path("/users")
+                              .path(request.getUsername())
+                              .build();
+
         return Response.created(location).build();
-
-//        try {
-//            userStore.createUser(username, realName);
-//
-//            URI location = uriInfo.getBaseUriBuilder().path("/users").path(username).build();
-//            return Response.created(location).build();
-//
-//        } catch (DuplicateEntityException ex) {
-//            return Response.status(403).build();
-//        }
-
     }
 }

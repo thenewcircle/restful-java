@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbcd4ac4-9c7e-4809-aeea-68115169daf5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DuplicateEntityExceptionMapper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/NoSuchEntityExceptionMapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/CreateUserRequest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DefaultExceptionMapper.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/WebApplicationExceptionMapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" />
@@ -27,14 +28,14 @@
     <favorites_list name="restful-java" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.52261615">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf>
-          <file leaf-file-name="UserResourceTest.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java">
+          <file leaf-file-name="UserResource.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="204">
-                  <caret line="12" column="29" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="29" />
+                <state relative-caret-position="357">
+                  <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
@@ -44,45 +45,18 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="UserResource.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
+          <file leaf-file-name="CreateUserRequest.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/CreateUserRequest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="85">
-                  <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="17" />
+                <state relative-caret-position="306">
+                  <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
                   <folding>
-                    <element signature="e#439#440#0" expanded="true" />
-                    <element signature="e#501#502#0" expanded="true" />
+                    <element signature="e#384#385#0" expanded="true" />
+                    <element signature="e#415#416#0" expanded="true" />
+                    <element signature="e#481#482#0" expanded="true" />
+                    <element signature="e#516#517#0" expanded="true" />
+                    <element signature="e#546#547#0" expanded="true" />
                   </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="NoSuchEntityExceptionMapper.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/NoSuchEntityExceptionMapper.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="425">
-                  <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DuplicateEntityException.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/kernel/exceptions/DuplicateEntityException.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="119">
-                  <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DuplicateEntityExceptionMapper.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DuplicateEntityExceptionMapper.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="187">
-                  <caret line="11" column="43" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="43" />
-                  <folding />
                 </state>
               </provider>
             </entry>
@@ -131,10 +105,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/ChirpApplication.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/ChirpAppGrizzlyMain.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/ResourceTestSupport.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DuplicateEntityExceptionMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/NoSuchEntityExceptionMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/WebApplicationExceptionMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DefaultExceptionMapper.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/CreateUserRequest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" />
       </list>
     </option>
   </component>
@@ -692,23 +669,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1474992931172</updated>
-      <workItem from="1474992939268" duration="17578000" />
+      <workItem from="1474992939268" duration="18968000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_restful-java - 2016.09.27 at 15h 34m 44s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.27 at 15h 42m 33s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.27 at 15h 44m 51s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.27 at 15h 47m 15s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_restful-java - 2016.09.27 at 15h 50m 42s.xml">
       <configuration name="All in restful-java" configurationId="JUnit" />
     </history-entry>
@@ -727,9 +692,21 @@
     <history-entry file="All_in_restful-java - 2016.09.27 at 16h 02m 39s.xml">
       <configuration name="All in restful-java" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 16m 43s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 18m 07s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 22m 51s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 26m 44s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17578000" />
+    <option name="totallyTimeSpent" value="18968000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1036" extended-state="6" />
@@ -753,11 +730,12 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4588889" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4588889" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2616137" sideWeight="0.5" order="-1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27933985" sideWeight="0.5" order="-1" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Tail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
     </layout>
@@ -942,21 +920,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="17" />
-          <folding>
-            <element signature="e#439#440#0" expanded="true" />
-            <element signature="e#501#502#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/NoSuchEntityExceptionMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DuplicateEntityExceptionMapper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
-          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -969,10 +936,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DuplicateEntityExceptionMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/NoSuchEntityExceptionMapper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="43" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="43" />
+        <state relative-caret-position="425">
+          <caret line="25" column="1" selection-start-line="25" selection-start-column="1" selection-end-line="25" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DefaultExceptionMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="59" selection-start-line="17" selection-start-column="59" selection-end-line="17" selection-end-column="59" />
           <folding />
         </state>
       </provider>
@@ -982,6 +957,36 @@
         <state relative-caret-position="204">
           <caret line="12" column="29" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/WebApplicationExceptionMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/CreateUserRequest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="33" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+          <folding>
+            <element signature="e#384#385#0" expanded="true" />
+            <element signature="e#415#416#0" expanded="true" />
+            <element signature="e#481#482#0" expanded="true" />
+            <element signature="e#516#517#0" expanded="true" />
+            <element signature="e#546#547#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
