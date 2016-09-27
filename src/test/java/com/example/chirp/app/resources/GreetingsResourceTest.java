@@ -13,7 +13,7 @@ public class GreetingsResourceTest extends ResourceTestSupport {
         Assert.assertEquals(200, response.getStatus());
 
         String text = response.readEntity(String.class);
-        Assert.assertEquals("Hello!", text);
+        Assert.assertEquals("Hello dude!", text);
     }
 
     @Test
@@ -24,4 +24,33 @@ public class GreetingsResourceTest extends ResourceTestSupport {
         String text = response.readEntity(String.class);
         Assert.assertEquals("Hello Tom!", text);
     }
+
+    @Test
+    public void testSayHelloWithPathParam() {
+        // Response response = target("/greetings").path("Mary").request().get();
+        // Response response = target("/greetings/Mary").request().get();
+        Response response = target().path("greetings").path("Mary").request().get();
+
+        Assert.assertEquals(200, response.getStatus());
+
+        String text = response.readEntity(String.class);
+        Assert.assertEquals("Hello Mary!", text);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
