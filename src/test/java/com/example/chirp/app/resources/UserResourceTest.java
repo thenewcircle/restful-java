@@ -73,9 +73,11 @@ public class UserResourceTest extends ResourceTestSupport {
 
         URI selfLink = URI.create("http://localhost:9998/users/yoda");
         Assert.assertEquals(selfLink, pubUser.getLinks().get("self"));
+        Assert.assertEquals(selfLink, response.getLink("self").getUri());
 
         URI chirpsLink = URI.create("http://localhost:9998/users/yoda/chirps");
         Assert.assertEquals(chirpsLink, pubUser.getLinks().get("chirps"));
+        Assert.assertEquals(chirpsLink, response.getLink("chirps").getUri());
     }
 
     @Test

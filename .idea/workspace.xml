@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbcd4ac4-9c7e-4809-aeea-68115169daf5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/PubUserTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/kernel/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/kernel/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/pub/PubUser.java" afterPath="$PROJECT_DIR$/src/main/java/com/example/chirp/app/pub/PubUser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" />
     </list>
     <ignored path="restful-java.iws" />
@@ -29,48 +25,92 @@
     <favorites_list name="restful-java" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserResourceTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/kernel/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PubUserTest.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/PubUserTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PubUser.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/pub/PubUser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="56" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.5">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="UserResource.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="334">
+                  <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+                  <folding>
+                    <element signature="e#642#643#0" expanded="true" />
+                    <element signature="e#706#707#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="UserResourceTest.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="404">
+                  <caret line="84" column="61" selection-start-line="84" selection-start-column="61" selection-end-line="84" selection-end-column="61" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="PubUtils.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="186">
+                  <caret line="11" column="21" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="21" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/kernel/User.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="204">
+                  <caret line="16" column="34" selection-start-line="16" selection-start-column="34" selection-end-line="16" selection-end-column="34" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="PubUserTest.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/PubUserTest.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="200">
+                  <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="PubUser.java" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/pub/PubUser.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="170">
+                  <caret line="10" column="56" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="UserResource.java" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="166">
+                  <caret line="14" column="25" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="25" />
+                  <folding>
+                    <element signature="e#642#643#0" expanded="true" />
+                    <element signature="e#706#707#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -118,13 +158,13 @@
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/providers/DefaultExceptionMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/CreateUserRequest.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/pub/MockUriInfo.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/pub/PubUtilsTest.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/pub/PubUser.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/PubUserTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/kernel/User.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java" />
       </list>
     </option>
   </component>
@@ -198,6 +238,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.20410368" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -690,26 +731,11 @@
       <updated>1474992931172</updated>
       <workItem from="1474992939268" duration="20667000" />
       <workItem from="1475075869998" duration="5362000" />
-      <workItem from="1475081774455" duration="328000" />
+      <workItem from="1475081774455" duration="1859000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 22m 51s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 26m 44s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.27 at 16h 44m 00s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.28 at 09h 29m 56s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_restful-java - 2016.09.28 at 09h 44m 15s.xml">
-      <configuration name="All in restful-java" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_restful-java - 2016.09.28 at 09h 45m 19s.xml">
       <configuration name="All in restful-java" configurationId="JUnit" />
     </history-entry>
@@ -725,13 +751,28 @@
     <history-entry file="All_in_restful-java - 2016.09.28 at 09h 59m 59s.xml">
       <configuration name="All in restful-java" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.28 at 10h 10m 12s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.28 at 10h 13m 55s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.28 at 10h 19m 32s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.28 at 10h 21m 15s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_restful-java - 2016.09.28 at 10h 27m 04s.xml">
+      <configuration name="All in restful-java" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26357000" />
+    <option name="totallyTimeSpent" value="27888000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1036" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32996634" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -751,7 +792,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17665036" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -795,7 +836,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#642#643#0" expanded="true" />
+            <element signature="e#706#707#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -989,14 +1033,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="58" selection-start-line="20" selection-start-column="58" selection-end-line="20" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/pub/PubUtilsTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1009,14 +1045,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="23" column="26" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1038,16 +1066,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/PubUserTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        <state relative-caret-position="200">
+          <caret line="20" column="59" selection-start-line="20" selection-start-column="59" selection-end-line="20" selection-end-column="59" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/example/chirp/app/resources/UserResourceTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="29" />
+        <state relative-caret-position="404">
+          <caret line="84" column="61" selection-start-line="84" selection-start-column="61" selection-end-line="84" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/UserResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="334">
+          <caret line="24" column="26" selection-start-line="24" selection-start-column="26" selection-end-line="24" selection-end-column="26" />
+          <folding>
+            <element signature="e#642#643#0" expanded="true" />
+            <element signature="e#706#707#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/example/chirp/app/PubUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="11" column="21" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="21" />
           <folding />
         </state>
       </provider>
