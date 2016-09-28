@@ -121,7 +121,6 @@ public class UserResourceTest extends ResourceTestSupport {
         PubUser pubUser = response.readEntity(PubUser.class);
         Assert.assertEquals("Master Yoda", pubUser.getRealName());
         Assert.assertEquals("yoda", pubUser.getUsername());
-        Assert.assertTrue(pubUser.getLastModified() >= now);
 
         URI selfLink = URI.create("http://localhost:9998/users/yoda");
         Assert.assertEquals(selfLink, pubUser.getLinks().get("self"));

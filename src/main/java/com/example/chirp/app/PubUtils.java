@@ -133,13 +133,18 @@ public class PubUtils {
                 .build();
     }
 
-    public static PubUser toPubUser(UriInfo uriInfo, User user) {
+    public static PubUser toPubUser(UriInfo uriInfo, User user, List<String> includes, String chirpsLimit) {
 
         Map<String, URI> links = new LinkedHashMap<>();
         links.put("self", toUserLink(uriInfo, user.getUsername()));
         links.put("chirps", toChirpsLink(uriInfo, user.getUsername()));
 
-        return new PubUser(links, user.getUsername(), user.getRealName());
+        PubChirps pubChirps = null;
+        if (includes.contains("chirps")) {
+            pubChirps = toPubChirps(uriInfo, user, chirpsLimit, "0");
+        }
+
+        return new PubUser(links, user.getUsername(), user.getRealName(), pubChirps);
     }
 
     public static URI toChirpsLink(UriInfo uriInfo, String username) {

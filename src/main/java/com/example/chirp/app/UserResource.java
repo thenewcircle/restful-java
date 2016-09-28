@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
+import java.util.List;
 
 @Path("/users")
 public class UserResource {
@@ -25,10 +26,12 @@ public class UserResource {
     @GET
     @Path("/{username}")
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getUserJsonAndXml(@PathParam("username") String username) {
+    public Response getUserJsonAndXml(@PathParam("username") String username,
+                                      @DefaultValue("10") @QueryParam("chirps-limit") String chirpsLimit,
+                                      @QueryParam("includes") List<String> includes) {
 
         User user = userStore.getUser(username);
-        PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
+        PubUser pubUser = PubUtils.toPubUser(uriInfo, user, includes, chirpsLimit);
 
         Response.ResponseBuilder builder = Response.ok(pubUser);
         return PubUtils.addLinks(builder, pubUser.getLinks()).build();

@@ -1,5 +1,6 @@
 package com.example.chirp.app.pub;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URI;
@@ -11,19 +12,23 @@ public class PubUser {
     private final Map<String, URI> links = new LinkedHashMap<>();
     private final String username;
     private final String realName;
-    private final long lastModified = System.currentTimeMillis();
+
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private final PubChirps chirps;
 
     public PubUser(@JsonProperty("links") Map<String, URI> links,
                    @JsonProperty("username") String username,
-                   @JsonProperty("realName") String realName) {
+                   @JsonProperty("realName") String realName,
+                   @JsonProperty("chirps") PubChirps chirps) {
 
         this.username = username;
         this.realName = realName;
         this.links.putAll(links);
+        this.chirps = chirps;
     }
 
-    public long getLastModified() {
-        return lastModified;
+    public PubChirps getChirps() {
+        return chirps;
     }
 
     public String getUsername() {
