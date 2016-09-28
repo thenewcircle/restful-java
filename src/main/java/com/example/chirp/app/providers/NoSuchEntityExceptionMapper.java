@@ -1,6 +1,7 @@
 package com.example.chirp.app.providers;
 
 import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
+import com.example.chirp.app.pub.ExceptionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,7 @@ public class NoSuchEntityExceptionMapper
 
         log.info(message, exception);
 
-        return Response.status(404).entity(message).build();
+        ExceptionInfo info = new ExceptionInfo(404, message);
+        return Response.status(404).entity(info).build();
     }
 }

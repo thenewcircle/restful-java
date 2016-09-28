@@ -34,7 +34,7 @@ public class User {
 	public Chirp createChirp(String content) {
 		ChirpId chirpId = new ChirpId();
 		if (chirps.containsKey(chirpId))
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("The requested chirp already exist.");
 
 		Chirp chirp = new Chirp(chirpId, content, this);
 		chirps.put(chirpId, chirp);
@@ -44,7 +44,7 @@ public class User {
 	public Chirp createChirp(String content, String id) {
 		ChirpId chripId = new ChirpId(id);
 		if (chirps.containsKey(chripId)) {
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("The requested chirp already exists.");
 		}
 		return addChirp(new Chirp(chripId, content, this));
 	}
@@ -61,14 +61,14 @@ public class User {
 	public Chirp getChirp(ChirpId id) {
 		Chirp chirp = chirps.get(id);
 		if (chirp == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The requested chirp does not exist.");
 
 		return chirp;
 	}
 
 	public void deleteChirp(String id) {
 		if (chirps.remove(id) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The requested chirp does not exist.");
 	}
 
 	@Override

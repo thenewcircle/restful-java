@@ -1,5 +1,6 @@
 package com.example.chirp.app.providers;
 
+import com.example.chirp.app.pub.ExceptionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +27,7 @@ public class WebApplicationExceptionMapper implements ExceptionMapper<WebApplica
             log.error(message, exception);
         }
 
-        return Response.status(status).entity(message).build();
+        ExceptionInfo info = new ExceptionInfo(status, message);
+        return Response.status(status).entity(info).build();
     }
 }

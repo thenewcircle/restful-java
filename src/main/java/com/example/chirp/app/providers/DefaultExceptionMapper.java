@@ -1,5 +1,6 @@
 package com.example.chirp.app.providers;
 
+import com.example.chirp.app.pub.ExceptionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,7 @@ public class DefaultExceptionMapper implements ExceptionMapper<Exception> {
 
         log.error(message, exception);
 
-        return Response.status(500).entity(message).build();
+        ExceptionInfo info = new ExceptionInfo(500, message);
+        return Response.status(500).entity(info).build();
     }
 }

@@ -41,7 +41,7 @@ public class InMemoryUserStore implements UserStore {
 
 	public final User createUser(String username, String fullName) {
 		if (users.containsKey(username)) {
-			throw new DuplicateEntityException();
+			throw new DuplicateEntityException("The specified user already exists.");
 		}
 
 		User user = new User(username, fullName);
@@ -60,14 +60,14 @@ public class InMemoryUserStore implements UserStore {
 	public final User getUser(String username) {
 		User user = users.get(username);
 		if (user == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The specified user does not exist.");
 
 		return user;
 	}
 
 	public final void deleteUser(String username) {
 		if (users.remove(username) == null)
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The specified user does not exist.");
 	}
 
 	public final int createBulkDeletion() {
@@ -79,7 +79,7 @@ public class InMemoryUserStore implements UserStore {
 		try {
 			bulkDeletions.get(id).add(getUser(username));
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The specified user does not exist.");
 		}
 	}
 
@@ -87,7 +87,7 @@ public class InMemoryUserStore implements UserStore {
 		try {
 			bulkDeletions.set(id, null);
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The specified user does not exist.");
 		}
 	}
 
@@ -105,7 +105,7 @@ public class InMemoryUserStore implements UserStore {
 			bulkDeletions.set(id, null);
 			return true;
 		} catch (Exception e) {
-			throw new NoSuchEntityException();
+			throw new NoSuchEntityException("The specified user does not exist.");
 		}
 	}
 
@@ -118,6 +118,6 @@ public class InMemoryUserStore implements UserStore {
 				}
 			}
 		}
-		throw new NoSuchEntityException();
+		throw new NoSuchEntityException("The specified chirp does not exist.");
 	}
 }

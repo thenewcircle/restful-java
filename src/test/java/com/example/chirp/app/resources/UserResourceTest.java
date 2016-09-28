@@ -92,7 +92,7 @@ public class UserResourceTest extends ResourceTestSupport {
     @Test
     public void testGetWrongUser() {
         Response response = target("/users/donald.duck").request()
-                .accept(MediaType.TEXT_PLAIN).get();
+                .accept(MediaType.APPLICATION_JSON).get();
 
         Assert.assertEquals(404, response.getStatus());
     }
