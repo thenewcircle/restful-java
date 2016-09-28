@@ -1,5 +1,6 @@
 package com.example.chirp.app.resources;
 
+import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStoreUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -9,6 +10,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
 
 public class UserResourceTest extends ResourceTestSupport {
 
@@ -59,17 +61,32 @@ public class UserResourceTest extends ResourceTestSupport {
     }
 
     @Test
-    public void testGetUser() {
+    public void testGetUserJson() {
         UserStoreUtils.resetAndSeedRepository(getUserStore());
 
-        Response response;
-        //response = ClientBuilder.newClient().target("http://localhost:9998/users/yoda").request().accept(MediaType.TEXT_PLAIN).get();
-        response =                           target("/users/yoda").request().accept(MediaType.TEXT_PLAIN).get();
-
+        Response response = target("/users/yoda").request().accept(MediaType.APPLICATION_JSON).get();
         Assert.assertEquals(200, response.getStatus());
 
-        String realname = response.readEntity(String.class);
-        Assert.assertEquals("Master Yoda", realname);
+        PubUser pubUser = response.readEntity(PubUser.class);
+        Assert.assertEquals("Master Yoda", pubUser.getRealName());
+        Assert.assertEquals("yoda", pubUser.getUsername());
+
+        URI selfLink = URI.create("http://localhost:9998/users/yoda");
+        Assert.assertEquals(selfLink, pubUser.getLinks().get("self"));
+
+        URI chirpsLink = URI.create("http://localhost:9998/users/yoda/chirps");
+        Assert.assertEquals(chirpsLink, pubUser.getLinks().get("chirps"));
+    }
+
+    @Test
+    public void testGetUserPlain() {
+        UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+        Response response = target("/users/yoda").request().accept(MediaType.TEXT_PLAIN).get();
+        Assert.assertEquals(200, response.getStatus());
+
+        String realName = response.readEntity(String.class);
+        Assert.assertEquals("Master Yoda", realName);
     }
 
     @Test

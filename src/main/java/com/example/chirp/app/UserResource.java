@@ -1,9 +1,12 @@
 package com.example.chirp.app;
 
+import com.example.chirp.app.kernel.User;
+import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
@@ -17,8 +20,18 @@ public class UserResource {
 
     @GET
     @Path("/{username}")
-    public String getUser(@PathParam("username") String username) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getUserPlain(@PathParam("username") String username) {
       return userStore.getUser(username).getRealName();
+    }
+
+    @GET
+    @Path("/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public PubUser getUserJson(@PathParam("username") String username) {
+        User user = userStore.getUser(username);
+        PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
+        return pubUser;
     }
 
     @PUT

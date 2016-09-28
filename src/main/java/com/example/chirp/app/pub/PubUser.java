@@ -1,5 +1,7 @@
 package com.example.chirp.app.pub;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -10,7 +12,10 @@ public class PubUser {
     private final String username;
     private final String realName;
 
-    public PubUser(Map<String, URI> links, String username, String realName) {
+    public PubUser(@JsonProperty("links") Map<String, URI> links,
+                   @JsonProperty("username") String username,
+                   @JsonProperty("realName") String realName) {
+
         this.username = username;
         this.realName = realName;
         this.links.putAll(links);
