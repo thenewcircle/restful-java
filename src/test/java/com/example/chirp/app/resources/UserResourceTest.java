@@ -97,8 +97,22 @@ public class UserResourceTest extends ResourceTestSupport {
         Assert.assertEquals(404, response.getStatus());
     }
 
+//    @Test
+//    public void testGetUserJsonString() {
+//        UserStoreUtils.resetAndSeedRepository(getUserStore());
+//
+//        Response response = target("/users/yoda").request().accept(MediaType.APPLICATION_JSON).get();
+//        Assert.assertEquals(200, response.getStatus());
+//
+//        String actualJson = response.readEntity(String.class);
+//
+//        String expectedJson = "{\"links\":{\"self\":\"http://localhost:9998/users/yoda\",\"chirps\":\"http://localhost:9998/users/yoda/chirps\"},\"username\":\"yoda\",\"realName\":\"Master Yoda\",\"lastModified\":1475088200505}";
+//        Assert.assertEquals(expectedJson, actualJson);
+//    }
+
     @Test
     public void testGetUserJson() {
+        long now = System.currentTimeMillis();
         UserStoreUtils.resetAndSeedRepository(getUserStore());
 
         Response response = target("/users/yoda").request().accept(MediaType.APPLICATION_JSON).get();
@@ -107,6 +121,7 @@ public class UserResourceTest extends ResourceTestSupport {
         PubUser pubUser = response.readEntity(PubUser.class);
         Assert.assertEquals("Master Yoda", pubUser.getRealName());
         Assert.assertEquals("yoda", pubUser.getUsername());
+        Assert.assertTrue(pubUser.getLastModified() >= now);
 
         URI selfLink = URI.create("http://localhost:9998/users/yoda");
         Assert.assertEquals(selfLink, pubUser.getLinks().get("self"));

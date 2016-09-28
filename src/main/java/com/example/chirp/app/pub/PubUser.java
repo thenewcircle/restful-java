@@ -11,6 +11,7 @@ public class PubUser {
     private final Map<String, URI> links = new LinkedHashMap<>();
     private final String username;
     private final String realName;
+    private final long lastModified = System.currentTimeMillis();
 
     public PubUser(@JsonProperty("links") Map<String, URI> links,
                    @JsonProperty("username") String username,
@@ -19,6 +20,10 @@ public class PubUser {
         this.username = username;
         this.realName = realName;
         this.links.putAll(links);
+    }
+
+    public long getLastModified() {
+        return lastModified;
     }
 
     public String getUsername() {

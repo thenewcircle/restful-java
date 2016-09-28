@@ -28,6 +28,7 @@ public class FileExtensionRequestFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext rc) throws IOException {
         UriInfo uriInfo = rc.getUriInfo();
+
         // Assuming: http://example.com/do/this/and/that.txt?offset=2
         // Path:     /do/this/and/that.txt
         String path = uriInfo.getRequestUri().getRawPath();
