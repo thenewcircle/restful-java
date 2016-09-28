@@ -19,6 +19,43 @@ public class UserResourceTest extends ResourceTestSupport {
         getUserStore().clear();
     }
 
+
+    @Test
+    public void testGetUserTxtExt() {
+        UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+        Response response = target("/users/yoda.txt").request().accept("image/png").get();
+
+        Assert.assertEquals(200, response.getStatus());
+
+        MediaType type = response.getMediaType();
+        Assert.assertEquals(MediaType.TEXT_PLAIN_TYPE, type);
+    }
+
+    @Test
+    public void testGetUserJsonExt() {
+        UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+        Response response = target("/users/yoda.json").request().accept("image/png").get();
+
+        Assert.assertEquals(200, response.getStatus());
+
+        MediaType type = response.getMediaType();
+        Assert.assertEquals(MediaType.APPLICATION_JSON_TYPE, type);
+    }
+
+    @Test
+    public void testGetUserXmlExt() {
+        UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+        Response response = target("/users/yoda.xml").request().accept("image/png").get();
+
+        Assert.assertEquals(200, response.getStatus());
+
+        MediaType type = response.getMediaType();
+        Assert.assertEquals(MediaType.APPLICATION_XML_TYPE, type);
+    }
+
     @Test
     public void testCreateWithBadName() {
         Form user = new Form().param("realName", "Minnie Mouse");
