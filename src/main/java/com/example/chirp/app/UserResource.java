@@ -27,8 +27,8 @@ public class UserResource {
     @Path("/{username}")
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getUserJsonAndXml(@PathParam("username") String username) {
-        User user = userStore.getUser(username);
 
+        User user = userStore.getUser(username);
         PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
 
         Response.ResponseBuilder builder = Response.ok(pubUser);
