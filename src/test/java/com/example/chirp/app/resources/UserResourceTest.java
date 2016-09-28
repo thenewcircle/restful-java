@@ -62,8 +62,9 @@ public class UserResourceTest extends ResourceTestSupport {
     public void testGetUser() {
         UserStoreUtils.resetAndSeedRepository(getUserStore());
 
-        Response response = target("/users/yoda").request()
-                .accept(MediaType.TEXT_PLAIN).get();
+        Response response;
+        //response = ClientBuilder.newClient().target("http://localhost:9998/users/yoda").request().accept(MediaType.TEXT_PLAIN).get();
+        response =                           target("/users/yoda").request().accept(MediaType.TEXT_PLAIN).get();
 
         Assert.assertEquals(200, response.getStatus());
 
