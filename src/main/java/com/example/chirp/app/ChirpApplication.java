@@ -2,6 +2,7 @@ package com.example.chirp.app;
 
 import com.example.chirp.app.stores.InMemoryUserStore;
 import com.example.chirp.app.stores.UserStore;
+import com.fasterxml.jackson.jaxrs.xml.JacksonXMLProvider;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -15,9 +16,7 @@ public class ChirpApplication extends Application {
   private Set<Class<?>> classes = new HashSet<>();
 
   public ChirpApplication() {
-//    classes.add(RootResource.class);
-//    classes.add(GreetingsResource.class);
-//    classes.add(UserResource.class);
+    classes.add(JacksonXMLProvider.class);
   }
 
   @Override

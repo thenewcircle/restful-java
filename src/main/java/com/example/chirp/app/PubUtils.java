@@ -14,19 +14,18 @@ public class PubUtils {
     public static PubUser toPubUser(UriInfo uriInfo, User user) {
 
         Map<String, URI> links = new LinkedHashMap<>();
-
-        //                                  | start here
-        // http://whatever.com:999/chirp-app/users/tom
         links.put("self", toUserLink(uriInfo, user.getUsername()));
-
-        //                                  | start here
-        // http://whatever.com:999/chirp-app/users/tom/chirps
-        links.put("chirps", uriInfo.getBaseUriBuilder()
-                                   .path("users")
-                                   .path(user.getUsername())
-                                   .path("chirps").build());
+        links.put("chirps", toChirpLink(uriInfo, user.getUsername()));
 
         return new PubUser(links, user.getUsername(), user.getRealName());
+    }
+
+    public static URI toChirpLink(UriInfo uriInfo, String username) {
+        return uriInfo.getBaseUriBuilder()
+                      .path("users")
+                      .path(username)
+                      .path("chirps")
+                      .build();
     }
 
     public static URI toUserLink(UriInfo uriInfo, String username) {

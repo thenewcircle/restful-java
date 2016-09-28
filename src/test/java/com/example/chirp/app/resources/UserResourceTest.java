@@ -81,6 +81,26 @@ public class UserResourceTest extends ResourceTestSupport {
     }
 
     @Test
+    public void testGetUserXml() {
+        UserStoreUtils.resetAndSeedRepository(getUserStore());
+
+        Response response = target("/users/yoda").request().accept(MediaType.APPLICATION_XML).get();
+        Assert.assertEquals(200, response.getStatus());
+
+        PubUser pubUser = response.readEntity(PubUser.class);
+        Assert.assertEquals("Master Yoda", pubUser.getRealName());
+        Assert.assertEquals("yoda", pubUser.getUsername());
+
+        URI selfLink = URI.create("http://localhost:9998/users/yoda");
+        Assert.assertEquals(selfLink, pubUser.getLinks().get("self"));
+        Assert.assertEquals(selfLink, response.getLink("self").getUri());
+
+        URI chirpsLink = URI.create("http://localhost:9998/users/yoda/chirps");
+        Assert.assertEquals(chirpsLink, pubUser.getLinks().get("chirps"));
+        Assert.assertEquals(chirpsLink, response.getLink("chirps").getUri());
+    }
+
+    @Test
     public void testGetUserPlain() {
         UserStoreUtils.resetAndSeedRepository(getUserStore());
 
