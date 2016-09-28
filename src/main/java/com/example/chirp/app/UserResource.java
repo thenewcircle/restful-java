@@ -3,6 +3,7 @@ package com.example.chirp.app;
 import com.example.chirp.app.kernel.Chirp;
 import com.example.chirp.app.kernel.User;
 import com.example.chirp.app.pub.PubChirp;
+import com.example.chirp.app.pub.PubChirps;
 import com.example.chirp.app.pub.PubUser;
 import com.example.chirp.app.stores.UserStore;
 
@@ -21,13 +22,6 @@ public class UserResource {
     @Context
     private UriInfo uriInfo;
 
-//    @GET
-//    @Path("/{username}")
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String getUserPlain(@PathParam("username") String username) {
-//        return userStore.getUser(username).getRealName();
-//    }
-
     @GET
     @Path("/{username}")
     @Produces({MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -39,18 +33,6 @@ public class UserResource {
         Response.ResponseBuilder builder = Response.ok(pubUser);
         return PubUtils.addLinks(builder, pubUser.getLinks()).build();
     }
-
-//    @GET
-//    @Path("/{username}")
-//    @Produces(MediaType.APPLICATION_XML)
-//    public Response getUserXml(@PathParam("username") String username) {
-//        User user = userStore.getUser(username);
-//
-//        PubUser pubUser = PubUtils.toPubUser(uriInfo, user);
-//
-//        Response.ResponseBuilder builder = Response.ok(pubUser);
-//        return PubUtils.addLinks(builder, pubUser.getLinks()).build();
-//    }
 
     @PUT
     @Path("/{username}")
@@ -84,6 +66,22 @@ public class UserResource {
         URI location = pubChirp.getLinks().get("self");
         Response.ResponseBuilder builder = Response.created(location).entity(pubChirp);
         return PubUtils.addLinks(builder, pubChirp.getLinks()).build();
+    }
+
+    @GET
+    @Path("/{username}/chirps")
+    @Produces( {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML} )
+    public Response getChirps(@PathParam("username") String username,
+                              @DefaultValue("0") @QueryParam("offset") String offsetString,
+                              @DefaultValue("10") @QueryParam("limit") String limitString) {
+
+        User user = userStore.getUser(username);
+
+        PubChirps pubChirps = PubUtils.toPubChirps(uriInfo, user, limitString, offsetString + "");
+
+        Response.ResponseBuilder builder = Response.ok(pubChirps);
+        return PubUtils.addLinks(builder, pubChirps.get_links()).build();
+
     }
 }
 
