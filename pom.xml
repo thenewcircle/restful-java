@@ -237,8 +237,13 @@
       <version>${servlet.api.version}</version>
       <scope>provided</scope>
     </dependency>
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-api</artifactId>
+          <version>RELEASE</version>
+      </dependency>
 
-	<!--  Choose only one in production code -->
+      <!--  Choose only one in production code -->
 	<!--
 	<dependency>
 		<groupId>org.jboss.resteasy</groupId>

@@ -1,6 +1,7 @@
 package com.example.chirp.app.providers;
 
 import com.example.chirp.app.kernel.exceptions.DuplicateEntityException;
+import com.example.chirp.app.kernel.exceptions.NoSuchEntityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,18 +10,18 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class DuplicateEntityExceptionMapper implements ExceptionMapper<DuplicateEntityException> {
+public class NoSuchEntityExceptionMapper implements ExceptionMapper<NoSuchEntityException> {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Response toResponse(DuplicateEntityException exception) {
+    public Response toResponse(NoSuchEntityException exception) {
         String message = exception.getMessage() == null ?
                 exception.getClass().getName() :
                 exception.getMessage();
 
         log.info(message);
 
-        return Response.status(403).entity(message).build();
+        return Response.status(404).entity(message).build();
     }
 }
